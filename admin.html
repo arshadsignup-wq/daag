@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daag — Admin Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#09090b;--bg1:#0f0f12;--bg2:#141418;--bg3:#1a1a20;
+  --border:#ffffff0c;--border2:#ffffff15;--border3:#ffffff22;
+  --text:#ede9e0;--text2:#9c9890;--text3:#555250;
+  --ink:#7a1520;--ink2:#9e1c2c;--ink-glow:#9e1c2c15;
+  --accent:#bf3347;--warm:#ede5d4;
+  --umber:#8c6a3f;--umber-light:#b08a5a;
+  --font-serif:'Playfair Display',Georgia,serif;
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:15px;line-height:1.65;min-height:100vh;overflow-x:hidden}
+
+/* LOGIN SCREEN */
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.login-box{background:var(--bg1);border:1px solid var(--border2);border-radius:10px;padding:2.5rem;max-width:380px;width:100%;text-align:center}
+.login-box .logo-mark{width:44px;height:44px;background:var(--ink2);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;font-family:var(--font-serif);position:relative;overflow:hidden;margin-bottom:1.2rem}
+.login-box .logo-mark::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 60%)}
+.login-title{font-family:var(--font-serif);font-size:1.4rem;color:var(--warm);margin-bottom:.3rem}
+.login-sub{font-size:12px;color:var(--text3);font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.8rem}
+.login-input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-size:14px;padding:.7rem 1rem;margin-bottom:1rem;transition:border-color .2s;font-family:var(--font-sans)}
+.login-input:focus{outline:none;border-color:var(--ink2);background:var(--bg3)}
+.login-btn{width:100%;background:var(--ink2);color:#fff;font-size:13.5px;font-weight:500;padding:.7rem;border-radius:4px;border:none;cursor:pointer;transition:background .2s;font-family:var(--font-sans)}
+.login-btn:hover{background:#b52030}
+.login-err{font-size:12px;color:var(--accent);margin-top:.5rem;display:none}
+
+/* ADMIN LAYOUT */
+.admin-wrap{display:none}
+.admin-nav{position:sticky;top:0;z-index:100;background:rgba(12,12,14,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.admin-nav-inner{max-width:1300px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 2rem;gap:1rem}
+.admin-logo{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
+.admin-logo .logo-mark{width:30px;height:30px;background:var(--ink2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--font-serif);position:relative;overflow:hidden}
+.admin-logo .logo-mark::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 60%)}
+.admin-logo-text{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text);font-family:var(--font-sans)}
+.admin-logo-badge{font-size:9px;font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;padding:.15rem .5rem;border-radius:2px;background:var(--ink-glow);color:var(--accent);border:1px solid rgba(158,28,44,.22);margin-left:.3rem}
+.admin-tabs{display:flex;align-items:center;gap:.2rem}
+.admin-tab{font-size:12.5px;color:var(--text2);cursor:pointer;padding:.4rem .9rem;border-radius:3px;border:none;background:none;font-family:var(--font-sans);transition:all .15s;white-space:nowrap}
+.admin-tab:hover{color:var(--text);background:var(--bg2)}
+.admin-tab.active{color:var(--text);background:var(--bg2);border-bottom:none}
+.admin-logout{font-size:12px;color:var(--text3);cursor:pointer;border:1px solid var(--border2);background:none;padding:.35rem .8rem;border-radius:3px;font-family:var(--font-mono);transition:all .15s;white-space:nowrap}
+.admin-logout:hover{color:var(--accent);border-color:var(--accent)}
+
+/* MAIN CONTENT */
+.admin-body{max-width:1300px;margin:0 auto;padding:1.5rem 2rem 3rem}
+.tab-panel{display:none}
+.tab-panel.active{display:block;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.toolbar-search{background:var(--bg2);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-size:13px;padding:.45rem .8rem;width:260px;font-family:var(--font-sans);transition:border-color .2s}
+.toolbar-search:focus{outline:none;border-color:var(--ink2)}
+.toolbar-count{font-size:12px;color:var(--text3);font-family:var(--font-mono);margin-left:auto;white-space:nowrap}
+
+/* FILTER PILLS */
+.f-pill{font-size:11px;font-family:var(--font-mono);padding:.3rem .75rem;border-radius:3px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.f-pill:hover,.f-pill.on{border-color:var(--accent);color:var(--accent)}
+
+/* BULK BAR */
+.bulk-bar{display:none;align-items:center;gap:.6rem;padding:.6rem 1rem;background:var(--bg1);border:1px solid var(--border2);border-radius:5px;margin-bottom:1rem}
+.bulk-bar.show{display:flex}
+.bulk-count{font-size:12px;color:var(--text2);font-family:var(--font-mono);margin-right:.5rem}
+.bulk-btn{font-size:11px;padding:.3rem .7rem;border-radius:3px;border:none;cursor:pointer;font-family:var(--font-mono);transition:all .15s}
+.bulk-approve{background:#0a2e1a;color:#4caf50;border:1px solid #1a4a2a}
+.bulk-approve:hover{background:#0d3d21}
+.bulk-reject{background:#2e0a0a;color:#f44336;border:1px solid #4a1a1a}
+.bulk-reject:hover{background:#3d0d0d}
+.bulk-delete{background:var(--bg2);color:var(--accent);border:1px solid rgba(158,28,44,.3)}
+.bulk-delete:hover{background:var(--bg3)}
+.bulk-cancel{background:none;color:var(--text3);border:1px solid var(--border2)}
+.bulk-cancel:hover{color:var(--text2)}
+
+/* QUEUE ITEMS */
+.q-item{background:var(--bg1);border:1px solid var(--border);border-radius:7px;padding:1.2rem;margin-bottom:.8rem;transition:border-color .2s}
+.q-item:hover{border-color:var(--border2)}
+.q-item-head{display:flex;align-items:flex-start;gap:.8rem;margin-bottom:.7rem}
+.q-item-check{width:16px;height:16px;accent-color:var(--ink2);cursor:pointer;margin-top:2px;flex-shrink:0}
+.q-item-id{font-size:13px;font-family:var(--font-mono);color:var(--umber-light);font-weight:500}
+.q-item-meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.7rem}
+.badge{font-size:10px;font-family:var(--font-mono);letter-spacing:.07em;text-transform:uppercase;padding:.2rem .55rem;border-radius:2px;white-space:nowrap}
+.b-cr{background:var(--ink-glow);color:var(--accent);border:1px solid rgba(158,28,44,.22)}
+.b-gr{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.b-nv{background:rgba(13,30,53,.5);color:#5a8ac4;border:1px solid rgba(30,80,140,.25)}
+.b-umber{background:rgba(140,106,63,.12);color:var(--umber-light);border:1px solid rgba(140,106,63,.25)}
+.status{font-size:9.5px;font-family:var(--font-mono);letter-spacing:.07em;padding:.2rem .55rem;border-radius:2px;text-transform:uppercase;display:inline-block}
+.s-pending{background:#2a2000;color:#f0b030;border:1px solid #3a3000}
+.s-approved{background:#0a2010;color:#4caf50;border:1px solid #1a4a2a}
+.s-rejected{background:#2e0a0a;color:#f44336;border:1px solid #4a1a1a}
+.s-hold{background:var(--bg3);color:var(--text2);border:1px solid var(--border2)}
+.s-review{background:#001530;color:#5a8ac4;border:1px solid #0a2545}
+.s-upheld{background:#0a2010;color:#4caf50;border:1px solid #1a4a2a}
+.s-dismissed{background:#2e0a0a;color:#f44336;border:1px solid #4a1a1a}
+
+.q-item-note{font-size:13px;color:var(--text2);margin-bottom:.7rem;line-height:1.5}
+.q-item-links{display:flex;gap:.8rem;margin-bottom:.7rem;flex-wrap:wrap}
+.q-item-link{font-size:11px;color:#5a8ac4;text-decoration:none;font-family:var(--font-mono);word-break:break-all}
+.q-item-link:hover{text-decoration:underline}
+.q-item-time{font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+.q-item-email{font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+
+.q-item-screenshot{margin:.7rem 0;position:relative;display:inline-block}
+.q-item-screenshot img{max-width:200px;max-height:140px;border-radius:4px;border:1px solid var(--border2);filter:blur(12px);transition:filter .3s;cursor:pointer}
+.q-item-screenshot img.revealed{filter:none}
+.q-item-screenshot .reveal-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:10px;font-family:var(--font-mono);color:var(--text2);text-transform:uppercase;letter-spacing:.08em;pointer-events:none;background:rgba(0,0,0,.6);padding:.2rem .5rem;border-radius:2px}
+.q-item-screenshot img.revealed+.reveal-label{display:none}
+
+.q-item-actions{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
+.btn-ok{background:#0a2e1a;color:#4caf50;border:1px solid #1a4a2a;font-size:11.5px;padding:.32rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono);transition:background .15s}
+.btn-ok:hover{background:#0d3d21}
+.btn-no{background:#2e0a0a;color:#f44336;border:1px solid #4a1a1a;font-size:11.5px;padding:.32rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono);transition:background .15s}
+.btn-no:hover{background:#3d0d0d}
+.btn-hd{background:var(--bg2);color:var(--text2);border:1px solid var(--border2);font-size:11.5px;padding:.32rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono);transition:background .15s}
+.btn-hd:hover{background:var(--bg3)}
+.btn-edit{background:rgba(13,30,53,.5);color:#5a8ac4;border:1px solid rgba(30,80,140,.25);font-size:11.5px;padding:.32rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono);transition:background .15s}
+.btn-edit:hover{background:rgba(13,30,53,.8)}
+.btn-del{background:var(--bg2);color:var(--accent);border:1px solid rgba(158,28,44,.25);font-size:11.5px;padding:.32rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono);transition:background .15s}
+.btn-del:hover{background:var(--bg3)}
+
+/* INLINE EDIT */
+.edit-panel{display:none;margin-top:.8rem;padding:.8rem;background:var(--bg2);border:1px solid var(--border2);border-radius:5px}
+.edit-panel.show{display:block}
+.edit-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem}
+.edit-field{display:flex;flex-direction:column;gap:.2rem}
+.edit-field label{font-size:10px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text3)}
+.edit-field input,.edit-field select,.edit-field textarea{background:var(--bg3);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-size:13px;padding:.4rem .6rem;font-family:var(--font-sans)}
+.edit-field input:focus,.edit-field select:focus,.edit-field textarea:focus{outline:none;border-color:var(--ink2)}
+.edit-field textarea{min-height:60px;resize:vertical}
+.edit-actions{display:flex;gap:.4rem;margin-top:.4rem}
+
+/* APPEAL CARDS */
+.appeal-card{background:var(--bg1);border:1px solid var(--border);border-radius:7px;padding:1.2rem;margin-bottom:.8rem}
+.appeal-card:hover{border-color:var(--border2)}
+.appeal-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem;flex-wrap:wrap}
+.appeal-body{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:.7rem}
+.appeal-meta{display:flex;gap:.8rem;margin-bottom:.6rem;flex-wrap:wrap}
+.appeal-notes{margin-top:.6rem}
+.appeal-notes textarea{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-size:13px;padding:.5rem .7rem;min-height:50px;resize:vertical;font-family:var(--font-sans)}
+.appeal-notes textarea:focus{outline:none;border-color:var(--ink2)}
+.appeal-notes-saved{font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-top:.2rem;font-style:italic}
+.appeal-actions{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
+
+/* ANALYTICS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.stat-card{background:var(--bg1);border:1px solid var(--border);border-radius:7px;padding:1.2rem}
+.stat-card:hover{border-color:var(--border2)}
+.stat-label{font-size:10px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:.4rem}
+.stat-val{font-size:2rem;font-weight:600;color:var(--warm);font-family:var(--font-serif)}
+.stat-sub{font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-top:.2rem}
+
+.chart-section{margin-bottom:1.5rem}
+.chart-title{font-size:12px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:.8rem}
+.bar-chart{display:flex;flex-direction:column;gap:.5rem}
+.bar-row{display:flex;align-items:center;gap:.8rem}
+.bar-label{font-size:12px;color:var(--text2);font-family:var(--font-mono);width:160px;flex-shrink:0;text-align:right}
+.bar-track{flex:1;height:22px;background:var(--bg2);border-radius:3px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:3px;transition:width .5s ease;min-width:2px}
+.bar-fill.red{background:var(--ink2)}
+.bar-fill.green{background:#1a5a2a}
+.bar-fill.blue{background:#1a3a6a}
+.bar-fill.amber{background:#5a4a1a}
+.bar-fill.gray{background:var(--bg3)}
+.bar-count{font-size:11px;color:var(--text3);font-family:var(--font-mono);width:50px;flex-shrink:0}
+
+/* EXPORT */
+.export-section{max-width:600px}
+.export-card{background:var(--bg1);border:1px solid var(--border);border-radius:7px;padding:1.5rem;margin-bottom:1rem}
+.export-card:hover{border-color:var(--border2)}
+.export-title{font-size:14px;font-weight:500;color:var(--warm);margin-bottom:.3rem}
+.export-desc{font-size:13px;color:var(--text2);margin-bottom:1rem;line-height:1.5}
+.export-options{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.8rem}
+.export-opt{font-size:11px;font-family:var(--font-mono);padding:.3rem .7rem;border-radius:3px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
+.export-opt:hover,.export-opt.on{border-color:var(--accent);color:var(--accent)}
+.export-btn{background:var(--ink2);color:#fff;font-size:13px;font-weight:500;padding:.55rem 1.3rem;border-radius:4px;border:none;cursor:pointer;transition:background .2s;font-family:var(--font-sans)}
+.export-btn:hover{background:#b52030}
+
+/* CONFIRM DIALOG */
+.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:center;justify-content:center}
+.confirm-overlay.show{display:flex}
+.confirm-box{background:var(--bg1);border:1px solid var(--border2);border-radius:8px;padding:1.5rem;max-width:380px;width:90%;text-align:center}
+.confirm-msg{font-size:14px;color:var(--text);margin-bottom:1.2rem;line-height:1.5}
+.confirm-actions{display:flex;gap:.6rem;justify-content:center}
+
+/* LOADING */
+.loading{text-align:center;padding:3rem;color:var(--text3);font-family:var(--font-mono);font-size:12px}
+.loading::before{content:'';display:block;width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--ink2);border-radius:50%;animation:spin .6s linear infinite;margin:0 auto .8rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:3rem;color:var(--text3);font-size:13px;font-family:var(--font-mono)}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg1);border:1px solid var(--border2);border-radius:5px;padding:.7rem 1.2rem;font-size:13px;color:var(--text);z-index:300;transform:translateY(20px);opacity:0;transition:all .25s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:#1a4a2a;color:#4caf50}
+.toast.error{border-color:#4a1a1a;color:#f44336}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:.3rem;margin-top:1.2rem}
+.page-btn{font-size:12px;font-family:var(--font-mono);padding:.3rem .6rem;border-radius:3px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
+.page-btn:hover{border-color:var(--accent);color:var(--accent)}
+.page-btn.active{border-color:var(--ink2);background:var(--ink-glow);color:var(--accent)}
+.page-btn:disabled{opacity:.3;cursor:default}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .edit-row{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .admin-nav-inner{flex-wrap:wrap;height:auto;padding:.8rem 1rem;gap:.5rem}
+  .admin-tabs{overflow-x:auto;width:100%;order:3}
+  .admin-body{padding:1rem}
+  .toolbar{flex-direction:column;align-items:stretch}
+  .toolbar-search{width:100%}
+  .toolbar-count{margin-left:0;text-align:right}
+  .stats-grid{grid-template-columns:1fr}
+  .bar-label{width:100px;font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-box">
+    <div class="logo-mark">D</div>
+    <div class="login-title">Daag Admin</div>
+    <div class="login-sub">Restricted Access</div>
+    <input type="password" id="loginPass" class="login-input" placeholder="Enter admin password" autocomplete="off">
+    <button id="loginBtn" class="login-btn">Authenticate</button>
+    <div id="loginErr" class="login-err">Invalid password. Access denied.</div>
+  </div>
+</div>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div id="adminWrap" class="admin-wrap">
+  <!-- NAV -->
+  <nav class="admin-nav">
+    <div class="admin-nav-inner">
+      <div class="admin-logo">
+        <div class="logo-mark">D</div>
+        <span class="admin-logo-text">DAAG</span>
+        <span class="admin-logo-badge">Admin</span>
+      </div>
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="submissions">Submissions</button>
+        <button class="admin-tab" data-tab="appeals">Appeals</button>
+        <button class="admin-tab" data-tab="analytics">Analytics</button>
+        <button class="admin-tab" data-tab="export">Export</button>
+      </div>
+      <button class="admin-logout" id="logoutBtn">Logout</button>
+    </div>
+  </nav>
+
+  <!-- BODY -->
+  <div class="admin-body">
+
+    <!-- TAB 1: SUBMISSIONS -->
+    <div id="tab-submissions" class="tab-panel active">
+      <div class="toolbar">
+        <div class="f-pill on" data-filter="all">All</div>
+        <div class="f-pill" data-filter="pending">Pending</div>
+        <div class="f-pill" data-filter="approved">Approved</div>
+        <div class="f-pill" data-filter="rejected">Rejected</div>
+        <div class="f-pill" data-filter="hold">On Hold</div>
+        <input type="text" class="toolbar-search" id="subSearch" placeholder="Search ref_id, category, note, profile...">
+        <div class="toolbar-count" id="subCount"></div>
+      </div>
+      <div class="bulk-bar" id="bulkBar">
+        <span class="bulk-count" id="bulkCount">0 selected</span>
+        <button class="bulk-btn bulk-approve" onclick="bulkAction('approved')">Approve All</button>
+        <button class="bulk-btn bulk-reject" onclick="bulkAction('rejected')">Reject All</button>
+        <button class="bulk-btn bulk-delete" onclick="bulkAction('delete')">Delete All</button>
+        <button class="bulk-btn bulk-cancel" onclick="clearBulk()">Cancel</button>
+      </div>
+      <div id="subList"></div>
+      <div class="pagination" id="subPagination"></div>
+    </div>
+
+    <!-- TAB 2: APPEALS -->
+    <div id="tab-appeals" class="tab-panel">
+      <div class="toolbar">
+        <div class="f-pill on" data-afilter="all">All</div>
+        <div class="f-pill" data-afilter="under_review">Under Review</div>
+        <div class="f-pill" data-afilter="upheld">Upheld</div>
+        <div class="f-pill" data-afilter="dismissed">Dismissed</div>
+        <div class="toolbar-count" id="appealCount"></div>
+      </div>
+      <div id="appealList"></div>
+    </div>
+
+    <!-- TAB 3: ANALYTICS -->
+    <div id="tab-analytics" class="tab-panel">
+      <div class="stats-grid" id="statsGrid"></div>
+      <div class="chart-section">
+        <div class="chart-title">Submissions by Category</div>
+        <div class="bar-chart" id="catChart"></div>
+      </div>
+      <div class="chart-section" style="margin-top:2rem">
+        <div class="chart-title">Submissions by Status</div>
+        <div class="bar-chart" id="statusChart"></div>
+      </div>
+      <div class="chart-section" style="margin-top:2rem">
+        <div class="chart-title">Appeals by Status</div>
+        <div class="bar-chart" id="appealStatusChart"></div>
+      </div>
+    </div>
+
+    <!-- TAB 4: EXPORT -->
+    <div id="tab-export" class="tab-panel">
+      <div class="export-section">
+        <div class="export-card">
+          <div class="export-title">Export Submissions</div>
+          <div class="export-desc">Download all submission records as a CSV file. Optionally filter by status before exporting.</div>
+          <div class="export-options">
+            <button class="export-opt on" data-efilter="all">All</button>
+            <button class="export-opt" data-efilter="pending">Pending</button>
+            <button class="export-opt" data-efilter="approved">Approved</button>
+            <button class="export-opt" data-efilter="rejected">Rejected</button>
+            <button class="export-opt" data-efilter="hold">On Hold</button>
+          </div>
+          <button class="export-btn" id="exportSubBtn">Download Submissions CSV</button>
+        </div>
+        <div class="export-card">
+          <div class="export-title">Export Appeals</div>
+          <div class="export-desc">Download all appeal records as a CSV file with reviewer notes and status.</div>
+          <button class="export-btn" id="exportAppealBtn">Download Appeals CSV</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONFIRM DIALOG -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-msg" id="confirmMsg"></div>
+    <div class="confirm-actions">
+      <button class="btn-no" id="confirmNo">Cancel</button>
+      <button class="btn-ok" id="confirmYes">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ============================================================
+   DAAG ADMIN PANEL
+   ============================================================ */
+
+// --- CONFIG ---
+// SHA-256 hash of admin password (default: "daag-admin-2025")
+var PASS_HASH = '4f60b05a021f0d37bc8facefa207e4057473a6223824e6be8db4dadbfdb9f840';
+
+// Supabase — use service_role key for full access (bypasses RLS)
+// Replace SUPABASE_KEY with your service_role key from Supabase dashboard > Settings > API
+var SUPABASE_URL = 'https://cangysctagsljckdepyc.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhbmd5c2N0YWdzbGpja2RlcHljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNTA1NDEsImV4cCI6MjA5NTYyNjU0MX0.tWx6AUpbftINyNdmxmt7smm5dgibgEhkuF8LcakbOzQ';
+
+var ITEMS_PER_PAGE = 20;
+
+// --- STATE ---
+var sb = null;
+var allSubmissions = [];
+var allAppeals = [];
+var subFilter = 'all';
+var subSearch = '';
+var subPage = 1;
+var appealFilter = 'all';
+var selectedIds = new Set();
+var exportFilter = 'all';
+
+// --- UTILS ---
+function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function timeAgo(d){
+  if(!d) return '';
+  var ms = Date.now()-new Date(d).getTime();
+  var m=Math.floor(ms/60000),h=Math.floor(m/60),dy=Math.floor(h/24);
+  if(dy>0) return dy+'d ago';
+  if(h>0) return h+'h ago';
+  return m+'m ago';
+}
+
+function showToast(msg,type){
+  var t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast show'+(type?' '+type:'');
+  setTimeout(function(){t.className='toast'},2500);
+}
+
+var confirmCb=null;
+function showConfirm(msg,cb){
+  document.getElementById('confirmMsg').textContent=msg;
+  document.getElementById('confirmOverlay').classList.add('show');
+  confirmCb=cb;
+}
+
+document.getElementById('confirmYes').onclick=function(){
+  document.getElementById('confirmOverlay').classList.remove('show');
+  if(confirmCb) confirmCb();
+  confirmCb=null;
+};
+document.getElementById('confirmNo').onclick=function(){
+  document.getElementById('confirmOverlay').classList.remove('show');
+  confirmCb=null;
+};
+
+// --- SHA-256 ---
+async function sha256(msg){
+  var buf=new TextEncoder().encode(msg);
+  var hash=await crypto.subtle.digest('SHA-256',buf);
+  return Array.from(new Uint8Array(hash)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+}
+
+// --- AUTH ---
+async function tryLogin(){
+  var pass=document.getElementById('loginPass').value;
+  if(!pass){document.getElementById('loginErr').style.display='block';return}
+  var h=await sha256(pass);
+  if(h===PASS_HASH){
+    sessionStorage.setItem('daag_admin','1');
+    bootAdmin();
+  } else {
+    document.getElementById('loginErr').style.display='block';
+  }
+}
+
+function logout(){
+  sessionStorage.removeItem('daag_admin');
+  document.getElementById('adminWrap').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginErr').style.display='none';
+}
+
+document.getElementById('loginBtn').onclick=tryLogin;
+document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')tryLogin()});
+document.getElementById('logoutBtn').onclick=logout;
+
+// --- BOOT ---
+function bootAdmin(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('adminWrap').style.display='block';
+  initSupabase();
+  loadSubmissions();
+  loadAppeals();
+}
+
+function initSupabase(){
+  if(typeof supabase!=='undefined'&&supabase.createClient){
+    sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  }
+}
+
+// Check session on load
+if(sessionStorage.getItem('daag_admin')==='1'){
+  bootAdmin();
+}
+
+// --- TAB SWITCHING ---
+document.querySelectorAll('.admin-tab').forEach(function(tab){
+  tab.onclick=function(){
+    document.querySelectorAll('.admin-tab').forEach(function(t){t.classList.remove('active')});
+    document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
+    tab.classList.add('active');
+    var panel=document.getElementById('tab-'+tab.dataset.tab);
+    if(panel) panel.classList.add('active');
+    if(tab.dataset.tab==='analytics') buildAnalytics();
+  };
+});
+
+// --- SUBMISSIONS ---
+async function loadSubmissions(){
+  var list=document.getElementById('subList');
+  list.innerHTML='<div class="loading">Loading submissions...</div>';
+  if(!sb){list.innerHTML='<div class="empty-state">Supabase not connected. Check credentials.</div>';return}
+  try{
+    var{data,error}=await sb.from('submissions').select('*').order('created_at',{ascending:false});
+    if(error) throw error;
+    allSubmissions=data||[];
+    renderSubmissions();
+  }catch(e){
+    console.error('Load submissions error:',e);
+    list.innerHTML='<div class="empty-state">Failed to load submissions: '+escHtml(e.message)+'</div>';
+  }
+}
+
+function getFilteredSubmissions(){
+  var items=allSubmissions;
+  if(subFilter!=='all'){
+    items=items.filter(function(s){return s.status===subFilter});
+  }
+  if(subSearch){
+    var q=subSearch.toLowerCase();
+    items=items.filter(function(s){
+      return (s.ref_id||'').toLowerCase().indexOf(q)>-1||
+             (s.category||'').toLowerCase().indexOf(q)>-1||
+             (s.context_note||'').toLowerCase().indexOf(q)>-1||
+             (s.profile_name||'').toLowerCase().indexOf(q)>-1||
+             (s.incident_type||'').toLowerCase().indexOf(q)>-1;
+    });
+  }
+  return items;
+}
+
+function renderSubmissions(){
+  var items=getFilteredSubmissions();
+  var total=items.length;
+  var totalPages=Math.max(1,Math.ceil(total/ITEMS_PER_PAGE));
+  if(subPage>totalPages) subPage=totalPages;
+  var start=(subPage-1)*ITEMS_PER_PAGE;
+  var pageItems=items.slice(start,start+ITEMS_PER_PAGE);
+
+  document.getElementById('subCount').textContent='Showing '+(total?start+1:0)+'-'+Math.min(start+ITEMS_PER_PAGE,total)+' of '+total;
+
+  var html='';
+  if(!pageItems.length){
+    html='<div class="empty-state">No submissions found.</div>';
+  } else {
+    pageItems.forEach(function(s){
+      var statusCls='s-pending';
+      if(s.status==='approved') statusCls='s-approved';
+      else if(s.status==='rejected') statusCls='s-rejected';
+      else if(s.status==='hold') statusCls='s-hold';
+
+      var checked=selectedIds.has(s.ref_id)?'checked':'';
+
+      html+='<div class="q-item" id="qi-'+escHtml(s.ref_id)+'">';
+      html+='<div class="q-item-head">';
+      html+='<input type="checkbox" class="q-item-check" data-id="'+escHtml(s.ref_id)+'" '+checked+' onchange="toggleSelect(this)">';
+      html+='<span class="q-item-id">'+escHtml(s.ref_id)+'</span>';
+      html+='<span class="status '+statusCls+'">'+escHtml(s.status||'pending')+'</span>';
+      html+='<span class="q-item-time">'+escHtml(timeAgo(s.created_at))+'</span>';
+      html+='</div>';
+
+      html+='<div class="q-item-meta">';
+      html+='<span class="badge b-cr">'+escHtml(s.category)+'</span>';
+      html+='<span class="badge b-nv">'+escHtml(s.incident_type)+'</span>';
+      html+='<span class="badge b-umber">'+escHtml(s.severity||'Moderate')+'</span>';
+      html+='<span class="badge b-gr">'+escHtml(s.language||'Bangla')+'</span>';
+      if(s.ai_score) html+='<span class="badge b-nv">AI: '+s.ai_score+'</span>';
+      html+='</div>';
+
+      if(s.context_note){
+        html+='<div class="q-item-note">'+escHtml(s.context_note.length>200?s.context_note.substring(0,200)+'...':s.context_note)+'</div>';
+      }
+
+      if(s.screenshot_url){
+        html+='<div class="q-item-screenshot">';
+        html+='<img src="'+escHtml(s.screenshot_url)+'" alt="screenshot" onclick="this.classList.toggle(\'revealed\')">';
+        html+='<span class="reveal-label">Click to reveal</span>';
+        html+='</div>';
+      }
+
+      html+='<div class="q-item-links">';
+      if(s.perpetrator_url) html+='<a class="q-item-link" href="'+escHtml(s.perpetrator_url)+'" target="_blank" rel="noopener">Perpetrator Profile</a>';
+      if(s.source_post_url) html+='<a class="q-item-link" href="'+escHtml(s.source_post_url)+'" target="_blank" rel="noopener">Source Post</a>';
+      if(s.submitter_email) html+='<span class="q-item-email">'+escHtml(s.submitter_email)+'</span>';
+      html+='</div>';
+
+      html+='<div class="q-item-actions">';
+      if(s.status!=='approved') html+='<button class="btn-ok" onclick="modAction(\''+escHtml(s.ref_id)+'\',\'approved\')">Approve</button>';
+      if(s.status!=='rejected') html+='<button class="btn-no" onclick="modAction(\''+escHtml(s.ref_id)+'\',\'rejected\')">Reject</button>';
+      if(s.status!=='hold') html+='<button class="btn-hd" onclick="modAction(\''+escHtml(s.ref_id)+'\',\'hold\')">Hold</button>';
+      html+='<button class="btn-edit" onclick="toggleEdit(\''+escHtml(s.ref_id)+'\')">Edit</button>';
+      html+='<button class="btn-del" onclick="deleteSub(\''+escHtml(s.ref_id)+'\')">Delete</button>';
+      html+='</div>';
+
+      // Inline edit panel
+      html+='<div class="edit-panel" id="edit-'+escHtml(s.ref_id)+'">';
+      html+='<div class="edit-row">';
+      html+='<div class="edit-field"><label>Category</label><select id="ecat-'+escHtml(s.ref_id)+'">';
+      ['Victim Blaming','Violent Rhetoric','Misogyny','Threats','Appearance Humiliation','Dehumanizing Language'].forEach(function(c){
+        html+='<option'+(s.category===c?' selected':'')+'>'+c+'</option>';
+      });
+      html+='</select></div>';
+      html+='<div class="edit-field"><label>Incident Type</label><select id="einc-'+escHtml(s.ref_id)+'">';
+      ['Rape','Acid Violence','Domestic Violence','Gender Violence','Cyber Harassment','Sexual Harassment','Public Harassment'].forEach(function(c){
+        html+='<option'+(s.incident_type===c?' selected':'')+'>'+c+'</option>';
+      });
+      html+='</select></div>';
+      html+='</div>';
+      html+='<div class="edit-row">';
+      html+='<div class="edit-field"><label>Severity</label><select id="esev-'+escHtml(s.ref_id)+'">';
+      ['Moderate','High','Severe'].forEach(function(c){
+        html+='<option'+((s.severity||'Moderate')===c?' selected':'')+'>'+c+'</option>';
+      });
+      html+='</select></div>';
+      html+='<div class="edit-field"><label>Tags (comma-separated)</label><input id="etags-'+escHtml(s.ref_id)+'" value="'+escHtml((s.tags||[]).join(', '))+'"></div>';
+      html+='</div>';
+      html+='<div class="edit-field"><label>Context Note</label><textarea id="enote-'+escHtml(s.ref_id)+'">'+escHtml(s.context_note||'')+'</textarea></div>';
+      html+='<div class="edit-actions">';
+      html+='<button class="btn-ok" onclick="saveEdit(\''+escHtml(s.ref_id)+'\')">Save Changes</button>';
+      html+='<button class="btn-hd" onclick="toggleEdit(\''+escHtml(s.ref_id)+'\')">Cancel</button>';
+      html+='</div>';
+      html+='</div>';
+
+      html+='</div>';
+    });
+  }
+  document.getElementById('subList').innerHTML=html;
+  renderPagination(totalPages);
+  updateBulkBar();
+}
+
+function renderPagination(totalPages){
+  var html='';
+  if(totalPages<=1){document.getElementById('subPagination').innerHTML='';return}
+  html+='<button class="page-btn" onclick="goPage('+(subPage-1)+')"'+(subPage<=1?' disabled':'')+'>&#8592;</button>';
+  for(var i=1;i<=totalPages;i++){
+    if(totalPages>7&&i>2&&i<totalPages-1&&Math.abs(i-subPage)>1){
+      if(i===3||i===totalPages-2) html+='<span style="color:var(--text3);font-size:12px;padding:0 .3rem">...</span>';
+      continue;
+    }
+    html+='<button class="page-btn'+(i===subPage?' active':'')+'" onclick="goPage('+i+')">'+i+'</button>';
+  }
+  html+='<button class="page-btn" onclick="goPage('+(subPage+1)+')"'+(subPage>=totalPages?' disabled':'')+'>&#8594;</button>';
+  document.getElementById('subPagination').innerHTML=html;
+}
+
+function goPage(p){
+  var items=getFilteredSubmissions();
+  var totalPages=Math.max(1,Math.ceil(items.length/ITEMS_PER_PAGE));
+  if(p<1||p>totalPages) return;
+  subPage=p;
+  renderSubmissions();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// --- SUBMISSION FILTERS ---
+document.querySelectorAll('[data-filter]').forEach(function(pill){
+  pill.onclick=function(){
+    document.querySelectorAll('[data-filter]').forEach(function(p){p.classList.remove('on')});
+    pill.classList.add('on');
+    subFilter=pill.dataset.filter;
+    subPage=1;
+    renderSubmissions();
+  };
+});
+
+document.getElementById('subSearch').addEventListener('input',function(){
+  subSearch=this.value.trim();
+  subPage=1;
+  renderSubmissions();
+});
+
+// --- SUBMISSION ACTIONS ---
+async function modAction(id,status){
+  if(!sb) return;
+  try{
+    var{error}=await sb.from('submissions').update({status:status}).eq('ref_id',id);
+    if(error) throw error;
+    var item=allSubmissions.find(function(s){return s.ref_id===id});
+    if(item) item.status=status;
+    renderSubmissions();
+    showToast(id+' → '+status,'success');
+  }catch(e){
+    showToast('Failed: '+e.message,'error');
+  }
+}
+
+function deleteSub(id){
+  showConfirm('Permanently delete submission '+id+'? This cannot be undone.',async function(){
+    if(!sb) return;
+    try{
+      var{error}=await sb.from('submissions').delete().eq('ref_id',id);
+      if(error) throw error;
+      allSubmissions=allSubmissions.filter(function(s){return s.ref_id!==id});
+      selectedIds.delete(id);
+      renderSubmissions();
+      showToast(id+' deleted','success');
+    }catch(e){
+      showToast('Delete failed: '+e.message,'error');
+    }
+  });
+}
+
+function toggleEdit(id){
+  var el=document.getElementById('edit-'+id);
+  if(el) el.classList.toggle('show');
+}
+
+async function saveEdit(id){
+  if(!sb) return;
+  var cat=document.getElementById('ecat-'+id).value;
+  var inc=document.getElementById('einc-'+id).value;
+  var sev=document.getElementById('esev-'+id).value;
+  var note=document.getElementById('enote-'+id).value;
+  var tagsRaw=document.getElementById('etags-'+id).value;
+  var tags=tagsRaw?tagsRaw.split(',').map(function(t){return t.trim()}).filter(Boolean):[];
+
+  try{
+    // Compute new version from local state
+    var item=allSubmissions.find(function(s){return s.ref_id===id});
+    var newVersion=(item&&item.version?item.version:1)+1;
+    var now=new Date().toISOString();
+
+    var{error}=await sb.from('submissions').update({
+      category:cat,incident_type:inc,severity:sev,context_note:note,tags:tags,
+      last_edit:now,version:newVersion
+    }).eq('ref_id',id);
+    if(error) throw error;
+
+    // Update local state
+    if(item){
+      item.category=cat;item.incident_type=inc;item.severity=sev;
+      item.context_note=note;item.tags=tags;
+      item.version=newVersion;
+      item.last_edit=now;
+    }
+
+    toggleEdit(id);
+    renderSubmissions();
+    showToast(id+' updated','success');
+  }catch(e){
+    showToast('Save failed: '+e.message,'error');
+  }
+}
+
+// --- BULK ACTIONS ---
+function toggleSelect(el){
+  var id=el.dataset.id;
+  if(el.checked) selectedIds.add(id); else selectedIds.delete(id);
+  updateBulkBar();
+}
+
+function updateBulkBar(){
+  var bar=document.getElementById('bulkBar');
+  if(selectedIds.size>0){
+    bar.classList.add('show');
+    document.getElementById('bulkCount').textContent=selectedIds.size+' selected';
+  } else {
+    bar.classList.remove('show');
+  }
+}
+
+function clearBulk(){
+  selectedIds.clear();
+  renderSubmissions();
+}
+
+async function bulkAction(action){
+  if(!sb||!selectedIds.size) return;
+  var ids=Array.from(selectedIds);
+  var label=action==='delete'?'delete':'set to '+action;
+  showConfirm(label+' '+ids.length+' submission(s)?',async function(){
+    try{
+      if(action==='delete'){
+        var{error}=await sb.from('submissions').delete().in('ref_id',ids);
+        if(error) throw error;
+        allSubmissions=allSubmissions.filter(function(s){return!selectedIds.has(s.ref_id)});
+      } else {
+        var{error}=await sb.from('submissions').update({status:action}).in('ref_id',ids);
+        if(error) throw error;
+        allSubmissions.forEach(function(s){if(selectedIds.has(s.ref_id)) s.status=action});
+      }
+      selectedIds.clear();
+      renderSubmissions();
+      showToast(ids.length+' submissions '+label,'success');
+    }catch(e){
+      showToast('Bulk action failed: '+e.message,'error');
+    }
+  });
+}
+
+// --- APPEALS ---
+async function loadAppeals(){
+  if(!sb) return;
+  try{
+    var{data,error}=await sb.from('appeals').select('*').order('created_at',{ascending:false});
+    if(error) throw error;
+    allAppeals=data||[];
+    renderAppeals();
+  }catch(e){
+    console.error('Load appeals error:',e);
+  }
+}
+
+function getFilteredAppeals(){
+  if(appealFilter==='all') return allAppeals;
+  return allAppeals.filter(function(a){return a.status===appealFilter});
+}
+
+function renderAppeals(){
+  var items=getFilteredAppeals();
+  document.getElementById('appealCount').textContent=items.length+' appeal(s)';
+  var html='';
+  if(!items.length){
+    html='<div class="empty-state">No appeals found.</div>';
+  } else {
+    items.forEach(function(a){
+      var statusCls='s-review';
+      if(a.status==='upheld') statusCls='s-upheld';
+      else if(a.status==='dismissed') statusCls='s-dismissed';
+
+      html+='<div class="appeal-card" id="ap-'+escHtml(a.ref_id)+'">';
+      html+='<div class="appeal-head">';
+      html+='<span class="q-item-id">'+escHtml(a.ref_id)+'</span>';
+      html+='<span class="status '+statusCls+'">'+escHtml(a.status||'under_review')+'</span>';
+      html+='<span class="badge b-gr">Entry: '+escHtml(a.entry_id)+'</span>';
+      html+='<span class="q-item-time">'+escHtml(timeAgo(a.created_at))+'</span>';
+      html+='</div>';
+
+      html+='<div class="appeal-meta">';
+      html+='<span class="badge b-nv">'+escHtml(a.grounds)+'</span>';
+      if(a.contact_email) html+='<span class="q-item-email">'+escHtml(a.contact_email)+'</span>';
+      html+='</div>';
+
+      html+='<div class="appeal-body">'+escHtml(a.statement)+'</div>';
+
+      if(a.evidence_url){
+        html+='<div class="q-item-links"><a class="q-item-link" href="'+escHtml(a.evidence_url)+'" target="_blank" rel="noopener">Supporting Evidence</a></div>';
+      }
+
+      html+='<div class="appeal-notes">';
+      html+='<textarea id="anote-'+escHtml(a.ref_id)+'" placeholder="Reviewer notes...">'+escHtml(a.reviewer_notes||'')+'</textarea>';
+      html+='<button class="btn-hd" style="margin-top:.3rem" onclick="saveAppealNotes(\''+escHtml(a.ref_id)+'\')">Save Notes</button>';
+      html+='</div>';
+
+      html+='<div class="appeal-actions">';
+      if(a.status!=='upheld') html+='<button class="btn-ok" onclick="appealAction(\''+escHtml(a.ref_id)+'\',\'upheld\')">Uphold</button>';
+      if(a.status!=='dismissed') html+='<button class="btn-no" onclick="appealAction(\''+escHtml(a.ref_id)+'\',\'dismissed\')">Dismiss</button>';
+      html+='<button class="btn-del" onclick="deleteAppeal(\''+escHtml(a.ref_id)+'\')">Delete</button>';
+      html+='</div>';
+      html+='</div>';
+    });
+  }
+  document.getElementById('appealList').innerHTML=html;
+}
+
+// Appeal filters
+document.querySelectorAll('[data-afilter]').forEach(function(pill){
+  pill.onclick=function(){
+    document.querySelectorAll('[data-afilter]').forEach(function(p){p.classList.remove('on')});
+    pill.classList.add('on');
+    appealFilter=pill.dataset.afilter;
+    renderAppeals();
+  };
+});
+
+async function appealAction(id,status){
+  if(!sb) return;
+  try{
+    var{error}=await sb.from('appeals').update({status:status}).eq('ref_id',id);
+    if(error) throw error;
+    var item=allAppeals.find(function(a){return a.ref_id===id});
+    if(item) item.status=status;
+
+    // If upheld, offer to update linked submission
+    if(status==='upheld'&&item){
+      showConfirm('Appeal upheld. Also reject the linked submission ('+item.entry_id+')?',async function(){
+        try{
+          await sb.from('submissions').update({status:'rejected'}).eq('ref_id',item.entry_id);
+          var sub=allSubmissions.find(function(s){return s.ref_id===item.entry_id});
+          if(sub) sub.status='rejected';
+          showToast('Linked submission '+item.entry_id+' rejected','success');
+        }catch(e2){showToast('Failed to update linked submission','error')}
+      });
+    }
+    renderAppeals();
+    showToast(id+' → '+status,'success');
+  }catch(e){
+    showToast('Failed: '+e.message,'error');
+  }
+}
+
+async function saveAppealNotes(id){
+  if(!sb) return;
+  var notes=document.getElementById('anote-'+id).value;
+  try{
+    var{error}=await sb.from('appeals').update({reviewer_notes:notes}).eq('ref_id',id);
+    if(error) throw error;
+    var item=allAppeals.find(function(a){return a.ref_id===id});
+    if(item) item.reviewer_notes=notes;
+    showToast('Notes saved for '+id,'success');
+  }catch(e){
+    showToast('Save failed: '+e.message,'error');
+  }
+}
+
+function deleteAppeal(id){
+  showConfirm('Permanently delete appeal '+id+'?',async function(){
+    if(!sb) return;
+    try{
+      var{error}=await sb.from('appeals').delete().eq('ref_id',id);
+      if(error) throw error;
+      allAppeals=allAppeals.filter(function(a){return a.ref_id!==id});
+      renderAppeals();
+      showToast(id+' deleted','success');
+    }catch(e){
+      showToast('Delete failed: '+e.message,'error');
+    }
+  });
+}
+
+// --- ANALYTICS ---
+function buildAnalytics(){
+  // Stat cards
+  var totalSub=allSubmissions.length;
+  var pending=allSubmissions.filter(function(s){return s.status==='pending'}).length;
+  var approved=allSubmissions.filter(function(s){return s.status==='approved'}).length;
+  var rejected=allSubmissions.filter(function(s){return s.status==='rejected'}).length;
+  var hold=allSubmissions.filter(function(s){return s.status==='hold'}).length;
+
+  var totalAppeals=allAppeals.length;
+  var apReview=allAppeals.filter(function(a){return a.status==='under_review'}).length;
+  var apUpheld=allAppeals.filter(function(a){return a.status==='upheld'}).length;
+  var apDismissed=allAppeals.filter(function(a){return a.status==='dismissed'}).length;
+
+  // Time-based counts
+  var now=Date.now();
+  var weekAgo=now-7*24*60*60*1000;
+  var monthAgo=now-30*24*60*60*1000;
+  var thisWeek=allSubmissions.filter(function(s){return new Date(s.created_at).getTime()>weekAgo}).length;
+  var thisMonth=allSubmissions.filter(function(s){return new Date(s.created_at).getTime()>monthAgo}).length;
+
+  document.getElementById('statsGrid').innerHTML=
+    statCard('Total Submissions',totalSub,'All time')+
+    statCard('Pending Review',pending,'Awaiting moderation')+
+    statCard('This Week',thisWeek,'Last 7 days')+
+    statCard('This Month',thisMonth,'Last 30 days')+
+    statCard('Approved',approved,'Published to archive')+
+    statCard('Rejected',rejected,'Removed')+
+    statCard('On Hold',hold,'Senior review')+
+    statCard('Total Appeals',totalAppeals,apReview+' under review');
+
+  // Category distribution
+  var catCounts={};
+  allSubmissions.forEach(function(s){
+    var c=s.category||'Unknown';
+    catCounts[c]=(catCounts[c]||0)+1;
+  });
+  var catMax=Math.max.apply(null,Object.values(catCounts).concat([1]));
+  var catHtml='';
+  Object.keys(catCounts).sort(function(a,b){return catCounts[b]-catCounts[a]}).forEach(function(cat){
+    var pct=Math.round(catCounts[cat]/catMax*100);
+    catHtml+='<div class="bar-row"><span class="bar-label">'+escHtml(cat)+'</span><div class="bar-track"><div class="bar-fill red" style="width:'+pct+'%"></div></div><span class="bar-count">'+catCounts[cat]+'</span></div>';
+  });
+  document.getElementById('catChart').innerHTML=catHtml||'<div class="empty-state">No data</div>';
+
+  // Status distribution
+  var statusData=[
+    {label:'Pending',count:pending,cls:'amber'},
+    {label:'Approved',count:approved,cls:'green'},
+    {label:'Rejected',count:rejected,cls:'red'},
+    {label:'On Hold',count:hold,cls:'gray'}
+  ];
+  var sMax=Math.max.apply(null,statusData.map(function(d){return d.count}).concat([1]));
+  var sHtml='';
+  statusData.forEach(function(d){
+    var pct=Math.round(d.count/sMax*100);
+    sHtml+='<div class="bar-row"><span class="bar-label">'+d.label+'</span><div class="bar-track"><div class="bar-fill '+d.cls+'" style="width:'+pct+'%"></div></div><span class="bar-count">'+d.count+'</span></div>';
+  });
+  document.getElementById('statusChart').innerHTML=sHtml;
+
+  // Appeal status distribution
+  var apData=[
+    {label:'Under Review',count:apReview,cls:'blue'},
+    {label:'Upheld',count:apUpheld,cls:'green'},
+    {label:'Dismissed',count:apDismissed,cls:'red'}
+  ];
+  var aMax=Math.max.apply(null,apData.map(function(d){return d.count}).concat([1]));
+  var aHtml='';
+  apData.forEach(function(d){
+    var pct=Math.round(d.count/aMax*100);
+    aHtml+='<div class="bar-row"><span class="bar-label">'+d.label+'</span><div class="bar-track"><div class="bar-fill '+d.cls+'" style="width:'+pct+'%"></div></div><span class="bar-count">'+d.count+'</span></div>';
+  });
+  document.getElementById('appealStatusChart').innerHTML=aHtml;
+}
+
+function statCard(label,val,sub){
+  return '<div class="stat-card"><div class="stat-label">'+escHtml(label)+'</div><div class="stat-val">'+val+'</div><div class="stat-sub">'+escHtml(sub)+'</div></div>';
+}
+
+// --- EXPORT ---
+var exportFilter='all';
+document.querySelectorAll('[data-efilter]').forEach(function(pill){
+  pill.onclick=function(){
+    document.querySelectorAll('[data-efilter]').forEach(function(p){p.classList.remove('on')});
+    pill.classList.add('on');
+    exportFilter=pill.dataset.efilter;
+  };
+});
+
+document.getElementById('exportSubBtn').onclick=function(){
+  var items=allSubmissions;
+  if(exportFilter!=='all'){
+    items=items.filter(function(s){return s.status===exportFilter});
+  }
+  if(!items.length){showToast('No submissions to export','error');return}
+
+  var cols=['ref_id','category','incident_type','severity','language','status','context_note','perpetrator_url','source_post_url','screenshot_url','profile_name','submitter_email','submitter_relationship','ai_score','tags','version','created_at','last_edit'];
+  var csv=cols.join(',')+'\n';
+  items.forEach(function(s){
+    csv+=cols.map(function(c){
+      var v=s[c];
+      if(Array.isArray(v)) v=v.join('; ');
+      if(v===null||v===undefined) v='';
+      return '"'+String(v).replace(/"/g,'""')+'"';
+    }).join(',')+'\n';
+  });
+
+  downloadCSV(csv,'daag-submissions-'+exportFilter+'-'+new Date().toISOString().slice(0,10)+'.csv');
+  showToast('Exported '+items.length+' submissions','success');
+};
+
+document.getElementById('exportAppealBtn').onclick=function(){
+  if(!allAppeals.length){showToast('No appeals to export','error');return}
+
+  var cols=['ref_id','entry_id','grounds','statement','evidence_url','contact_email','status','reviewer_notes','created_at'];
+  var csv=cols.join(',')+'\n';
+  allAppeals.forEach(function(a){
+    csv+=cols.map(function(c){
+      var v=a[c];
+      if(v===null||v===undefined) v='';
+      return '"'+String(v).replace(/"/g,'""')+'"';
+    }).join(',')+'\n';
+  });
+
+  downloadCSV(csv,'daag-appeals-'+new Date().toISOString().slice(0,10)+'.csv');
+  showToast('Exported '+allAppeals.length+' appeals','success');
+};
+
+function downloadCSV(csv,filename){
+  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download=filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
