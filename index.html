@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daag — Every Word Leaves a Mark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#09090b;--bg1:#0f0f12;--bg2:#141418;--bg3:#1a1a20;
+  --border:#ffffff0c;--border2:#ffffff15;--border3:#ffffff22;
+  --text:#ede9e0;--text2:#9c9890;--text3:#555250;
+  --ink:#7a1520;--ink2:#9e1c2c;--ink-glow:#9e1c2c15;
+  --accent:#bf3347;--warm:#ede5d4;
+  --umber:#8c6a3f;--umber-light:#b08a5a;
+  --font-serif:'Playfair Display',Georgia,serif;
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:15px;line-height:1.65;min-height:100vh;overflow-x:hidden}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(12,12,14,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 2rem;gap:1.5rem}
+.nav-logo{display:flex;align-items:center;gap:.6rem;cursor:pointer;flex-shrink:0;text-decoration:none}
+.logo-mark{width:34px;height:34px;background:var(--ink2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;font-family:var(--font-serif);flex-shrink:0;position:relative;overflow:hidden}
+.logo-mark::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 60%)}
+.logo-name{font-size:15px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text);font-family:var(--font-sans)}
+.nav-links{display:flex;align-items:center;gap:1.5rem;flex:1;justify-content:center}
+.nav-link{font-size:13px;color:var(--text2);cursor:pointer;padding:.25rem 0;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font-sans)}
+.nav-link:hover,.nav-link.active{color:var(--text);border-bottom-color:var(--accent)}
+.nav-cta{background:var(--ink2);color:#fff;font-size:13px;font-weight:500;padding:.45rem 1.2rem;border-radius:4px;cursor:pointer;border:none;white-space:nowrap;transition:background .2s,transform .15s;font-family:var(--font-sans);flex-shrink:0}
+.nav-cta:hover{background:#b52030;transform:translateY(-1px)}
+
+/* PAGE SYSTEM */
+.page{display:none}
+.page.active{display:block;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;padding:6rem 2rem 5rem}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:56px 56px}
+.hero-glow{position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse,rgba(122,21,32,.18) 0%,transparent 65%);pointer-events:none}
+.hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 40%,var(--bg) 100%);pointer-events:none}
+.hero-bangla-watermark{position:absolute;bottom:-2rem;right:-1rem;font-family:var(--font-serif);font-size:22rem;color:rgba(122,21,32,.04);font-weight:700;line-height:1;pointer-events:none;user-select:none;letter-spacing:-.05em}
+.hero-content{position:relative;z-index:1;max-width:860px;margin:0 auto;text-align:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:10.5px;font-family:var(--font-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);background:var(--ink-glow);border:1px solid rgba(158,28,44,.25);padding:.45rem 1.1rem;border-radius:2px;margin-bottom:2.5rem}
+.eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:blink 2.4s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+h1.hero-h{font-family:var(--font-serif);font-size:clamp(3.2rem,7vw,5.8rem);line-height:1.06;color:var(--warm);margin-bottom:1.6rem;font-weight:400;letter-spacing:-.025em}
+h1.hero-h em{font-style:italic;color:var(--accent);font-weight:400}
+.hero-sub{font-size:1.05rem;color:var(--text2);max-width:560px;margin:0 auto 3rem;line-height:1.85;font-weight:400}
+.cta-row{display:flex;align-items:center;justify-content:center;gap:.9rem;flex-wrap:wrap}
+.btn-p{background:var(--ink2);color:#fff;font-size:13.5px;font-weight:500;padding:.7rem 1.7rem;border-radius:4px;cursor:pointer;border:none;transition:background .2s,transform .15s;font-family:var(--font-sans);letter-spacing:.01em}
+.btn-p:hover{background:#b52030;transform:translateY(-2px)}
+.btn-g{background:transparent;color:var(--text);font-size:13.5px;font-weight:500;padding:.7rem 1.7rem;border-radius:4px;cursor:pointer;border:1px solid var(--border3);transition:border-color .2s,background .2s;font-family:var(--font-sans)}
+.btn-g:hover{border-color:var(--text2);background:var(--bg2)}
+.hero-stats-row{display:flex;justify-content:center;gap:2.5rem;margin-top:5rem;padding-top:2.5rem;border-top:1px solid var(--border);flex-wrap:wrap}
+.stat{text-align:center}
+.stat-n{font-size:1.75rem;font-weight:600;color:var(--warm);font-family:var(--font-mono);line-height:1}
+.stat-l{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-top:.4rem;font-family:var(--font-mono)}
+
+/* LAYOUT */
+.section{max-width:1200px;margin:0 auto;padding:5rem 2rem}
+.section-sm{max-width:800px;margin:0 auto;padding:4rem 2rem}
+.section-tag{font-size:10px;font-family:var(--font-mono);letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem}
+.section-title{font-family:var(--font-serif);font-size:clamp(2rem,4vw,3.2rem);color:var(--warm);line-height:1.15;margin-bottom:1rem;font-weight:400}
+.divider{border:none;border-top:1px solid var(--border)}
+
+/* FEATURE GRID */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:3rem}
+.feat-card{background:var(--bg1);padding:2rem;transition:background .2s}
+.feat-card:hover{background:var(--bg2)}
+.feat-icon{width:38px;height:38px;border-radius:7px;background:var(--ink-glow);border:1px solid rgba(158,28,44,.2);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--accent);margin-bottom:1.25rem}
+.feat-t{font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:.45rem}
+.feat-d{font-size:12.5px;color:var(--text2);line-height:1.65}
+
+/* NOTICES */
+.notice{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--ink2);border-radius:5px;padding:1.1rem 1.3rem;margin-bottom:1.25rem}
+.notice-t{font-size:10.5px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+.notice-b{font-size:13px;color:var(--text2);line-height:1.7}
+.disclaimer{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--umber);border-radius:5px;padding:1.1rem 1.3rem;font-size:12.5px;color:var(--text2);line-height:1.75;margin:2rem 0}
+
+/* FORMS */
+.form-wrap{background:var(--bg1);border:1px solid var(--border2);border-radius:10px;overflow:hidden}
+.form-head{padding:2rem;border-bottom:1px solid var(--border)}
+.form-h{font-family:var(--font-serif);font-size:1.65rem;color:var(--warm);font-weight:400}
+.form-sh{font-size:13px;color:var(--text2);margin-top:.35rem}
+.form-body{padding:2rem;display:grid;gap:1.6rem}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.f-group{display:flex;flex-direction:column;gap:.5rem}
+.f-label{font-size:10.5px;font-family:var(--font-mono);letter-spacing:.11em;text-transform:uppercase;color:var(--text3)}
+.f-label span{color:var(--accent)}
+.f-input,.f-sel,.f-ta{background:var(--bg2);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-family:var(--font-sans);font-size:14px;padding:.65rem .95rem;transition:border-color .2s,background .2s;width:100%}
+.f-input:focus,.f-sel:focus,.f-ta:focus{outline:none;border-color:var(--ink2);background:var(--bg3)}
+.f-ta{resize:vertical;min-height:95px;line-height:1.65}
+.f-sel option{background:var(--bg2)}
+.f-hint{font-size:11px;color:var(--text3);margin-top:.2rem}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.3rem}
+.tag-btn{font-size:11.5px;padding:.3rem .8rem;border-radius:3px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--font-mono);transition:all .15s;letter-spacing:.04em}
+.tag-btn.on{border-color:var(--ink2);background:var(--ink-glow);color:var(--accent)}
+.upload-z{border:1px dashed var(--border3);border-radius:7px;padding:2.5rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg2)}
+.upload-z:hover{border-color:var(--ink2);background:var(--bg3)}
+.upload-i{font-size:2rem;color:var(--text3);margin-bottom:.5rem}
+.upload-t{font-size:13px;color:var(--text2)}
+.upload-s{font-size:11px;color:var(--text3);margin-top:.3rem}
+.form-foot{padding:1.4rem 2rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;background:var(--bg)}
+.form-foot-note{font-size:12px;color:var(--text3)}
+
+/* ARCHIVE */
+.arch-filter-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.75rem;align-items:center}
+.f-pill{font-size:11.5px;font-family:var(--font-mono);padding:.32rem .85rem;border-radius:3px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
+.f-pill:hover,.f-pill.on{border-color:var(--accent);color:var(--accent)}
+.search-i{background:var(--bg2);border:1px solid var(--border2);border-radius:5px;padding:.55rem 1rem;font-family:var(--font-sans);font-size:14px;color:var(--text);max-width:380px;width:100%;transition:border-color .2s}
+.search-i:focus{outline:none;border-color:var(--ink2)}
+.arch-grid{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.arch-entry{background:var(--bg1);padding:1.5rem 1.75rem;display:grid;grid-template-columns:1fr 90px;gap:1.2rem;align-items:start;transition:background .2s;cursor:pointer;border-bottom:1px solid var(--border)}
+.arch-entry:last-child{border-bottom:none}
+.arch-entry:hover{background:var(--bg2)}
+.entry-meta{display:flex;align-items:center;gap:.6rem;margin-bottom:.65rem;flex-wrap:wrap}
+.badge{font-size:10px;font-family:var(--font-mono);letter-spacing:.07em;text-transform:uppercase;padding:.22rem .6rem;border-radius:2px;white-space:nowrap}
+.b-cr{background:var(--ink-glow);color:var(--accent);border:1px solid rgba(158,28,44,.22)}
+.b-gr{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.b-nv{background:rgba(13,30,53,.5);color:#5a8ac4;border:1px solid rgba(30,80,140,.25)}
+.entry-t{font-size:13.5px;color:var(--text);margin-bottom:.35rem;line-height:1.55}
+.entry-s{font-size:11.5px;color:var(--text3);font-family:var(--font-mono)}
+.thumb{width:90px;height:65px;background:var(--bg3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-family:var(--font-mono);color:var(--text3);text-transform:uppercase;letter-spacing:.08em;text-align:center;padding:.4rem;flex-shrink:0}
+
+/* STATUS BADGES */
+.status{font-size:9.5px;font-family:var(--font-mono);letter-spacing:.07em;padding:.2rem .55rem;border-radius:2px;text-transform:uppercase;display:inline-block}
+.s-ok{background:#0a2010;color:#4caf50;border:1px solid #1a4a2a}
+.s-wait{background:#2a2000;color:#f0b030;border:1px solid #3a3000}
+.s-rev{background:#001530;color:#5a8ac4;border:1px solid #0a2545}
+
+/* ANALYTICS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:2rem}
+.a-card{background:var(--bg1);padding:1.5rem}
+.a-num{font-size:2.1rem;font-family:var(--font-mono);font-weight:400;color:var(--warm)}
+.a-lbl{font-size:10px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-top:.2rem}
+.a-delta{font-size:11px;color:#4caf50;margin-top:.5rem}
+.chart-box{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem}
+.chart-lbl{font-size:10px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:1.25rem}
+.bar-chart{display:flex;align-items:flex-end;gap:.45rem;height:130px}
+.b-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:.4rem;height:100%}
+.b-bar{width:100%;border-radius:2px 2px 0 0;background:linear-gradient(180deg,var(--ink2),var(--ink));min-width:0;transition:opacity .2s}
+.b-bar:hover{opacity:.75}
+.b-lbl{font-size:9px;font-family:var(--font-mono);color:var(--text3);text-align:center}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.col-cell{background:var(--bg1);padding:1.5rem}
+.cat-row{display:flex;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border)}
+.cat-row:last-child{border-bottom:none}
+.cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-right:.65rem}
+.cat-name{font-size:12px;color:var(--text2);flex:1}
+.cat-track{flex:1;height:3px;background:var(--border);border-radius:2px;margin:0 .5rem;overflow:hidden}
+.cat-fill{height:100%;border-radius:2px}
+.cat-pct{font-size:11.5px;font-family:var(--font-mono);color:var(--text3)}
+
+/* MODERATION */
+.mod-layout{display:grid;grid-template-columns:260px 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;min-height:520px}
+.mod-sb{background:var(--bg1);padding:1.5rem}
+.mod-sb-t{font-size:9.5px;font-family:var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:.9rem}
+.mod-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem .7rem;border-radius:4px;cursor:pointer;transition:background .15s;margin-bottom:.2rem}
+.mod-row:hover,.mod-row.on{background:var(--bg2)}
+.mod-row-l{font-size:13px;color:var(--text2)}
+.mod-ct{font-size:11.5px;font-family:var(--font-mono);color:var(--text3);background:var(--bg3);padding:.12rem .5rem;border-radius:2px}
+.mod-ct.red{color:var(--accent);background:var(--ink-glow)}
+.mod-main{background:var(--bg);padding:1.5rem;overflow:auto}
+.q-item{background:var(--bg1);border:1px solid var(--border);border-radius:7px;padding:1.3rem;margin-bottom:1rem;transition:border-color .2s}
+.q-item:hover{border-color:var(--border2)}
+.q-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.8rem;flex-wrap:wrap}
+.q-note{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:.8rem}
+.conf-row{display:flex;justify-content:space-between;font-size:10.5px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.3rem}
+.conf-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:.3rem}
+.conf-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--ink2),var(--accent))}
+.conf-note{font-size:10px;color:var(--text3);font-family:var(--font-mono)}
+.mod-acts{display:flex;gap:.5rem;margin-top:.9rem;flex-wrap:wrap}
+.btn-ok{background:#0a2e1a;color:#4caf50;border:1px solid #1a4a2a;font-size:12px;padding:.35rem .9rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono)}
+.btn-ok:hover{background:#0d3d21}
+.btn-no{background:#2e0a0a;color:#f44336;border:1px solid #4a1a1a;font-size:12px;padding:.35rem .9rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono)}
+.btn-no:hover{background:#3d0d0d}
+.btn-hd{background:var(--bg2);color:var(--text2);border:1px solid var(--border2);font-size:12px;padding:.35rem .9rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono)}
+.btn-hd:hover{background:var(--bg3)}
+.btn-ai{margin-left:auto;background:rgba(13,30,53,.5);color:#5a8ac4;border:1px solid rgba(30,80,140,.25);font-size:12px;padding:.35rem .9rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono)}
+
+/* ETHICS */
+.ethics-wrap{display:grid;grid-template-columns:210px 1fr;gap:3.5rem;align-items:start}
+.eth-nav{position:sticky;top:80px}
+.eth-nav-i{display:block;font-size:11.5px;font-family:var(--font-mono);color:var(--text3);padding:.38rem 0 .38rem .75rem;cursor:pointer;border-left:2px solid transparent;transition:all .15s;background:none;border-right:none;border-top:none;border-bottom:none;text-align:left;width:100%}
+.eth-nav-i:hover,.eth-nav-i.on{color:var(--text);border-left-color:var(--accent)}
+.eth-sec{margin-bottom:3rem}
+.eth-sec-t{font-family:var(--font-serif);font-size:1.45rem;color:var(--warm);font-weight:400;margin-bottom:1rem}
+.eth-body{color:var(--text2);line-height:1.85;font-size:13.5px}
+.eth-body p{margin-bottom:1rem}
+.prin-card{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:1.2rem;margin-bottom:.75rem}
+.prin-n{font-size:10px;font-family:var(--font-mono);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem}
+.prin-t{font-size:13px;font-weight:600;color:var(--text);margin-bottom:.35rem}
+.prin-d{font-size:12.5px;color:var(--text2);line-height:1.65}
+
+/* ABOUT */
+.about-hero-sec{background:var(--bg1);border-bottom:1px solid var(--border);padding:4rem 2rem}
+.two-col-about{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.timeline{position:relative;padding-left:2rem}
+.timeline::before{content:'';position:absolute;left:.45rem;top:.35rem;bottom:.35rem;width:1px;background:var(--border2)}
+.tl-item{position:relative;margin-bottom:2rem}
+.tl-dot{position:absolute;left:-1.65rem;top:.28rem;width:8px;height:8px;border-radius:50%;background:var(--ink2);border:2px solid var(--bg)}
+.tl-date{font-size:10px;font-family:var(--font-mono);color:var(--text3);letter-spacing:.09em;margin-bottom:.3rem}
+.tl-text{font-size:13px;color:var(--text2);line-height:1.65}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:2rem}
+.team-card{background:var(--bg1);padding:1.5rem;transition:background .2s}
+.team-card:hover{background:var(--bg2)}
+.team-av{width:44px;height:44px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:1rem}
+.team-n{font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:.25rem}
+.team-r{font-size:12px;color:var(--text3)}
+
+/* APPEALS */
+.appeal-form{background:var(--bg1);border:1px solid var(--border2);border-radius:10px;overflow:hidden;max-width:640px}
+.tracker-box{background:var(--bg1);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:2.5rem}
+.tracker-head{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.tracker-empty{padding:3rem;text-align:center;color:var(--text3);font-size:13px}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:5rem}
+.foot-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:3rem;align-items:start}
+.foot-brand{font-family:var(--font-serif);font-size:1.25rem;color:var(--warm);margin-bottom:.5rem}
+.foot-tag{font-size:12.5px;color:var(--text3);line-height:1.65}
+.foot-col-t{font-size:10px;font-family:var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:.9rem}
+.foot-links{display:flex;flex-direction:column;gap:.45rem}
+.foot-link{font-size:13px;color:var(--text2);cursor:pointer;transition:color .15s;background:none;border:none;font-family:var(--font-sans);text-align:left;padding:0}
+.foot-link:hover{color:var(--text)}
+.foot-bottom{max-width:1200px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px;color:var(--text3);font-family:var(--font-mono);flex-wrap:wrap;gap:.5rem}
+
+/* PROFILE SEARCH */
+.search-hero{background:var(--bg1);border-bottom:1px solid var(--border);padding:3.5rem 2rem 3rem}
+.search-hero-inner{max-width:800px;margin:0 auto}
+.big-search-wrap{position:relative;margin-top:2rem}
+.big-search-input{width:100%;background:var(--bg2);border:1px solid var(--border3);border-radius:8px;color:var(--text);font-family:var(--font-sans);font-size:1rem;padding:1.1rem 1.4rem 1.1rem 3.2rem;transition:border-color .2s,box-shadow .2s}
+.big-search-input:focus{outline:none;border-color:var(--ink2);box-shadow:0 0 0 3px rgba(158,28,44,.12)}
+.big-search-icon{position:absolute;left:1.1rem;top:50%;transform:translateY(-50%);color:var(--text3);font-size:1.1rem;pointer-events:none}
+.big-search-btn{position:absolute;right:.55rem;top:50%;transform:translateY(-50%)}
+.search-tips{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap}
+.search-tip{font-size:11.5px;color:var(--text3);font-family:var(--font-mono)}
+.search-tip span{color:var(--text2)}
+.profile-card{background:var(--bg1);border:1px solid var(--border2);border-radius:10px;overflow:hidden;margin-bottom:1.5rem}
+.profile-card-head{padding:1.5rem 1.75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1.25rem}
+.profile-avatar{width:52px;height:52px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:var(--text2);flex-shrink:0;font-family:var(--font-mono)}
+.profile-name{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
+.profile-url{font-size:11.5px;color:var(--text3);font-family:var(--font-mono)}
+.risk-pill{margin-left:auto;font-size:11px;font-family:var(--font-mono);letter-spacing:.07em;text-transform:uppercase;padding:.35rem .9rem;border-radius:3px;white-space:nowrap;flex-shrink:0}
+.risk-high{background:rgba(158,28,44,.15);color:var(--accent);border:1px solid rgba(158,28,44,.3)}
+.risk-mod{background:rgba(200,120,0,.12);color:#e09040;border:1px solid rgba(200,120,0,.25)}
+.risk-low{background:rgba(10,46,26,.5);color:#4caf50;border:1px solid rgba(26,74,42,.6)}
+.profile-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border)}
+.p-stat{background:var(--bg2);padding:1rem 1.2rem;text-align:center}
+.p-stat-n{font-size:1.3rem;font-family:var(--font-mono);color:var(--warm);font-weight:400}
+.p-stat-l{font-size:10px;font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-top:.2rem}
+.profile-entries{padding:1.25rem 1.75rem}
+.pe-title{font-size:11px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem}
+.pe-item{border-left:2px solid var(--ink);padding:.75rem 0 .75rem 1.1rem;margin-bottom:.85rem;border-bottom:1px solid var(--border)}
+.pe-item:last-child{border-bottom:none;margin-bottom:0}
+.pe-meta{display:flex;align-items:center;gap:.5rem;margin-bottom:.35rem;flex-wrap:wrap}
+.pe-text{font-size:13px;color:var(--text2);line-height:1.6}
+.pe-date{font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-top:.3rem}
+.no-results{text-align:center;padding:4rem 2rem}
+.no-results-icon{font-size:2.5rem;margin-bottom:1rem;opacity:.3}
+.no-results-t{font-size:1rem;color:var(--text2);margin-bottom:.5rem}
+.no-results-s{font-size:13px;color:var(--text3);line-height:1.7}
+.search-state-idle{text-align:center;padding:5rem 2rem;color:var(--text3)}
+.search-state-icon{font-size:2.5rem;margin-bottom:1rem;opacity:.2}
+.search-state-t{font-size:14px;color:var(--text3);line-height:1.7;max-width:420px;margin:0 auto}
+.use-case-box{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--umber);border-radius:5px;padding:1.2rem 1.4rem;margin-bottom:2rem}
+.use-case-t{font-size:10px;font-family:var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--umber);margin-bottom:.6rem}
+.use-case-scenario{display:flex;flex-direction:column;gap:.6rem}
+.scenario-step{display:flex;align-items:flex-start;gap:.75rem;font-size:13px;color:var(--text2);line-height:1.6}
+.scenario-num{font-family:var(--font-mono);font-size:11px;color:var(--umber);background:rgba(154,124,79,.12);border:1px solid rgba(154,124,79,.2);border-radius:2px;padding:.15rem .5rem;flex-shrink:0;margin-top:.1rem}
+.privacy-strip{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:.9rem 1.2rem;display:flex;align-items:flex-start;gap:.75rem;margin-top:1.5rem;font-size:12.5px;color:var(--text3);line-height:1.65}
+.privacy-strip-icon{color:var(--umber);flex-shrink:0;margin-top:.05rem}
+
+/* HAMBURGER */
+.nav-hamburger{display:none;background:none;border:none;cursor:pointer;padding:.4rem;flex-direction:column;gap:4px;z-index:101}
+.nav-hamburger span{display:block;width:20px;height:2px;background:var(--text2);border-radius:1px;transition:transform .2s,opacity .2s}
+.nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+
+/* ADV FILTER DROPDOWN */
+.adv-filter-wrap{position:relative;display:inline-block}
+.adv-filter-drop{display:none;position:absolute;top:calc(100% + .5rem);left:0;background:var(--bg1);border:1px solid var(--border2);border-radius:8px;padding:1.25rem;min-width:280px;z-index:50;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.adv-filter-drop.show{display:block}
+.adv-filter-drop .f-pill{margin-bottom:.35rem}
+
+/* APPEAL SUCCESS */
+.appeal-success{display:none;padding:3rem 2rem;text-align:center;border-top:1px solid var(--border)}
+.appeal-success .success-icon{width:52px;height:52px;border-radius:50%;background:#0a2010;border:1px solid #1a4a2a;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 1.25rem}
+
+/* FIELD ERROR */
+.f-err{font-size:11px;color:var(--accent);display:none;margin-top:.3rem}
+
+/* TRACKER RESULT */
+.tracker-result{padding:1.5rem;display:none}
+.tracker-result .tr-status-bar{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.tracker-result .tr-timeline{border-left:2px solid var(--border2);padding-left:1.2rem;margin-top:1rem}
+.tracker-result .tr-step{position:relative;margin-bottom:1rem}
+.tracker-result .tr-step::before{content:'';position:absolute;left:-1.55rem;top:.35rem;width:8px;height:8px;border-radius:50%;background:var(--ink2);border:2px solid var(--bg1)}
+.tracker-result .tr-step.pending::before{background:var(--bg3);border-color:var(--border2)}
+
+/* MOD ROW ACTIVE */
+.mod-row.cat-active{background:var(--bg3);border-left:2px solid var(--accent)}
+
+/* RESPONSIVE */
+@media(max-width:720px){
+  .f-row{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .mod-layout{grid-template-columns:1fr}
+  .mod-sb{border-bottom:1px solid var(--border)}
+  .ethics-wrap{grid-template-columns:1fr}
+  .eth-nav{display:none}
+  .two-col-about{grid-template-columns:1fr}
+  .foot-inner{grid-template-columns:1fr}
+  .two-col{grid-template-columns:1fr}
+  .hero-stats-row{gap:1.5rem}
+  .nav-hamburger{display:flex}
+  .nav-links{display:none;position:absolute;top:60px;left:0;right:0;background:rgba(12,12,14,.97);backdrop-filter:blur(18px);flex-direction:column;padding:1rem 2rem 1.5rem;gap:.25rem;border-bottom:1px solid var(--border)}
+  .nav-links.mobile-open{display:flex}
+  .nav-links .nav-link{padding:.6rem 0;font-size:14px}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" onclick="go('home')">
+      <div class="logo-mark">দাগ</div>
+      <span class="logo-name">Daag</span>
+    </a>
+    <button class="nav-hamburger" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navLinks">
+      <button class="nav-link" data-page="archive" onclick="go('archive')">Archive</button>
+      <button class="nav-link" data-page="search" onclick="go('search')">Profile Search</button>
+      <button class="nav-link" data-page="analytics" onclick="go('analytics')">Analytics</button>
+      <button class="nav-link" data-page="ethics" onclick="go('ethics')">Methodology</button>
+      <button class="nav-link" data-page="appeals" onclick="go('appeals')">Appeals</button>
+      <button class="nav-link" data-page="about" onclick="go('about')">About</button>
+      <button class="nav-link" data-page="moderation" onclick="go('moderation')">Moderators</button>
+    </div>
+    <button class="nav-cta" onclick="go('submit')">Submit Evidence</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="pg-home" class="page active">
+  <div class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-bangla-watermark">দাগ</div>
+    <div class="hero-content">
+      <div class="hero-eyebrow"><span class="eyebrow-dot"></span>Civic Accountability Archive · Bangladesh</div>
+      <h1 class="hero-h">Every word<br><em>leaves a mark.</em></h1>
+      <p class="hero-sub">Daag is a verified public archive documenting misogynistic, victim-blaming, and abusive comments made by named individuals on social media — surrounding incidents of gender violence in Bangladesh.</p>
+      <div class="cta-row">
+        <button class="btn-p" onclick="go('submit')">Submit Evidence</button>
+        <button class="btn-g" onclick="go('archive')">Explore Archive</button>
+        <button class="btn-g" onclick="go('ethics')">View Methodology</button>
+      </div>
+      <div class="hero-stats-row">
+        <div class="stat"><div class="stat-n">1,284</div><div class="stat-l">Entries Archived</div></div>
+        <div class="stat"><div class="stat-n">417</div><div class="stat-l">Under Review</div></div>
+        <div class="stat"><div class="stat-n">38</div><div class="stat-l">Moderators</div></div>
+        <div class="stat"><div class="stat-n">94%</div><div class="stat-l">Verified Rate</div></div>
+      </div>
+    </div>
+  </div>
+  <hr class="divider">
+  <div class="section">
+    <div class="section-tag">What Daag Documents</div>
+    <div class="section-title">Perpetrators leave traces.<br>We preserve them.</div>
+    <p style="color:var(--text2);max-width:520px;line-height:1.8;font-size:14px">Every submission undergoes editorial review before publication. We document the people behind the comments — building a verified, searchable record of who said what, and when.</p>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-icon">◉</div><div class="feat-t">Evidence Submission Portal</div><div class="feat-d">Structured intake for public URLs, screenshots, and contextual notes. All submissions enter moderation before any public visibility.</div></div>
+      <div class="feat-card"><div class="feat-icon">⊟</div><div class="feat-t">Editorial Moderation</div><div class="feat-d">A trained team reviews every submission for authenticity, context, and category accuracy before archiving. Nothing is published automatically.</div></div>
+      <div class="feat-card"><div class="feat-icon">◈</div><div class="feat-t">AI-Assisted Classification</div><div class="feat-d">NLP toxicity scoring provides supporting signals for moderators. All AI outputs are clearly labelled advisory and not treated as definitive judgment.</div></div>
+      <div class="feat-card"><div class="feat-icon">⊞</div><div class="feat-t">Searchable Public Archive</div><div class="feat-d">Filtered by category, incident type, date and severity. Screenshots are blurred by default. Entries are presented with full contextual annotation.</div></div>
+      <div class="feat-card"><div class="feat-icon">⊕</div><div class="feat-t">Appeals &amp; Dispute System</div><div class="feat-d">Any individual may dispute a submission. All appeals receive human review with documented rationale. Successful appeals result in removal or reclassification.</div></div>
+      <div class="feat-card"><div class="feat-icon">◎</div><div class="feat-t">Pattern Analytics</div><div class="feat-d">Aggregated data journalism — category trends, incident timelines, and language distributions published for research, advocacy, and journalism.</div></div>
+    </div>
+  </div>
+  <hr class="divider">
+  <div class="section-sm" style="padding-top:4.5rem">
+    <div class="section-tag">Our Commitment</div>
+    <div class="section-title" style="font-size:2rem;margin-bottom:1.5rem">The stain of words,<br>not the stain of vengeance</div>
+    <div class="notice"><div class="notice-t">Platform Philosophy</div><div class="notice-b">Daag is not a public shaming tool, a vigilante platform, or a harassment engine. It is an evidence archive built on the principles of dignity, transparency, and responsible documentation. Every design and editorial decision reflects this commitment.</div></div>
+    <div class="notice"><div class="notice-t">Who Can Appeal</div><div class="notice-b">Any individual who believes a submission is inaccurate, lacks context, or was submitted in bad faith may file a formal dispute. Appeals are reviewed by a separate moderation panel within 14 working days.</div></div>
+    <div class="notice"><div class="notice-t">Privacy Boundaries</div><div class="notice-b">We document only publicly visible comments from public posts. We do not archive private profile data, contact information, or content from closed groups. All screenshots are verified for authenticity before publication.</div></div>
+  </div>
+  <footer>
+    <div class="foot-inner">
+      <div>
+        <div class="foot-brand">Daag · দাগ</div>
+        <div class="foot-tag" style="margin-bottom:1rem">Every word leaves a mark.<br>A civic accountability archive for Bangladesh.</div>
+        <div class="disclaimer" style="margin:0;font-size:11.5px">This platform is an evidence archive, not a harassment tool. Any redistribution of archive content for purposes of vigilantism, pile-ons, or coordinated harassment is strictly prohibited.</div>
+      </div>
+      <div>
+        <div class="foot-col-t">Platform</div>
+        <div class="foot-links">
+          <button class="foot-link" onclick="go('submit')">Submit Evidence</button>
+          <button class="foot-link" onclick="go('archive')">Public Archive</button>
+          <button class="foot-link" onclick="go('analytics')">Analytics</button>
+          <button class="foot-link" onclick="go('appeals')">File an Appeal</button>
+          <button class="foot-link" onclick="go('moderation')">Moderator Console</button>
+        </div>
+      </div>
+      <div>
+        <div class="foot-col-t">Transparency</div>
+        <div class="foot-links">
+          <button class="foot-link" onclick="go('ethics')">Methodology &amp; Ethics</button>
+          <button class="foot-link" onclick="go('about')">About the Project</button>
+          <button class="foot-link" onclick="go('ethics')">Privacy Policy</button>
+          <button class="foot-link" onclick="go('ethics')">Removal Requests</button>
+          <button class="foot-link" onclick="go('terms')">Terms of Use</button>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2025 Daag. All rights reserved.</span>
+      <span>Every word leaves a mark &middot; Not a harassment tool</span>
+    </div>
+  </footer>
+</div>
+
+<!-- SUBMIT EVIDENCE -->
+<div id="pg-submit" class="page">
+  <div class="section-sm" style="padding-top:3rem">
+    <div class="section-tag">Evidence Submission Portal</div>
+    <div class="section-title" style="font-size:2.2rem;margin-bottom:.5rem">Document a Comment</div>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.8">Seen someone post a misogynistic, victim-blaming, or abusive comment on a public Facebook post about gender violence? Submit it here. All submissions are held privately until reviewed by our editorial team.</p>
+    <div class="notice" style="margin-bottom:2rem"><div class="notice-t">Submission Standards</div><div class="notice-b">Only submit publicly visible comments from public posts or pages. Do not submit content from private groups, direct messages, or closed conversations. Fabricated or manipulated screenshots will result in a permanent submission restriction.</div></div>
+    <div style="background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--umber);border-radius:5px;padding:1.4rem 1.5rem;margin-bottom:2rem">
+      <div style="font-size:10.5px;font-family:var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--umber);margin-bottom:.9rem">Contributor Guidelines</div>
+      <div style="display:grid;gap:.85rem;font-size:13px;color:var(--text2);line-height:1.7">
+        <div><strong style="color:var(--text)">What to submit:</strong> Publicly visible comments from public Facebook posts or pages that contain misogynistic, victim-blaming, threatening, or dehumanizing language related to incidents of gender violence in Bangladesh.</div>
+        <div><strong style="color:var(--text)">What NOT to submit:</strong> Private messages, content from closed groups, comments unrelated to gender violence, personal disputes, political disagreements that do not involve gender-based abuse, or any content you have fabricated or manipulated.</div>
+        <div><strong style="color:var(--text)">Screenshot requirements:</strong> Screenshots must be unedited, uncropped, and unannotated. They must clearly show the comment text, the commenter's profile name, and the post context. Timestamps should be visible where possible. Do not redact or highlight any portion.</div>
+        <div><strong style="color:var(--text)">Accuracy expectations:</strong> Select the most accurate abuse category and incident type. If unsure, err on the side of caution and add a contextual note explaining your uncertainty. Moderators will reclassify if needed.</div>
+        <div><strong style="color:var(--text)">Submitter responsibility:</strong> By submitting, you confirm the evidence is genuine and unmanipulated. False submissions waste moderator time and undermine the archive's credibility. Repeated false submissions will result in permanent restriction.</div>
+      </div>
+    </div>
+    <div class="form-wrap">
+      <div class="form-head"><div class="form-h">Evidence Submission Form</div><div class="form-sh">All fields marked * are required. Your submission enters a moderation queue immediately and will not become public until reviewed.</div></div>
+      <div class="form-body" id="submitFormBody">
+        <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden" aria-hidden="true"><label for="website_url">Leave this empty</label><input type="text" id="honeypotField" name="website_url" tabindex="-1" autocomplete="off"></div>
+        <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:1.25rem 1.4rem;margin-bottom:.5rem">
+          <div style="font-size:10px;font-family:var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--umber);margin-bottom:.75rem">Two URLs Required</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+            <div style="display:flex;align-items:flex-start;gap:.6rem">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--ink-glow);border:1px solid rgba(158,28,44,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);color:var(--accent);flex-shrink:0;margin-top:.1rem">1</div>
+              <div><div style="font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:.2rem">Perpetrator's Profile URL</div><div style="font-size:12px;color:var(--text3);line-height:1.6">The Facebook profile page of the person who made the abusive comment</div></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:.6rem">
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--ink-glow);border:1px solid rgba(158,28,44,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);color:var(--accent);flex-shrink:0;margin-top:.1rem">2</div>
+              <div><div style="font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:.2rem">Source Post URL</div><div style="font-size:12px;color:var(--text3);line-height:1.6">The public post or news article where you found and identified the comment</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="f-row">
+          <div class="f-group"><label class="f-label">Perpetrator's Facebook Profile URL <span>*</span></label><input id="fieldUrl" class="f-input" type="url" placeholder="https://www.facebook.com/profile-name"><div class="f-hint" id="errUrl" style="color:var(--accent);display:none">Please enter a valid Facebook profile URL</div><div class="f-hint" style="color:var(--text3)">Direct link to the commenter's Facebook profile</div></div>
+          <div class="f-group"><label class="f-label">Source Post URL <span>*</span></label><input id="fieldPostUrl" class="f-input" type="url" placeholder="https://www.facebook.com/post/..."><div class="f-hint" id="errPostUrl" style="color:var(--accent);display:none">Please enter the URL of the source post</div><div class="f-hint" style="color:var(--text3)">The public post or article where you found the abusive comment</div></div>
+        </div>
+        <div class="f-group">
+          <label class="f-label">Screenshot Upload <span>*</span></label>
+          <input type="file" id="screenshotInput" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="handleFileSelect(this,'screenshotPreview','screenshotZone')">
+          <div class="upload-z" id="screenshotZone" onclick="document.getElementById('screenshotInput').click()" ondragover="event.preventDefault();this.style.borderColor='var(--ink2)'" ondragleave="this.style.borderColor=''" ondrop="handleDrop(event,'screenshotInput','screenshotPreview','screenshotZone')">
+            <div class="upload-i" id="screenshotIcon">&#11014;</div>
+            <div class="upload-t" id="screenshotText">Drop screenshot here or click to browse</div>
+            <div class="upload-s">PNG, JPG or WEBP &middot; Max 10MB &middot; No editing, cropping, or annotation</div>
+            <div id="screenshotPreview" style="display:none;margin-top:1rem"></div>
+          </div>
+          <div id="errScreenshot" style="font-size:11px;color:var(--accent);display:none;margin-top:.3rem">Please upload a screenshot</div>
+        </div>
+        <div class="f-row">
+          <div class="f-group"><label class="f-label">Abuse Category <span>*</span></label><select id="fieldCat" class="f-sel"><option value="">— Select category —</option><option>Victim Blaming</option><option>Misogyny</option><option>Appearance Humiliation</option><option>Violent Rhetoric</option><option>Sexual Harassment</option><option>Dehumanizing Language</option><option>Threats</option><option>Hate Speech</option></select><div id="errCat" style="font-size:11px;color:var(--accent);display:none;margin-top:.3rem">Please select a category</div></div>
+          <div class="f-group"><label class="f-label">Incident Type <span>*</span></label><select id="fieldInc" class="f-sel"><option value="">— Select type —</option><option>Rape / Sexual Violence</option><option>Domestic Violence</option><option>Acid Violence</option><option>Cyber Harassment</option><option>Gender-Based Violence</option><option>Public Harassment</option></select><div id="errInc" style="font-size:11px;color:var(--accent);display:none;margin-top:.3rem">Please select an incident type</div></div>
+        </div>
+        <div class="f-group"><label class="f-label">Additional Tags</label><div class="tags-wrap" id="tagWrap"><button class="tag-btn" onclick="toggleTag(this)">Rape Joke</button><button class="tag-btn" onclick="toggleTag(this)">Slut-Shaming</button><button class="tag-btn" onclick="toggleTag(this)">"She Deserved It"</button><button class="tag-btn" onclick="toggleTag(this)">Provocative Dress</button><button class="tag-btn" onclick="toggleTag(this)">Character Attack</button><button class="tag-btn" onclick="toggleTag(this)">Coordinated Mob</button><button class="tag-btn" onclick="toggleTag(this)">Doxxing Threat</button><button class="tag-btn" onclick="toggleTag(this)">Religious Framing</button></div></div>
+        <div class="f-group"><label class="f-label">Contextual Notes (optional)</label><textarea class="f-ta" placeholder="Describe any relevant context: the incident being discussed, the post it appeared under, coordinated patterns you observed, or why this comment is significant..."></textarea></div>
+        <div class="f-row">
+          <div class="f-group"><label class="f-label">Language of Comment</label><select class="f-sel"><option>Bangla</option><option>English</option><option>Mixed / Banglish</option><option>Other</option></select></div>
+          <div class="f-group"><label class="f-label">Translation (if non-English)</label><input class="f-input" type="text" placeholder="English translation of the comment..."></div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:1.25rem 1.4rem;margin-top:.5rem">
+          <div style="font-size:10px;font-family:var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--umber);margin-bottom:.5rem">Submitter Reference (Optional)</div>
+          <div style="font-size:12px;color:var(--text3);line-height:1.65;margin-bottom:1rem">This information is never published and is only used internally for moderation accountability and follow-up if clarification is needed.</div>
+          <div class="f-row">
+            <div class="f-group"><label class="f-label">Contact Email</label><input class="f-input" type="email" placeholder="your.email@example.com"><div class="f-hint">Never displayed publicly. Used only for moderation follow-up.</div></div>
+            <div class="f-group"><label class="f-label">Relationship to Incident</label><select class="f-sel"><option value="">— Select relationship —</option><option>Witness / Bystander</option><option>Friend or Family of Survivor</option><option>Journalist / Researcher</option><option>NGO / Advocacy Worker</option><option>Survivor</option><option>Other</option></select></div>
+          </div>
+        </div>
+      </div>
+      <div id="submitSuccess" style="display:none;padding:3rem 2rem;text-align:center;border-top:1px solid var(--border)">
+        <div style="width:52px;height:52px;border-radius:50%;background:#0a2010;border:1px solid #1a4a2a;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 1.25rem">&#10003;</div>
+        <div style="font-family:var(--font-serif);font-size:1.5rem;color:var(--warm);margin-bottom:.6rem;font-weight:400">Submission Received</div>
+        <div style="font-size:13.5px;color:var(--text2);line-height:1.8;max-width:420px;margin:0 auto 1.5rem">Your evidence has been queued for moderation. No public display will occur until our editorial team has reviewed it.</div>
+        <div id="submitRef" style="font-family:var(--font-mono);font-size:12px;color:var(--text3);background:var(--bg2);border:1px solid var(--border2);border-radius:4px;padding:.6rem 1.2rem;display:inline-block;margin-bottom:1.75rem"></div><br>
+        <button class="btn-g" onclick="resetSubmitForm()">Submit Another</button>
+      </div>
+      <div class="form-foot" id="submitFooter">
+        <div class="form-foot-note">Submissions are reviewed before any public display</div>
+        <button class="btn-p" onclick="submitEv()">Submit for Review &rarr;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHIVE -->
+<div id="pg-archive" class="page">
+  <div class="section" style="padding-top:3rem">
+    <div class="section-tag">Public Archive</div>
+    <div class="section-title" style="margin-bottom:.75rem">The Record</div>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.75">All entries have passed editorial moderation. Screenshots are blurred by default. This archive is a public record — not a tool for harassment or pile-ons.</p>
+    <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem">
+      <input class="search-i" id="archSearch" placeholder="Search keywords, categories, incident types..." oninput="debounceArchSearch()">
+      <div class="adv-filter-wrap">
+        <button class="btn-g" style="font-size:12.5px;padding:.48rem 1.1rem" onclick="toggleAdvFilter()">Advanced Filter</button>
+        <div class="adv-filter-drop" id="advFilterDrop">
+          <div style="font-size:10px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:.75rem">Incident Type</div>
+          <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem">
+            <span class="f-pill on" onclick="advFiltInc(this)">All</span>
+            <span class="f-pill" onclick="advFiltInc(this)">Rape / Sexual Violence</span>
+            <span class="f-pill" onclick="advFiltInc(this)">Domestic Violence</span>
+            <span class="f-pill" onclick="advFiltInc(this)">Acid Violence</span>
+            <span class="f-pill" onclick="advFiltInc(this)">Cyber Harassment</span>
+            <span class="f-pill" onclick="advFiltInc(this)">Public Harassment</span>
+            <span class="f-pill" onclick="advFiltInc(this)">Gender Violence</span>
+          </div>
+          <div style="font-size:10px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:.75rem">Severity</div>
+          <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+            <span class="f-pill on" onclick="advFiltSev(this)">All</span>
+            <span class="f-pill" onclick="advFiltSev(this)">Severe</span>
+            <span class="f-pill" onclick="advFiltSev(this)">High</span>
+            <span class="f-pill" onclick="advFiltSev(this)">Moderate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="arch-filter-row">
+      <span class="f-pill on" onclick="filt(this)">All Entries</span>
+      <span class="f-pill" onclick="filt(this)">Victim Blaming</span>
+      <span class="f-pill" onclick="filt(this)">Misogyny</span>
+      <span class="f-pill" onclick="filt(this)">Violent Rhetoric</span>
+      <span class="f-pill" onclick="filt(this)">Dehumanizing</span>
+      <span class="f-pill" onclick="filt(this)">Threats</span>
+      <span class="f-pill" onclick="filt(this)">This Week</span>
+    </div>
+    <div class="arch-grid" id="archGrid"></div>
+    <div id="archFooter" style="text-align:center;padding:2rem 0;color:var(--text3);font-size:12px;font-family:var(--font-mono)"><span id="archCount">Showing 4 of 8 verified entries</span> &middot; <span id="archLoadMore" style="color:var(--accent);cursor:pointer" onclick="loadMoreArchive()">Load more &rarr;</span></div>
+    <div class="disclaimer"><strong style="color:var(--text2)">Archive Use Notice:</strong> This archive is intended for research, advocacy, journalism, and public awareness. Redistribution of individual entries for purposes of harassment, pile-ons, or vigilante action is a violation of our Terms of Use and may constitute online abuse under applicable laws.</div>
+  </div>
+</div>
+
+<!-- ANALYTICS -->
+<div id="pg-analytics" class="page">
+  <div class="section" style="padding-top:3rem">
+    <div class="section-tag">Pattern Analytics</div>
+    <div class="section-title" style="margin-bottom:.5rem">What the Data Shows</div>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:2.5rem;line-height:1.75">Aggregated data from verified archive entries only. Updated weekly. All figures are anonymised at the aggregate level — no individual-level data is published here.</p>
+    <div class="stats-grid">
+      <div class="a-card"><div class="a-num">1,284</div><div class="a-lbl">Total Archived</div><div class="a-delta">&uarr; 148 this month</div></div>
+      <div class="a-card"><div class="a-num">417</div><div class="a-lbl">In Moderation</div><div style="font-size:11px;color:var(--text3);margin-top:.4rem">Avg. 3.2 days review time</div></div>
+      <div class="a-card"><div class="a-num">94%</div><div class="a-lbl">Verified Rate</div><div style="font-size:11px;color:var(--text3);margin-top:.4rem">6% rejected or duplicates</div></div>
+      <div class="a-card"><div class="a-num">38</div><div class="a-lbl">Appeals Filed</div><div style="font-size:11px;color:var(--text3);margin-top:.4rem">14 upheld &middot; 24 dismissed</div></div>
+    </div>
+    <div class="chart-box"><div class="chart-lbl">Monthly Submissions — 2025</div><div class="bar-chart" id="barC"></div></div>
+    <div class="two-col">
+      <div class="col-cell"><div class="chart-lbl">Category Distribution</div><div id="catL"></div></div>
+      <div class="col-cell"><div class="chart-lbl">Incident Type Breakdown</div><div id="incL"></div></div>
+    </div>
+    <div class="disclaimer" style="margin-top:1.5rem">Data reflects verified entries only. Category assignments are made by trained human moderators. AI classification data is used internally to support moderators and is not included in these published figures.</div>
+  </div>
+</div>
+
+<!-- MODERATION -->
+<div id="pg-moderation" class="page">
+  <div class="section" style="padding-top:3rem">
+    <div class="section-tag">Moderation Console</div>
+    <div class="section-title" style="margin-bottom:.5rem">Editorial Review Queue</div>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.75">Restricted to trained moderators. Review submissions for authenticity, context accuracy, and category appropriateness before any public archiving. AI scores are advisory only.</p>
+    <div class="mod-layout">
+      <div class="mod-sb">
+        <div class="mod-sb-t">Queue Overview</div>
+        <div class="mod-row on"><span class="mod-row-l">Pending Review</span><span class="mod-ct red">47</span></div>
+        <div class="mod-row"><span class="mod-row-l">Approved Today</span><span class="mod-ct">23</span></div>
+        <div class="mod-row"><span class="mod-row-l">Rejected Today</span><span class="mod-ct">8</span></div>
+        <div class="mod-row"><span class="mod-row-l">On Hold</span><span class="mod-ct">12</span></div>
+        <div class="mod-row"><span class="mod-row-l">Active Appeals</span><span class="mod-ct">5</span></div>
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)">
+          <div class="mod-sb-t">Filter by Category</div>
+          <div class="mod-row"><span class="mod-row-l">Victim Blaming</span><span class="mod-ct">14</span></div>
+          <div class="mod-row"><span class="mod-row-l">Violent Rhetoric</span><span class="mod-ct">9</span></div>
+          <div class="mod-row"><span class="mod-row-l">Misogyny</span><span class="mod-ct">11</span></div>
+          <div class="mod-row"><span class="mod-row-l">Threats</span><span class="mod-ct">6</span></div>
+          <div class="mod-row"><span class="mod-row-l">Other</span><span class="mod-ct">7</span></div>
+        </div>
+      </div>
+      <div class="mod-main" id="modQ"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ETHICS -->
+<div id="pg-ethics" class="page">
+  <div style="background:var(--bg1);border-bottom:1px solid var(--border);padding:3.5rem 2rem">
+    <div style="max-width:1200px;margin:0 auto">
+      <div class="section-tag">Methodology &amp; Ethics</div>
+      <div class="section-title">How Daag Works</div>
+      <p style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14px;margin-top:.5rem">Our standards, principles, and accountability framework. We hold ourselves to the same standards of transparency and evidence that we demand of the archive.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="ethics-wrap">
+      <div class="eth-nav">
+        <button class="eth-nav-i on">Guiding Principles</button>
+        <button class="eth-nav-i">Evidence Standards</button>
+        <button class="eth-nav-i">Moderation Process</button>
+        <button class="eth-nav-i">AI Classification</button>
+        <button class="eth-nav-i">Privacy Policy</button>
+        <button class="eth-nav-i">Appeals Process</button>
+        <button class="eth-nav-i">Removal Requests</button>
+        <button class="eth-nav-i">Moderator Standards</button>
+        <button class="eth-nav-i">Anti-Harassment Policy</button>
+        <button class="eth-nav-i">Legal Compliance</button>
+        <button class="eth-nav-i">Data Retention</button>
+        <button class="eth-nav-i">Screenshot Handling</button>
+      </div>
+      <div>
+        <div class="eth-sec" id="eth-principles">
+          <div class="eth-sec-t">Guiding Principles</div>
+          <div class="eth-body"><p>Daag operates as a civic accountability initiative, not a harm platform. Every editorial, design, and architectural decision is filtered through this distinction. The archive exists to make harmful online discourse visible — to researchers, advocates, journalists, and policymakers — not to facilitate retaliation or public shaming.</p><p>We believe accountability and dignity are not in conflict. It is possible to document harmful behaviour rigorously while preserving the humanity of all parties involved.</p></div>
+          <div style="margin-top:1.5rem">
+            <div class="prin-card"><div class="prin-n">Principle 01</div><div class="prin-t">Evidence Over Outrage</div><div class="prin-d">Every submission is evaluated on verifiable evidence. Context, source URL, and screenshot authenticity are assessed before any entry is published.</div></div>
+            <div class="prin-card"><div class="prin-n">Principle 02</div><div class="prin-t">No Private Data</div><div class="prin-d">We document only publicly visible comments from public posts. Private messages, closed groups, and direct messages are outside our scope and will be rejected.</div></div>
+            <div class="prin-card"><div class="prin-n">Principle 03</div><div class="prin-t">Moderated Before Published</div><div class="prin-d">Nothing enters the public archive without editorial review. Automated intake is only for queue management, not for publication decisions.</div></div>
+            <div class="prin-card"><div class="prin-n">Principle 04</div><div class="prin-t">Patterns, Not People</div><div class="prin-d">Our analytics and reporting focus on behavioural patterns and category trends. We do not publish leaderboards of individuals or rank entries by volume of comments from a single source.</div></div>
+            <div class="prin-card"><div class="prin-n">Principle 05</div><div class="prin-t">Appeals Are Binding</div><div class="prin-d">Successful appeals result in removal or reclassification. Appeals are reviewed by a separate panel from the original moderator. All decisions are documented and auditable.</div></div>
+          </div>
+        </div>
+        <div class="eth-sec" id="eth-ai">
+          <div class="eth-sec-t">AI Classification Limitations</div>
+          <div class="eth-body"><p>We use AI-assisted toxicity scoring as a supporting tool for human moderators, not as a decision-making engine. All AI outputs carry an explicit confidence rating and are clearly flagged as advisory.</p><p>AI models may struggle with Bangla slang, regional idioms, coded language, and culturally specific victim-blaming rhetoric that does not match training data patterns. Human review is mandatory for all borderline cases and all entries in Bangla or Banglish.</p></div>
+          <div class="notice" style="margin-top:1rem"><div class="notice-t">Required Disclosure</div><div class="notice-b">All archive entries that received AI classification assistance display this notice: "AI analysis was used to support — not determine — this categorization. Final decision made by a human moderator." This disclosure cannot be removed by moderators.</div></div>
+        </div>
+        <div class="eth-sec" id="eth-removal">
+          <div class="eth-sec-t">Removal Requests</div>
+          <div class="eth-body"><p>Any individual whose comment appears in the archive may submit a formal removal request. Grounds for removal include: submission in bad faith, manipulated screenshot, missing critical context that materially changes meaning, or demonstrable rehabilitation.</p><p>We do not remove entries solely because the subject finds them embarrassing or disagrees with the categorisation. The archive's integrity depends on consistency. However, we reassess every request in good faith within 21 working days and document all decisions.</p></div>
+        </div>
+        <div class="eth-sec" id="eth-moderators">
+          <div class="eth-sec-t">Moderator Standards</div>
+          <div class="eth-body"><p>Daag's moderation team is the backbone of the archive's credibility. All moderators are held to rigorous standards of language competence, training, and conduct. We invest in their welfare and continuously evaluate their work.</p></div>
+          <div style="margin-top:1rem">
+            <div class="prin-card"><div class="prin-n">Standard 01</div><div class="prin-t">Language Proficiency</div><div class="prin-d">All moderators must demonstrate fluency in Bangla and working proficiency in English. Moderators handling Banglish content must pass additional assessment on regional slang, coded language, and context-dependent idioms common in Bangladeshi Facebook discourse.</div></div>
+            <div class="prin-card"><div class="prin-n">Standard 02</div><div class="prin-t">Training Programme</div><div class="prin-d">New moderators complete a mandatory 20-hour training programme covering: evidence verification techniques, category definitions, severity assessment, cultural context for gender-based violence in Bangladesh, trauma-informed review practices, and platform-specific manipulation detection.</div></div>
+            <div class="prin-card"><div class="prin-n">Standard 03</div><div class="prin-t">Operational Process</div><div class="prin-d">Every moderator decision is logged with rationale. Category assignments require written justification. Severity ratings follow a standardised rubric. Borderline cases are escalated to senior review. No moderator reviews more than 30 submissions per session to maintain quality.</div></div>
+            <div class="prin-card"><div class="prin-n">Standard 04</div><div class="prin-t">Wellbeing Protocol</div><div class="prin-d">Moderators are exposed to distressing content daily. Daag provides mandatory rest intervals, session time limits, access to peer support groups, and quarterly mental health check-ins. Moderators may step back at any time without penalty.</div></div>
+            <div class="prin-card"><div class="prin-n">Standard 05</div><div class="prin-t">Code of Conduct</div><div class="prin-d">Moderators must not use the archive for personal purposes, discuss pending submissions outside the platform, or take actions based on personal opinion rather than evidence. Violations result in immediate suspension and review by the oversight committee.</div></div>
+          </div>
+        </div>
+        <div class="eth-sec" id="eth-harassment">
+          <div class="eth-sec-t">Anti-Harassment Policy</div>
+          <div class="eth-body"><p>Daag will permanently revoke submission access and report to relevant authorities any user who submits false evidence, uses this platform to target individuals for reasons unrelated to gender violence discourse, or coordinates use of this archive as part of a harassment campaign.</p><p>Our moderation team actively monitors for patterns of abuse. If you believe someone is misusing this platform, contact us directly with evidence.</p></div>
+          <div style="margin-top:1.5rem">
+            <div style="font-size:10.5px;font-family:var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem">Enforcement Mechanisms</div>
+            <div class="prin-card"><div class="prin-n">Mechanism 01</div><div class="prin-t">Submission Fingerprinting</div><div class="prin-d">All submissions are fingerprinted using metadata, timing patterns, and browser characteristics. Repeated bad-faith submissions from the same source are flagged automatically for moderator review and may trigger immediate restriction.</div></div>
+            <div class="prin-card"><div class="prin-n">Mechanism 02</div><div class="prin-t">Repeat Offender Tracking</div><div class="prin-d">Submitters who accumulate multiple rejected or flagged submissions are tracked internally. Escalation tiers include: warning, temporary suspension, permanent restriction, and referral to legal authorities where applicable.</div></div>
+            <div class="prin-card"><div class="prin-n">Mechanism 03</div><div class="prin-t">Archive Redistribution Monitoring</div><div class="prin-d">We monitor for coordinated redistribution of archive content for harassment purposes across social media platforms. Detected campaigns are documented and may be reported to the relevant platforms and authorities.</div></div>
+            <div class="prin-card"><div class="prin-n">Mechanism 04</div><div class="prin-t">Referral to Authorities</div><div class="prin-d">In cases of confirmed malicious use — including fabrication of evidence, coordinated targeting, or weaponisation of the archive — Daag reserves the right to refer all documented evidence to Bangladesh Cyber Tribunal or relevant law enforcement bodies.</div></div>
+            <div class="prin-card"><div class="prin-n">Mechanism 05</div><div class="prin-t">Community Reporting</div><div class="prin-d">Any user may report suspected misuse of the platform via a dedicated reporting channel. All reports are reviewed within 7 working days. Reporters are protected under our confidentiality policy and will not be identified to the reported party.</div></div>
+          </div>
+        </div>
+        <div class="eth-sec" id="eth-legal">
+          <div class="eth-sec-t">Legal Compliance</div>
+          <div class="eth-body"><p>Daag operates with awareness of the legal landscape in Bangladesh, including the Digital Security Act (DSA) 2018, the Cyber Security Act 2023, and relevant provisions of the Information and Communication Technology Act. We do not claim legal immunity, but we take proactive steps to ensure our documentation practices remain defensible.</p></div>
+          <div style="margin-top:1rem">
+            <div class="prin-card"><div class="prin-n">Compliance 01</div><div class="prin-t">Digital Security Act Awareness</div><div class="prin-d">All archived content is drawn from publicly visible posts. We do not intercept private communications, hack accounts, or access restricted content. Our documentation practices are designed to fall within the scope of public interest journalism and civic accountability.</div></div>
+            <div class="prin-card"><div class="prin-n">Compliance 02</div><div class="prin-t">Defamation Safeguards</div><div class="prin-d">The archive documents publicly made statements with verifiable screenshots and source URLs. We do not editorialize, add opinion, or characterize individuals beyond what is evidenced. All entries carry clear context and attribution to the original public post.</div></div>
+            <div class="prin-card"><div class="prin-n">Compliance 03</div><div class="prin-t">Right to Reply</div><div class="prin-d">Every archived individual has access to a formal appeals process. The right to contest, contextualise, or request removal is built into the platform's core architecture and is accessible without legal representation.</div></div>
+            <div class="prin-card"><div class="prin-n">Compliance 04</div><div class="prin-t">Cooperation with Authorities</div><div class="prin-d">Daag will comply with lawful orders from Bangladeshi courts or regulatory bodies. If compelled by law, we will provide relevant records while safeguarding submitter confidentiality to the extent legally permitted.</div></div>
+          </div>
+        </div>
+        <div class="eth-sec" id="eth-retention">
+          <div class="eth-sec-t">Data Retention Policy</div>
+          <div class="eth-body"><p>All data held by Daag is subject to defined retention schedules. We do not retain data indefinitely without justification, and we distinguish between published archive data and internal operational data.</p></div>
+          <div style="margin-top:1rem">
+            <div class="prin-card"><div class="prin-n">Retention 01</div><div class="prin-t">Published Archive Entries</div><div class="prin-d">Verified and published entries remain in the archive indefinitely unless removed through a successful appeal. This permanence is intentional — the archive's value depends on its reliability as a long-term record.</div></div>
+            <div class="prin-card"><div class="prin-n">Retention 02</div><div class="prin-t">Rejected Submissions</div><div class="prin-d">Submissions that are rejected during moderation are retained internally for 90 days to support pattern-detection and anti-abuse monitoring, then permanently deleted including all associated screenshots.</div></div>
+            <div class="prin-card"><div class="prin-n">Retention 03</div><div class="prin-t">Appeal Records</div><div class="prin-d">All appeal submissions and decisions are retained for 2 years following resolution to provide an audit trail. After the retention period, records are anonymised and retained in aggregate form only.</div></div>
+            <div class="prin-card"><div class="prin-n">Retention 04</div><div class="prin-t">Submitter Contact Information</div><div class="prin-d">Optional submitter contact details are retained for 180 days following submission to allow moderation follow-up. After this period, contact information is permanently deleted. It is never published or shared externally.</div></div>
+          </div>
+        </div>
+        <div class="eth-sec" id="eth-screenshots">
+          <div class="eth-sec-t">Screenshot Handling</div>
+          <div class="eth-body"><p>Screenshots are central to the archive's evidentiary function. We treat them as sensitive documents and apply strict handling procedures at every stage — from submission through storage to public display.</p></div>
+          <div style="margin-top:1rem">
+            <div class="prin-card"><div class="prin-n">Screenshot 01</div><div class="prin-t">Verification Process</div><div class="prin-d">Every screenshot is verified against the source URL and post context before publication. Moderators check for manipulation signs including inconsistent fonts, pixel artifacts, timestamp anomalies, and missing UI elements.</div></div>
+            <div class="prin-card"><div class="prin-n">Screenshot 02</div><div class="prin-t">Secure Storage</div><div class="prin-d">Screenshots are stored in encrypted, access-controlled storage. Only authenticated moderators and system administrators can access raw screenshot files. Public-facing screenshots are served through a restricted display layer with blur applied by default.</div></div>
+            <div class="prin-card"><div class="prin-n">Screenshot 03</div><div class="prin-t">Metadata Stripping</div><div class="prin-d">All uploaded screenshots are stripped of EXIF data and other embedded metadata before storage. This removes GPS coordinates, device identifiers, and other information that could compromise submitter privacy.</div></div>
+            <div class="prin-card"><div class="prin-n">Screenshot 04</div><div class="prin-t">Public Display Controls</div><div class="prin-d">Screenshots in the public archive are blurred by default and require explicit user action to reveal. This prevents incidental exposure during browsing and gives viewers control over when they see potentially distressing content.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APPEALS -->
+<div id="pg-appeals" class="page">
+  <div class="section-sm" style="padding-top:3rem">
+    <div class="section-tag">Appeals &amp; Dispute System</div>
+    <div class="section-title" style="font-size:2.2rem;margin-bottom:.5rem">File a Formal Dispute</div>
+    <p style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.8">If you believe a submission involving you is inaccurate, lacks critical context, or was submitted in bad faith, you may file a formal appeal. All appeals are reviewed by a panel separate from the original moderator within 14 working days.</p>
+    <div class="appeal-form" id="appealFormWrap">
+      <div class="form-head"><div class="form-h">Dispute Submission</div><div class="form-sh">All appeals are treated confidentially. Review typically completed within 14 working days.</div></div>
+      <div class="form-body" id="appealFormBody">
+        <div class="f-group"><label class="f-label">Archive Entry ID <span>*</span></label><input id="appealEntryId" class="f-input" placeholder="DG-2025-XXXX"><div class="f-err" id="errAppealEntry">Please enter a valid archive entry ID</div><div class="f-hint">Found in the URL or bottom of any archive entry</div></div>
+        <div class="f-group"><label class="f-label">Grounds for Appeal <span>*</span></label><select id="appealGrounds" class="f-sel"><option value="">— Select grounds —</option><option>Screenshot is fabricated or manipulated</option><option>Critical context is missing</option><option>Comment was taken out of context</option><option>Submission was made in bad faith</option><option>Category assignment is incorrect</option><option>Other</option></select><div class="f-err" id="errAppealGrounds">Please select the grounds for your appeal</div></div>
+        <div class="f-group"><label class="f-label">Supporting Statement <span>*</span></label><textarea id="appealStatement" class="f-ta" style="min-height:130px" placeholder="Explain your grounds for appeal clearly and specifically. Include any evidence or context that supports your claim. Vague appeals cannot be reviewed."></textarea><div class="f-err" id="errAppealStatement">Please provide a supporting statement</div></div>
+        <div class="f-group">
+          <label class="f-label">Supporting Evidence (optional)</label>
+          <input type="file" id="appealInput" accept="image/png,image/jpeg,application/pdf" style="display:none" onchange="handleFileSelect(this,'appealPreview','appealZone')">
+          <div class="upload-z" id="appealZone" style="padding:1.5rem" onclick="document.getElementById('appealInput').click()" ondragover="event.preventDefault();this.style.borderColor='var(--ink2)'" ondragleave="this.style.borderColor=''" ondrop="handleDrop(event,'appealInput','appealPreview','appealZone')">
+            <div class="upload-t" id="appealText">Upload supporting screenshots, links, or documents</div>
+            <div class="upload-s">Max 10MB &middot; PDF, PNG, JPG accepted</div>
+            <div id="appealPreview" style="display:none;margin-top:.75rem"></div>
+          </div>
+        </div>
+        <div class="f-group"><label class="f-label">Contact Email (for decision notification)</label><input id="appealEmail" class="f-input" type="email" placeholder="Your email address"></div>
+      </div>
+      <div id="appealSuccess" class="appeal-success">
+        <div class="success-icon">&#10003;</div>
+        <div style="font-family:var(--font-serif);font-size:1.5rem;color:var(--warm);margin-bottom:.6rem;font-weight:400">Appeal Submitted</div>
+        <div style="font-size:13.5px;color:var(--text2);line-height:1.8;max-width:420px;margin:0 auto 1.5rem">Your appeal has been received and assigned to a review panel. You will be notified of the outcome within 14 working days.</div>
+        <div id="appealRef" style="font-family:var(--font-mono);font-size:12px;color:var(--text3);background:var(--bg2);border:1px solid var(--border2);border-radius:4px;padding:.6rem 1.2rem;display:inline-block;margin-bottom:1.75rem"></div><br>
+        <button class="btn-g" onclick="resetAppealForm()">Submit Another Appeal</button>
+      </div>
+      <div class="form-foot" id="appealFooter"><div class="form-foot-note">Appeals are reviewed by a separate panel</div><button class="btn-p" onclick="submitAppeal()">Submit Appeal &rarr;</button></div>
+    </div>
+    <div class="tracker-box">
+      <div class="tracker-head"><input id="trackerInput" class="f-input" placeholder="Enter your Appeal ID (AP-2025-XXXX)..." style="max-width:280px" onkeydown="if(event.key==='Enter') trackAppeal()"><button class="btn-g" style="font-size:13px;padding:.5rem 1.1rem" onclick="trackAppeal()">Track Status</button></div>
+      <div id="trackerEmpty" class="tracker-empty">Enter your appeal ID above to check its current review status</div>
+      <div id="trackerResult" class="tracker-result"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="pg-about" class="page">
+  <div class="about-hero-sec">
+    <div style="max-width:1200px;margin:0 auto">
+      <div class="section-tag">About</div>
+      <div class="section-title">Why Daag Exists</div>
+      <p style="color:var(--text2);max-width:640px;line-height:1.85;font-size:14px;margin-top:1rem">In Bangla, <em style="color:var(--warm)">দাগ</em> means stain — the kind that doesn't wash off. The name is deliberate. When men post victim-blaming, misogynistic, or violent commentary on public Facebook posts about gender violence, that behaviour should leave a record. This project was built in response to a pattern: when incidents of rape, acid violence, or domestic abuse occur in Bangladesh, the comment sections fill with cruelty — and then disappear. Daag exists to make sure they don't.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="two-col-about">
+      <div>
+        <div class="section-tag">The Problem</div>
+        <div style="font-family:var(--font-serif);font-size:1.75rem;color:var(--warm);margin-bottom:1.1rem;font-weight:400;line-height:1.15">Online cruelty<br>after violence</div>
+        <div style="color:var(--text2);font-size:13.5px;line-height:1.85">
+          <p style="margin-bottom:1rem">When news of a rape, acid attack, or domestic violence case spreads on Facebook, the comment sections often become a second site of violence. Victims are blamed for their clothing, behaviour, family background, and character. Perpetrators are defended. Survivors are silenced.</p>
+          <p style="margin-bottom:1rem">These comments disappear quickly — moderated, deleted, or buried by newer content. But while they exist, they shape public discourse, discourage survivors from speaking, and signal to perpetrators that their community supports them.</p>
+          <p>Daag exists to preserve a systematic record of this discourse — not for outrage, but for understanding. For researchers, journalists, advocates, and policymakers who need evidence to make the case for change.</p>
+        </div>
+      </div>
+      <div>
+        <div class="section-tag">Timeline</div>
+        <div class="timeline" style="margin-top:1rem">
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">Jan 2024</div><div class="tl-text">Research phase begins. Review of academic literature on online gender-based violence documentation in South Asia.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">Jun 2024</div><div class="tl-text">Methodology and ethics framework drafted in consultation with legal advisors and digital rights organisations.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">Oct 2024</div><div class="tl-text">Pilot moderation team assembled. Beta submission system tested with 40 voluntary contributors.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">Mar 2025</div><div class="tl-text">Public archive launched with 200 verified entries. Appeals system fully activated.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">Present</div><div class="tl-text">1,284 verified entries. AI-assisted classification in beta. Partnership discussions with two Bangladeshi journalism organisations underway.</div></div>
+        </div>
+      </div>
+    </div>
+    <hr class="divider" style="margin:4rem 0">
+    <div class="section-tag">The Team</div>
+    <div style="font-family:var(--font-serif);font-size:1.75rem;color:var(--warm);margin-bottom:1.5rem;font-weight:400">The people behind the archive</div>
+    <div class="team-grid">
+      <div class="team-card"><div class="team-av">RK</div><div class="team-n">Research &amp; Documentation Lead</div><div class="team-r">Qualitative analysis, category standards</div></div>
+      <div class="team-card"><div class="team-av">LM</div><div class="team-n">Legal Advisor</div><div class="team-r">Appeals review, removal standards</div></div>
+      <div class="team-card"><div class="team-av">SJ</div><div class="team-n">Senior Moderator</div><div class="team-r">Bangla-language classification</div></div>
+      <div class="team-card"><div class="team-av">AI</div><div class="team-n">NLP Systems Advisor</div><div class="team-r">Toxicity model calibration</div></div>
+      <div class="team-card"><div class="team-av">NR</div><div class="team-n">Community Liaison</div><div class="team-r">Survivor advocacy, partnerships</div></div>
+      <div class="team-card"><div class="team-av">+</div><div class="team-n">34 Volunteer Moderators</div><div class="team-r">Trained reviewers across Bangladesh</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE SEARCH -->
+<div id="pg-search" class="page">
+  <div class="search-hero">
+    <div class="search-hero-inner">
+      <div class="section-tag">Profile Search</div>
+      <div class="section-title" style="font-size:2.2rem;margin-bottom:.5rem">Look Someone Up</div>
+      <p style="color:var(--text2);font-size:14px;line-height:1.8;max-width:580px">Search the Daag archive by Facebook profile name or URL. See if a person has verified entries — documented comments linked to gender violence incidents.</p>
+      <div class="big-search-wrap">
+        <span class="big-search-icon">&#9109;</span>
+        <input class="big-search-input" id="profileSearchInput" type="text" placeholder="Enter a Facebook profile name or URL..." onkeydown="if(event.key==='Enter') runProfileSearch()">
+        <button class="btn-p big-search-btn" onclick="runProfileSearch()">Search Archive</button>
+      </div>
+      <div class="search-tips">
+        <span class="search-tip">Try: <span>Md Rahim Uddin</span></span>
+        <span class="search-tip">Try: <span>facebook.com/john.example</span></span>
+        <span class="search-tip">Try: <span>Karim Ahmed</span></span>
+      </div>
+    </div>
+  </div>
+  <div class="section-sm" style="padding-top:2.5rem;padding-bottom:4rem">
+    <div class="use-case-box">
+      <div class="use-case-t">How This Feature Is Meant To Be Used</div>
+      <div class="use-case-scenario">
+        <div class="scenario-step"><span class="scenario-num">01</span>You have been introduced to a potential spouse, employer, or business partner</div>
+        <div class="scenario-step"><span class="scenario-num">02</span>You search their Facebook profile name or URL in this archive</div>
+        <div class="scenario-step"><span class="scenario-num">03</span>If verified entries exist, you see a summary of documented comments — categories, dates, and incident context</div>
+        <div class="scenario-step"><span class="scenario-num">04</span>You use this information as one input — not as a verdict — in your own judgment</div>
+      </div>
+    </div>
+    <div id="searchResults">
+      <div class="search-state-idle"><div class="search-state-icon">&#9678;</div><div class="search-state-t">Enter a Facebook profile name or URL above to search verified archive entries. Only publicly documented comments are shown.</div></div>
+    </div>
+    <div class="privacy-strip">
+      <span class="privacy-strip-icon">&#9873;</span>
+      <span>This search covers only publicly visible comments that have been verified and approved by our moderation team. No private data, messages, or unverified submissions are included. Search queries are not logged or stored. Note: aggregate search patterns may be monitored to detect systematic surveillance, coordinated lookup campaigns, or potential misuse of the archive for targeted harassment purposes.</span>
+    </div>
+  </div>
+</div>
+
+<!-- TERMS OF USE -->
+<div id="pg-terms" class="page">
+  <div style="background:var(--bg1);border-bottom:1px solid var(--border);padding:3.5rem 2rem">
+    <div style="max-width:800px;margin:0 auto">
+      <div class="section-tag">Legal</div>
+      <div class="section-title">Terms of Use</div>
+      <p style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14px;margin-top:.5rem">By accessing or using the Daag platform, you agree to the following terms. Please read them carefully.</p>
+    </div>
+  </div>
+  <div class="section-sm" style="padding-top:3rem">
+    <div class="eth-sec">
+      <div class="eth-sec-t">1. Purpose &amp; Permitted Use</div>
+      <div class="eth-body"><p>Daag is a civic accountability archive designed for research, journalism, advocacy, public awareness, and informed personal decision-making. You may use this platform to search verified entries, submit evidence for review, file appeals, and access aggregated analytics data.</p><p>You may <strong>not</strong> use this platform to: harass, threaten, or intimidate any individual; organise or participate in coordinated pile-ons against archived individuals; redistribute archive content for purposes of vigilantism; create derivative platforms or datasets designed to circumvent our moderation safeguards; or scrape, crawl, or bulk-download archive data without express written permission.</p></div>
+    </div>
+    <div class="eth-sec">
+      <div class="eth-sec-t">2. Submission Responsibilities</div>
+      <div class="eth-body"><p>By submitting evidence to Daag, you represent and warrant that: the screenshots you upload are genuine and unmanipulated; the URLs you provide link to publicly visible content; you have not fabricated, altered, or deceptively cropped any submitted material; and you are submitting in good faith for purposes consistent with the platform's mission.</p><p>You acknowledge that false submissions waste moderator resources, undermine the archive's credibility, and may constitute an offence under applicable laws. Daag reserves the right to permanently restrict submission access and refer evidence of fabrication to relevant authorities.</p></div>
+    </div>
+    <div class="eth-sec">
+      <div class="eth-sec-t">3. No Verdict / No Guarantee</div>
+      <div class="eth-body"><p>Daag is a documentation platform, not a court of law. Archive entries represent verified public comments — they do not constitute a legal verdict, criminal finding, or definitive character assessment of any individual.</p><p>While we take every reasonable step to verify submissions, we do not guarantee the absolute accuracy of every entry. We encourage users to treat archive data as one input among many in their own judgment. Daag expressly disclaims any representation that an archived entry is sufficient basis for legal, employment, or relationship decisions.</p></div>
+    </div>
+    <div class="eth-sec">
+      <div class="eth-sec-t">4. Intellectual Property</div>
+      <div class="eth-body"><p>The Daag platform — including its design, branding, code, and editorial framework — is the intellectual property of the Daag project. Archive entries themselves are derived from publicly visible third-party content and are presented for documentation purposes under fair use / public interest principles.</p><p>You may cite, reference, or link to archive entries for journalistic, academic, or advocacy purposes with appropriate attribution. You may not reproduce the platform's design, replicate its database, or create competing services using Daag's data without written authorisation.</p></div>
+    </div>
+    <div class="eth-sec">
+      <div class="eth-sec-t">5. Limitation of Liability</div>
+      <div class="eth-body"><p>Daag is provided on an "as-is" basis. To the fullest extent permitted by applicable law, the Daag project, its contributors, moderators, and advisors disclaim all warranties, express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, and non-infringement.</p><p>In no event shall Daag be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform, reliance on archive data, or actions taken by third parties based on archived content.</p></div>
+    </div>
+    <div class="eth-sec" style="margin-bottom:0">
+      <div class="eth-sec-t">6. Governing Law</div>
+      <div class="eth-body"><p>These Terms of Use shall be governed by and construed in accordance with the laws of Bangladesh. Any disputes arising from the use of this platform shall be subject to the exclusive jurisdiction of the courts of Dhaka, Bangladesh.</p><p>Daag reserves the right to update these terms at any time. Continued use of the platform following any modification constitutes acceptance of the revised terms. Users will be notified of material changes via a notice on the platform.</p></div>
+    </div>
+    <div class="disclaimer" style="margin-top:2.5rem"><strong style="color:var(--text2)">Last updated:</strong> May 2025. These terms apply to all users of the Daag platform, including submitters, searchers, moderators, and visitors.</div>
+  </div>
+</div>
+
+<!--
+  ======================================================================
+  SUPABASE SETUP INSTRUCTIONS
+  ======================================================================
+  To enable live mode with a real database:
+
+  1. Create a Supabase project at https://supabase.com
+  2. Run this SQL in the Supabase SQL Editor:
+
+     CREATE TABLE submissions (
+       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+       ref_id TEXT UNIQUE NOT NULL,
+       perpetrator_url TEXT NOT NULL,
+       source_post_url TEXT NOT NULL,
+       screenshot_url TEXT,
+       profile_name TEXT,
+       category TEXT NOT NULL,
+       incident_type TEXT NOT NULL,
+       context_note TEXT,
+       language TEXT DEFAULT 'Bangla',
+       translation TEXT,
+       tags TEXT[],
+       submitter_email TEXT,
+       submitter_relationship TEXT,
+       ai_score NUMERIC,
+       severity TEXT DEFAULT 'Moderate',
+       status TEXT DEFAULT 'pending',
+       version INTEGER DEFAULT 1,
+       last_edit TIMESTAMPTZ,
+       created_at TIMESTAMPTZ DEFAULT now()
+     );
+
+     CREATE TABLE appeals (
+       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+       ref_id TEXT UNIQUE NOT NULL,
+       entry_id TEXT NOT NULL,
+       grounds TEXT NOT NULL,
+       statement TEXT NOT NULL,
+       evidence_url TEXT,
+       contact_email TEXT,
+       status TEXT DEFAULT 'under_review',
+       reviewer_notes TEXT,
+       created_at TIMESTAMPTZ DEFAULT now()
+     );
+
+  3. Create a Storage bucket named 'screenshots' (public read)
+  4. Enable RLS: allow anon SELECT on submissions WHERE status='approved'
+  5. Paste your project URL and anon key into the config below
+  ======================================================================
+-->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ======== SUPABASE CONFIG ========
+// Paste your Supabase credentials here to enable live mode.
+// Leave empty to use demo mode with hardcoded data.
+const SUPABASE_URL = 'https://cangysctagsljckdepyc.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhbmd5c2N0YWdzbGpja2RlcHljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNTA1NDEsImV4cCI6MjA5NTYyNjU0MX0.tWx6AUpbftINyNdmxmt7smm5dgibgEhkuF8LcakbOzQ';
+const sb = SUPABASE_URL && SUPABASE_ANON_KEY
+  ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+function isLive() { return !!sb; }
+// ==================================
+
+const pages=['home','submit','archive','analytics','moderation','ethics','appeals','about','search','terms'];
+
+// NAV PAGE MAP (for active states)
+const navPageMap={archive:'archive',search:'search',analytics:'analytics',ethics:'ethics',appeals:'appeals',about:'about',moderation:'moderation'};
+
+// RATE LIMITING
+let sessionSubmitCount=0;
+const maxSessionSubmits=10;
+let lastSubmitTime=0;
+const cooldownMs=30000;
+let lastAppealTime=0;
+const appealCooldownMs=60000;
+
+// ARCHIVE STATE
+let archiveShowCount=4;
+let archiveFiltered=[];
+let archiveCatFilter='All Entries';
+let archiveIncFilter='All';
+let archiveSevFilter='All';
+let archiveSearchQuery='';
+let archSearchTimer=null;
+
+// MODERATION STATE
+let modCatFilter=null;
+let modCounts={pending:47,approved:23,rejected:8,hold:12,appeals:5};
+
+// PROFILE DATABASE (demo)
+const profileDB=[
+  {
+    name:'Md Rahim Uddin',initials:'RU',url:'facebook.com/md.rahim.uddin.2019',
+    risk:'high',totalEntries:4,categories:['Victim Blaming','Violent Rhetoric','Misogyny'],
+    firstSeen:'Feb 2024',lastSeen:'Apr 2025',
+    entries:[
+      {cat:'Victim Blaming',inc:'Rape',date:'12 Apr 2025',sev:'High',ver:1,lastEdit:null,text:'Argued the survivor was responsible based on her clothing and time of return home'},
+      {cat:'Violent Rhetoric',inc:'Acid Violence',date:'3 Nov 2024',sev:'Severe',ver:2,lastEdit:'5 Nov 2024',text:'Celebrated the perpetrator and made dehumanizing remarks about the survivor\'s injuries'},
+      {cat:'Misogyny',inc:'Cyber Harassment',date:'18 Jun 2024',sev:'Moderate',ver:1,lastEdit:null,text:'Coordinated character attack on a female activist following her public statement on rape legislation'},
+      {cat:'Victim Blaming',inc:'Domestic Violence',date:'5 Feb 2024',sev:'High',ver:1,lastEdit:null,text:'Claimed the victim "provoked" her abuser and should have "stayed quiet"'}
+    ]
+  },
+  {
+    name:'Karim Ahmed',initials:'KA',url:'facebook.com/karim.ahmed.dhaka',
+    risk:'moderate',totalEntries:2,categories:['Appearance Humiliation','Dehumanizing Language'],
+    firstSeen:'Aug 2024',lastSeen:'Jan 2025',
+    entries:[
+      {cat:'Appearance Humiliation',inc:'Public Harassment',date:'14 Jan 2025',sev:'Moderate',ver:1,lastEdit:null,text:'Body-shaming commentary on a harassment complainant; suggested her appearance caused the incident'},
+      {cat:'Dehumanizing Language',inc:'Domestic Violence',date:'22 Aug 2024',sev:'Moderate',ver:1,lastEdit:null,text:'Referred to the survivor using dehumanizing slang and dismissed documented injuries as fabricated'}
+    ]
+  },
+  {
+    name:'Arif Hossain Shuvo',initials:'AH',url:'facebook.com/arif.h.shuvo',
+    risk:'high',totalEntries:3,categories:['Threats','Violent Rhetoric','Victim Blaming'],
+    firstSeen:'Mar 2024',lastSeen:'Mar 2025',
+    entries:[
+      {cat:'Threats',inc:'Gender Violence',date:'9 Mar 2025',sev:'Severe',ver:1,lastEdit:null,text:'Explicit threat directed at a journalist who published a survivor\'s account of domestic violence'},
+      {cat:'Violent Rhetoric',inc:'Rape',date:'17 Oct 2024',sev:'High',ver:2,lastEdit:'19 Oct 2024',text:'Comment praising the perpetrator and questioning why the survivor "went out alone at night"'},
+      {cat:'Victim Blaming',inc:'Sexual Harassment',date:'2 Mar 2024',sev:'High',ver:1,lastEdit:null,text:'Claimed the complainant fabricated the incident for "attention" based on her social media profile'}
+    ]
+  }
+];
+
+// XSS PROTECTION
+function escHtml(str){return(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+// ===== NAVIGATION =====
+function go(id){
+  pages.forEach(function(p){var el=document.getElementById('pg-'+p);if(el)el.classList.remove('active')});
+  // Set nav active state
+  document.querySelectorAll('.nav-link').forEach(function(l){l.classList.remove('active')});
+  var matchBtn=document.querySelector('.nav-link[data-page="'+id+'"]');
+  if(matchBtn) matchBtn.classList.add('active');
+  var target=document.getElementById('pg-'+id);
+  if(target)target.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  // Close mobile nav if open
+  var nl=document.getElementById('navLinks');
+  if(nl)nl.classList.remove('mobile-open');
+  var hb=document.querySelector('.nav-hamburger');
+  if(hb)hb.classList.remove('open');
+  // Build page content
+  if(id==='archive')buildArchive();
+  if(id==='analytics')buildAnalytics();
+  if(id==='moderation')buildModQ();
+}
+
+// ===== MOBILE NAV =====
+function toggleMobileNav(){
+  var nl=document.getElementById('navLinks');
+  var hb=document.querySelector('.nav-hamburger');
+  if(nl)nl.classList.toggle('mobile-open');
+  if(hb)hb.classList.toggle('open');
+}
+
+function toggleTag(btn){btn.classList.toggle('on')}
+
+// ===== ARCHIVE FILTER PILLS =====
+function filt(el){
+  document.querySelectorAll('.arch-filter-row .f-pill').forEach(function(p){p.classList.remove('on')});
+  el.classList.add('on');
+  archiveCatFilter=el.textContent.trim();
+  archiveShowCount=4;
+  renderArchive();
+}
+
+// ===== ARCHIVE SEARCH =====
+function debounceArchSearch(){
+  clearTimeout(archSearchTimer);
+  archSearchTimer=setTimeout(function(){
+    archiveSearchQuery=(document.getElementById('archSearch').value||'').trim().toLowerCase();
+    archiveShowCount=4;
+    renderArchive();
+  },300);
+}
+
+// ===== ADVANCED FILTER =====
+function toggleAdvFilter(){
+  var drop=document.getElementById('advFilterDrop');
+  if(drop)drop.classList.toggle('show');
+}
+function advFiltInc(el){
+  var parent=el.parentElement;
+  parent.querySelectorAll('.f-pill').forEach(function(p){p.classList.remove('on')});
+  el.classList.add('on');
+  archiveIncFilter=el.textContent.trim();
+  archiveShowCount=4;
+  renderArchive();
+}
+function advFiltSev(el){
+  var parent=el.parentElement;
+  parent.querySelectorAll('.f-pill').forEach(function(p){p.classList.remove('on')});
+  el.classList.add('on');
+  archiveSevFilter=el.textContent.trim();
+  archiveShowCount=4;
+  renderArchive();
+}
+// Close adv filter on outside click
+document.addEventListener('click',function(e){
+  var wrap=document.querySelector('.adv-filter-wrap');
+  var drop=document.getElementById('advFilterDrop');
+  if(wrap&&drop&&!wrap.contains(e.target)){drop.classList.remove('show')}
+});
+
+// ===== LOAD MORE =====
+function loadMoreArchive(){
+  archiveShowCount=archiveFiltered.length;
+  renderArchive();
+}
+
+// ===== ARCHIVE DATA (demo) =====
+var archiveData=[
+  {id:'DG-2025-1101',cat:'Victim Blaming',inc:'Rape',date:'18 May 2025',lang:'Bangla',sev:'High',ver:1,lastEdit:null,note:'Comment defending perpetrator based on victim\'s reported lifestyle and clothing choices, in response to a news post about a university rape case'},
+  {id:'DG-2025-1098',cat:'Violent Rhetoric',inc:'Acid Violence',date:'15 May 2025',lang:'Bangla',sev:'Severe',ver:2,lastEdit:'16 May 2025',note:'Celebratory commentary following an acid attack, including explicit dehumanization of the survivor and praise for the perpetrator'},
+  {id:'DG-2025-1092',cat:'Misogyny',inc:'Cyber Harassment',date:'12 May 2025',lang:'Banglish',sev:'High',ver:1,lastEdit:null,note:'Coordinated character-attack campaign against an activist following her public statement on gender violence legislation'},
+  {id:'DG-2025-1087',cat:'Dehumanizing Language',inc:'Domestic Violence',date:'9 May 2025',lang:'Bangla',sev:'Moderate',ver:3,lastEdit:'11 May 2025',note:'Multiple commenters arguing victim "provoked" abuser; dismissing severity of documented injuries as exaggerated'},
+  {id:'DG-2025-1083',cat:'Threats',inc:'Gender Violence',date:'5 May 2025',lang:'Bangla',sev:'Severe',ver:1,lastEdit:null,note:'Explicit threats directed at a journalist who published survivor testimony in a domestic violence investigation'},
+  {id:'DG-2025-1079',cat:'Appearance Humiliation',inc:'Public Harassment',date:'2 May 2025',lang:'Banglish',sev:'Moderate',ver:2,lastEdit:'4 May 2025',note:'Coordinated body-shaming and slut-shaming campaign targeting a complainant in a public harassment case'},
+  {id:'DG-2025-1071',cat:'Victim Blaming',inc:'Sexual Harassment',date:'28 Apr 2025',lang:'Bangla',sev:'High',ver:1,lastEdit:null,note:'Comments contesting survivor credibility based on relationship history and family background'},
+  {id:'DG-2025-1064',cat:'Sexual Harassment',inc:'Rape',date:'22 Apr 2025',lang:'Bangla',sev:'Severe',ver:1,lastEdit:null,note:'Sexually explicit comment thread objectifying survivor in a post about an assault investigation'}
+];
+
+function getFilteredArchive(){
+  var data=archiveData;
+  // Category pill filter
+  if(archiveCatFilter && archiveCatFilter!=='All Entries'){
+    if(archiveCatFilter==='This Week'){
+      var now=new Date();var weekAgo=new Date(now.getTime()-7*24*60*60*1000);
+      data=data.filter(function(e){
+        var parts=e.date.split(' ');
+        var d=new Date(parts[1]+' '+parts[0]+', '+parts[2]);
+        return d>=weekAgo;
+      });
+    }else{
+      data=data.filter(function(e){return e.cat===archiveCatFilter});
+    }
+  }
+  // Advanced: incident type
+  if(archiveIncFilter && archiveIncFilter!=='All'){
+    data=data.filter(function(e){return e.inc===archiveIncFilter});
+  }
+  // Advanced: severity
+  if(archiveSevFilter && archiveSevFilter!=='All'){
+    data=data.filter(function(e){return e.sev===archiveSevFilter});
+  }
+  // Search
+  if(archiveSearchQuery){
+    var q=archiveSearchQuery;
+    data=data.filter(function(e){
+      return e.note.toLowerCase().includes(q)||e.cat.toLowerCase().includes(q)||e.inc.toLowerCase().includes(q)||e.id.toLowerCase().includes(q)||e.lang.toLowerCase().includes(q);
+    });
+  }
+  return data;
+}
+
+function renderArchive(){
+  var g=document.getElementById('archGrid');
+  if(!g)return;
+  archiveFiltered=getFilteredArchive();
+  var toShow=archiveFiltered.slice(0,archiveShowCount);
+  g.innerHTML=toShow.length?toShow.map(function(e){
+    var sc=e.sev==='Severe'?'var(--accent)':e.sev==='High'?'#e0a030':'var(--text3)';
+    return'<div class="arch-entry"><div><div class="entry-meta"><span class="badge b-cr">'+e.cat+'</span><span class="badge b-nv">'+e.inc+'</span><span class="badge b-gr">'+e.lang+'</span><span class="badge b-gr" style="color:'+sc+'">'+e.sev+'</span></div><div class="entry-t">'+e.note+'</div><div class="entry-s">'+e.id+' &nbsp;&middot;&nbsp; Archived '+e.date+' &nbsp;&middot;&nbsp; <span class="status s-ok">Verified</span> &nbsp;&middot;&nbsp; v'+e.ver+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">Edited '+e.lastEdit+'</span>':'')+'</div></div><div class="thumb">Screenshot<br>Restricted</div></div>';
+  }).join(''):'<div style="padding:3rem;text-align:center;color:var(--text3);font-size:13px">No entries match the current filters.</div>';
+  // Update count
+  var countEl=document.getElementById('archCount');
+  var loadMoreEl=document.getElementById('archLoadMore');
+  if(countEl) countEl.textContent='Showing '+Math.min(archiveShowCount,archiveFiltered.length)+' of '+archiveFiltered.length+' verified entries';
+  if(loadMoreEl) loadMoreEl.style.display=archiveShowCount>=archiveFiltered.length?'none':'';
+}
+
+async function buildArchive(){
+  if(isLive()){
+    try{
+      var {data,error}=await sb.from('submissions').select('*').eq('status','approved').order('created_at',{ascending:false}).limit(50);
+      if(!error&&data){
+        archiveData=data.map(function(r){return{id:r.ref_id,cat:r.category,inc:r.incident_type,date:new Date(r.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),lang:r.language||'Bangla',sev:r.severity||'Moderate',ver:r.version||1,lastEdit:r.last_edit?new Date(r.last_edit).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):null,note:r.context_note||'No description provided'}});
+      }
+    }catch(e){console.warn('Supabase archive fetch failed, using demo data',e)}
+  }
+  renderArchive();
+}
+
+// ===== ANALYTICS =====
+var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var mData=[62,78,91,103,120,88,145,132,167,189,210,148];
+
+async function buildAnalytics(){
+  var bc=document.getElementById('barC');
+  if(!bc||bc.children.length)return;
+  if(isLive()){
+    try{
+      // Total count
+      var {count:totalCount}=await sb.from('submissions').select('*',{count:'exact',head:true}).eq('status','approved');
+      var {count:pendingCount}=await sb.from('submissions').select('*',{count:'exact',head:true}).eq('status','pending');
+      var {count:appealCount}=await sb.from('appeals').select('*',{count:'exact',head:true});
+      var cards=document.querySelectorAll('#pg-analytics .a-card');
+      if(cards[0]&&totalCount!=null)cards[0].querySelector('.a-num').textContent=totalCount.toLocaleString();
+      if(cards[1]&&pendingCount!=null)cards[1].querySelector('.a-num').textContent=pendingCount.toLocaleString();
+      if(cards[3]&&appealCount!=null)cards[3].querySelector('.a-num').textContent=appealCount.toLocaleString();
+    }catch(e){console.warn('Supabase analytics fetch failed, using demo data',e)}
+  }
+  var mx=Math.max.apply(null,mData);
+  bc.innerHTML=months.map(function(m,i){
+    var h=Math.round(mData[i]/mx*100);
+    return'<div class="b-wrap"><div class="b-bar" style="height:'+h+'%"></div><div class="b-lbl">'+m+'</div></div>';
+  }).join('');
+  var cats=[
+    {n:'Victim Blaming',p:31,c:'#7a1520'},{n:'Misogyny',p:24,c:'#9e1c2c'},
+    {n:'Violent Rhetoric',p:18,c:'#bf3347'},{n:'Dehumanizing',p:14,c:'#8a3040'},
+    {n:'Threats',p:8,c:'#5a2535'},{n:'Other',p:5,c:'#5c5a54'}
+  ];
+  var incs=[
+    {n:'Rape / Sexual Violence',p:38,c:'#7a1520'},{n:'Cyber Harassment',p:22,c:'#9e1c2c'},
+    {n:'Domestic Violence',p:17,c:'#bf3347'},{n:'Public Harassment',p:12,c:'#8a3040'},
+    {n:'Acid Violence',p:7,c:'#5a2535'},{n:'Gender Violence',p:4,c:'#5c5a54'}
+  ];
+  function buildList(id,items){
+    var el=document.getElementById(id);
+    if(!el)return;
+    el.innerHTML=items.map(function(i){return'<div class="cat-row"><span class="cat-dot" style="background:'+i.c+'"></span><span class="cat-name">'+i.n+'</span><div class="cat-track"><div class="cat-fill" style="width:'+i.p+'%;background:'+i.c+'"></div></div><span class="cat-pct">'+i.p+'%</span></div>'}).join('');
+  }
+  buildList('catL',cats);
+  buildList('incL',incs);
+}
+
+// ===== MODERATION =====
+var modData=[
+  {id:'DG-2025-1321',cat:'Victim Blaming',lang:'Bangla',ai:87,ago:'2h ago',note:'Commenter argues rape victim had history of "going out late" and was therefore responsible. Public URL verified. Screenshot matches post timestamp.'},
+  {id:'DG-2025-1318',cat:'Violent Rhetoric',lang:'Bangla',ai:94,ago:'5h ago',note:'Explicit praise of acid attack perpetrator with dehumanizing language about survivor. High AI confidence. Recommend senior review before approval.'},
+  {id:'DG-2025-1315',cat:'Misogyny',lang:'Banglish',ai:71,ago:'8h ago',note:'Character-attack comment. AI confidence moderate — mixed Banglish slang with regional idiom may affect scoring accuracy. Human assessment essential.'},
+  {id:'DG-2025-1312',cat:'Threats',lang:'Bangla',ai:96,ago:'12h ago',note:'Direct threat to named journalist. URL verified. Consider escalation to legal advisor before publishing, and notify journalist directly.'}
+];
+
+function renderModQ(data){
+  var mq=document.getElementById('modQ');
+  if(!mq)return;
+  mq.innerHTML=data.map(function(m){
+    return'<div class="q-item" id="qi-'+m.id+'" data-cat="'+m.cat+'"><div class="q-top"><div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap"><span style="font-size:11.5px;font-family:var(--font-mono);color:var(--text3)">'+m.id+'</span><span class="badge b-cr">'+m.cat+'</span><span class="badge b-gr">'+m.lang+'</span></div><span style="font-size:10.5px;color:var(--text3);font-family:var(--font-mono)">'+m.ago+'</span></div><div class="q-note">'+m.note+'</div><div class="conf-row"><span>AI Toxicity Confidence</span><span>'+m.ai+'%</span></div><div class="conf-bar"><div class="conf-fill" style="width:'+m.ai+'%"></div></div><div class="conf-note">AI analysis is advisory only. Human review required before any decision.</div><div class="mod-acts"><button class="btn-ok" onclick="modAct(\''+m.id+'\',\'approved\')">&#10003; Approve</button><button class="btn-no" onclick="modAct(\''+m.id+'\',\'rejected\')">&#10007; Reject</button><button class="btn-hd" onclick="modAct(\''+m.id+'\',\'hold\')">&#9208; Hold</button><button class="btn-ai">AI Report</button></div></div>';
+  }).join('');
+}
+
+async function buildModQ(){
+  var mq=document.getElementById('modQ');
+  if(!mq)return;
+  if(isLive()){
+    try{
+      var {data,error}=await sb.from('submissions').select('*').eq('status','pending').order('created_at',{ascending:false});
+      if(!error&&data){
+        modData=data.map(function(r){
+          var mins=Math.round((Date.now()-new Date(r.created_at).getTime())/(60*1000));
+          var agoStr=mins<60?mins+'m ago':Math.round(mins/60)+'h ago';
+          return{id:r.ref_id,cat:r.category,lang:r.language||'Bangla',ai:r.ai_score||50,ago:agoStr,note:r.context_note||'No description'};
+        });
+      }
+    }catch(e){console.warn('Supabase mod fetch failed, using demo data',e)}
+  }
+  renderModQ(modData);
+  initModSidebarFilters();
+}
+
+async function modAct(id,action){
+  var card=document.getElementById('qi-'+id);
+  if(!card)return;
+  // Supabase live update
+  if(isLive()){
+    try{await sb.from('submissions').update({status:action}).eq('ref_id',id)}catch(e){console.warn('Supabase mod action failed',e)}
+  }
+  var labels={approved:'Approved \u2014 queued for archive publication',rejected:'Rejected \u2014 removed from queue',hold:'Placed on hold for senior review'};
+  var colors={approved:'#4caf50',rejected:'#f44336',hold:'var(--text2)'};
+  card.style.opacity='.45';
+  card.style.pointerEvents='none';
+  var msg=document.createElement('div');
+  msg.style.cssText='font-size:11.5px;font-family:var(--font-mono);padding:.4rem .8rem;border-radius:3px;margin-top:.75rem;color:'+colors[action]+';border:1px solid currentColor';
+  msg.textContent='\u2192 '+labels[action];
+  card.appendChild(msg);
+  // Update sidebar counts
+  modCounts.pending=Math.max(0,modCounts.pending-1);
+  if(action==='approved')modCounts.approved++;
+  if(action==='rejected')modCounts.rejected++;
+  if(action==='hold')modCounts.hold++;
+  updateModCounts();
+}
+
+function updateModCounts(){
+  var rows=document.querySelectorAll('.mod-sb > .mod-row');
+  if(rows[0])rows[0].querySelector('.mod-ct').textContent=modCounts.pending;
+  if(rows[1])rows[1].querySelector('.mod-ct').textContent=modCounts.approved;
+  if(rows[2])rows[2].querySelector('.mod-ct').textContent=modCounts.rejected;
+  if(rows[3])rows[3].querySelector('.mod-ct').textContent=modCounts.hold;
+}
+
+// ===== MODERATION SIDEBAR CATEGORY FILTERS =====
+function initModSidebarFilters(){
+  var catSection=document.querySelector('.mod-sb > div:last-child');
+  if(!catSection)return;
+  var catRows=catSection.querySelectorAll('.mod-row');
+  catRows.forEach(function(row){
+    row.addEventListener('click',function(){
+      var wasActive=row.classList.contains('cat-active');
+      catRows.forEach(function(r){r.classList.remove('cat-active')});
+      if(wasActive){
+        modCatFilter=null;
+      }else{
+        row.classList.add('cat-active');
+        modCatFilter=row.querySelector('.mod-row-l').textContent.trim();
+      }
+      filterModQueue();
+    });
+  });
+}
+
+function filterModQueue(){
+  var items=document.querySelectorAll('#modQ .q-item');
+  items.forEach(function(item){
+    if(!modCatFilter){
+      item.style.display='';
+    }else{
+      var cat=item.getAttribute('data-cat');
+      item.style.display=(cat===modCatFilter||modCatFilter==='Other'&&['Appearance Humiliation','Sexual Harassment','Dehumanizing Language','Hate Speech'].includes(cat))?'':'none';
+    }
+  });
+}
+
+// ===== PROFILE SEARCH =====
+async function runProfileSearch(){
+  var raw=(document.getElementById('profileSearchInput').value||'').trim();
+  var query=raw.toLowerCase().replace('https://','').replace('http://','').replace('www.','').replace('facebook.com/','');
+  var resultsEl=document.getElementById('searchResults');
+  if(!query){
+    resultsEl.innerHTML='<div class="search-state-idle"><div class="search-state-icon">&#9678;</div><div class="search-state-t">Please enter a profile name or URL to search.</div></div>';
+    return;
+  }
+  resultsEl.innerHTML='<div class="search-state-idle"><div class="search-state-t" style="color:var(--text3)">Searching verified archive...</div></div>';
+
+  if(isLive()){
+    try{
+      var {data,error}=await sb.from('submissions').select('*').eq('status','approved').ilike('profile_name','%'+query+'%');
+      if(!error&&data&&data.length){
+        // Group by profile_name
+        var grouped={};
+        data.forEach(function(r){
+          var name=r.profile_name||'Unknown';
+          if(!grouped[name])grouped[name]={name:name,initials:name.split(' ').map(function(w){return w[0]}).join('').substring(0,2).toUpperCase(),url:r.perpetrator_url||'',risk:'moderate',totalEntries:0,categories:[],firstSeen:null,lastSeen:null,entries:[]};
+          grouped[name].totalEntries++;
+          var cat=r.category;
+          if(grouped[name].categories.indexOf(cat)===-1)grouped[name].categories.push(cat);
+          var d=new Date(r.created_at);
+          var dateStr=d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+          if(!grouped[name].firstSeen||d<new Date(grouped[name].firstSeen))grouped[name].firstSeen=dateStr;
+          if(!grouped[name].lastSeen||d>new Date(grouped[name].lastSeen))grouped[name].lastSeen=dateStr;
+          grouped[name].entries.push({cat:r.category,inc:r.incident_type,date:dateStr,sev:r.severity||'Moderate',ver:r.version||1,lastEdit:r.last_edit?new Date(r.last_edit).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):null,text:r.context_note||''});
+        });
+        var matches=Object.values(grouped);
+        matches.forEach(function(m){m.risk=m.totalEntries>=3?'high':m.totalEntries>=2?'moderate':'low'});
+        resultsEl.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.5rem"><div style="font-size:13.5px;color:var(--text2)">Found <strong style="color:var(--text)">'+matches.length+'</strong> profile'+(matches.length>1?'s':'')+' matching <strong style="color:var(--text)">"'+escHtml(raw)+'"</strong></div><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">Verified entries only</div></div>'+matches.map(renderProfileCard).join('');
+        return;
+      }
+    }catch(e){console.warn('Supabase search failed, falling back to demo',e)}
+  }
+
+  // Demo mode fallback
+  setTimeout(function(){
+    var matches=profileDB.filter(function(p){return p.name.toLowerCase().includes(query)||p.url.toLowerCase().includes(query)});
+    if(!matches.length){
+      resultsEl.innerHTML='<div class="no-results"><div class="no-results-icon">&#9678;</div><div class="no-results-t" style="font-family:var(--font-serif);font-size:1.25rem;color:var(--warm);font-weight:400;margin-bottom:.75rem">No verified entries found</div><div class="no-results-s">No archived comments linked to <strong style="color:var(--text2)">"'+escHtml(raw)+'"</strong> were found in our verified archive.<br><br>This does not mean the person has not made harmful comments \u2014 only that none have been submitted and verified yet. If you have evidence, you can <button onclick="go(\'submit\')" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:inherit;font-family:inherit;padding:0;text-decoration:underline">submit it for review</button>.</div></div>';
+      return;
+    }
+    resultsEl.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.5rem"><div style="font-size:13.5px;color:var(--text2)">Found <strong style="color:var(--text)">'+matches.length+'</strong> profile'+(matches.length>1?'s':'')+' matching <strong style="color:var(--text)">"'+escHtml(raw)+'"</strong></div><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">Verified entries only</div></div>'+matches.map(renderProfileCard).join('');
+  },700);
+}
+
+function renderProfileCard(p){
+  var riskLabel=p.totalEntries+' Verified Entries';
+  var riskClass={high:'risk-high',moderate:'risk-mod',low:'risk-low'}[p.risk];
+  var catBadges=p.categories.map(function(c){return'<span class="badge b-cr" style="font-size:9.5px">'+escHtml(c)+'</span>'}).join(' ');
+  function sevColor(s){return s==='Severe'?'var(--accent)':s==='High'?'#e0a030':'var(--text3)'}
+  var entries=p.entries.map(function(e){
+    return'<div class="pe-item"><div class="pe-meta"><span class="badge b-cr">'+escHtml(e.cat)+'</span><span class="badge b-nv">'+escHtml(e.inc)+'</span><span class="badge b-gr" style="color:'+sevColor(e.sev)+'">'+escHtml(e.sev)+'</span></div><div class="pe-text">'+escHtml(e.text)+'</div><div class="pe-date">Archived '+escHtml(e.date)+' &nbsp;&middot;&nbsp; <span class="status s-ok">Verified</span> &nbsp;&middot;&nbsp; v'+e.ver+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">Edited '+escHtml(e.lastEdit)+'</span>':'')+'</div></div>';
+  }).join('');
+  return'<div class="profile-card"><div class="profile-card-head"><div class="profile-avatar">'+escHtml(p.initials)+'</div><div style="flex:1;min-width:0"><div class="profile-name">'+escHtml(p.name)+'</div><div class="profile-url">'+escHtml(p.url)+'</div><div style="margin-top:.5rem;display:flex;gap:.4rem;flex-wrap:wrap">'+catBadges+'</div></div><span class="risk-pill '+riskClass+'">'+riskLabel+'</span></div><div class="profile-stats"><div class="p-stat"><div class="p-stat-n">'+p.totalEntries+'</div><div class="p-stat-l">Verified Entries</div></div><div class="p-stat"><div class="p-stat-n">'+p.categories.length+'</div><div class="p-stat-l">Categories</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(p.firstSeen)+'</div><div class="p-stat-l">First Entry</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(p.lastSeen)+'</div><div class="p-stat-l">Most Recent</div></div></div><div class="profile-entries"><div class="pe-title">Documented Comments ('+p.entries.length+')</div>'+entries+'</div><div style="padding:1rem 1.75rem;border-top:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem"><div style="font-size:12px;color:var(--text3)">Believe this record is inaccurate?</div><button class="btn-g" style="font-size:12px;padding:.38rem 1rem" onclick="go(\'appeals\')">File a Dispute &rarr;</button></div></div>';
+}
+
+// ===== EVIDENCE SUBMISSION =====
+async function submitEv(){
+  var submitBtn=document.querySelector('#submitFooter .btn-p');
+  var honeypot=document.getElementById('honeypotField');
+  if(honeypot&&honeypot.value){
+    document.getElementById('submitFormBody').style.display='none';
+    document.getElementById('submitFooter').style.display='none';
+    document.getElementById('submitRef').textContent='Reference: DG-2025-'+(Math.floor(Math.random()*9000)+1000)+'  \u00b7  Review within 3\u20135 working days';
+    document.getElementById('submitSuccess').style.display='block';
+    return;
+  }
+  if(sessionSubmitCount>=maxSessionSubmits){alert('You have reached the maximum number of submissions for this session. Please try again later.');return}
+  var now=Date.now();
+  if(lastSubmitTime&&(now-lastSubmitTime)<cooldownMs){var remaining=Math.ceil((cooldownMs-(now-lastSubmitTime))/1000);alert('Please wait '+remaining+' seconds before submitting again.');return}
+  var url=document.getElementById('fieldUrl');
+  var postUrl=document.getElementById('fieldPostUrl');
+  var cat=document.getElementById('fieldCat');
+  var inc=document.getElementById('fieldInc');
+  var file=document.getElementById('screenshotInput');
+  var valid=true;
+  var errUrl=document.getElementById('errUrl');
+  if(!url.value||!url.value.includes('facebook.com')){errUrl.style.display='block';url.style.borderColor='var(--ink2)';valid=false}else{errUrl.style.display='none';url.style.borderColor=''}
+  var errPostUrl=document.getElementById('errPostUrl');
+  if(!postUrl.value||!postUrl.value.includes('facebook.com')){errPostUrl.style.display='block';postUrl.style.borderColor='var(--ink2)';valid=false}else{errPostUrl.style.display='none';postUrl.style.borderColor=''}
+  var errSc=document.getElementById('errScreenshot');
+  if(!file||!file.files||file.files.length===0){errSc.style.display='block';document.getElementById('screenshotZone').style.borderColor='var(--ink2)';valid=false}else{errSc.style.display='none';document.getElementById('screenshotZone').style.borderColor=''}
+  var errCat=document.getElementById('errCat');
+  if(!cat.value){errCat.style.display='block';cat.style.borderColor='var(--ink2)';valid=false}else{errCat.style.display='none';cat.style.borderColor=''}
+  var errInc=document.getElementById('errInc');
+  if(!inc.value){errInc.style.display='block';inc.style.borderColor='var(--ink2)';valid=false}else{errInc.style.display='none';inc.style.borderColor=''}
+  if(!valid){var firstErr=document.querySelector('[id^="err"]:not([style*="display:none"]):not([style*="display: none"])');if(firstErr)firstErr.scrollIntoView({behavior:'smooth',block:'center'});return}
+  sessionSubmitCount++;
+  lastSubmitTime=Date.now();
+  var ref='DG-2025-'+(Math.floor(Math.random()*9000)+1000);
+
+  // Supabase live insert
+  if(isLive()){
+    try{
+      var screenshotUrl=null;
+      if(file.files[0]){
+        var f=file.files[0];
+        var ext=f.name.split('.').pop();
+        var path=ref+'.'+ext;
+        var {data:upData,error:upErr}=await sb.storage.from('screenshots').upload(path,f);
+        if(!upErr){
+          var {data:urlData}=sb.storage.from('screenshots').getPublicUrl(path);
+          screenshotUrl=urlData.publicUrl;
+        }
+      }
+      var tags=[];
+      document.querySelectorAll('.tag-btn.on').forEach(function(b){tags.push(b.textContent)});
+      var contextNote=document.querySelector('#submitFormBody .f-ta')?document.querySelector('#submitFormBody .f-ta').value:'';
+      var langSel=document.querySelectorAll('#submitFormBody .f-sel');
+      var lang=langSel[2]?langSel[2].value:'Bangla';
+      var translation=document.querySelectorAll('#submitFormBody .f-input');
+      var transVal=translation[2]?translation[2].value:'';
+      var emailInput=document.querySelector('#submitFormBody input[type="email"]');
+      var relSel=langSel[3]?langSel[3].value:'';
+
+      await sb.from('submissions').insert({
+        ref_id:ref,
+        perpetrator_url:url.value,
+        source_post_url:postUrl.value,
+        screenshot_url:screenshotUrl,
+        profile_name:url.value.split('facebook.com/')[1]||'',
+        category:cat.value,
+        incident_type:inc.value,
+        context_note:contextNote,
+        language:lang,
+        translation:transVal,
+        tags:tags,
+        submitter_email:emailInput?emailInput.value:'',
+        submitter_relationship:relSel
+      });
+    }catch(e){console.warn('Supabase submit failed',e)}
+  }
+
+  document.getElementById('submitFormBody').style.display='none';
+  document.getElementById('submitFooter').style.display='none';
+  document.getElementById('submitRef').textContent='Reference: '+ref+'  \u00b7  Review within 3\u20135 working days';
+  document.getElementById('submitSuccess').style.display='block';
+  document.getElementById('pg-submit').scrollIntoView({behavior:'smooth',block:'start'});
+  if(submitBtn){submitBtn.disabled=true;submitBtn.style.opacity='.5';submitBtn.style.cursor='not-allowed';setTimeout(function(){submitBtn.disabled=false;submitBtn.style.opacity='';submitBtn.style.cursor=''},cooldownMs)}
+}
+
+function resetSubmitForm(){
+  document.getElementById('submitFormBody').style.display='';
+  document.getElementById('submitFooter').style.display='';
+  document.getElementById('submitSuccess').style.display='none';
+  ['fieldUrl','fieldPostUrl','fieldCat','fieldInc'].forEach(function(id){var el=document.getElementById(id);if(el){el.value='';el.style.borderColor=''}});
+  ['errUrl','errPostUrl','errCat','errInc','errScreenshot'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none'});
+  clearUpload('screenshotPreview','screenshotZone');
+  document.querySelectorAll('.tag-btn').forEach(function(b){b.classList.remove('on')});
+}
+
+// ===== FILE UPLOAD =====
+function handleFileSelect(input,previewId,zoneId){var file=input.files[0];if(!file)return;processFile(file,previewId,zoneId)}
+
+function handleDrop(event,inputId,previewId,zoneId){
+  event.preventDefault();
+  var zone=document.getElementById(zoneId);
+  if(zone)zone.style.borderColor='';
+  var file=event.dataTransfer.files[0];
+  if(!file)return;
+  var input=document.getElementById(inputId);
+  var dt=new DataTransfer();
+  dt.items.add(file);
+  if(input)input.files=dt.files;
+  processFile(file,previewId,zoneId);
+}
+
+function processFile(file,previewId,zoneId){
+  var maxMB=10;
+  var allowed=['image/png','image/jpeg','image/webp','application/pdf'];
+  var preview=document.getElementById(previewId);
+  var zone=document.getElementById(zoneId);
+  if(!allowed.includes(file.type)){showUploadMsg(previewId,'File type not accepted. Use PNG, JPG, WEBP, or PDF.','error');return}
+  if(file.size>maxMB*1024*1024){showUploadMsg(previewId,'File exceeds 10MB limit. Please compress and retry.','error');return}
+  var sizeMB=(file.size/(1024*1024)).toFixed(2);
+  if(file.type==='application/pdf'){showUploadMsg(previewId,file.name+' ('+sizeMB+' MB) \u2014 PDF ready for submission','success');return}
+  var reader=new FileReader();
+  reader.onload=function(e){
+    if(!preview)return;
+    preview.style.display='block';
+    preview.innerHTML='<div style="display:flex;align-items:center;gap:1rem;background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:.75rem 1rem"><img src="'+e.target.result+'" alt="Preview" style="width:72px;height:54px;object-fit:cover;border-radius:4px;flex-shrink:0;border:1px solid var(--border2)"><div style="flex:1;min-width:0"><div style="font-size:12.5px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+escHtml(file.name)+'</div><div style="font-size:11px;color:var(--text3);margin-top:.2rem;font-family:var(--font-mono)">'+sizeMB+' MB \u00b7 '+file.type.split('/')[1].toUpperCase()+'</div><div style="font-size:11px;color:#4caf50;margin-top:.3rem">Ready for submission</div></div><button onclick="clearUpload(\''+previewId+'\',\''+zoneId+'\')" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:.2rem;line-height:1" title="Remove">&times;</button></div>';
+    var icon=zone?zone.querySelector('.upload-i'):null;
+    var txt=zone?zone.querySelector('.upload-t'):null;
+    var sub=zone?zone.querySelector('.upload-s'):null;
+    if(icon)icon.style.display='none';
+    if(txt)txt.style.display='none';
+    if(sub)sub.style.display='none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function showUploadMsg(previewId,msg,type){
+  var preview=document.getElementById(previewId);
+  if(!preview)return;
+  preview.style.display='block';
+  preview.innerHTML='<div style="font-size:12.5px;color:'+(type==='error'?'var(--accent)':'#4caf50')+';font-family:var(--font-mono);padding:.5rem 0">'+msg+'</div>';
+}
+
+function clearUpload(previewId,zoneId){
+  var preview=document.getElementById(previewId);
+  var zone=document.getElementById(zoneId);
+  if(preview){preview.style.display='none';preview.innerHTML=''}
+  if(zone){
+    zone.style.borderColor='';
+    var icon=zone.querySelector('.upload-i');
+    var txt=zone.querySelector('.upload-t');
+    var sub=zone.querySelector('.upload-s');
+    if(icon)icon.style.display='';
+    if(txt)txt.style.display='';
+    if(sub)sub.style.display='';
+  }
+  ['screenshotInput','appealInput'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=''});
+}
+
+// ===== APPEALS =====
+async function submitAppeal(){
+  var entryId=document.getElementById('appealEntryId');
+  var grounds=document.getElementById('appealGrounds');
+  var statement=document.getElementById('appealStatement');
+  var valid=true;
+
+  // Validate Entry ID
+  var errEntry=document.getElementById('errAppealEntry');
+  if(!entryId.value.trim()){errEntry.style.display='block';entryId.style.borderColor='var(--ink2)';valid=false}else{errEntry.style.display='none';entryId.style.borderColor=''}
+
+  // Validate Grounds
+  var errGrounds=document.getElementById('errAppealGrounds');
+  if(!grounds.value){errGrounds.style.display='block';grounds.style.borderColor='var(--ink2)';valid=false}else{errGrounds.style.display='none';grounds.style.borderColor=''}
+
+  // Validate Statement
+  var errStatement=document.getElementById('errAppealStatement');
+  if(!statement.value.trim()){errStatement.style.display='block';statement.style.borderColor='var(--ink2)';valid=false}else{errStatement.style.display='none';statement.style.borderColor=''}
+
+  if(!valid)return;
+
+  // Rate limit
+  var now=Date.now();
+  if(lastAppealTime&&(now-lastAppealTime)<appealCooldownMs){
+    var remaining=Math.ceil((appealCooldownMs-(now-lastAppealTime))/1000);
+    alert('Please wait '+remaining+' seconds before submitting another appeal.');
+    return;
+  }
+  lastAppealTime=now;
+
+  var ref='AP-2025-'+(Math.floor(Math.random()*9000)+1000);
+
+  // Supabase live insert
+  if(isLive()){
+    try{
+      var email=document.getElementById('appealEmail');
+      await sb.from('appeals').insert({
+        ref_id:ref,
+        entry_id:entryId.value.trim(),
+        grounds:grounds.value,
+        statement:statement.value.trim(),
+        contact_email:email?email.value:''
+      });
+    }catch(e){console.warn('Supabase appeal submit failed',e)}
+  }
+
+  document.getElementById('appealFormBody').style.display='none';
+  document.getElementById('appealFooter').style.display='none';
+  document.getElementById('appealRef').textContent='Appeal Reference: '+ref+'  \u00b7  Review within 14 working days';
+  document.getElementById('appealSuccess').style.display='block';
+}
+
+function resetAppealForm(){
+  document.getElementById('appealFormBody').style.display='';
+  document.getElementById('appealFooter').style.display='';
+  document.getElementById('appealSuccess').style.display='none';
+  ['appealEntryId','appealGrounds','appealStatement','appealEmail'].forEach(function(id){
+    var el=document.getElementById(id);if(el){el.value='';el.style.borderColor=''}
+  });
+  ['errAppealEntry','errAppealGrounds','errAppealStatement'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.style.display='none';
+  });
+  clearUpload('appealPreview','appealZone');
+}
+
+// ===== APPEAL TRACKER =====
+async function trackAppeal(){
+  var input=document.getElementById('trackerInput');
+  var resultEl=document.getElementById('trackerResult');
+  var emptyEl=document.getElementById('trackerEmpty');
+  var val=(input.value||'').trim();
+
+  if(!val){
+    resultEl.style.display='none';
+    emptyEl.style.display='';
+    return;
+  }
+
+  // Validate format: AP-2025-XXXX
+  if(!/^AP-\d{4}-\d{4}$/i.test(val)){
+    emptyEl.style.display='none';
+    resultEl.style.display='block';
+    resultEl.innerHTML='<div style="color:var(--accent);font-size:13px;font-family:var(--font-mono)">Invalid Appeal ID format. Expected: AP-2025-XXXX</div>';
+    return;
+  }
+
+  emptyEl.style.display='none';
+
+  if(isLive()){
+    try{
+      var {data,error}=await sb.from('appeals').select('*').eq('ref_id',val).single();
+      if(!error&&data){
+        var statusLabels={under_review:'Under Review',upheld:'Appeal Upheld \u2014 Entry Removed',dismissed:'Appeal Dismissed',pending:'Received \u2014 Awaiting Assignment'};
+        var statusColors={under_review:'#5a8ac4',upheld:'#4caf50',dismissed:'#f44336',pending:'var(--text2)'};
+        resultEl.style.display='block';
+        resultEl.innerHTML='<div class="tr-status-bar"><span style="font-family:var(--font-mono);font-size:12px;color:var(--text3)">'+escHtml(val)+'</span><span class="status" style="background:rgba(90,138,196,.12);color:'+statusColors[data.status]+';border:1px solid '+(statusColors[data.status])+'40">'+statusLabels[data.status]+'</span></div><div style="font-size:13px;color:var(--text2);line-height:1.7">Filed on '+new Date(data.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' for entry <strong>'+escHtml(data.entry_id)+'</strong>.</div>';
+        return;
+      }
+    }catch(e){console.warn('Supabase tracker failed, using demo',e)}
+  }
+
+  // Demo mode: show a plausible status
+  resultEl.style.display='block';
+  resultEl.innerHTML='<div class="tr-status-bar"><span style="font-family:var(--font-mono);font-size:12px;color:var(--text3)">'+escHtml(val)+'</span><span class="status s-rev">Under Review</span></div><div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:1rem">Your appeal is currently under review by an independent moderation panel. Estimated completion: <strong style="color:var(--text)">14 working days</strong> from submission.</div><div class="tr-timeline"><div class="tr-step"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 1 \u2014 Received</div><div style="font-size:12.5px;color:var(--text2)">Appeal acknowledged and assigned to review queue</div></div><div class="tr-step"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 2 \u2014 Panel Review</div><div style="font-size:12.5px;color:var(--text2)">Independent panel reviewing evidence and grounds</div></div><div class="tr-step pending"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 3 \u2014 Decision</div><div style="font-size:12.5px;color:var(--text3)">Pending \u2014 awaiting panel decision</div></div></div>';
+}
+
+// ===== ETHICS NAV (scroll to sections) =====
+var ethSectionIds=['eth-principles','eth-evidence','eth-moderation','eth-ai','eth-privacy','eth-appeals','eth-removal','eth-moderators','eth-harassment','eth-legal','eth-retention','eth-screenshots'];
+function initEthicsNav(){
+  document.querySelectorAll('.eth-nav-i').forEach(function(btn,idx){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.eth-nav-i').forEach(function(b){b.classList.remove('on')});
+      btn.classList.add('on');
+      var targetId=ethSectionIds[idx];
+      var target=document.getElementById(targetId);
+      if(target){target.scrollIntoView({behavior:'smooth',block:'start'})}
+    });
+  });
+}
+
+// ===== INIT =====
+buildArchive();
+buildAnalytics();
+buildModQ();
+initEthicsNav();
+</script>
+</body>
+</html>
