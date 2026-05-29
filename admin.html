@@ -56,6 +56,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .admin-logout{font-size:12px;color:var(--text3);cursor:pointer;border:1px solid var(--border2);background:none;padding:.35rem .8rem;border-radius:3px;font-family:var(--font-mono);transition:all .15s;white-space:nowrap}
 .admin-logout:hover{color:var(--accent);border-color:var(--accent)}
 
+/* DEMO BANNER */
+.demo-banner{background:var(--amber-bg);border-bottom:1px solid var(--amber-border);color:var(--amber);font-size:12px;font-family:var(--font-mono);text-align:center;padding:.5rem 1rem;letter-spacing:.02em}
+
 /* MAIN CONTENT */
 .admin-body{max-width:1300px;margin:0 auto;padding:1.5rem 2rem 3rem}
 .tab-panel{display:none}
@@ -268,6 +271,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
       <button class="admin-logout" id="logoutBtn">Logout</button>
     </div>
   </nav>
+  <div class="demo-banner" id="demoBanner" style="display:none">Running in demo mode - Supabase tables not found. Data is local only and will reset on refresh.</div>
 
   <!-- BODY -->
   <div class="admin-body">
@@ -382,6 +386,7 @@ var ITEMS_PER_PAGE = 20;
 
 // --- STATE ---
 var sb = null;
+var demoMode = false;
 var allSubmissions = [];
 var allAppeals = [];
 var subFilter = 'all';
@@ -390,6 +395,92 @@ var subPage = 1;
 var appealFilter = 'all';
 var selectedIds = new Set();
 var exportFilter = 'all';
+
+// --- DEMO DATA ---
+function genDemoSubmissions(){
+  var cats=['Victim Blaming','Violent Rhetoric','Misogyny','Threats','Appearance Humiliation','Dehumanizing Language'];
+  var incs=['Rape','Acid Violence','Domestic Violence','Gender Violence','Cyber Harassment','Sexual Harassment','Public Harassment'];
+  var sevs=['Moderate','High','Severe'];
+  var langs=['Bangla','Banglish','English'];
+  var statuses=['pending','pending','pending','approved','approved','rejected','hold'];
+  var notes=[
+    'Comment defending perpetrator and blaming the victim for being outside at night.',
+    'Threatening violence against women who report domestic abuse.',
+    'Derogatory comments about a woman\'s appearance after assault.',
+    'Sharing victim\'s personal photos without consent with mocking captions.',
+    'Organized harassment campaign targeting female journalist.',
+    'Misogynistic slurs in response to news about gender violence law.',
+    'Graphic threats of acid attack in Facebook comment thread.',
+    'Victim-shaming post shared widely in local community group.',
+    'Dehumanizing language comparing women to objects in public post.',
+    'Threatening to dox domestic violence survivor who spoke publicly.',
+    'Comment normalizing marital rape under religious justification.',
+    'Coordinated trolling of women\'s rights activist page.',
+    'Post mocking acid attack survivor\'s appearance.',
+    'Threatening messages sent to woman who filed police report.',
+    'Public post blaming wife for husband\'s violent behavior.'
+  ];
+  var names=['md.rahim.uddin.2019','karim.hossain.fb','jahid.akter.7','shakil.ahmed.9210','tanvir.rahman.56','nazmul.islam.bd','robiul.karim.33','hasanur.jaman.5','arif.khan.dhaka','sumon.mia.ctg','rafiq.uddin.44','mamun.rashid.90','fazlul.haque.bd','kamrul.hassan.7','imran.hossain.28'];
+  var out=[];
+  for(var i=0;i<32;i++){
+    var d=new Date();
+    d.setHours(d.getHours()-Math.floor(Math.random()*720));
+    var cat=cats[Math.floor(Math.random()*cats.length)];
+    var inc=incs[Math.floor(Math.random()*incs.length)];
+    out.push({
+      id:crypto.randomUUID(),
+      ref_id:'DG-2025-'+(1300+i),
+      perpetrator_url:'https://facebook.com/'+names[Math.floor(Math.random()*names.length)],
+      source_post_url:'https://facebook.com/groups/localcommunity/posts/'+Math.floor(Math.random()*9000000+1000000),
+      screenshot_url:null,
+      profile_name:names[Math.floor(Math.random()*names.length)],
+      category:cat,
+      incident_type:inc,
+      context_note:notes[Math.floor(Math.random()*notes.length)],
+      language:langs[Math.floor(Math.random()*langs.length)],
+      tags:[cat.toLowerCase().replace(/\s/g,'-'),inc.toLowerCase().replace(/\s/g,'-')],
+      submitter_email:Math.random()>.5?'reporter'+i+'@gmail.com':'',
+      submitter_relationship:['witness','victim','family','journalist','other'][Math.floor(Math.random()*5)],
+      ai_score:Math.floor(Math.random()*60+40),
+      severity:sevs[Math.floor(Math.random()*sevs.length)],
+      status:statuses[Math.floor(Math.random()*statuses.length)],
+      version:1,
+      last_edit:null,
+      created_at:d.toISOString()
+    });
+  }
+  return out.sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at)});
+}
+
+function genDemoAppeals(){
+  var grounds=['Mistaken Identity','Context Missing','Satirical Content','Already Resolved','Duplicate Entry'];
+  var stats=['under_review','under_review','under_review','upheld','dismissed'];
+  var statements=[
+    'This post was taken out of context. The original discussion was about a fictional scenario in a TV drama.',
+    'I believe there has been a case of mistaken identity. The profile URL listed does not belong to me.',
+    'The comment flagged was satirical in nature and was criticizing the very behavior it appears to support.',
+    'This matter was resolved directly with the affected party. We request removal from the archive.',
+    'This entry duplicates DG-2025-1305 which was already reviewed and dismissed.'
+  ];
+  var out=[];
+  for(var i=0;i<8;i++){
+    var d=new Date();
+    d.setHours(d.getHours()-Math.floor(Math.random()*480));
+    out.push({
+      id:crypto.randomUUID(),
+      ref_id:'AP-2025-'+(4100+i),
+      entry_id:'DG-2025-'+(1300+Math.floor(Math.random()*20)),
+      grounds:grounds[Math.floor(Math.random()*grounds.length)],
+      statement:statements[Math.floor(Math.random()*statements.length)],
+      evidence_url:Math.random()>.6?'https://drive.google.com/file/d/example'+i:'',
+      contact_email:'appellant'+i+'@gmail.com',
+      status:stats[Math.floor(Math.random()*stats.length)],
+      reviewer_notes:Math.random()>.7?'Reviewed initial evidence. Needs further verification.':'',
+      created_at:d.toISOString()
+    });
+  }
+  return out.sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at)});
+}
 
 // --- UTILS ---
 function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
@@ -495,16 +586,30 @@ document.querySelectorAll('.admin-tab').forEach(function(tab){
 async function loadSubmissions(){
   var list=document.getElementById('subList');
   list.innerHTML='<div class="loading">Loading submissions...</div>';
-  if(!sb){list.innerHTML='<div class="empty-state">Supabase not connected. Check credentials.</div>';return}
+  if(!sb){useDemoMode();return}
   try{
     var{data,error}=await sb.from('submissions').select('*').order('created_at',{ascending:false});
     if(error) throw error;
     allSubmissions=data||[];
+    if(!allSubmissions.length&&!demoMode){
+      // Table exists but is empty - still show the empty state, not demo
+      renderSubmissions();
+      return;
+    }
     renderSubmissions();
   }catch(e){
-    console.error('Load submissions error:',e);
-    list.innerHTML='<div class="empty-state">Failed to load submissions: '+escHtml(e.message)+'</div>';
+    console.error('Supabase submissions error, falling back to demo:',e);
+    useDemoMode();
   }
+}
+
+function useDemoMode(){
+  demoMode=true;
+  allSubmissions=genDemoSubmissions();
+  allAppeals=genDemoAppeals();
+  document.getElementById('demoBanner').style.display='block';
+  renderSubmissions();
+  renderAppeals();
 }
 
 function getFilteredSubmissions(){
@@ -668,32 +773,36 @@ document.getElementById('subSearch').addEventListener('input',function(){
 
 // --- SUBMISSION ACTIONS ---
 async function modAction(id,status){
-  if(!sb) return;
-  try{
-    var{error}=await sb.from('submissions').update({status:status}).eq('ref_id',id);
-    if(error) throw error;
-    var item=allSubmissions.find(function(s){return s.ref_id===id});
-    if(item) item.status=status;
-    renderSubmissions();
-    showToast(id+' → '+status,'success');
-  }catch(e){
-    showToast('Failed: '+e.message,'error');
+  if(!demoMode&&sb){
+    try{
+      var{error}=await sb.from('submissions').update({status:status}).eq('ref_id',id);
+      if(error) throw error;
+    }catch(e){
+      showToast('Failed: '+e.message,'error');
+      return;
+    }
   }
+  var item=allSubmissions.find(function(s){return s.ref_id===id});
+  if(item) item.status=status;
+  renderSubmissions();
+  showToast(id+' > '+status,'success');
 }
 
 function deleteSub(id){
   showConfirm('Permanently delete submission '+id+'? This cannot be undone.',async function(){
-    if(!sb) return;
-    try{
-      var{error}=await sb.from('submissions').delete().eq('ref_id',id);
-      if(error) throw error;
-      allSubmissions=allSubmissions.filter(function(s){return s.ref_id!==id});
-      selectedIds.delete(id);
-      renderSubmissions();
-      showToast(id+' deleted','success');
-    }catch(e){
-      showToast('Delete failed: '+e.message,'error');
+    if(!demoMode&&sb){
+      try{
+        var{error}=await sb.from('submissions').delete().eq('ref_id',id);
+        if(error) throw error;
+      }catch(e){
+        showToast('Delete failed: '+e.message,'error');
+        return;
+      }
     }
+    allSubmissions=allSubmissions.filter(function(s){return s.ref_id!==id});
+    selectedIds.delete(id);
+    renderSubmissions();
+    showToast(id+' deleted','success');
   });
 }
 
@@ -703,7 +812,6 @@ function toggleEdit(id){
 }
 
 async function saveEdit(id){
-  if(!sb) return;
   var cat=document.getElementById('ecat-'+id).value;
   var inc=document.getElementById('einc-'+id).value;
   var sev=document.getElementById('esev-'+id).value;
@@ -711,32 +819,33 @@ async function saveEdit(id){
   var tagsRaw=document.getElementById('etags-'+id).value;
   var tags=tagsRaw?tagsRaw.split(',').map(function(t){return t.trim()}).filter(Boolean):[];
 
-  try{
-    // Compute new version from local state
-    var item=allSubmissions.find(function(s){return s.ref_id===id});
-    var newVersion=(item&&item.version?item.version:1)+1;
-    var now=new Date().toISOString();
+  var item=allSubmissions.find(function(s){return s.ref_id===id});
+  var newVersion=(item&&item.version?item.version:1)+1;
+  var now=new Date().toISOString();
 
-    var{error}=await sb.from('submissions').update({
-      category:cat,incident_type:inc,severity:sev,context_note:note,tags:tags,
-      last_edit:now,version:newVersion
-    }).eq('ref_id',id);
-    if(error) throw error;
-
-    // Update local state
-    if(item){
-      item.category=cat;item.incident_type=inc;item.severity=sev;
-      item.context_note=note;item.tags=tags;
-      item.version=newVersion;
-      item.last_edit=now;
+  if(!demoMode&&sb){
+    try{
+      var{error}=await sb.from('submissions').update({
+        category:cat,incident_type:inc,severity:sev,context_note:note,tags:tags,
+        last_edit:now,version:newVersion
+      }).eq('ref_id',id);
+      if(error) throw error;
+    }catch(e){
+      showToast('Save failed: '+e.message,'error');
+      return;
     }
-
-    toggleEdit(id);
-    renderSubmissions();
-    showToast(id+' updated','success');
-  }catch(e){
-    showToast('Save failed: '+e.message,'error');
   }
+
+  if(item){
+    item.category=cat;item.incident_type=inc;item.severity=sev;
+    item.context_note=note;item.tags=tags;
+    item.version=newVersion;
+    item.last_edit=now;
+  }
+
+  toggleEdit(id);
+  renderSubmissions();
+  showToast(id+' updated','success');
 }
 
 // --- BULK ACTIONS ---
@@ -762,31 +871,38 @@ function clearBulk(){
 }
 
 async function bulkAction(action){
-  if(!sb||!selectedIds.size) return;
+  if(!selectedIds.size) return;
   var ids=Array.from(selectedIds);
   var label=action==='delete'?'delete':'set to '+action;
   showConfirm(label+' '+ids.length+' submission(s)?',async function(){
-    try{
-      if(action==='delete'){
-        var{error}=await sb.from('submissions').delete().in('ref_id',ids);
-        if(error) throw error;
-        allSubmissions=allSubmissions.filter(function(s){return!selectedIds.has(s.ref_id)});
-      } else {
-        var{error}=await sb.from('submissions').update({status:action}).in('ref_id',ids);
-        if(error) throw error;
-        allSubmissions.forEach(function(s){if(selectedIds.has(s.ref_id)) s.status=action});
+    if(!demoMode&&sb){
+      try{
+        if(action==='delete'){
+          var{error}=await sb.from('submissions').delete().in('ref_id',ids);
+          if(error) throw error;
+        } else {
+          var{error}=await sb.from('submissions').update({status:action}).in('ref_id',ids);
+          if(error) throw error;
+        }
+      }catch(e){
+        showToast('Bulk action failed: '+e.message,'error');
+        return;
       }
-      selectedIds.clear();
-      renderSubmissions();
-      showToast(ids.length+' submissions '+label,'success');
-    }catch(e){
-      showToast('Bulk action failed: '+e.message,'error');
     }
+    if(action==='delete'){
+      allSubmissions=allSubmissions.filter(function(s){return!selectedIds.has(s.ref_id)});
+    } else {
+      allSubmissions.forEach(function(s){if(selectedIds.has(s.ref_id)) s.status=action});
+    }
+    selectedIds.clear();
+    renderSubmissions();
+    showToast(ids.length+' submissions '+label,'success');
   });
 }
 
 // --- APPEALS ---
 async function loadAppeals(){
+  if(demoMode) return; // already loaded by useDemoMode
   if(!sb) return;
   try{
     var{data,error}=await sb.from('appeals').select('*').order('created_at',{ascending:false});
@@ -794,7 +910,8 @@ async function loadAppeals(){
     allAppeals=data||[];
     renderAppeals();
   }catch(e){
-    console.error('Load appeals error:',e);
+    console.error('Load appeals error (demo fallback):',e);
+    if(!demoMode){allAppeals=genDemoAppeals();renderAppeals()}
   }
 }
 
@@ -861,57 +978,65 @@ document.querySelectorAll('[data-afilter]').forEach(function(pill){
 });
 
 async function appealAction(id,status){
-  if(!sb) return;
-  try{
-    var{error}=await sb.from('appeals').update({status:status}).eq('ref_id',id);
-    if(error) throw error;
-    var item=allAppeals.find(function(a){return a.ref_id===id});
-    if(item) item.status=status;
+  if(!demoMode&&sb){
+    try{
+      var{error}=await sb.from('appeals').update({status:status}).eq('ref_id',id);
+      if(error) throw error;
+    }catch(e){
+      showToast('Failed: '+e.message,'error');
+      return;
+    }
+  }
+  var item=allAppeals.find(function(a){return a.ref_id===id});
+  if(item) item.status=status;
 
-    // If upheld, offer to update linked submission
-    if(status==='upheld'&&item){
-      showConfirm('Appeal upheld. Also reject the linked submission ('+item.entry_id+')?',async function(){
+  // If upheld, offer to update linked submission
+  if(status==='upheld'&&item){
+    showConfirm('Appeal upheld. Also reject the linked submission ('+item.entry_id+')?',async function(){
+      if(!demoMode&&sb){
         try{
           await sb.from('submissions').update({status:'rejected'}).eq('ref_id',item.entry_id);
-          var sub=allSubmissions.find(function(s){return s.ref_id===item.entry_id});
-          if(sub) sub.status='rejected';
-          showToast('Linked submission '+item.entry_id+' rejected','success');
-        }catch(e2){showToast('Failed to update linked submission','error')}
-      });
-    }
-    renderAppeals();
-    showToast(id+' → '+status,'success');
-  }catch(e){
-    showToast('Failed: '+e.message,'error');
+        }catch(e2){showToast('Failed to update linked submission','error');return}
+      }
+      var sub=allSubmissions.find(function(s){return s.ref_id===item.entry_id});
+      if(sub) sub.status='rejected';
+      showToast('Linked submission '+item.entry_id+' rejected','success');
+    });
   }
+  renderAppeals();
+  showToast(id+' > '+status,'success');
 }
 
 async function saveAppealNotes(id){
-  if(!sb) return;
   var notes=document.getElementById('anote-'+id).value;
-  try{
-    var{error}=await sb.from('appeals').update({reviewer_notes:notes}).eq('ref_id',id);
-    if(error) throw error;
-    var item=allAppeals.find(function(a){return a.ref_id===id});
-    if(item) item.reviewer_notes=notes;
-    showToast('Notes saved for '+id,'success');
-  }catch(e){
-    showToast('Save failed: '+e.message,'error');
+  if(!demoMode&&sb){
+    try{
+      var{error}=await sb.from('appeals').update({reviewer_notes:notes}).eq('ref_id',id);
+      if(error) throw error;
+    }catch(e){
+      showToast('Save failed: '+e.message,'error');
+      return;
+    }
   }
+  var item=allAppeals.find(function(a){return a.ref_id===id});
+  if(item) item.reviewer_notes=notes;
+  showToast('Notes saved for '+id,'success');
 }
 
 function deleteAppeal(id){
   showConfirm('Permanently delete appeal '+id+'?',async function(){
-    if(!sb) return;
-    try{
-      var{error}=await sb.from('appeals').delete().eq('ref_id',id);
-      if(error) throw error;
-      allAppeals=allAppeals.filter(function(a){return a.ref_id!==id});
-      renderAppeals();
-      showToast(id+' deleted','success');
-    }catch(e){
-      showToast('Delete failed: '+e.message,'error');
+    if(!demoMode&&sb){
+      try{
+        var{error}=await sb.from('appeals').delete().eq('ref_id',id);
+        if(error) throw error;
+      }catch(e){
+        showToast('Delete failed: '+e.message,'error');
+        return;
+      }
     }
+    allAppeals=allAppeals.filter(function(a){return a.ref_id!==id});
+    renderAppeals();
+    showToast(id+' deleted','success');
   });
 }
 
