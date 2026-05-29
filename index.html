@@ -306,6 +306,19 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
 .tracker-result .tr-step::before{content:'';position:absolute;left:-1.55rem;top:.35rem;width:8px;height:8px;border-radius:50%;background:var(--ink2);border:2px solid var(--bg1)}
 .tracker-result .tr-step.pending::before{background:var(--bg3);border-color:var(--border2)}
 
+/* MOD SCREENSHOT */
+.mod-screenshot{margin:1rem 0;border-radius:6px;overflow:hidden;border:1px solid var(--border2);position:relative;max-width:400px;cursor:pointer}
+.mod-screenshot img{width:100%;display:block;filter:blur(8px);transition:filter .3s}
+.mod-screenshot.revealed img{filter:none}
+.mod-screenshot .ss-overlay{position:absolute;inset:0;background:rgba(9,9,11,.7);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;transition:opacity .3s}
+.mod-screenshot.revealed .ss-overlay{opacity:0;pointer-events:none}
+.mod-screenshot .ss-overlay span{font-size:11px;font-family:var(--font-mono);color:var(--text2);letter-spacing:.08em;text-transform:uppercase}
+.mod-screenshot .ss-overlay button{font-size:11px;font-family:var(--font-mono);color:var(--accent);background:var(--ink-glow);border:1px solid rgba(158,28,44,.3);padding:.3rem .8rem;border-radius:3px;cursor:pointer}
+.mod-screenshot-none{font-size:11px;font-family:var(--font-mono);color:var(--text3);padding:.6rem 0;display:flex;align-items:center;gap:.5rem}
+.mod-urls{display:flex;gap:1rem;margin:.75rem 0;flex-wrap:wrap}
+.mod-urls a{font-size:11px;font-family:var(--font-mono);color:#5a8ac4;text-decoration:none;border:1px solid rgba(30,80,140,.25);background:rgba(13,30,53,.5);padding:.25rem .7rem;border-radius:3px;transition:background .15s}
+.mod-urls a:hover{background:rgba(13,30,53,.8)}
+
 /* MOD ROW ACTIVE */
 .mod-row.cat-active{background:var(--bg3);border-left:2px solid var(--accent)}
 
@@ -1202,18 +1215,33 @@ async function buildAnalytics(){
 
 // ===== MODERATION =====
 var modData=[
-  {id:'DG-2025-1321',cat:'Victim Blaming',lang:'Bangla',ai:87,ago:'2h ago',note:'Commenter argues rape victim had history of "going out late" and was therefore responsible. Public URL verified. Screenshot matches post timestamp.'},
-  {id:'DG-2025-1318',cat:'Violent Rhetoric',lang:'Bangla',ai:94,ago:'5h ago',note:'Explicit praise of acid attack perpetrator with dehumanizing language about survivor. High AI confidence. Recommend senior review before approval.'},
-  {id:'DG-2025-1315',cat:'Misogyny',lang:'Banglish',ai:71,ago:'8h ago',note:'Character-attack comment. AI confidence moderate — mixed Banglish slang with regional idiom may affect scoring accuracy. Human assessment essential.'},
-  {id:'DG-2025-1312',cat:'Threats',lang:'Bangla',ai:96,ago:'12h ago',note:'Direct threat to named journalist. URL verified. Consider escalation to legal advisor before publishing, and notify journalist directly.'}
+  {id:'DG-2025-1321',cat:'Victim Blaming',lang:'Bangla',ai:87,ago:'2h ago',note:'Commenter argues rape victim had history of "going out late" and was therefore responsible. Public URL verified. Screenshot matches post timestamp.',screenshot:null,perpUrl:'https://facebook.com/example.profile1',postUrl:'https://facebook.com/news/post/12345'},
+  {id:'DG-2025-1318',cat:'Violent Rhetoric',lang:'Bangla',ai:94,ago:'5h ago',note:'Explicit praise of acid attack perpetrator with dehumanizing language about survivor. High AI confidence. Recommend senior review before approval.',screenshot:null,perpUrl:'https://facebook.com/example.profile2',postUrl:'https://facebook.com/news/post/67890'},
+  {id:'DG-2025-1315',cat:'Misogyny',lang:'Banglish',ai:71,ago:'8h ago',note:'Character-attack comment. AI confidence moderate — mixed Banglish slang with regional idiom may affect scoring accuracy. Human assessment essential.',screenshot:null,perpUrl:'https://facebook.com/example.profile3',postUrl:'https://facebook.com/page/post/11111'},
+  {id:'DG-2025-1312',cat:'Threats',lang:'Bangla',ai:96,ago:'12h ago',note:'Direct threat to named journalist. URL verified. Consider escalation to legal advisor before publishing, and notify journalist directly.',screenshot:null,perpUrl:'https://facebook.com/example.profile4',postUrl:'https://facebook.com/page/post/22222'}
 ];
 
 function renderModQ(data){
   var mq=document.getElementById('modQ');
   if(!mq)return;
   mq.innerHTML=data.map(function(m){
-    return'<div class="q-item" id="qi-'+m.id+'" data-cat="'+m.cat+'"><div class="q-top"><div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap"><span style="font-size:11.5px;font-family:var(--font-mono);color:var(--text3)">'+m.id+'</span><span class="badge b-cr">'+m.cat+'</span><span class="badge b-gr">'+m.lang+'</span></div><span style="font-size:10.5px;color:var(--text3);font-family:var(--font-mono)">'+m.ago+'</span></div><div class="q-note">'+m.note+'</div><div class="conf-row"><span>AI Toxicity Confidence</span><span>'+m.ai+'%</span></div><div class="conf-bar"><div class="conf-fill" style="width:'+m.ai+'%"></div></div><div class="conf-note">AI analysis is advisory only. Human review required before any decision.</div><div class="mod-acts"><button class="btn-ok" onclick="modAct(\''+m.id+'\',\'approved\')">&#10003; Approve</button><button class="btn-no" onclick="modAct(\''+m.id+'\',\'rejected\')">&#10007; Reject</button><button class="btn-hd" onclick="modAct(\''+m.id+'\',\'hold\')">&#9208; Hold</button><button class="btn-ai">AI Report</button></div></div>';
+    var ssHtml='';
+    if(m.screenshot){
+      ssHtml='<div class="mod-screenshot" id="ss-'+m.id+'" onclick="revealScreenshot(\''+m.id+'\')"><img src="'+escHtml(m.screenshot)+'" alt="Submitted screenshot"><div class="ss-overlay"><span>Screenshot blurred</span><button>Click to reveal</button></div></div>';
+    }else{
+      ssHtml='<div class="mod-screenshot-none">&#9744; No screenshot uploaded with this submission</div>';
+    }
+    var urlsHtml='<div class="mod-urls">';
+    if(m.perpUrl)urlsHtml+='<a href="'+escHtml(m.perpUrl)+'" target="_blank" rel="noopener">&#9654; Perpetrator Profile</a>';
+    if(m.postUrl)urlsHtml+='<a href="'+escHtml(m.postUrl)+'" target="_blank" rel="noopener">&#9654; Source Post</a>';
+    urlsHtml+='</div>';
+    return'<div class="q-item" id="qi-'+m.id+'" data-cat="'+m.cat+'"><div class="q-top"><div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap"><span style="font-size:11.5px;font-family:var(--font-mono);color:var(--text3)">'+m.id+'</span><span class="badge b-cr">'+m.cat+'</span><span class="badge b-gr">'+m.lang+'</span></div><span style="font-size:10.5px;color:var(--text3);font-family:var(--font-mono)">'+m.ago+'</span></div><div class="q-note">'+m.note+'</div>'+ssHtml+urlsHtml+'<div class="conf-row"><span>AI Toxicity Confidence</span><span>'+m.ai+'%</span></div><div class="conf-bar"><div class="conf-fill" style="width:'+m.ai+'%"></div></div><div class="conf-note">AI analysis is advisory only. Human review required before any decision.</div><div class="mod-acts"><button class="btn-ok" onclick="modAct(\''+m.id+'\',\'approved\')">&#10003; Approve</button><button class="btn-no" onclick="modAct(\''+m.id+'\',\'rejected\')">&#10007; Reject</button><button class="btn-hd" onclick="modAct(\''+m.id+'\',\'hold\')">&#9208; Hold</button><button class="btn-ai">AI Report</button></div></div>';
   }).join('');
+}
+
+function revealScreenshot(id){
+  var el=document.getElementById('ss-'+id);
+  if(el)el.classList.toggle('revealed');
 }
 
 async function buildModQ(){
@@ -1226,7 +1254,7 @@ async function buildModQ(){
         modData=data.map(function(r){
           var mins=Math.round((Date.now()-new Date(r.created_at).getTime())/(60*1000));
           var agoStr=mins<60?mins+'m ago':Math.round(mins/60)+'h ago';
-          return{id:r.ref_id,cat:r.category,lang:r.language||'Bangla',ai:r.ai_score||50,ago:agoStr,note:r.context_note||'No description'};
+          return{id:r.ref_id,cat:r.category,lang:r.language||'Bangla',ai:r.ai_score||50,ago:agoStr,note:r.context_note||'No description',screenshot:r.screenshot_url||null,perpUrl:r.perpetrator_url||null,postUrl:r.source_post_url||null};
         });
       }
     }catch(e){console.warn('Supabase mod fetch failed, using demo data',e)}
