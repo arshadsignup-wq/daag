@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daag - Admin Panel</title>
+<title>Daag — Admin Panel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#09090b;--bg1:#111114;--bg2:#18181c;--bg3:#1f1f24;
-  --border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.10);--border3:rgba(255,255,255,.16);
-  --text:#e2e1de;--text2:#908e8a;--text3:#5c5a57;
-  --ink:#7a1520;--ink2:#9e1c2c;--ink-glow:rgba(158,28,44,.08);
-  --accent:#c4384d;--warm:#e8e4dc;
-  --umber:#8c6a3f;--umber-light:#b08a5a;
-  --green:#48c78e;--green-bg:rgba(72,199,142,.10);--green-border:rgba(72,199,142,.22);
-  --red:#e8615a;--red-bg:rgba(232,97,90,.10);--red-border:rgba(232,97,90,.22);
-  --amber:#e8a83e;--amber-bg:rgba(232,168,62,.10);--amber-border:rgba(232,168,62,.22);
-  --blue:#5a9bcf;--blue-bg:rgba(90,155,207,.10);--blue-border:rgba(90,155,207,.22);
-  --font-serif:'Playfair Display',Georgia,serif;
+  --bg:#ffffff;--bg1:#f8f8fa;--bg2:#f1f1f3;--bg3:#e8e8ec;
+  --border:rgba(0,0,0,.06);--border2:rgba(0,0,0,.09);--border3:rgba(0,0,0,.14);
+  --text:#1a1a2e;--text2:#4a4a5c;--text3:#7a7a8c;
+  --ink2:#9e1c2c;--ink-glow:#9e1c2c10;
+  --accent:#b52030;
+  --umber:#8c6a3f;--umber-light:#7a5c35;
+  --green:#2e7d32;--green-bg:rgba(46,125,50,.08);--green-border:rgba(46,125,50,.20);
+  --red:#c62828;--red-bg:rgba(198,40,40,.08);--red-border:rgba(198,40,40,.20);
+  --amber:#bf6d00;--amber-bg:rgba(191,109,0,.08);--amber-border:rgba(191,109,0,.20);
+  --blue:#1565c0;--blue-bg:rgba(21,101,192,.08);--blue-border:rgba(21,101,192,.20);
+  --font-heading:'Poppins',system-ui,sans-serif;
   --font-sans:'Inter',system-ui,sans-serif;
   --font-mono:'DM Mono',monospace;
 }
@@ -28,10 +28,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 
 /* LOGIN SCREEN */
 .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
-.login-box{background:var(--bg1);border:1px solid var(--border2);border-radius:12px;padding:2.5rem 2.2rem;max-width:380px;width:100%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.3)}
-.login-box .logo-mark{width:44px;height:44px;background:var(--ink2);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;font-family:var(--font-serif);position:relative;overflow:hidden;margin-bottom:1.2rem}
+.login-box{background:var(--bg1);border:1px solid var(--border2);border-radius:12px;padding:2.5rem 2.2rem;max-width:380px;width:100%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.login-box .logo-mark{width:44px;height:44px;background:var(--ink2);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;font-family:var(--font-heading);position:relative;overflow:hidden;margin-bottom:1.2rem}
 .login-box .logo-mark::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 60%)}
-.login-title{font-family:var(--font-serif);font-size:1.65rem;font-weight:700;color:var(--text);letter-spacing:-.01em;margin-bottom:.3rem}
+.login-title{font-family:var(--font-heading);font-size:1.65rem;font-weight:600;color:var(--text);letter-spacing:-.01em;margin-bottom:.3rem}
 .login-sub{font-size:11px;color:var(--text3);font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.8rem}
 .login-input{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-size:14px;font-weight:400;padding:.75rem 1rem;margin-bottom:1rem;transition:border-color .2s,background .2s;font-family:var(--font-sans)}
 .login-input:focus{outline:none;border-color:var(--ink2);background:var(--bg3)}
@@ -42,10 +42,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 
 /* ADMIN LAYOUT */
 .admin-wrap{display:none}
-.admin-nav{position:sticky;top:0;z-index:100;background:rgba(12,12,14,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.admin-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
 .admin-nav-inner{max-width:1300px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 2rem;gap:1rem}
 .admin-logo{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
-.admin-logo .logo-mark{width:30px;height:30px;background:var(--ink2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--font-serif);position:relative;overflow:hidden}
+.admin-logo .logo-mark{width:30px;height:30px;background:var(--ink2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--font-heading);position:relative;overflow:hidden}
 .admin-logo .logo-mark::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 60%)}
 .admin-logo-text{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text);font-family:var(--font-sans)}
 .admin-logo-badge{font-size:9px;font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;padding:.15rem .5rem;border-radius:2px;background:var(--ink-glow);color:var(--accent);border:1px solid rgba(158,28,44,.22);margin-left:.3rem}
@@ -53,6 +53,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .admin-tab{font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;padding:.4rem .9rem;border-radius:4px;border:none;background:none;font-family:var(--font-sans);transition:all .15s;white-space:nowrap;letter-spacing:.01em}
 .admin-tab:hover{color:var(--text);background:var(--bg2)}
 .admin-tab.active{color:var(--text);background:var(--bg3)}
+.admin-nav-right{display:flex;align-items:center;gap:.5rem;flex-shrink:0}
+.admin-refresh{font-size:12px;color:var(--text3);cursor:pointer;border:1px solid var(--border2);background:none;padding:.35rem .6rem;border-radius:3px;transition:all .15s;line-height:1}
+.admin-refresh:hover{color:var(--blue);border-color:var(--blue)}
+.admin-refresh.spinning{animation:spin .6s linear infinite;pointer-events:none}
 .admin-logout{font-size:12px;color:var(--text3);cursor:pointer;border:1px solid var(--border2);background:none;padding:.35rem .8rem;border-radius:3px;font-family:var(--font-mono);transition:all .15s;white-space:nowrap}
 .admin-logout:hover{color:var(--accent);border-color:var(--accent)}
 
@@ -69,6 +73,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .toolbar{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem;flex-wrap:wrap}
 .toolbar-search{background:var(--bg2);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-size:13px;padding:.45rem .8rem;width:260px;font-family:var(--font-sans);transition:border-color .2s}
 .toolbar-search:focus{outline:none;border-color:var(--ink2)}
+.toolbar-sort{background:var(--bg2);border:1px solid var(--border2);border-radius:4px;color:var(--text2);font-size:12px;padding:.35rem .6rem;font-family:var(--font-mono);cursor:pointer;transition:border-color .2s}
+.toolbar-sort:focus{outline:none;border-color:var(--ink2)}
 .toolbar-count{font-size:12px;color:var(--text3);font-family:var(--font-mono);margin-left:auto;white-space:nowrap}
 
 /* FILTER PILLS */
@@ -82,9 +88,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .bulk-count{font-size:12px;color:var(--text2);font-family:var(--font-mono);margin-right:.5rem}
 .bulk-btn{font-size:11px;padding:.3rem .7rem;border-radius:3px;border:none;cursor:pointer;font-family:var(--font-mono);transition:all .15s}
 .bulk-approve{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
-.bulk-approve:hover{background:rgba(72,199,142,.18)}
+.bulk-approve:hover{background:rgba(46,125,50,.14)}
 .bulk-reject{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
-.bulk-reject:hover{background:rgba(232,97,90,.18)}
+.bulk-reject:hover{background:rgba(198,40,40,.14)}
 .bulk-delete{background:var(--bg2);color:var(--accent);border:1px solid rgba(196,56,77,.25)}
 .bulk-delete:hover{background:var(--bg3)}
 .bulk-cancel{background:none;color:var(--text3);border:1px solid var(--border2)}
@@ -121,20 +127,20 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .q-item-screenshot{margin:.7rem 0;position:relative;display:inline-block}
 .q-item-screenshot img{max-width:200px;max-height:140px;border-radius:4px;border:1px solid var(--border2);filter:blur(12px);transition:filter .3s;cursor:pointer}
 .q-item-screenshot img.revealed{filter:none}
-.q-item-screenshot .reveal-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:10px;font-family:var(--font-mono);color:var(--text2);text-transform:uppercase;letter-spacing:.08em;pointer-events:none;background:rgba(0,0,0,.6);padding:.2rem .5rem;border-radius:2px}
+.q-item-screenshot .reveal-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:10px;font-family:var(--font-mono);color:var(--text2);text-transform:uppercase;letter-spacing:.08em;pointer-events:none;background:rgba(0,0,0,.5);padding:.2rem .5rem;border-radius:2px}
 .q-item-screenshot img.revealed+.reveal-label{display:none}
 
 .q-item-actions{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
 .btn-ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);font-size:11.5px;padding:.32rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono);transition:all .15s;letter-spacing:.04em}
-.btn-ok:hover{background:rgba(72,199,142,.18)}
+.btn-ok:hover{background:rgba(46,125,50,.14)}
 .btn-no{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);font-size:11.5px;padding:.32rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono);transition:all .15s;letter-spacing:.04em}
-.btn-no:hover{background:rgba(232,97,90,.18)}
+.btn-no:hover{background:rgba(198,40,40,.14)}
 .btn-hd{background:var(--bg2);color:var(--text2);border:1px solid var(--border2);font-size:11.5px;padding:.32rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono);transition:all .15s;letter-spacing:.04em}
 .btn-hd:hover{background:var(--bg3);border-color:var(--border3)}
 .btn-edit{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border);font-size:11.5px;padding:.32rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono);transition:all .15s;letter-spacing:.04em}
-.btn-edit:hover{background:rgba(90,155,207,.18)}
-.btn-del{background:var(--bg2);color:var(--accent);border:1px solid rgba(196,56,77,.2);font-size:11.5px;padding:.32rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono);transition:all .15s;letter-spacing:.04em}
-.btn-del:hover{background:var(--bg3);border-color:rgba(196,56,77,.35)}
+.btn-edit:hover{background:rgba(21,101,192,.14)}
+.btn-del{background:var(--bg2);color:var(--accent);border:1px solid rgba(181,32,48,.2);font-size:11.5px;padding:.32rem .8rem;border-radius:3px;cursor:pointer;font-family:var(--font-mono);transition:all .15s;letter-spacing:.04em}
+.btn-del:hover{background:var(--bg3);border-color:rgba(181,32,48,.35)}
 
 /* INLINE EDIT */
 .edit-panel{display:none;margin-top:.8rem;padding:1rem;background:var(--bg2);border:1px solid var(--border2);border-radius:6px}
@@ -156,7 +162,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .appeal-notes{margin-top:.6rem}
 .appeal-notes textarea{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:4px;color:var(--text);font-size:13px;padding:.5rem .7rem;min-height:50px;resize:vertical;font-family:var(--font-sans)}
 .appeal-notes textarea:focus{outline:none;border-color:var(--ink2)}
-.appeal-notes-saved{font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-top:.2rem;font-style:italic}
 .appeal-actions{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
 
 /* ANALYTICS */
@@ -194,9 +199,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .export-btn:hover{background:#b52030}
 
 /* CONFIRM DIALOG */
-.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:200;align-items:center;justify-content:center}
+.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center}
 .confirm-overlay.show{display:flex}
-.confirm-box{background:var(--bg1);border:1px solid var(--border2);border-radius:10px;padding:2rem;max-width:400px;width:90%;text-align:center;box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.confirm-box{background:var(--bg1);border:1px solid var(--border2);border-radius:10px;padding:2rem;max-width:400px;width:90%;text-align:center;box-shadow:0 16px 48px rgba(0,0,0,.12)}
 .confirm-msg{font-size:14px;color:var(--text);margin-bottom:1.2rem;line-height:1.5}
 .confirm-actions{display:flex;gap:.6rem;justify-content:center}
 
@@ -268,7 +273,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
         <button class="admin-tab" data-tab="analytics">Analytics</button>
         <button class="admin-tab" data-tab="export">Export</button>
       </div>
-      <button class="admin-logout" id="logoutBtn">Logout</button>
+      <div class="admin-nav-right">
+        <button class="admin-refresh" id="refreshBtn" title="Refresh data">&#8635;</button>
+        <button class="admin-logout" id="logoutBtn">Logout</button>
+      </div>
     </div>
   </nav>
   <div class="demo-banner" id="demoBanner" style="display:none">Running in demo mode - Supabase tables not found. Data is local only and will reset on refresh.</div>
@@ -279,12 +287,19 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
     <!-- TAB 1: SUBMISSIONS -->
     <div id="tab-submissions" class="tab-panel active">
       <div class="toolbar">
+        <label style="display:flex;align-items:center;cursor:pointer;margin-right:.2rem" title="Select all visible"><input type="checkbox" id="selectAllCheck" onchange="toggleSelectAll(this)" style="accent-color:var(--ink2);cursor:pointer"></label>
         <div class="f-pill on" data-filter="all">All</div>
         <div class="f-pill" data-filter="pending">Pending</div>
         <div class="f-pill" data-filter="approved">Approved</div>
         <div class="f-pill" data-filter="rejected">Rejected</div>
         <div class="f-pill" data-filter="hold">On Hold</div>
-        <input type="text" class="toolbar-search" id="subSearch" placeholder="Search ref_id, category, note, profile...">
+        <input type="text" class="toolbar-search" id="subSearch" placeholder="Search by ID, category, note, profile...">
+        <select class="toolbar-sort" id="subSort" onchange="changeSort(this.value)">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="severity">Severity</option>
+          <option value="category">Category</option>
+        </select>
         <div class="toolbar-count" id="subCount"></div>
       </div>
       <div class="bulk-bar" id="bulkBar">
@@ -305,9 +320,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
         <div class="f-pill" data-afilter="under_review">Under Review</div>
         <div class="f-pill" data-afilter="upheld">Upheld</div>
         <div class="f-pill" data-afilter="dismissed">Dismissed</div>
+        <input type="text" class="toolbar-search" id="appealSearchInput" placeholder="Search by ID, grounds, statement...">
         <div class="toolbar-count" id="appealCount"></div>
       </div>
       <div id="appealList"></div>
+      <div class="pagination" id="appealPagination"></div>
     </div>
 
     <!-- TAB 3: ANALYTICS -->
@@ -374,11 +391,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
    ============================================================ */
 
 // --- CONFIG ---
-// SHA-256 hash of admin password (default: "daag-admin-2025")
 var PASS_HASH = '4f60b05a021f0d37bc8facefa207e4057473a6223824e6be8db4dadbfdb9f840';
 
-// Supabase - use service_role key for full access (bypasses RLS)
-// Replace SUPABASE_KEY with your service_role key from Supabase dashboard > Settings > API
+// Supabase (anon key - safe for client-side; never use service_role key here)
 var SUPABASE_URL = 'https://cangysctagsljckdepyc.supabase.co';
 var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhbmd5c2N0YWdzbGpja2RlcHljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNTA1NDEsImV4cCI6MjA5NTYyNjU0MX0.tWx6AUpbftINyNdmxmt7smm5dgibgEhkuF8LcakbOzQ';
 
@@ -392,7 +407,10 @@ var allAppeals = [];
 var subFilter = 'all';
 var subSearch = '';
 var subPage = 1;
+var subSort = 'newest';
 var appealFilter = 'all';
+var appealSearch = '';
+var appealPage = 1;
 var selectedIds = new Set();
 var exportFilter = 'all';
 
@@ -494,6 +512,11 @@ function timeAgo(d){
   return m+'m ago';
 }
 
+function fullDate(d){
+  if(!d) return '';
+  return new Date(d).toLocaleString('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
 function showToast(msg,type){
   var t=document.getElementById('toast');
   t.textContent=msg;
@@ -549,6 +572,14 @@ function logout(){
 document.getElementById('loginBtn').onclick=tryLogin;
 document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')tryLogin()});
 document.getElementById('logoutBtn').onclick=logout;
+document.getElementById('refreshBtn').onclick=async function(){
+  var btn=document.getElementById('refreshBtn');
+  btn.classList.add('spinning');
+  await loadSubmissions();
+  await loadAppeals();
+  btn.classList.remove('spinning');
+  showToast('Data refreshed','success');
+};
 
 // --- BOOT ---
 function bootAdmin(){
@@ -613,7 +644,7 @@ function useDemoMode(){
 }
 
 function getFilteredSubmissions(){
-  var items=allSubmissions;
+  var items=allSubmissions.slice();
   if(subFilter!=='all'){
     items=items.filter(function(s){return s.status===subFilter});
   }
@@ -626,6 +657,16 @@ function getFilteredSubmissions(){
              (s.profile_name||'').toLowerCase().indexOf(q)>-1||
              (s.incident_type||'').toLowerCase().indexOf(q)>-1;
     });
+  }
+  var sevOrder={Severe:0,High:1,Moderate:2};
+  if(subSort==='oldest'){
+    items.sort(function(a,b){return new Date(a.created_at)-new Date(b.created_at)});
+  } else if(subSort==='severity'){
+    items.sort(function(a,b){return(sevOrder[a.severity]||2)-(sevOrder[b.severity]||2)});
+  } else if(subSort==='category'){
+    items.sort(function(a,b){return(a.category||'').localeCompare(b.category||'')});
+  } else {
+    items.sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at)});
   }
   return items;
 }
@@ -657,7 +698,7 @@ function renderSubmissions(){
       html+='<input type="checkbox" class="q-item-check" data-id="'+escHtml(s.ref_id)+'" '+checked+' onchange="toggleSelect(this)">';
       html+='<span class="q-item-id">'+escHtml(s.ref_id)+'</span>';
       html+='<span class="status '+statusCls+'">'+escHtml(s.status||'pending')+'</span>';
-      html+='<span class="q-item-time">'+escHtml(timeAgo(s.created_at))+'</span>';
+      html+='<span class="q-item-time" title="'+escHtml(fullDate(s.created_at))+'">'+escHtml(timeAgo(s.created_at))+'</span>';
       html+='</div>';
 
       html+='<div class="q-item-meta">';
@@ -665,6 +706,7 @@ function renderSubmissions(){
       html+='<span class="badge b-nv">'+escHtml(s.incident_type)+'</span>';
       html+='<span class="badge b-umber">'+escHtml(s.severity||'Moderate')+'</span>';
       html+='<span class="badge b-gr">'+escHtml(s.language||'Bangla')+'</span>';
+      if(s.submitter_relationship) html+='<span class="badge b-gr">'+escHtml(s.submitter_relationship)+'</span>';
       if(s.ai_score) html+='<span class="badge b-nv">AI: '+s.ai_score+'</span>';
       html+='</div>';
 
@@ -728,6 +770,8 @@ function renderSubmissions(){
   document.getElementById('subList').innerHTML=html;
   renderPagination(totalPages);
   updateBulkBar();
+  var sa=document.getElementById('selectAllCheck');
+  if(sa) sa.checked=pageItems.length>0&&pageItems.every(function(s){return selectedIds.has(s.ref_id)});
 }
 
 function renderPagination(totalPages){
@@ -770,6 +814,25 @@ document.getElementById('subSearch').addEventListener('input',function(){
   subPage=1;
   renderSubmissions();
 });
+
+function changeSort(val){
+  subSort=val;
+  subPage=1;
+  renderSubmissions();
+}
+
+function toggleSelectAll(el){
+  var items=getFilteredSubmissions();
+  var totalPages=Math.max(1,Math.ceil(items.length/ITEMS_PER_PAGE));
+  var start=(subPage-1)*ITEMS_PER_PAGE;
+  var pageItems=items.slice(start,start+ITEMS_PER_PAGE);
+  if(el.checked){
+    pageItems.forEach(function(s){selectedIds.add(s.ref_id)});
+  } else {
+    pageItems.forEach(function(s){selectedIds.delete(s.ref_id)});
+  }
+  renderSubmissions();
+}
 
 // --- SUBMISSION ACTIONS ---
 async function modAction(id,status){
@@ -904,6 +967,7 @@ async function bulkAction(action){
 async function loadAppeals(){
   if(demoMode) return; // already loaded by useDemoMode
   if(!sb) return;
+  document.getElementById('appealList').innerHTML='<div class="loading">Loading appeals...</div>';
   try{
     var{data,error}=await sb.from('appeals').select('*').order('created_at',{ascending:false});
     if(error) throw error;
@@ -916,18 +980,38 @@ async function loadAppeals(){
 }
 
 function getFilteredAppeals(){
-  if(appealFilter==='all') return allAppeals;
-  return allAppeals.filter(function(a){return a.status===appealFilter});
+  var items=allAppeals;
+  if(appealFilter!=='all'){
+    items=items.filter(function(a){return a.status===appealFilter});
+  }
+  if(appealSearch){
+    var q=appealSearch.toLowerCase();
+    items=items.filter(function(a){
+      return (a.ref_id||'').toLowerCase().indexOf(q)>-1||
+             (a.entry_id||'').toLowerCase().indexOf(q)>-1||
+             (a.grounds||'').toLowerCase().indexOf(q)>-1||
+             (a.statement||'').toLowerCase().indexOf(q)>-1||
+             (a.contact_email||'').toLowerCase().indexOf(q)>-1;
+    });
+  }
+  return items;
 }
 
 function renderAppeals(){
   var items=getFilteredAppeals();
-  document.getElementById('appealCount').textContent=items.length+' appeal(s)';
+  var total=items.length;
+  document.getElementById('appealCount').textContent=total===1?'1 appeal':total+' appeals';
+
+  var totalPages=Math.max(1,Math.ceil(total/ITEMS_PER_PAGE));
+  if(appealPage>totalPages) appealPage=totalPages;
+  var start=(appealPage-1)*ITEMS_PER_PAGE;
+  var pageItems=items.slice(start,start+ITEMS_PER_PAGE);
+
   var html='';
-  if(!items.length){
+  if(!pageItems.length){
     html='<div class="empty-state">No appeals found.</div>';
   } else {
-    items.forEach(function(a){
+    pageItems.forEach(function(a){
       var statusCls='s-review';
       if(a.status==='upheld') statusCls='s-upheld';
       else if(a.status==='dismissed') statusCls='s-dismissed';
@@ -937,7 +1021,7 @@ function renderAppeals(){
       html+='<span class="q-item-id">'+escHtml(a.ref_id)+'</span>';
       html+='<span class="status '+statusCls+'">'+escHtml(a.status||'under_review')+'</span>';
       html+='<span class="badge b-gr">Entry: '+escHtml(a.entry_id)+'</span>';
-      html+='<span class="q-item-time">'+escHtml(timeAgo(a.created_at))+'</span>';
+      html+='<span class="q-item-time" title="'+escHtml(fullDate(a.created_at))+'">'+escHtml(timeAgo(a.created_at))+'</span>';
       html+='</div>';
 
       html+='<div class="appeal-meta">';
@@ -965,6 +1049,31 @@ function renderAppeals(){
     });
   }
   document.getElementById('appealList').innerHTML=html;
+  renderAppealPagination(totalPages);
+}
+
+function renderAppealPagination(totalPages){
+  var html='';
+  if(totalPages<=1){document.getElementById('appealPagination').innerHTML='';return}
+  html+='<button class="page-btn" onclick="goAppealPage('+(appealPage-1)+')"'+(appealPage<=1?' disabled':'')+'>&#8592;</button>';
+  for(var i=1;i<=totalPages;i++){
+    if(totalPages>7&&i>2&&i<totalPages-1&&Math.abs(i-appealPage)>1){
+      if(i===3||i===totalPages-2) html+='<span style="color:var(--text3);font-size:12px;padding:0 .3rem">...</span>';
+      continue;
+    }
+    html+='<button class="page-btn'+(i===appealPage?' active':'')+'" onclick="goAppealPage('+i+')">'+i+'</button>';
+  }
+  html+='<button class="page-btn" onclick="goAppealPage('+(appealPage+1)+')"'+(appealPage>=totalPages?' disabled':'')+'>&#8594;</button>';
+  document.getElementById('appealPagination').innerHTML=html;
+}
+
+function goAppealPage(p){
+  var items=getFilteredAppeals();
+  var totalPages=Math.max(1,Math.ceil(items.length/ITEMS_PER_PAGE));
+  if(p<1||p>totalPages) return;
+  appealPage=p;
+  renderAppeals();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // Appeal filters
@@ -973,8 +1082,15 @@ document.querySelectorAll('[data-afilter]').forEach(function(pill){
     document.querySelectorAll('[data-afilter]').forEach(function(p){p.classList.remove('on')});
     pill.classList.add('on');
     appealFilter=pill.dataset.afilter;
+    appealPage=1;
     renderAppeals();
   };
+});
+
+document.getElementById('appealSearchInput').addEventListener('input',function(){
+  appealSearch=this.value.trim();
+  appealPage=1;
+  renderAppeals();
 });
 
 async function appealAction(id,status){
@@ -1120,7 +1236,6 @@ function statCard(label,val,sub){
 }
 
 // --- EXPORT ---
-var exportFilter='all';
 document.querySelectorAll('[data-efilter]').forEach(function(pill){
   pill.onclick=function(){
     document.querySelectorAll('[data-efilter]').forEach(function(p){p.classList.remove('on')});
