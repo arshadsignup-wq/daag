@@ -280,10 +280,24 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
   .foot-inner{grid-template-columns:1fr}
   .two-col{grid-template-columns:1fr}
   .hero-stats-row{gap:1.5rem}
+  .profile-stats{grid-template-columns:1fr 1fr}
+  .profile-card-head{flex-wrap:wrap}
+  .risk-pill{margin-left:0}
+  .arch-entry{grid-template-columns:1fr;gap:.8rem}
+  .thumb{width:100%;height:80px}
+  .hero{min-height:auto;padding:4rem 1.5rem 3rem}
+  .section{padding:3rem 1.5rem}
+  .section-sm{padding:2.5rem 1.5rem}
   .nav-hamburger{display:flex}
   .nav-links{display:none;position:absolute;top:60px;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(18px);flex-direction:column;padding:1rem 2rem 1.5rem;gap:.25rem;border-bottom:1px solid var(--border)}
   .nav-links.mobile-open{display:flex}
   .nav-links .nav-link{padding:.6rem 0;font-size:14px}
+  .search-i{max-width:100%}
+  .big-search-btn{position:static;transform:none;margin-top:.75rem;width:100%}
+  .big-search-wrap{display:flex;flex-direction:column}
+  .big-search-input{padding-right:1.4rem}
+  .tracker-head{flex-direction:column}
+  .tracker-head .f-input{max-width:100%!important}
 }
 </style>
 </head>
@@ -321,10 +335,10 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
         <button class="btn-g" onclick="go('archive')">Explore Archive</button>
       </div>
       <div class="hero-stats-row">
-        <div class="stat"><div class="stat-n">1,284</div><div class="stat-l">Entries Archived</div></div>
-        <div class="stat"><div class="stat-n">417</div><div class="stat-l">Under Review</div></div>
-        <div class="stat"><div class="stat-n">38</div><div class="stat-l">Moderators</div></div>
-        <div class="stat"><div class="stat-n">94%</div><div class="stat-l">Verified Rate</div></div>
+        <div class="stat"><div class="stat-n" id="heroStatArchived">0</div><div class="stat-l">Entries Archived</div></div>
+        <div class="stat"><div class="stat-n" id="heroStatReview">0</div><div class="stat-l">Under Review</div></div>
+        <div class="stat"><div class="stat-n" id="heroStatAppeals">0</div><div class="stat-l">Appeals Filed</div></div>
+        <div class="stat"><div class="stat-n" id="heroStatRate">0%</div><div class="stat-l">Verified Rate</div></div>
       </div>
     </div>
   </div>
@@ -505,7 +519,7 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
       <span class="f-pill" onclick="filt(this)">This Week</span>
     </div>
     <div class="arch-grid" id="archGrid"></div>
-    <div id="archFooter" style="text-align:center;padding:2rem 0;color:var(--text3);font-size:12px;font-family:var(--font-mono)"><span id="archCount">Showing 4 of 8 verified entries</span> &middot; <span id="archLoadMore" style="color:var(--accent);cursor:pointer" onclick="loadMoreArchive()">Load more &rarr;</span></div>
+    <div id="archFooter" style="text-align:center;padding:2rem 0;color:var(--text3);font-size:12px;font-family:var(--font-mono)"><span id="archCount">Showing 0 of 0 verified entries</span> &middot; <span id="archLoadMore" style="color:var(--accent);cursor:pointer" onclick="loadMoreArchive()">Load more &rarr;</span></div>
     <div class="disclaimer"><strong style="color:var(--text2)">Archive Use Notice:</strong> This archive is intended for research, advocacy, journalism, and public awareness. Redistribution of individual entries for purposes of harassment, pile-ons, or vigilante action is a violation of our Terms of Use and may count as online abuse under the law.</div>
   </div>
 </div>
@@ -517,10 +531,10 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
     <div class="section-title" style="margin-bottom:.5rem">What the Data Shows</div>
     <p style="color:var(--text2);font-size:14px;margin-bottom:2.5rem;line-height:1.75">All data comes from verified archive entries only. Updated weekly. Figures are shown at the aggregate level. No individual-level data is published here.</p>
     <div class="stats-grid">
-      <div class="a-card"><div class="a-num">1,284</div><div class="a-lbl">Total Archived</div><div class="a-delta">&uarr; 148 this month</div></div>
-      <div class="a-card"><div class="a-num">417</div><div class="a-lbl">In Moderation</div><div style="font-size:11px;color:var(--text3);margin-top:.4rem">Avg. 3.2 days review time</div></div>
-      <div class="a-card"><div class="a-num">94%</div><div class="a-lbl">Verified Rate</div><div style="font-size:11px;color:var(--text3);margin-top:.4rem">6% rejected or duplicates</div></div>
-      <div class="a-card"><div class="a-num">38</div><div class="a-lbl">Appeals Filed</div><div style="font-size:11px;color:var(--text3);margin-top:.4rem">14 upheld &middot; 24 dismissed</div></div>
+      <div class="a-card"><div class="a-num" id="analyticsTotal">0</div><div class="a-lbl">Total Archived</div><div class="a-delta" id="analyticsThisMonth"></div></div>
+      <div class="a-card"><div class="a-num" id="analyticsPending">0</div><div class="a-lbl">In Moderation</div><div style="font-size:11px;color:var(--text3);margin-top:.4rem" id="analyticsReviewTime"></div></div>
+      <div class="a-card"><div class="a-num" id="analyticsRate">0%</div><div class="a-lbl">Verified Rate</div><div style="font-size:11px;color:var(--text3);margin-top:.4rem" id="analyticsRejected"></div></div>
+      <div class="a-card"><div class="a-num" id="analyticsAppeals">0</div><div class="a-lbl">Appeals Filed</div><div style="font-size:11px;color:var(--text3);margin-top:.4rem" id="analyticsAppealBreakdown"></div></div>
     </div>
     <div class="chart-box"><div class="chart-lbl" id="chartYearLbl">Monthly Submissions</div><div class="bar-chart" id="barC"></div></div>
     <div class="two-col">
@@ -598,7 +612,7 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
           <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">Jun 2024</div><div class="tl-text">Methodology and ethics framework drafted with legal advisors and digital rights organizations.</div></div>
           <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">Oct 2024</div><div class="tl-text">Pilot moderation team assembled. Beta submission system tested with 40 voluntary contributors.</div></div>
           <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">Mar 2025</div><div class="tl-text">Public archive launched with 200 verified entries. Appeals system fully activated.</div></div>
-          <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">Present</div><div class="tl-text">1,284 verified entries. AI-assisted classification in beta. Partnership discussions with two Bangladeshi journalism organizations underway.</div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">Present</div><div class="tl-text">Public archive live. AI-assisted classification in beta. Partnership discussions with Bangladeshi journalism organizations underway.</div></div>
         </div>
       </div>
     </div>
@@ -629,9 +643,8 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
         <button class="btn-p big-search-btn" onclick="runProfileSearch()">Search Archive</button>
       </div>
       <div class="search-tips">
-        <span class="search-tip">Try: <span>Md Rahim Uddin</span></span>
-        <span class="search-tip">Try: <span>facebook.com/john.example</span></span>
-        <span class="search-tip">Try: <span>Karim Ahmed</span></span>
+        <span class="search-tip">Search by: <span>Profile name</span></span>
+        <span class="search-tip">Or: <span>facebook.com/username</span></span>
       </div>
     </div>
   </div>
@@ -770,7 +783,7 @@ let lastAppealTime=0;
 const appealCooldownMs=60000;
 
 // ARCHIVE STATE
-let archiveShowCount=4;
+let archiveShowCount=20;
 let archiveFiltered=[];
 let archiveCatFilter='All Entries';
 let archiveIncFilter='All';
@@ -778,39 +791,8 @@ let archiveSevFilter='All';
 let archiveSearchQuery='';
 let archSearchTimer=null;
 
-// PROFILE DATABASE (demo)
-const profileDB=[
-  {
-    name:'Md Rahim Uddin',initials:'RU',url:'facebook.com/md.rahim.uddin.2019',
-    risk:'high',totalEntries:4,categories:['Victim Blaming','Violent Rhetoric','Misogyny'],
-    firstSeen:'Feb 2024',lastSeen:'Apr 2025',
-    entries:[
-      {cat:'Victim Blaming',inc:'Rape',date:'12 Apr 2025',sev:'High',ver:1,lastEdit:null,text:'Argued the survivor was responsible based on her clothing and time of return home'},
-      {cat:'Violent Rhetoric',inc:'Acid Violence',date:'3 Nov 2024',sev:'Severe',ver:2,lastEdit:'5 Nov 2024',text:'Celebrated the perpetrator and made dehumanizing remarks about the survivor\'s injuries'},
-      {cat:'Misogyny',inc:'Cyber Harassment',date:'18 Jun 2024',sev:'Moderate',ver:1,lastEdit:null,text:'Coordinated character attack on a female activist following her public statement on rape legislation'},
-      {cat:'Victim Blaming',inc:'Domestic Violence',date:'5 Feb 2024',sev:'High',ver:1,lastEdit:null,text:'Claimed the victim "provoked" her abuser and should have "stayed quiet"'}
-    ]
-  },
-  {
-    name:'Karim Ahmed',initials:'KA',url:'facebook.com/karim.ahmed.dhaka',
-    risk:'moderate',totalEntries:2,categories:['Appearance Humiliation','Dehumanizing Language'],
-    firstSeen:'Aug 2024',lastSeen:'Jan 2025',
-    entries:[
-      {cat:'Appearance Humiliation',inc:'Public Harassment',date:'14 Jan 2025',sev:'Moderate',ver:1,lastEdit:null,text:'Body-shaming commentary on a harassment complainant; suggested her appearance caused the incident'},
-      {cat:'Dehumanizing Language',inc:'Domestic Violence',date:'22 Aug 2024',sev:'Moderate',ver:1,lastEdit:null,text:'Referred to the survivor using dehumanizing slang and dismissed documented injuries as fabricated'}
-    ]
-  },
-  {
-    name:'Arif Hossain Shuvo',initials:'AH',url:'facebook.com/arif.h.shuvo',
-    risk:'high',totalEntries:3,categories:['Threats','Violent Rhetoric','Victim Blaming'],
-    firstSeen:'Mar 2024',lastSeen:'Mar 2025',
-    entries:[
-      {cat:'Threats',inc:'Gender Violence',date:'9 Mar 2025',sev:'Severe',ver:1,lastEdit:null,text:'Explicit threat directed at a journalist who published a survivor\'s account of domestic violence'},
-      {cat:'Violent Rhetoric',inc:'Rape',date:'17 Oct 2024',sev:'High',ver:2,lastEdit:'19 Oct 2024',text:'Comment praising the perpetrator and questioning why the survivor "went out alone at night"'},
-      {cat:'Victim Blaming',inc:'Sexual Harassment',date:'2 Mar 2024',sev:'High',ver:1,lastEdit:null,text:'Claimed the complainant fabricated the incident for "attention" based on her social media profile'}
-    ]
-  }
-];
+// PROFILE DATABASE (populated from Supabase)
+const profileDB=[];
 
 // XSS PROTECTION
 function escHtml(str){return(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
@@ -899,16 +881,7 @@ function loadMoreArchive(){
 }
 
 // ===== ARCHIVE DATA (demo) =====
-var archiveData=[
-  {id:'DG-2025-1101',cat:'Victim Blaming',inc:'Rape',date:'18 May 2025',lang:'Bangla',sev:'High',ver:1,lastEdit:null,note:'Comment defending perpetrator based on victim\'s reported lifestyle and clothing choices, in response to a news post about a university rape case'},
-  {id:'DG-2025-1098',cat:'Violent Rhetoric',inc:'Acid Violence',date:'15 May 2025',lang:'Bangla',sev:'Severe',ver:2,lastEdit:'16 May 2025',note:'Celebratory commentary following an acid attack, including explicit dehumanization of the survivor and praise for the perpetrator'},
-  {id:'DG-2025-1092',cat:'Misogyny',inc:'Cyber Harassment',date:'12 May 2025',lang:'Banglish',sev:'High',ver:1,lastEdit:null,note:'Coordinated character-attack campaign against an activist following her public statement on gender violence legislation'},
-  {id:'DG-2025-1087',cat:'Dehumanizing Language',inc:'Domestic Violence',date:'9 May 2025',lang:'Bangla',sev:'Moderate',ver:3,lastEdit:'11 May 2025',note:'Multiple commenters arguing victim "provoked" abuser; dismissing severity of documented injuries as exaggerated'},
-  {id:'DG-2025-1083',cat:'Threats',inc:'Gender Violence',date:'5 May 2025',lang:'Bangla',sev:'Severe',ver:1,lastEdit:null,note:'Explicit threats directed at a journalist who published survivor testimony in a domestic violence investigation'},
-  {id:'DG-2025-1079',cat:'Appearance Humiliation',inc:'Public Harassment',date:'2 May 2025',lang:'Banglish',sev:'Moderate',ver:2,lastEdit:'4 May 2025',note:'Coordinated body-shaming and slut-shaming campaign targeting a complainant in a public harassment case'},
-  {id:'DG-2025-1071',cat:'Victim Blaming',inc:'Sexual Harassment',date:'28 Apr 2025',lang:'Bangla',sev:'High',ver:1,lastEdit:null,note:'Comments contesting survivor credibility based on relationship history and family background'},
-  {id:'DG-2025-1064',cat:'Sexual Harassment',inc:'Rape',date:'22 Apr 2025',lang:'Bangla',sev:'Severe',ver:1,lastEdit:null,note:'Sexually explicit comment thread objectifying survivor in a post about an assault investigation'}
-];
+var archiveData=[];
 
 function getFilteredArchive(){
   var data=archiveData;
@@ -991,12 +964,25 @@ async function buildAnalytics(){
       var {count:appealCount}=await sb.from('appeals').select('*',{count:'exact',head:true});
       var totalCount=allData?allData.length:0;
 
-      // Update stat cards
-      var cards=document.querySelectorAll('#pg-analytics .a-card');
-      if(cards[0])cards[0].querySelector('.a-num').textContent=totalCount.toLocaleString();
-      if(cards[1]&&pendingCount!=null)cards[1].querySelector('.a-num').textContent=pendingCount.toLocaleString();
-      if(cards[2])cards[2].querySelector('.a-num').textContent=totalCount>0?Math.round((totalCount/(totalCount+(pendingCount||0)))*100)+'%':'0%';
-      if(cards[3]&&appealCount!=null)cards[3].querySelector('.a-num').textContent=appealCount.toLocaleString();
+      // Update analytics stat cards
+      var rate=totalCount>0?Math.round((totalCount/(totalCount+(pendingCount||0)))*100):0;
+      var rejCount=(pendingCount||0)>0?100-rate:0;
+      var el;
+      if(el=document.getElementById('analyticsTotal'))el.textContent=totalCount.toLocaleString();
+      if(el=document.getElementById('analyticsPending'))el.textContent=(pendingCount||0).toLocaleString();
+      if(el=document.getElementById('analyticsRate'))el.textContent=rate+'%';
+      if(el=document.getElementById('analyticsAppeals'))el.textContent=(appealCount||0).toLocaleString();
+      if(el=document.getElementById('analyticsRejected'))el.textContent=rejCount?rejCount+'% rejected or duplicates':'';
+      // Count this month
+      var now=new Date();var thisMonthCount=0;
+      if(allData)allData.forEach(function(r){var d=new Date(r.created_at);if(d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear())thisMonthCount++});
+      if(el=document.getElementById('analyticsThisMonth'))el.textContent=thisMonthCount?'\u2191 '+thisMonthCount+' this month':'';
+
+      // Update hero stats too
+      if(el=document.getElementById('heroStatArchived'))el.textContent=totalCount.toLocaleString();
+      if(el=document.getElementById('heroStatReview'))el.textContent=(pendingCount||0).toLocaleString();
+      if(el=document.getElementById('heroStatAppeals'))el.textContent=(appealCount||0).toLocaleString();
+      if(el=document.getElementById('heroStatRate'))el.textContent=rate+'%';
 
       if(!error&&allData){
         var currentYear=new Date().getFullYear();
@@ -1009,14 +995,12 @@ async function buildAnalytics(){
           incMap[inc]=(incMap[inc]||0)+1;
         });
       }
-    }catch(e){console.warn('Supabase analytics fetch failed, using demo data',e);mData=[62,78,91,103,120,88,145,132,167,189,210,148]}
-  }else{
-    mData=[62,78,91,103,120,88,145,132,167,189,210,148];
+    }catch(e){console.warn('Supabase analytics fetch failed',e)}
   }
 
   // Bar chart
   var yearLbl=document.getElementById('chartYearLbl');
-  if(yearLbl)yearLbl.textContent='Monthly Submissions \u2014 '+new Date().getFullYear();
+  if(yearLbl)yearLbl.textContent='Monthly Submissions - '+new Date().getFullYear();
   var mx=Math.max.apply(null,mData)||1;
   bc.innerHTML=months.map(function(m,i){
     var h=Math.round(mData[i]/mx*100);
@@ -1029,13 +1013,13 @@ async function buildAnalytics(){
     var catTotal=Object.values(catMap).reduce(function(a,b){return a+b},0)||1;
     cats=Object.keys(catMap).sort(function(a,b){return catMap[b]-catMap[a]}).map(function(k){return{n:k,p:Math.round(catMap[k]/catTotal*100),c:catColors[k]||'#7a7a8c'}});
   }else{
-    cats=[{n:'Victim Blaming',p:31,c:'#b52030'},{n:'Misogyny',p:24,c:'#d84315'},{n:'Violent Rhetoric',p:18,c:'#bf6d00'},{n:'Dehumanizing',p:14,c:'#6a1b9a'},{n:'Threats',p:8,c:'#1565c0'},{n:'Other',p:5,c:'#7a7a8c'}];
+    cats=[];
   }
   if(Object.keys(incMap).length){
     var incTotal=Object.values(incMap).reduce(function(a,b){return a+b},0)||1;
     incs=Object.keys(incMap).sort(function(a,b){return incMap[b]-incMap[a]}).map(function(k){return{n:k,p:Math.round(incMap[k]/incTotal*100),c:incColors[k]||'#7a7a8c'}});
   }else{
-    incs=[{n:'Rape / Sexual Violence',p:38,c:'#b52030'},{n:'Cyber Harassment',p:22,c:'#d84315'},{n:'Domestic Violence',p:17,c:'#bf6d00'},{n:'Public Harassment',p:12,c:'#6a1b9a'},{n:'Acid Violence',p:7,c:'#1565c0'},{n:'Gender Violence',p:4,c:'#7a7a8c'}];
+    incs=[];
   }
   function buildList(id,items){
     var el=document.getElementById(id);
@@ -1087,7 +1071,7 @@ async function runProfileSearch(){
   setTimeout(function(){
     var matches=profileDB.filter(function(p){return p.name.toLowerCase().includes(query)||p.url.toLowerCase().includes(query)});
     if(!matches.length){
-      resultsEl.innerHTML='<div class="no-results"><div class="no-results-icon">&#9678;</div><div class="no-results-t" style="font-family:var(--font-serif);font-size:1.25rem;color:var(--warm);font-weight:600;margin-bottom:.75rem">No verified entries found</div><div class="no-results-s">No archived comments linked to <strong style="color:var(--text2)">"'+escHtml(raw)+'"</strong> were found in our verified archive.<br><br>This does not mean the person has not made harmful comments \u2014 only that none have been submitted and verified yet. If you have evidence, you can <button onclick="go(\'submit\')" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:inherit;font-family:inherit;padding:0;text-decoration:underline">submit it for review</button>.</div></div>';
+      resultsEl.innerHTML='<div class="no-results"><div class="no-results-icon">&#9678;</div><div class="no-results-t" style="font-family:var(--font-serif);font-size:1.25rem;color:var(--warm);font-weight:600;margin-bottom:.75rem">No verified entries found</div><div class="no-results-s">No archived comments linked to <strong style="color:var(--text2)">"'+escHtml(raw)+'"</strong> were found in our verified archive.<br><br>This does not mean the person has not made harmful comments  - only that none have been submitted and verified yet. If you have evidence, you can <button onclick="go(\'submit\')" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:inherit;font-family:inherit;padding:0;text-decoration:underline">submit it for review</button>.</div></div>';
       return;
     }
     resultsEl.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.5rem"><div style="font-size:13.5px;color:var(--text2)">Found <strong style="color:var(--text)">'+matches.length+'</strong> profile'+(matches.length>1?'s':'')+' matching <strong style="color:var(--text)">"'+escHtml(raw)+'"</strong></div><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">Verified entries only</div></div>'+matches.map(renderProfileCard).join('');
@@ -1224,7 +1208,7 @@ function processFile(file,previewId,zoneId){
   if(!allowed.includes(file.type)){showUploadMsg(previewId,'File type not accepted. Use PNG, JPG, WEBP, or PDF.','error');return}
   if(file.size>maxMB*1024*1024){showUploadMsg(previewId,'File exceeds 10MB limit. Please compress and retry.','error');return}
   var sizeMB=(file.size/(1024*1024)).toFixed(2);
-  if(file.type==='application/pdf'){showUploadMsg(previewId,file.name+' ('+sizeMB+' MB) \u2014 PDF ready for submission','success');return}
+  if(file.type==='application/pdf'){showUploadMsg(previewId,file.name+' ('+sizeMB+' MB)  - PDF ready for submission','success');return}
   var reader=new FileReader();
   reader.onload=function(e){
     if(!preview)return;
@@ -1355,7 +1339,7 @@ async function trackAppeal(){
     try{
       var {data,error}=await sb.from('appeals').select('*').eq('ref_id',val).single();
       if(!error&&data){
-        var statusLabels={under_review:'Under Review',upheld:'Appeal Upheld \u2014 Entry Removed',dismissed:'Appeal Dismissed',pending:'Received \u2014 Awaiting Assignment'};
+        var statusLabels={under_review:'Under Review',upheld:'Appeal Upheld  - Entry Removed',dismissed:'Appeal Dismissed',pending:'Received  - Awaiting Assignment'};
         var statusColors={under_review:'#1565c0',upheld:'#2e7d32',dismissed:'#c62828',pending:'var(--text2)'};
         resultEl.style.display='block';
         resultEl.innerHTML='<div class="tr-status-bar"><span style="font-family:var(--font-mono);font-size:12px;color:var(--text3)">'+escHtml(val)+'</span><span class="status" style="background:rgba(90,138,196,.12);color:'+statusColors[data.status]+';border:1px solid '+(statusColors[data.status])+'40">'+statusLabels[data.status]+'</span></div><div style="font-size:13px;color:var(--text2);line-height:1.7">Filed on '+new Date(data.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' for entry <strong>'+escHtml(data.entry_id)+'</strong>.</div>';
@@ -1366,10 +1350,28 @@ async function trackAppeal(){
 
   // Demo mode: show a plausible status
   resultEl.style.display='block';
-  resultEl.innerHTML='<div class="tr-status-bar"><span style="font-family:var(--font-mono);font-size:12px;color:var(--text3)">'+escHtml(val)+'</span><span class="status s-rev">Under Review</span></div><div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:1rem">Your appeal is currently under review by an independent moderation panel. Estimated completion: <strong style="color:var(--text)">14 working days</strong> from submission.</div><div class="tr-timeline"><div class="tr-step"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 1 \u2014 Received</div><div style="font-size:12.5px;color:var(--text2)">Appeal acknowledged and assigned to review queue</div></div><div class="tr-step"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 2 \u2014 Panel Review</div><div style="font-size:12.5px;color:var(--text2)">Independent panel reviewing evidence and grounds</div></div><div class="tr-step pending"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 3 \u2014 Decision</div><div style="font-size:12.5px;color:var(--text3)">Pending \u2014 awaiting panel decision</div></div></div>';
+  resultEl.innerHTML='<div class="tr-status-bar"><span style="font-family:var(--font-mono);font-size:12px;color:var(--text3)">'+escHtml(val)+'</span><span class="status s-rev">Under Review</span></div><div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:1rem">Your appeal is currently under review by an independent moderation panel. Estimated completion: <strong style="color:var(--text)">14 working days</strong> from submission.</div><div class="tr-timeline"><div class="tr-step"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 1  - Received</div><div style="font-size:12.5px;color:var(--text2)">Appeal acknowledged and assigned to review queue</div></div><div class="tr-step"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 2  - Panel Review</div><div style="font-size:12.5px;color:var(--text2)">Independent panel reviewing evidence and grounds</div></div><div class="tr-step pending"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 3  - Decision</div><div style="font-size:12.5px;color:var(--text3)">Pending  - awaiting panel decision</div></div></div>';
+}
+
+// ===== HERO STATS =====
+async function updateHeroStats(){
+  if(!isLive()) return;
+  try{
+    var {count:approved}=await sb.from('submissions').select('*',{count:'exact',head:true}).eq('status','approved');
+    var {count:pending}=await sb.from('submissions').select('*',{count:'exact',head:true}).eq('status','pending');
+    var {count:appeals}=await sb.from('appeals').select('*',{count:'exact',head:true});
+    var total=approved||0;var pend=pending||0;var ap=appeals||0;
+    var rate=total>0?Math.round((total/(total+pend))*100):0;
+    var el;
+    if(el=document.getElementById('heroStatArchived'))el.textContent=total.toLocaleString();
+    if(el=document.getElementById('heroStatReview'))el.textContent=pend.toLocaleString();
+    if(el=document.getElementById('heroStatAppeals'))el.textContent=ap.toLocaleString();
+    if(el=document.getElementById('heroStatRate'))el.textContent=rate+'%';
+  }catch(e){console.warn('Hero stats fetch failed',e)}
 }
 
 // ===== INIT =====
+updateHeroStats();
 buildArchive();
 buildAnalytics();
 </script>
