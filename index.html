@@ -4,11 +4,56 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daag - Online Gender Violence Documentation Archive | Bangladesh</title>
-<meta name="description" content="Daag is a verified public archive documenting misogynistic, victim-blaming, and abusive comments on social media about gender violence in Bangladesh. Submit evidence, search profiles, and access public records.">
+<meta name="description" content="Daag is a verified public archive documenting misogynistic and abusive comments about gender violence in Bangladesh. Submit evidence and search profiles.">
 <meta name="keywords" content="gender violence Bangladesh, online misogyny archive, victim blaming documentation, Facebook abuse comments, gender-based violence, Bangladesh women safety, accountability archive, online harassment Bangladesh">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Daag - Online Gender Violence Documentation Archive | Bangladesh">
+<meta property="og:description" content="A verified public archive documenting misogynistic, victim-blaming, and abusive comments on social media about gender violence in Bangladesh.">
+<meta property="og:url" content="https://daag.vercel.app">
+<meta property="og:site_name" content="Daag">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://daag.vercel.app/og-image.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Daag - Online Gender Violence Documentation Archive for Bangladesh">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Daag - Online Gender Violence Documentation Archive">
+<meta name="twitter:description" content="A verified public archive documenting misogynistic, victim-blaming, and abusive comments on social media about gender violence in Bangladesh.">
+<meta name="twitter:image" content="https://daag.vercel.app/og-image.svg">
+<meta name="twitter:image:alt" content="Daag - Online Gender Violence Documentation Archive for Bangladesh">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://daag.vercel.app">
+
+<!-- Favicon (SVG inline) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%239e1c2c'/><text x='50' y='72' font-size='60' font-weight='700' fill='white' text-anchor='middle' font-family='sans-serif'>D</text></svg>" type="image/svg+xml">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Daag",
+  "alternateName": "Daag - দাগ",
+  "url": "https://daag.vercel.app",
+  "description": "A verified public archive documenting misogynistic, victim-blaming, and abusive comments on social media about gender violence in Bangladesh.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Daag",
+    "url": "https://daag.vercel.app"
+  }
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+.skip-link{position:absolute;top:-100%;left:1rem;background:var(--ink2);color:#fff;padding:.5rem 1.2rem;border-radius:4px;z-index:200;font-size:13px;text-decoration:none}
+.skip-link:focus{top:1rem}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#ffffff;--bg1:#f8f8fa;--bg2:#f1f1f3;--bg3:#e8e8ec;
@@ -32,9 +77,9 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.94);backdrop-
 .logo-mark::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 60%)}
 .logo-name{font-size:15px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text);font-family:var(--font-sans)}
 .nav-links{display:flex;align-items:center;gap:1.5rem;flex:1;justify-content:center}
-.nav-link{font-size:13px;color:var(--text2);cursor:pointer;padding:.25rem 0;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font-sans)}
+.nav-link{font-size:13px;color:var(--text2);cursor:pointer;padding:.25rem 0;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font-sans);text-decoration:none}
 .nav-link:hover,.nav-link.active{color:var(--text);border-bottom-color:var(--accent)}
-.nav-cta{background:var(--ink2);color:#fff;font-size:13px;font-weight:500;padding:.45rem 1.2rem;border-radius:4px;cursor:pointer;border:none;white-space:nowrap;transition:background .2s,transform .15s;font-family:var(--font-sans);flex-shrink:0}
+.nav-cta{background:var(--ink2);color:#fff;font-size:13px;font-weight:500;padding:.45rem 1.2rem;border-radius:4px;cursor:pointer;border:none;white-space:nowrap;transition:background .2s,transform .15s;font-family:var(--font-sans);flex-shrink:0;text-decoration:none}
 .nav-cta:hover{background:#b52030;transform:translateY(-1px)}
 
 /* PAGE SYSTEM */
@@ -55,9 +100,9 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.94);backdrop-
 h1.hero-h{font-family:var(--font-serif);font-size:clamp(3.2rem,7vw,5.8rem);line-height:1.06;color:var(--warm);margin-bottom:1.6rem;font-weight:600;letter-spacing:-.025em}
 .hero-sub{font-size:1.05rem;color:var(--text2);max-width:560px;margin:0 auto 3rem;line-height:1.85;font-weight:400}
 .cta-row{display:flex;align-items:center;justify-content:center;gap:.9rem;flex-wrap:wrap}
-.btn-p{background:var(--ink2);color:#fff;font-size:13.5px;font-weight:500;padding:.7rem 1.7rem;border-radius:4px;cursor:pointer;border:none;transition:background .2s,transform .15s;font-family:var(--font-sans);letter-spacing:.01em}
+.btn-p{background:var(--ink2);color:#fff;font-size:13.5px;font-weight:500;padding:.7rem 1.7rem;border-radius:4px;cursor:pointer;border:none;transition:background .2s,transform .15s;font-family:var(--font-sans);letter-spacing:.01em;text-decoration:none;display:inline-block}
 .btn-p:hover{background:#b52030;transform:translateY(-2px)}
-.btn-g{background:transparent;color:var(--text);font-size:13.5px;font-weight:500;padding:.7rem 1.7rem;border-radius:4px;cursor:pointer;border:1px solid var(--border3);transition:border-color .2s,background .2s;font-family:var(--font-sans)}
+.btn-g{background:transparent;color:var(--text);font-size:13.5px;font-weight:500;padding:.7rem 1.7rem;border-radius:4px;cursor:pointer;border:1px solid var(--border3);transition:border-color .2s,background .2s;font-family:var(--font-sans);text-decoration:none;display:inline-block}
 .btn-g:hover{border-color:var(--text2);background:var(--bg2)}
 .hero-stats-row{display:flex;justify-content:center;gap:2.5rem;margin-top:5rem;padding-top:2.5rem;border-top:1px solid var(--border);flex-wrap:wrap}
 .stat{text-align:center}
@@ -72,12 +117,20 @@ h1.hero-h{font-family:var(--font-serif);font-size:clamp(3.2rem,7vw,5.8rem);line-
 .divider{border:none;border-top:1px solid var(--border)}
 
 /* FEATURE GRID */
-.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:3rem}
-.feat-card{background:var(--bg1);padding:2rem;transition:background .2s}
-.feat-card:hover{background:var(--bg2)}
-.feat-icon{width:38px;height:38px;border-radius:7px;background:var(--ink-glow);border:1px solid rgba(158,28,44,.2);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--accent);margin-bottom:1.25rem}
-.feat-t{font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:.45rem}
-.feat-d{font-size:12.5px;color:var(--text2);line-height:1.65}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:3rem;position:relative}
+.feat-card{padding:2.5rem 2rem;position:relative;transition:all .35s ease;cursor:default;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.feat-card:nth-child(3n){border-right:none}
+.feat-card:nth-child(n+4){border-bottom:none}
+.feat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(158,28,44,.04) 0%,transparent 60%);opacity:0;transition:opacity .35s}
+.feat-card:hover::before{opacity:1}
+.feat-card:hover{transform:translateY(-2px)}
+.feat-card:hover .feat-icon{transform:scale(1.08);box-shadow:0 6px 24px rgba(158,28,44,.18)}
+.feat-num{font-family:var(--font-mono);font-size:11px;color:var(--text3);letter-spacing:.1em;margin-bottom:1.25rem;position:relative;z-index:1}
+.feat-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--ink2),#c0384a);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;margin-bottom:1.25rem;transition:all .35s ease;position:relative;z-index:1;box-shadow:0 4px 16px rgba(158,28,44,.12)}
+.feat-t{font-size:15px;font-weight:600;color:var(--text);margin-bottom:.6rem;position:relative;z-index:1}
+.feat-d{font-size:13px;color:var(--text2);line-height:1.7;position:relative;z-index:1}
+@media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr)}.feat-card:nth-child(3n){border-right:1px solid var(--border)}.feat-card:nth-child(2n){border-right:none}.feat-card{border-bottom:1px solid var(--border)!important}.feat-card:nth-last-child(-n+2){border-bottom:none!important}}
+@media(max-width:600px){.feat-grid{grid-template-columns:1fr}.feat-card{border-right:none!important;border-bottom:1px solid var(--border)!important}.feat-card:last-child{border-bottom:none!important}}
 
 /* NOTICES */
 .notice{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--ink2);border-radius:5px;padding:1.1rem 1.3rem;margin-bottom:1.25rem}
@@ -194,7 +247,7 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
 .foot-tag{font-size:12.5px;color:var(--text3);line-height:1.65}
 .foot-col-t{font-size:10px;font-family:var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:.9rem}
 .foot-links{display:flex;flex-direction:column;gap:.45rem}
-.foot-link{font-size:13px;color:var(--text2);cursor:pointer;transition:color .15s;background:none;border:none;font-family:var(--font-sans);text-align:left;padding:0}
+.foot-link{font-size:13px;color:var(--text2);cursor:pointer;transition:color .15s;background:none;border:none;font-family:var(--font-sans);text-align:left;padding:0;text-decoration:none}
 .foot-link:hover{color:var(--text)}
 .foot-bottom{max-width:1200px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px;color:var(--text3);font-family:var(--font-mono);flex-wrap:wrap;gap:.5rem}
 
@@ -302,25 +355,27 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
 </style>
 </head>
 <body>
-<nav>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<nav aria-label="Main navigation">
   <div class="nav-inner">
-    <a class="nav-logo" onclick="go('home')">
+    <a class="nav-logo" href="#home">
       <div class="logo-mark">দাগ</div>
       <span class="logo-name">Daag</span>
     </a>
-    <button class="nav-hamburger" onclick="toggleMobileNav()"><span></span><span></span><span></span></button>
+    <button class="nav-hamburger" onclick="toggleMobileNav()" aria-label="Toggle navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
-      <button class="nav-link" data-page="archive" onclick="go('archive')">Archive</button>
-      <button class="nav-link" data-page="search" onclick="go('search')">Profile Search</button>
-      <button class="nav-link" data-page="analytics" onclick="go('analytics')">Analytics</button>
-      <button class="nav-link" data-page="appeals" onclick="go('appeals')">Appeals</button>
+      <a class="nav-link" data-page="archive" href="#archive">Archive</a>
+      <a class="nav-link" data-page="search" href="#search">Profile Search</a>
+      <a class="nav-link" data-page="analytics" href="#analytics">Analytics</a>
+      <a class="nav-link" data-page="appeals" href="#appeals">Appeals</a>
     </div>
-    <button class="nav-cta" onclick="go('submit')">Submit Evidence</button>
+    <a class="nav-cta" href="#submit">Submit Evidence</a>
   </div>
 </nav>
 
+<main id="main-content">
 <!-- HOME -->
-<div id="pg-home" class="page active">
+<section id="pg-home" class="page active">
   <div class="hero">
     <div class="hero-grid-bg"></div>
     <div class="hero-glow"></div>
@@ -331,8 +386,8 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
       <h1 class="hero-h">Every word<br>leaves a mark.</h1>
       <p class="hero-sub">Daag is a verified public archive documenting misogynistic, victim-blaming, and abusive comments made by named individuals on social media about incidents of gender violence in Bangladesh.</p>
       <div class="cta-row">
-        <button class="btn-p" onclick="go('submit')">Submit Evidence</button>
-        <button class="btn-g" onclick="go('archive')">Explore Archive</button>
+        <a class="btn-p" href="#submit">Submit Evidence</a>
+        <a class="btn-g" href="#archive">Explore Archive</a>
       </div>
       <div class="hero-stats-row">
         <div class="stat"><div class="stat-n" id="heroStatArchived">0</div><div class="stat-l">Entries Archived</div></div>
@@ -345,21 +400,21 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
   <hr class="divider">
   <div class="section">
     <div class="section-tag">What Daag Documents</div>
-    <div class="section-title">Perpetrators leave traces.<br>We preserve them.</div>
-    <p style="color:var(--text2);max-width:520px;line-height:1.8;font-size:14px">Every submission goes through editorial review before publication. We document the people behind the comments and build a verified, searchable record of who said what, and when.</p>
+    <h2 class="section-title">Perpetrators leave traces.<br>We preserve them.</h2>
+    <p style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14.5px">Every submission goes through editorial review before publication. We document the people behind the comments and build a verified, searchable record of who said what, and when.</p>
     <div class="feat-grid">
-      <div class="feat-card"><div class="feat-icon">◉</div><div class="feat-t">Evidence Submission Portal</div><div class="feat-d">Structured intake for public URLs, screenshots, and contextual notes. All submissions go through moderation before they become public.</div></div>
-      <div class="feat-card"><div class="feat-icon">⊟</div><div class="feat-t">Editorial Moderation</div><div class="feat-d">A trained team reviews every submission for authenticity, context, and category accuracy before archiving. Nothing is published automatically.</div></div>
-      <div class="feat-card"><div class="feat-icon">◈</div><div class="feat-t">AI-Assisted Classification</div><div class="feat-d">NLP toxicity scoring gives moderators supporting signals. All AI results are clearly labeled as advisory and are not treated as final decisions.</div></div>
-      <div class="feat-card"><div class="feat-icon">⊞</div><div class="feat-t">Searchable Public Archive</div><div class="feat-d">Filter by category, incident type, date, and severity. Screenshots are blurred by default. Entries include full context and annotations.</div></div>
-      <div class="feat-card"><div class="feat-icon">⊕</div><div class="feat-t">Appeals &amp; Dispute System</div><div class="feat-d">Any individual can dispute a submission. All appeals get a human review with documented reasoning. Successful appeals lead to removal or reclassification.</div></div>
-      <div class="feat-card"><div class="feat-icon">◎</div><div class="feat-t">Pattern Analytics</div><div class="feat-d">Data journalism covering category trends, incident timelines, and language patterns. Published for research, advocacy, and journalism.</div></div>
+      <div class="feat-card"><div class="feat-num">01</div><div class="feat-icon">◉</div><div class="feat-t">Evidence Submission Portal</div><div class="feat-d">Structured intake for public URLs, screenshots, and contextual notes. All submissions go through moderation before they become public.</div></div>
+      <div class="feat-card"><div class="feat-num">02</div><div class="feat-icon">⊟</div><div class="feat-t">Editorial Moderation</div><div class="feat-d">A trained team reviews every submission for authenticity, context, and category accuracy before archiving. Nothing is published automatically.</div></div>
+      <div class="feat-card"><div class="feat-num">03</div><div class="feat-icon">◈</div><div class="feat-t">AI-Assisted Classification</div><div class="feat-d">NLP toxicity scoring gives moderators supporting signals. All AI results are clearly labeled as advisory and are not treated as final decisions.</div></div>
+      <div class="feat-card"><div class="feat-num">04</div><div class="feat-icon">⊞</div><div class="feat-t">Searchable Public Archive</div><div class="feat-d">Filter by category, incident type, date, and severity. Screenshots are blurred by default. Entries include full context and annotations.</div></div>
+      <div class="feat-card"><div class="feat-num">05</div><div class="feat-icon">⊕</div><div class="feat-t">Appeals &amp; Dispute System</div><div class="feat-d">Any individual can dispute a submission. All appeals get a human review with documented reasoning. Successful appeals lead to removal or reclassification.</div></div>
+      <div class="feat-card"><div class="feat-num">06</div><div class="feat-icon">◎</div><div class="feat-t">Pattern Analytics</div><div class="feat-d">Data journalism covering category trends, incident timelines, and language patterns. Published for research, advocacy, and journalism.</div></div>
     </div>
   </div>
   <hr class="divider">
   <div class="section-sm" style="padding-top:4.5rem">
     <div class="section-tag">Our Commitment</div>
-    <div class="section-title" style="font-size:2rem;margin-bottom:1.5rem">The stain of words,<br>not the stain of vengeance</div>
+    <h2 class="section-title" style="font-size:2rem;margin-bottom:1.5rem">The stain of words,<br>not the stain of vengeance</h2>
     <div class="notice"><div class="notice-t">Platform Philosophy</div><div class="notice-b">Daag is not a shaming tool, a vigilante platform, or a harassment engine. It is an evidence archive built on dignity, transparency, and responsible documentation. Every design and editorial decision reflects this commitment.</div></div>
     <div class="notice"><div class="notice-t">Who Can Appeal</div><div class="notice-b">Anyone who believes a submission is inaccurate, missing context, or made in bad faith can file a formal dispute. A separate moderation panel reviews all appeals within 14 working days.</div></div>
     <div class="notice"><div class="notice-t">Privacy Boundaries</div><div class="notice-b">We document only publicly visible comments from public posts. We do not archive private profile data, contact information, or content from closed groups. All screenshots are verified for authenticity before publication.</div></div>
@@ -373,19 +428,19 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
       </div>
       <div>
         <div class="foot-col-t">Platform</div>
-        <div class="foot-links">
-          <button class="foot-link" onclick="go('submit')">Submit Evidence</button>
-          <button class="foot-link" onclick="go('archive')">Public Archive</button>
-          <button class="foot-link" onclick="go('analytics')">Analytics</button>
-          <button class="foot-link" onclick="go('appeals')">File an Appeal</button>
-        </div>
+        <nav class="foot-links" aria-label="Platform links">
+          <a class="foot-link" href="#submit">Submit Evidence</a>
+          <a class="foot-link" href="#archive">Public Archive</a>
+          <a class="foot-link" href="#analytics">Analytics</a>
+          <a class="foot-link" href="#appeals">File an Appeal</a>
+        </nav>
       </div>
       <div>
         <div class="foot-col-t">About</div>
-        <div class="foot-links">
-          <button class="foot-link" onclick="go('about')">About the Project</button>
-          <button class="foot-link" onclick="go('terms')">Terms &amp; Conditions</button>
-        </div>
+        <nav class="foot-links" aria-label="About links">
+          <a class="foot-link" href="#about">About the Project</a>
+          <a class="foot-link" href="#terms">Terms &amp; Conditions</a>
+        </nav>
       </div>
     </div>
     <div class="foot-bottom">
@@ -393,13 +448,13 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
       <span>Every word leaves a mark &middot; Not a harassment tool</span>
     </div>
   </footer>
-</div>
+</section>
 
 <!-- SUBMIT EVIDENCE -->
-<div id="pg-submit" class="page">
+<section id="pg-submit" class="page">
   <div class="section-sm" style="padding-top:3rem">
     <div class="section-tag">Evidence Submission Portal</div>
-    <div class="section-title" style="font-size:2.2rem;margin-bottom:.5rem">Document a Comment</div>
+    <h2 class="section-title" style="font-size:2.2rem;margin-bottom:.5rem">Document a Comment</h2>
     <p style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.8">Seen a misogynistic, victim-blaming, or abusive comment on a public Facebook post about gender violence? Submit it here. All submissions stay private until reviewed by our editorial team.</p>
     <div class="notice" style="margin-bottom:2rem"><div class="notice-t">Submission Standards</div><div class="notice-b">Only submit publicly visible comments from public posts or pages. Do not submit content from private groups, direct messages, or closed conversations. Fabricated or manipulated screenshots will lead to a permanent submission ban.</div></div>
     <div style="background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--umber);border-radius:5px;padding:1.4rem 1.5rem;margin-bottom:2rem">
@@ -476,13 +531,13 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- ARCHIVE -->
-<div id="pg-archive" class="page">
+<section id="pg-archive" class="page">
   <div class="section" style="padding-top:3rem">
     <div class="section-tag">Public Archive</div>
-    <div class="section-title" style="margin-bottom:.75rem">The Record</div>
+    <h2 class="section-title" style="margin-bottom:.75rem">The Record</h2>
     <p style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.75">All entries have passed editorial moderation. Screenshots are blurred by default. This archive is a public record, not a tool for harassment or pile-ons.</p>
     <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem">
       <input class="search-i" id="archSearch" placeholder="Search keywords, categories, incident types..." oninput="debounceArchSearch()">
@@ -522,13 +577,13 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
     <div id="archFooter" style="text-align:center;padding:2rem 0;color:var(--text3);font-size:12px;font-family:var(--font-mono)"><span id="archCount">Showing 0 of 0 verified entries</span> &middot; <span id="archLoadMore" style="color:var(--accent);cursor:pointer" onclick="loadMoreArchive()">Load more &rarr;</span></div>
     <div class="disclaimer"><strong style="color:var(--text2)">Archive Use Notice:</strong> This archive is intended for research, advocacy, journalism, and public awareness. Redistribution of individual entries for purposes of harassment, pile-ons, or vigilante action is a violation of our Terms of Use and may count as online abuse under the law.</div>
   </div>
-</div>
+</section>
 
 <!-- ANALYTICS -->
-<div id="pg-analytics" class="page">
+<section id="pg-analytics" class="page">
   <div class="section" style="padding-top:3rem">
     <div class="section-tag">Pattern Analytics</div>
-    <div class="section-title" style="margin-bottom:.5rem">What the Data Shows</div>
+    <h2 class="section-title" style="margin-bottom:.5rem">What the Data Shows</h2>
     <p style="color:var(--text2);font-size:14px;margin-bottom:2.5rem;line-height:1.75">All data comes from verified archive entries only. Updated weekly. Figures are shown at the aggregate level. No individual-level data is published here.</p>
     <div class="stats-grid">
       <div class="a-card"><div class="a-num" id="analyticsTotal">0</div><div class="a-lbl">Total Archived</div><div class="a-delta" id="analyticsThisMonth"></div></div>
@@ -543,13 +598,13 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
     </div>
     <div class="disclaimer" style="margin-top:1.5rem">Data reflects verified entries only. Category assignments are made by trained human moderators. AI classification data is used internally to support moderators and is not included in these published figures.</div>
   </div>
-</div>
+</section>
 
 <!-- APPEALS -->
-<div id="pg-appeals" class="page">
+<section id="pg-appeals" class="page">
   <div class="section-sm" style="padding-top:3rem">
     <div class="section-tag">Appeals &amp; Dispute System</div>
-    <div class="section-title" style="font-size:2.2rem;margin-bottom:.5rem">File a Formal Dispute</div>
+    <h2 class="section-title" style="font-size:2.2rem;margin-bottom:.5rem">File a Formal Dispute</h2>
     <p style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.8">If you believe a submission involving you is inaccurate, missing critical context, or was submitted in bad faith, you can file a formal appeal. A panel separate from the original moderator reviews all appeals within 14 working days.</p>
     <div class="appeal-form" id="appealFormWrap">
       <div class="form-head"><div class="form-h">Dispute Submission</div><div class="form-sh">All appeals are treated confidentially. Review typically completed within 14 working days.</div></div>
@@ -583,14 +638,14 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
       <div id="trackerResult" class="tracker-result"></div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- ABOUT -->
-<div id="pg-about" class="page">
+<section id="pg-about" class="page">
   <div class="about-hero-sec">
     <div style="max-width:1200px;margin:0 auto">
       <div class="section-tag">About</div>
-      <div class="section-title">Why Daag Exists</div>
+      <h2 class="section-title">Why Daag Exists</h2>
       <p style="color:var(--text2);max-width:640px;line-height:1.85;font-size:14px;margin-top:1rem">In Bangla, <em style="color:var(--warm)">দাগ</em> means stain, the kind that does not wash off. The name is deliberate. When men post victim-blaming, misogynistic, or violent commentary on public Facebook posts about gender violence, that behavior should leave a record. This project was built in response to a pattern: when incidents of rape, acid violence, or domestic abuse happen in Bangladesh, the comment sections fill with cruelty and then disappear. Daag exists to make sure they do not.</p>
     </div>
   </div>
@@ -598,7 +653,7 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
     <div class="two-col-about">
       <div>
         <div class="section-tag">The Problem</div>
-        <div style="font-family:var(--font-serif);font-size:1.75rem;color:var(--warm);margin-bottom:1.1rem;font-weight:600;line-height:1.15">Online cruelty<br>after violence</div>
+        <h3 style="font-family:var(--font-serif);font-size:1.75rem;color:var(--warm);margin-bottom:1.1rem;font-weight:600;line-height:1.15">Online cruelty<br>after violence</h3>
         <div style="color:var(--text2);font-size:13.5px;line-height:1.85">
           <p style="margin-bottom:1rem">When news of a rape, acid attack, or domestic violence case spreads on Facebook, the comment sections often become a second site of violence. Victims are blamed for their clothing, behavior, family background, and character. Perpetrators are defended. Survivors are silenced.</p>
           <p style="margin-bottom:1rem">These comments disappear quickly. They get moderated, deleted, or buried by newer content. But while they exist, they shape public discourse, discourage survivors from speaking, and signal to perpetrators that their community supports them.</p>
@@ -607,14 +662,14 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- PROFILE SEARCH -->
-<div id="pg-search" class="page">
+<section id="pg-search" class="page">
   <div class="search-hero">
     <div class="search-hero-inner">
       <div class="section-tag">Profile Search</div>
-      <div class="section-title" style="font-size:2.2rem;margin-bottom:.5rem">Look Someone Up</div>
+      <h2 class="section-title" style="font-size:2.2rem;margin-bottom:.5rem">Look Someone Up</h2>
       <p style="color:var(--text2);font-size:14px;line-height:1.8;max-width:580px">Search the Daag archive by Facebook profile name or URL. See if a person has verified entries with documented comments linked to gender violence incidents.</p>
       <div class="big-search-wrap">
         <span class="big-search-icon">&#9109;</span>
@@ -645,45 +700,54 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
       <span>This search covers only publicly visible comments that have been verified and approved by our moderation team. No private data, messages, or unverified submissions are included. Search queries are not logged or stored. Note: aggregate search patterns may be monitored to detect systematic surveillance, coordinated lookup campaigns, or potential misuse of the archive for targeted harassment purposes.</span>
     </div>
   </div>
-</div>
+</section>
 
 <!-- TERMS OF USE -->
-<div id="pg-terms" class="page">
+<section id="pg-terms" class="page">
   <div style="background:var(--bg1);border-bottom:1px solid var(--border);padding:3.5rem 2rem">
     <div style="max-width:800px;margin:0 auto">
       <div class="section-tag">Legal</div>
-      <div class="section-title">Terms of Use</div>
+      <h2 class="section-title">Terms of Use</h2>
       <p style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14px;margin-top:.5rem">By accessing or using the Daag platform, you agree to the following terms. Please read them carefully.</p>
     </div>
   </div>
   <div class="section-sm" style="padding-top:3rem">
     <div class="eth-sec">
-      <div class="eth-sec-t">1. Purpose &amp; Permitted Use</div>
+      <h3 class="eth-sec-t">1. Purpose &amp; Permitted Use</h3>
       <div class="eth-body"><p>Daag is a civic accountability archive designed for research, journalism, advocacy, public awareness, and informed personal decisions. You may use this platform to search verified entries, submit evidence for review, file appeals, and access aggregated analytics data.</p><p>You may <strong>not</strong> use this platform to: harass, threaten, or intimidate any individual; organise or participate in coordinated pile-ons against archived individuals; redistribute archive content for purposes of vigilantism; create derivative platforms or datasets designed to circumvent our moderation safeguards; or scrape, crawl, or bulk-download archive data without express written permission.</p></div>
     </div>
     <div class="eth-sec">
-      <div class="eth-sec-t">2. Submission Responsibilities</div>
+      <h3 class="eth-sec-t">2. Submission Responsibilities</h3>
       <div class="eth-body"><p>By submitting evidence to Daag, you represent and warrant that: the screenshots you upload are genuine and unmanipulated; the URLs you provide link to publicly visible content; you have not fabricated, altered, or deceptively cropped any submitted material; and you are submitting in good faith for purposes consistent with the platform's mission.</p><p>You acknowledge that false submissions waste moderator resources, undermine the archive's credibility, and may constitute an offence under applicable laws. Daag reserves the right to permanently restrict submission access and refer evidence of fabrication to relevant authorities.</p></div>
     </div>
     <div class="eth-sec">
-      <div class="eth-sec-t">3. No Verdict / No Guarantee</div>
+      <h3 class="eth-sec-t">3. No Verdict / No Guarantee</h3>
       <div class="eth-body"><p>Daag is a documentation platform, not a court of law. Archive entries represent verified public comments. They do not constitute a legal verdict, criminal finding, or character judgment of any individual.</p><p>While we take every reasonable step to verify submissions, we do not guarantee the absolute accuracy of every entry. We encourage users to treat archive data as one input among many in their own judgment. Daag expressly disclaims any representation that an archived entry is sufficient basis for legal, employment, or relationship decisions.</p></div>
     </div>
     <div class="eth-sec">
-      <div class="eth-sec-t">4. Intellectual Property</div>
+      <h3 class="eth-sec-t">4. Intellectual Property</h3>
       <div class="eth-body"><p>The Daag platform, including its design, branding, code, and editorial framework, is the intellectual property of the Daag project. Archive entries themselves are derived from publicly visible third-party content and are presented for documentation purposes under fair use / public interest principles.</p><p>You may cite, reference, or link to archive entries for journalistic, academic, or advocacy purposes with appropriate attribution. You may not reproduce the platform's design, replicate its database, or create competing services using Daag's data without written authorization.</p></div>
     </div>
     <div class="eth-sec">
-      <div class="eth-sec-t">5. Limitation of Liability</div>
+      <h3 class="eth-sec-t">5. Limitation of Liability</h3>
       <div class="eth-body"><p>Daag is provided on an "as-is" basis. To the fullest extent permitted by applicable law, the Daag project, its contributors, moderators, and advisors disclaim all warranties, express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, and non-infringement.</p><p>In no event shall Daag be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform, reliance on archive data, or actions taken by third parties based on archived content.</p></div>
     </div>
     <div class="eth-sec" style="margin-bottom:0">
-      <div class="eth-sec-t">6. Governing Law</div>
+      <h3 class="eth-sec-t">6. Governing Law</h3>
       <div class="eth-body"><p>These Terms of Use shall be governed by and construed in accordance with the laws of Bangladesh. Any disputes arising from the use of this platform shall be subject to the exclusive jurisdiction of the courts of Dhaka, Bangladesh.</p><p>Daag reserves the right to update these terms at any time. Continued use of the platform following any modification constitutes acceptance of the revised terms. Users will be notified of material changes via a notice on the platform.</p></div>
     </div>
     <div class="disclaimer" style="margin-top:2.5rem"><strong style="color:var(--text2)">Last updated:</strong> May 2025. These terms apply to all users of the Daag platform, including submitters, searchers, moderators, and visitors.</div>
   </div>
-</div>
+</section>
+</main>
+
+<noscript>
+  <div style="max-width:600px;margin:4rem auto;padding:2rem;text-align:center;font-family:sans-serif">
+    <h1>Daag - Online Gender Violence Documentation Archive</h1>
+    <p>Daag is a verified public archive documenting misogynistic, victim-blaming, and abusive comments on social media about gender violence in Bangladesh.</p>
+    <p>This site requires JavaScript to be enabled. Please enable JavaScript in your browser settings to use Daag.</p>
+  </div>
+</noscript>
 
 <!--
   ======================================================================
@@ -776,10 +840,13 @@ const profileDB=[];
 // XSS PROTECTION
 function escHtml(str){return(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
-// ===== NAVIGATION =====
+// ===== NAVIGATION (hash routing) =====
 function go(id){
+  if(window.location.hash!=='#'+id) window.location.hash=id;
+  showPage(id);
+}
+function showPage(id){
   pages.forEach(function(p){var el=document.getElementById('pg-'+p);if(el)el.classList.remove('active')});
-  // Set nav active state
   document.querySelectorAll('.nav-link').forEach(function(l){l.classList.remove('active')});
   var matchBtn=document.querySelector('.nav-link[data-page="'+id+'"]');
   if(matchBtn) matchBtn.classList.add('active');
@@ -790,18 +857,28 @@ function go(id){
   var nl=document.getElementById('navLinks');
   if(nl)nl.classList.remove('mobile-open');
   var hb=document.querySelector('.nav-hamburger');
-  if(hb)hb.classList.remove('open');
+  if(hb){hb.classList.remove('open');hb.setAttribute('aria-expanded','false')}
   // Build page content
   if(id==='archive')buildArchive();
   if(id==='analytics')buildAnalytics();
 }
+// Listen for hash changes (back/forward buttons, anchor clicks)
+window.addEventListener('hashchange',function(){
+  var hash=window.location.hash.replace('#','');
+  if(pages.indexOf(hash)!==-1) showPage(hash);
+});
+// On page load, route to hash if present
+(function(){
+  var hash=window.location.hash.replace('#','');
+  if(hash&&pages.indexOf(hash)!==-1) showPage(hash);
+})();
 
 // ===== MOBILE NAV =====
 function toggleMobileNav(){
   var nl=document.getElementById('navLinks');
   var hb=document.querySelector('.nav-hamburger');
   if(nl)nl.classList.toggle('mobile-open');
-  if(hb)hb.classList.toggle('open');
+  if(hb){hb.classList.toggle('open');hb.setAttribute('aria-expanded',hb.classList.contains('open'))}
 }
 
 function toggleTag(btn){btn.classList.toggle('on')}
@@ -1050,7 +1127,7 @@ async function runProfileSearch(){
   setTimeout(function(){
     var matches=profileDB.filter(function(p){return p.name.toLowerCase().includes(query)||p.url.toLowerCase().includes(query)});
     if(!matches.length){
-      resultsEl.innerHTML='<div class="no-results"><div class="no-results-icon">&#9678;</div><div class="no-results-t" style="font-family:var(--font-serif);font-size:1.25rem;color:var(--warm);font-weight:600;margin-bottom:.75rem">No verified entries found</div><div class="no-results-s">No archived comments linked to <strong style="color:var(--text2)">"'+escHtml(raw)+'"</strong> were found in our verified archive.<br><br>This does not mean the person has not made harmful comments  - only that none have been submitted and verified yet. If you have evidence, you can <button onclick="go(\'submit\')" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:inherit;font-family:inherit;padding:0;text-decoration:underline">submit it for review</button>.</div></div>';
+      resultsEl.innerHTML='<div class="no-results"><div class="no-results-icon">&#9678;</div><div class="no-results-t" style="font-family:var(--font-serif);font-size:1.25rem;color:var(--warm);font-weight:600;margin-bottom:.75rem">No verified entries found</div><div class="no-results-s">No archived comments linked to <strong style="color:var(--text2)">"'+escHtml(raw)+'"</strong> were found in our verified archive.<br><br>This does not mean the person has not made harmful comments  - only that none have been submitted and verified yet. If you have evidence, you can <a href="#submit" style="color:var(--accent);text-decoration:underline">submit it for review</a>.</div></div>';
       return;
     }
     resultsEl.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.5rem"><div style="font-size:13.5px;color:var(--text2)">Found <strong style="color:var(--text)">'+matches.length+'</strong> profile'+(matches.length>1?'s':'')+' matching <strong style="color:var(--text)">"'+escHtml(raw)+'"</strong></div><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3)">Verified entries only</div></div>'+matches.map(renderProfileCard).join('');
@@ -1065,7 +1142,7 @@ function renderProfileCard(p){
   var entries=p.entries.map(function(e){
     return'<div class="pe-item"><div class="pe-meta"><span class="badge b-cr">'+escHtml(e.cat)+'</span><span class="badge b-nv">'+escHtml(e.inc)+'</span><span class="badge b-gr" style="color:'+sevColor(e.sev)+'">'+escHtml(e.sev)+'</span></div><div class="pe-text">'+escHtml(e.text)+'</div><div class="pe-date">Archived '+escHtml(e.date)+' &nbsp;&middot;&nbsp; <span class="status s-ok">Verified</span> &nbsp;&middot;&nbsp; v'+e.ver+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">Edited '+escHtml(e.lastEdit)+'</span>':'')+'</div></div>';
   }).join('');
-  return'<div class="profile-card"><div class="profile-card-head"><div class="profile-avatar">'+escHtml(p.initials)+'</div><div style="flex:1;min-width:0"><div class="profile-name">'+escHtml(p.name)+'</div><div class="profile-url">'+escHtml(p.url)+'</div><div style="margin-top:.5rem;display:flex;gap:.4rem;flex-wrap:wrap">'+catBadges+'</div></div><span class="risk-pill '+riskClass+'">'+riskLabel+'</span></div><div class="profile-stats"><div class="p-stat"><div class="p-stat-n">'+p.totalEntries+'</div><div class="p-stat-l">Verified Entries</div></div><div class="p-stat"><div class="p-stat-n">'+p.categories.length+'</div><div class="p-stat-l">Categories</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(p.firstSeen)+'</div><div class="p-stat-l">First Entry</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(p.lastSeen)+'</div><div class="p-stat-l">Most Recent</div></div></div><div class="profile-entries"><div class="pe-title">Documented Comments ('+p.entries.length+')</div>'+entries+'</div><div style="padding:1rem 1.75rem;border-top:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem"><div style="font-size:12px;color:var(--text3)">Believe this record is inaccurate?</div><button class="btn-g" style="font-size:12px;padding:.38rem 1rem" onclick="go(\'appeals\')">File a Dispute &rarr;</button></div></div>';
+  return'<div class="profile-card"><div class="profile-card-head"><div class="profile-avatar">'+escHtml(p.initials)+'</div><div style="flex:1;min-width:0"><div class="profile-name">'+escHtml(p.name)+'</div><div class="profile-url">'+escHtml(p.url)+'</div><div style="margin-top:.5rem;display:flex;gap:.4rem;flex-wrap:wrap">'+catBadges+'</div></div><span class="risk-pill '+riskClass+'">'+riskLabel+'</span></div><div class="profile-stats"><div class="p-stat"><div class="p-stat-n">'+p.totalEntries+'</div><div class="p-stat-l">Verified Entries</div></div><div class="p-stat"><div class="p-stat-n">'+p.categories.length+'</div><div class="p-stat-l">Categories</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(p.firstSeen)+'</div><div class="p-stat-l">First Entry</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(p.lastSeen)+'</div><div class="p-stat-l">Most Recent</div></div></div><div class="profile-entries"><div class="pe-title">Documented Comments ('+p.entries.length+')</div>'+entries+'</div><div style="padding:1rem 1.75rem;border-top:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem"><div style="font-size:12px;color:var(--text3)">Believe this record is inaccurate?</div><a class="btn-g" style="font-size:12px;padding:.38rem 1rem;text-decoration:none" href="#appeals">File a Dispute &rarr;</a></div></div>';
 }
 
 // ===== EVIDENCE SUBMISSION =====
