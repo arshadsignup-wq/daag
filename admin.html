@@ -229,6 +229,24 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .page-btn.active{border-color:var(--ink2);background:var(--ink-glow);color:var(--accent)}
 .page-btn:disabled{opacity:.3;cursor:default}
 
+/* MESSAGES */
+.msg-item{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:1.3rem 1.4rem;margin-bottom:.7rem;transition:border-color .2s;cursor:pointer}
+.msg-item:hover{border-color:var(--border3)}
+.msg-item.unread{border-left:3px solid var(--ink2)}
+.msg-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;flex-wrap:wrap}
+.msg-name{font-size:14px;font-weight:500;color:var(--text)}
+.msg-subject{font-size:12px;font-family:var(--font-mono);color:var(--umber-light);letter-spacing:.04em}
+.msg-email{font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+.msg-preview{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:.5rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.msg-time{font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+.msg-expanded{display:none;margin-top:.8rem;padding:1rem;background:var(--bg2);border:1px solid var(--border2);border-radius:6px}
+.msg-expanded.show{display:block;animation:fadeUp .2s ease}
+.msg-full{font-size:13px;color:var(--text2);line-height:1.65;white-space:pre-wrap;word-break:break-word;margin-bottom:.8rem}
+.msg-actions{display:flex;gap:.4rem;flex-wrap:wrap}
+.s-unread{background:var(--ink-glow);color:var(--accent);border:1px solid rgba(158,28,44,.22)}
+.s-read{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
+.s-replied{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+
 /* RESPONSIVE */
 @media(max-width:900px){
   .stats-grid{grid-template-columns:repeat(2,1fr)}
@@ -273,6 +291,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
       <div class="admin-tabs">
         <button class="admin-tab active" data-tab="submissions">Submissions</button>
         <button class="admin-tab" data-tab="appeals">Appeals</button>
+        <button class="admin-tab" data-tab="messages">Messages</button>
         <button class="admin-tab" data-tab="analytics">Analytics</button>
         <button class="admin-tab" data-tab="export">Export</button>
       </div>
@@ -370,6 +389,19 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
       </div>
     </div>
 
+    <!-- TAB 5: MESSAGES -->
+    <div id="tab-messages" class="tab-panel">
+      <div class="toolbar">
+        <button class="f-pill on" data-msgfilter="all">All</button>
+        <button class="f-pill" data-msgfilter="unread">Unread</button>
+        <button class="f-pill" data-msgfilter="read">Read</button>
+        <button class="f-pill" data-msgfilter="replied">Replied</button>
+        <input class="toolbar-search" id="msgSearch" placeholder="Search messages...">
+        <span class="toolbar-count" id="msgCount"></span>
+      </div>
+      <div id="msgList"></div>
+    </div>
+
   </div>
 </div>
 
@@ -416,6 +448,9 @@ var appealSearch = '';
 var appealPage = 1;
 var selectedIds = new Set();
 var exportFilter = 'all';
+var allMessages = [];
+var msgFilter = 'all';
+var msgSearch = '';
 
 // --- DEMO DATA ---
 function genDemoSubmissions(){
@@ -580,17 +615,19 @@ document.getElementById('refreshBtn').onclick=async function(){
   btn.classList.add('spinning');
   await loadSubmissions();
   await loadAppeals();
+  await loadMessages();
   btn.classList.remove('spinning');
   showToast('Data refreshed','success');
 };
 
 // --- BOOT ---
-function bootAdmin(){
+async function bootAdmin(){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('adminWrap').style.display='block';
   initSupabase();
-  loadSubmissions();
-  loadAppeals();
+  await loadSubmissions();
+  await loadAppeals();
+  await loadMessages();
 }
 
 function initSupabase(){
@@ -613,6 +650,7 @@ document.querySelectorAll('.admin-tab').forEach(function(tab){
     var panel=document.getElementById('tab-'+tab.dataset.tab);
     if(panel) panel.classList.add('active');
     if(tab.dataset.tab==='analytics') buildAnalytics();
+    if(tab.dataset.tab==='messages') loadMessages();
   };
 });
 
@@ -1295,6 +1333,159 @@ function downloadCSV(csv,filename){
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+// --- MESSAGES ---
+async function loadMessages(){
+  var list=document.getElementById('msgList');
+  if(!list) return;
+  list.innerHTML='<div class="loading">Loading messages...</div>';
+  if(!sb||demoMode){
+    allMessages=genDemoMessages();
+    renderMessages();
+    return;
+  }
+  try{
+    var{data,error}=await sb.from('contact_messages').select('*').order('created_at',{ascending:false});
+    if(error) throw error;
+    allMessages=data||[];
+    renderMessages();
+  }catch(e){
+    console.error('Load messages error:',e);
+    allMessages=genDemoMessages();
+    renderMessages();
+  }
+}
+
+function genDemoMessages(){
+  var subjects=['General Inquiry','Report an Issue','Appeal Support','Partnership','Media/Press','Other'];
+  var names=['Fatima Rahman','Nusrat Jahan','Tanvir Ahmed','Sarah Khan','Rafi Islam'];
+  var msgs=[
+    'I would like to learn more about how Daag verifies submissions before publishing them to the archive. Can you share your verification process?',
+    'There seems to be a display issue on the analytics page when viewed on mobile devices. The charts overlap with the category labels.',
+    'I filed an appeal last week (ref: APL-0042) but have not received any update. Could you check the status of my appeal?',
+    'We are a digital rights organization based in Dhaka. We would be interested in discussing a potential partnership or data-sharing arrangement for our research.',
+    'I am a journalist writing about online gender violence documentation tools in South Asia. Would someone from the Daag team be available for an interview?'
+  ];
+  var out=[];
+  for(var i=0;i<5;i++){
+    out.push({
+      id:'msg-'+String(i+1).padStart(3,'0'),
+      name:names[i],
+      email:names[i].toLowerCase().replace(/ /g,'.')+'@example.com',
+      subject:subjects[i],
+      message:msgs[i],
+      status:i===0?'unread':i<3?'read':'replied',
+      created_at:new Date(Date.now()-i*86400000*2).toISOString()
+    });
+  }
+  return out;
+}
+
+function renderMessages(){
+  var list=document.getElementById('msgList');
+  var countEl=document.getElementById('msgCount');
+  if(!list) return;
+
+  var filtered=allMessages.filter(function(m){
+    if(msgFilter!=='all'&&m.status!==msgFilter) return false;
+    if(msgSearch){
+      var q=msgSearch.toLowerCase();
+      return (m.name||'').toLowerCase().indexOf(q)!==-1||
+             (m.email||'').toLowerCase().indexOf(q)!==-1||
+             (m.subject||'').toLowerCase().indexOf(q)!==-1||
+             (m.message||'').toLowerCase().indexOf(q)!==-1;
+    }
+    return true;
+  });
+
+  if(countEl) countEl.textContent=filtered.length+' message'+(filtered.length!==1?'s':'');
+
+  if(!filtered.length){
+    list.innerHTML='<div class="empty-state">No messages found.</div>';
+    return;
+  }
+
+  list.innerHTML=filtered.map(function(m){
+    var isUnread=m.status==='unread';
+    var statusClass=m.status==='unread'?'s-unread':m.status==='read'?'s-read':'s-replied';
+    var date=new Date(m.created_at);
+    var dateStr=date.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
+    var preview=(m.message||'').length>120?(m.message||'').substring(0,120)+'...':(m.message||'');
+    return '<div class="msg-item'+(isUnread?' unread':'')+'" data-msgid="'+escHtml(m.id)+'">'
+      +'<div class="msg-head">'
+        +'<span class="msg-name">'+escHtml(m.name)+'</span>'
+        +'<span class="status '+statusClass+'">'+escHtml(m.status)+'</span>'
+        +'<span class="msg-subject">'+escHtml(m.subject)+'</span>'
+        +'<span class="msg-time">'+dateStr+'</span>'
+      +'</div>'
+      +'<div class="msg-preview">'+escHtml(preview)+'</div>'
+      +'<div class="msg-email">'+escHtml(m.email)+'</div>'
+      +'<div class="msg-expanded" id="msgexp-'+escHtml(m.id)+'">'
+        +'<div class="msg-full">'+escHtml(m.message)+'</div>'
+        +'<div class="msg-actions">'
+          +(m.status==='unread'?'<button class="btn-ok" onclick="updateMsgStatus(\''+escHtml(m.id)+'\',\'read\',event)">Mark Read</button>':'')
+          +(m.status!=='replied'?'<button class="btn-edit" onclick="updateMsgStatus(\''+escHtml(m.id)+'\',\'replied\',event)">Mark Replied</button>':'')
+          +(m.status==='read'?'<button class="btn-hd" onclick="updateMsgStatus(\''+escHtml(m.id)+'\',\'unread\',event)">Mark Unread</button>':'')
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+
+  // Toggle expand on click
+  list.querySelectorAll('.msg-item').forEach(function(item){
+    item.onclick=function(e){
+      if(e.target.tagName==='BUTTON') return;
+      var id=item.dataset.msgid;
+      var exp=document.getElementById('msgexp-'+id);
+      if(exp) exp.classList.toggle('show');
+    };
+  });
+}
+
+// Use existing escHtml for messages
+
+async function updateMsgStatus(id,newStatus,e){
+  if(e) e.stopPropagation();
+  // Update local state
+  var msg=allMessages.find(function(m){return m.id===id});
+  if(!msg) return;
+  msg.status=newStatus;
+
+  // Update in Supabase
+  if(sb&&!demoMode){
+    try{
+      await sb.from('contact_messages').update({status:newStatus}).eq('id',id);
+    }catch(err){
+      console.error('Update message status error:',err);
+    }
+  }
+
+  renderMessages();
+  showToast('Message marked as '+newStatus,'success');
+}
+
+// Messages filter pills
+document.querySelectorAll('[data-msgfilter]').forEach(function(pill){
+  pill.onclick=function(){
+    document.querySelectorAll('[data-msgfilter]').forEach(function(p){p.classList.remove('on')});
+    pill.classList.add('on');
+    msgFilter=pill.dataset.msgfilter;
+    renderMessages();
+  };
+});
+
+// Messages search
+var msgSearchEl=document.getElementById('msgSearch');
+if(msgSearchEl){
+  var msgSearchTimer=null;
+  msgSearchEl.addEventListener('input',function(){
+    clearTimeout(msgSearchTimer);
+    msgSearchTimer=setTimeout(function(){
+      msgSearch=msgSearchEl.value.trim();
+      renderMessages();
+    },250);
+  });
 }
 </script>
 </body>
