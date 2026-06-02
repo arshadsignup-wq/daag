@@ -247,9 +247,133 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .s-read{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
 .s-replied{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
 
+/* DARK MODE */
+body.dark{
+  --bg:#1a1a2e;--bg1:#22223a;--bg2:#2a2a44;--bg3:#32324e;
+  --text:#e8e8ec;--text2:#b0b0c0;--text3:#7a7a8c;
+  --border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.09);--border3:rgba(255,255,255,.14);
+  --ink-glow:rgba(158,28,44,.18);
+}
+body.dark .admin-nav{background:rgba(26,26,46,.94)}
+body.dark .login-box,body.dark .confirm-box,body.dark .kb-box{background:var(--bg1)}
+body.dark .toast{background:var(--bg1)}
+body.dark .donut-center,body.dark .ov-stat-ring .donut-center{background:var(--bg1)}
+body{transition:background-color .3s,color .3s}
+.admin-nav,.stat-card,.q-item,.appeal-card,.msg-item,.edit-panel,.export-card,.login-box,.confirm-box,.toast,.ov-stat,.attn-card,.donut-card,.kb-box{transition:background-color .3s,color .3s,border-color .3s}
+
+/* DARK MODE TOGGLE */
+.dm-toggle{background:none;border:1px solid var(--border2);border-radius:4px;padding:.3rem .55rem;cursor:pointer;font-size:14px;line-height:1;transition:all .15s;color:var(--text2)}
+.dm-toggle:hover{border-color:var(--text3);color:var(--text)}
+
+/* NOTIFICATION BADGES */
+.admin-tab{position:relative}
+.tab-badge{position:absolute;top:-.1rem;right:-.2rem;min-width:16px;height:16px;border-radius:8px;background:var(--red);color:#fff;font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center;padding:0 4px;font-family:var(--font-mono);animation:pulse-badge 2s ease-in-out infinite;line-height:1;pointer-events:none}
+.tab-badge.zero{display:none}
+@keyframes pulse-badge{0%,100%{opacity:1}50%{opacity:.6}}
+
+/* DASHBOARD OVERVIEW */
+.overview-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.ov-stat{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:1.3rem 1.4rem;border-left:4px solid var(--text3);transition:all .2s;position:relative;overflow:hidden}
+.ov-stat:hover{border-color:var(--border3);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.ov-stat.accent-green{border-left-color:var(--green)}
+.ov-stat.accent-amber{border-left-color:var(--amber)}
+.ov-stat.accent-red{border-left-color:var(--red)}
+.ov-stat.accent-blue{border-left-color:var(--blue)}
+.ov-stat-label{font-size:10px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:.5rem}
+.ov-stat-row{display:flex;align-items:flex-end;gap:.6rem}
+.ov-stat-val{font-size:2rem;font-weight:500;color:var(--text);font-family:var(--font-mono);letter-spacing:-.02em;line-height:1}
+.ov-stat-trend{font-size:11px;font-family:var(--font-mono);padding:.15rem .4rem;border-radius:3px;white-space:nowrap;margin-bottom:2px}
+.ov-stat-trend.up{color:var(--green);background:var(--green-bg)}
+.ov-stat-trend.down{color:var(--red);background:var(--red-bg)}
+.ov-stat-trend.neutral{color:var(--text3);background:var(--bg2)}
+.ov-stat-sub{font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-top:.4rem}
+.ov-stat-ring{position:absolute;top:.8rem;right:1rem;width:48px;height:48px;border-radius:50%}
+.ov-stat-ring .donut-center{position:absolute;inset:22%;background:var(--bg1);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.ov-stat-ring .donut-center span{font-size:10px;font-weight:600;color:var(--text);font-family:var(--font-mono)}
+
+/* NEEDS ATTENTION */
+.attn-section{margin-bottom:1.5rem}
+.attn-title{font-size:13px;font-weight:500;color:var(--text2);margin-bottom:.6rem;font-family:var(--font-sans)}
+.attn-grid{display:flex;flex-direction:column;gap:.5rem}
+.attn-card{display:flex;align-items:center;gap:.8rem;padding:.7rem 1rem;background:var(--bg1);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:6px;cursor:pointer;transition:all .15s}
+.attn-card:hover{border-color:var(--border3);background:var(--bg2)}
+.attn-card.critical{border-left-color:var(--red)}
+.attn-card.info{border-left-color:var(--blue)}
+.attn-card.warn{border-left-color:var(--amber)}
+.attn-icon{font-size:16px;flex-shrink:0;width:24px;text-align:center}
+.attn-text{flex:1;font-size:12.5px;color:var(--text2);font-family:var(--font-sans)}
+.attn-action{font-size:11px;color:var(--blue);font-family:var(--font-mono);white-space:nowrap;letter-spacing:.02em}
+
+/* TIMELINE CHART */
+.timeline-section{margin-bottom:1.5rem}
+.timeline-title{font-size:13px;font-weight:500;color:var(--text2);margin-bottom:.6rem}
+.timeline-chart{display:flex;align-items:flex-end;gap:2px;height:140px;padding:0 0 20px;position:relative;border-bottom:1px solid var(--border)}
+.timeline-bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;position:relative;min-width:4px;cursor:pointer;border-radius:2px 2px 0 0;overflow:hidden}
+.timeline-bar:hover .tl-tooltip{display:block}
+.timeline-seg{width:100%;min-height:0;transition:height .5s ease}
+.timeline-seg.moderate{background:var(--amber)}
+.timeline-seg.high{background:#e65100}
+.timeline-seg.severe{background:var(--red)}
+.timeline-seg.empty-bar{background:var(--bg3);min-height:2px}
+.tl-tooltip{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);font-size:10px;font-family:var(--font-mono);padding:.3rem .5rem;border-radius:3px;white-space:nowrap;z-index:10;pointer-events:none}
+.tl-dates{display:flex;justify-content:space-between;margin-top:.3rem}
+.tl-dates span{font-size:9px;color:var(--text3);font-family:var(--font-mono)}
+
+/* DONUT CHARTS */
+.donut-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.donut-card{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:1.3rem 1.4rem}
+.donut-card-title{font-size:13px;font-weight:500;color:var(--text2);margin-bottom:1rem}
+.donut-wrap{display:flex;align-items:center;gap:1.5rem}
+.donut{width:110px;height:110px;border-radius:50%;position:relative;flex-shrink:0;transition:background .6s}
+.donut-center{position:absolute;inset:22%;background:var(--bg1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.donut-center-val{font-size:16px;font-weight:600;color:var(--text);font-family:var(--font-mono);line-height:1.1}
+.donut-center-label{font-size:8px;color:var(--text3);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em}
+.donut-legend{display:flex;flex-direction:column;gap:.35rem;flex:1}
+.donut-legend-item{display:flex;align-items:center;gap:.5rem;font-size:11px;color:var(--text2);font-family:var(--font-mono)}
+.donut-legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* ACTIVITY FEED */
+.activity-section{margin-bottom:1.5rem}
+.activity-title{font-size:13px;font-weight:500;color:var(--text2);margin-bottom:.6rem;display:flex;align-items:center;justify-content:space-between}
+.activity-viewall{font-size:11px;color:var(--blue);font-family:var(--font-mono);cursor:pointer;border:none;background:none;padding:0}
+.activity-viewall:hover{text-decoration:underline}
+.activity-feed{display:flex;flex-direction:column;gap:0;max-height:360px;overflow-y:auto}
+.activity-item{display:flex;align-items:flex-start;gap:.7rem;padding:.55rem 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.activity-item:last-child{border-bottom:none}
+.activity-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px}
+.activity-icon.approve{background:var(--green-bg);color:var(--green)}
+.activity-icon.reject{background:var(--red-bg);color:var(--red)}
+.activity-icon.hold{background:var(--bg3);color:var(--text3)}
+.activity-icon.edit{background:var(--blue-bg);color:var(--blue)}
+.activity-icon.appeal{background:var(--amber-bg);color:var(--amber)}
+.activity-icon.message{background:var(--ink-glow);color:var(--accent)}
+.activity-icon.delete{background:var(--red-bg);color:var(--red)}
+.activity-text{flex:1;color:var(--text2);line-height:1.45;font-family:var(--font-sans)}
+.activity-text strong{color:var(--text);font-weight:500}
+.activity-time{font-size:10px;color:var(--text3);font-family:var(--font-mono);white-space:nowrap;margin-top:2px}
+
+/* KEYBOARD HELP OVERLAY */
+.kb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:250;align-items:center;justify-content:center}
+.kb-overlay.show{display:flex}
+.kb-box{background:var(--bg1);border:1px solid var(--border2);border-radius:10px;padding:1.8rem 2rem;max-width:440px;width:92%;box-shadow:0 16px 48px rgba(0,0,0,.15)}
+.kb-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:1rem;font-family:var(--font-heading)}
+.kb-group{margin-bottom:1rem}
+.kb-group-title{font-size:10px;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:.5rem}
+.kb-row{display:flex;align-items:center;gap:.6rem;padding:.25rem 0}
+.kb-key{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:22px;background:var(--bg3);border:1px solid var(--border2);border-radius:3px;font-size:11px;font-family:var(--font-mono);color:var(--text);padding:0 .4rem;font-weight:500}
+.kb-desc{font-size:12px;color:var(--text2);font-family:var(--font-sans)}
+.kb-close{margin-top:.8rem;width:100%;text-align:center}
+
+/* KEYBOARD FOCUS RING */
+.q-item.kb-focused{outline:2px solid var(--blue);outline-offset:2px;border-color:var(--blue-border)}
+
+/* KEYBOARD HELP BUTTON */
+.kb-help-btn{font-size:12px;color:var(--text3);cursor:pointer;border:1px solid var(--border2);background:none;padding:.35rem .55rem;border-radius:3px;transition:all .15s;line-height:1;font-family:var(--font-mono);font-weight:500}
+.kb-help-btn:hover{color:var(--blue);border-color:var(--blue)}
+
 /* RESPONSIVE */
 @media(max-width:900px){
-  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .stats-grid,.overview-stats{grid-template-columns:repeat(2,1fr)}
   .edit-row{grid-template-columns:1fr}
 }
 @media(max-width:640px){
@@ -259,8 +383,18 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
   .toolbar{flex-direction:column;align-items:stretch}
   .toolbar-search{width:100%}
   .toolbar-count{margin-left:0;text-align:right}
-  .stats-grid{grid-template-columns:1fr}
+  .stats-grid,.overview-stats{grid-template-columns:1fr 1fr}
   .bar-label{width:100px;font-size:10px}
+  .donut-row{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .overview-stats{grid-template-columns:1fr}
+  .donut-row{grid-template-columns:1fr}
+  .donut-wrap{flex-direction:column;align-items:flex-start}
+  .timeline-chart{height:100px}
+  .activity-feed{max-height:260px}
+  .admin-nav-right .kb-help-btn{display:none}
+  .dm-toggle{order:-1}
 }
 </style>
 </head>
@@ -289,13 +423,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
         <span class="admin-logo-badge">Admin</span>
       </div>
       <div class="admin-tabs">
-        <button class="admin-tab active" data-tab="submissions">Submissions</button>
-        <button class="admin-tab" data-tab="appeals">Appeals</button>
-        <button class="admin-tab" data-tab="messages">Messages</button>
+        <button class="admin-tab active" data-tab="overview">Overview</button>
+        <button class="admin-tab" data-tab="submissions">Submissions<span class="tab-badge zero" id="badge-submissions"></span></button>
+        <button class="admin-tab" data-tab="appeals">Appeals<span class="tab-badge zero" id="badge-appeals"></span></button>
+        <button class="admin-tab" data-tab="messages">Messages<span class="tab-badge zero" id="badge-messages"></span></button>
         <button class="admin-tab" data-tab="analytics">Analytics</button>
         <button class="admin-tab" data-tab="export">Export</button>
       </div>
       <div class="admin-nav-right">
+        <button class="kb-help-btn" id="kbHelpBtn" title="Keyboard shortcuts (?)" onclick="document.getElementById('kbOverlay').classList.toggle('show')">?</button>
+        <button class="dm-toggle" id="dmToggle" title="Toggle dark mode" onclick="toggleDarkMode()">&#9789;</button>
         <button class="admin-refresh" id="refreshBtn" title="Refresh data">&#8635;</button>
         <button class="admin-logout" id="logoutBtn">Logout</button>
       </div>
@@ -306,8 +443,33 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
   <!-- BODY -->
   <div class="admin-body">
 
+    <!-- TAB: OVERVIEW (Dashboard) -->
+    <div id="tab-overview" class="tab-panel active">
+      <div class="overview-stats" id="ovStats"></div>
+      <div class="attn-section" id="attnSection"></div>
+      <div class="timeline-section">
+        <div class="timeline-title">Submissions &mdash; Last 30 Days</div>
+        <div class="timeline-chart" id="timelineChart"></div>
+        <div class="tl-dates" id="tlDates"></div>
+      </div>
+      <div class="donut-row">
+        <div class="donut-card">
+          <div class="donut-card-title">Category Distribution</div>
+          <div class="donut-wrap" id="catDonut"></div>
+        </div>
+        <div class="donut-card">
+          <div class="donut-card-title">Severity Distribution</div>
+          <div class="donut-wrap" id="sevDonut"></div>
+        </div>
+      </div>
+      <div class="activity-section">
+        <div class="activity-title">Recent Activity <button class="activity-viewall" id="actViewAll" onclick="renderActivityFeed(true)">View all</button></div>
+        <div class="activity-feed" id="activityFeed"></div>
+      </div>
+    </div>
+
     <!-- TAB 1: SUBMISSIONS -->
-    <div id="tab-submissions" class="tab-panel active">
+    <div id="tab-submissions" class="tab-panel">
       <div class="toolbar">
         <label style="display:flex;align-items:center;cursor:pointer;margin-right:.2rem" title="Select all visible"><input type="checkbox" id="selectAllCheck" onchange="toggleSelectAll(this)" style="accent-color:var(--ink2);cursor:pointer"></label>
         <div class="f-pill on" data-filter="all">All</div>
@@ -405,6 +567,31 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
   </div>
 </div>
 
+<!-- KEYBOARD HELP -->
+<div class="kb-overlay" id="kbOverlay">
+  <div class="kb-box">
+    <div class="kb-title">Keyboard Shortcuts</div>
+    <div class="kb-group">
+      <div class="kb-group-title">Navigation</div>
+      <div class="kb-row"><span class="kb-key">j</span><span class="kb-desc">Next submission</span></div>
+      <div class="kb-row"><span class="kb-key">k</span><span class="kb-desc">Previous submission</span></div>
+    </div>
+    <div class="kb-group">
+      <div class="kb-group-title">Actions (on focused item)</div>
+      <div class="kb-row"><span class="kb-key">a</span><span class="kb-desc">Approve</span></div>
+      <div class="kb-row"><span class="kb-key">r</span><span class="kb-desc">Reject</span></div>
+      <div class="kb-row"><span class="kb-key">h</span><span class="kb-desc">Hold</span></div>
+      <div class="kb-row"><span class="kb-key">e</span><span class="kb-desc">Open edit panel</span></div>
+    </div>
+    <div class="kb-group">
+      <div class="kb-group-title">General</div>
+      <div class="kb-row"><span class="kb-key">Esc</span><span class="kb-desc">Close panel / dialog</span></div>
+      <div class="kb-row"><span class="kb-key">?</span><span class="kb-desc">Toggle this help</span></div>
+    </div>
+    <div class="kb-close"><button class="btn-hd" onclick="document.getElementById('kbOverlay').classList.remove('show')">Close</button></div>
+  </div>
+</div>
+
 <!-- CONFIRM DIALOG -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
@@ -451,6 +638,8 @@ var exportFilter = 'all';
 var allMessages = [];
 var msgFilter = 'all';
 var msgSearch = '';
+var activityLog = JSON.parse(sessionStorage.getItem('daag_activity') || '[]');
+var kbFocusIndex = -1;
 
 // --- DEMO DATA ---
 function genDemoSubmissions(){
@@ -601,6 +790,8 @@ async function tryLogin(){
 
 function logout(){
   sessionStorage.removeItem('daag_admin');
+  sessionStorage.removeItem('daag_activity');
+  activityLog=[];
   document.getElementById('adminWrap').style.display='none';
   document.getElementById('loginScreen').style.display='flex';
   document.getElementById('loginPass').value='';
@@ -617,6 +808,8 @@ document.getElementById('refreshBtn').onclick=async function(){
   await loadAppeals();
   await loadMessages();
   btn.classList.remove('spinning');
+  updateBadges();
+  if(document.getElementById('tab-overview').classList.contains('active')) buildOverview();
   showToast('Data refreshed','success');
 };
 
@@ -625,9 +818,12 @@ async function bootAdmin(){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('adminWrap').style.display='block';
   initSupabase();
+  initDarkMode();
   await loadSubmissions();
   await loadAppeals();
   await loadMessages();
+  buildOverview();
+  updateBadges();
 }
 
 function initSupabase(){
@@ -649,8 +845,10 @@ document.querySelectorAll('.admin-tab').forEach(function(tab){
     tab.classList.add('active');
     var panel=document.getElementById('tab-'+tab.dataset.tab);
     if(panel) panel.classList.add('active');
+    if(tab.dataset.tab==='overview') buildOverview();
     if(tab.dataset.tab==='analytics') buildAnalytics();
     if(tab.dataset.tab==='messages') loadMessages();
+    kbFocusIndex=-1;
   };
 });
 
@@ -890,6 +1088,8 @@ async function modAction(id,status){
   if(item) item.status=status;
   renderSubmissions();
   showToast(id+' > '+status,'success');
+  logActivity(status==='approved'?'approve':status==='rejected'?'reject':'hold','Admin '+status+' '+id);
+  updateBadges();
 }
 
 function deleteSub(id){
@@ -907,6 +1107,8 @@ function deleteSub(id){
     selectedIds.delete(id);
     renderSubmissions();
     showToast(id+' deleted','success');
+    logActivity('delete','Admin deleted submission '+id);
+    updateBadges();
   });
 }
 
@@ -950,6 +1152,7 @@ async function saveEdit(id){
   toggleEdit(id);
   renderSubmissions();
   showToast(id+' updated','success');
+  logActivity('edit','Admin edited '+id);
 }
 
 // --- BULK ACTIONS ---
@@ -1001,6 +1204,8 @@ async function bulkAction(action){
     selectedIds.clear();
     renderSubmissions();
     showToast(ids.length+' submissions '+label,'success');
+    logActivity(action==='delete'?'delete':action==='approved'?'approve':'reject','Bulk '+label+' '+ids.length+' submissions');
+    updateBadges();
   });
 }
 
@@ -1162,6 +1367,8 @@ async function appealAction(id,status){
   }
   renderAppeals();
   showToast(id+' > '+status,'success');
+  logActivity('appeal','Appeal '+id+' '+status);
+  updateBadges();
 }
 
 async function saveAppealNotes(id){
@@ -1178,6 +1385,7 @@ async function saveAppealNotes(id){
   var item=allAppeals.find(function(a){return a.ref_id===id});
   if(item) item.reviewer_notes=notes;
   showToast('Notes saved for '+id,'success');
+  logActivity('edit','Notes updated for appeal '+id);
 }
 
 function deleteAppeal(id){
@@ -1194,6 +1402,8 @@ function deleteAppeal(id){
     allAppeals=allAppeals.filter(function(a){return a.ref_id!==id});
     renderAppeals();
     showToast(id+' deleted','success');
+    logActivity('delete','Admin deleted appeal '+id);
+    updateBadges();
   });
 }
 
@@ -1463,6 +1673,8 @@ async function updateMsgStatus(id,newStatus,e){
 
   renderMessages();
   showToast('Message marked as '+newStatus,'success');
+  logActivity('message','Message from '+msg.name+' marked '+newStatus);
+  updateBadges();
 }
 
 // Messages filter pills
@@ -1487,6 +1699,459 @@ if(msgSearchEl){
     },250);
   });
 }
+
+// ============================================================
+// DASHBOARD OVERVIEW SYSTEM
+// ============================================================
+
+// --- ACTIVITY LOG ---
+var MAX_ACTIVITY=50;
+
+function logActivity(type,description){
+  activityLog.unshift({type:type,description:description,timestamp:new Date().toISOString()});
+  if(activityLog.length>MAX_ACTIVITY) activityLog.length=MAX_ACTIVITY;
+  sessionStorage.setItem('daag_activity',JSON.stringify(activityLog));
+  if(document.getElementById('tab-overview')&&document.getElementById('tab-overview').classList.contains('active')){
+    renderActivityFeed();
+  }
+}
+
+function renderActivityFeed(showAll){
+  var feed=document.getElementById('activityFeed');
+  if(!feed) return;
+  var items=showAll?activityLog:activityLog.slice(0,15);
+  if(!items.length){
+    feed.innerHTML='<div class="empty-state">No activity yet. Actions you take will appear here.</div>';
+    return;
+  }
+  var iconMap={
+    approve:{cls:'approve',icon:'&#10003;'},
+    reject:{cls:'reject',icon:'&#10007;'},
+    hold:{cls:'hold',icon:'&#9646;'},
+    edit:{cls:'edit',icon:'&#9998;'},
+    appeal:{cls:'appeal',icon:'&#9888;'},
+    message:{cls:'message',icon:'&#9993;'},
+    delete:{cls:'delete',icon:'&#10005;'}
+  };
+  feed.innerHTML=items.map(function(a){
+    var ic=iconMap[a.type]||iconMap.edit;
+    return '<div class="activity-item">'+
+      '<div class="activity-icon '+ic.cls+'">'+ic.icon+'</div>'+
+      '<div class="activity-text">'+escHtml(a.description)+'</div>'+
+      '<div class="activity-time">'+timeAgo(a.timestamp)+'</div>'+
+      '</div>';
+  }).join('');
+}
+
+// --- ANIMATED COUNTERS ---
+function animateCounter(el,target){
+  var duration=600;
+  var startTime=null;
+  function step(ts){
+    if(!startTime) startTime=ts;
+    var progress=Math.min((ts-startTime)/duration,1);
+    var eased=1-Math.pow(1-progress,3);
+    el.textContent=Math.round(target*eased);
+    if(progress<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function animateCounters(){
+  document.querySelectorAll('[data-countup]').forEach(function(el){
+    var target=parseInt(el.dataset.countup,10);
+    if(!isNaN(target)) animateCounter(el,target);
+  });
+}
+
+// --- NOTIFICATION BADGES ---
+function updateBadges(){
+  var pendingCount=allSubmissions.filter(function(s){return s.status==='pending'}).length;
+  var appealCount=allAppeals.filter(function(a){return a.status==='under_review'}).length;
+  var unreadCount=allMessages.filter(function(m){return m.status==='unread'}).length;
+  setBadge('badge-submissions',pendingCount);
+  setBadge('badge-appeals',appealCount);
+  setBadge('badge-messages',unreadCount);
+}
+
+function setBadge(id,count){
+  var el=document.getElementById(id);
+  if(!el) return;
+  el.textContent=count>0?count:'';
+  if(count>0){el.classList.remove('zero')}else{el.classList.add('zero')}
+}
+
+// --- DARK MODE ---
+function initDarkMode(){
+  if(localStorage.getItem('daag_dark')==='1'){
+    document.body.classList.add('dark');
+  }
+  updateDmIcon();
+}
+
+function toggleDarkMode(){
+  document.body.classList.toggle('dark');
+  var isDark=document.body.classList.contains('dark');
+  localStorage.setItem('daag_dark',isDark?'1':'0');
+  updateDmIcon();
+}
+
+function updateDmIcon(){
+  var btn=document.getElementById('dmToggle');
+  if(btn) btn.innerHTML=document.body.classList.contains('dark')?'&#9788;':'&#9789;';
+}
+
+// --- BUILD OVERVIEW ---
+function buildOverview(){
+  var totalSub=allSubmissions.length;
+  var pending=allSubmissions.filter(function(s){return s.status==='pending'}).length;
+  var approved=allSubmissions.filter(function(s){return s.status==='approved'}).length;
+  var rejected=allSubmissions.filter(function(s){return s.status==='rejected'}).length;
+  var openAppeals=allAppeals.filter(function(a){return a.status==='under_review'}).length;
+
+  var now=Date.now();
+  var weekAgo=now-7*24*60*60*1000;
+  var thisWeek=allSubmissions.filter(function(s){return new Date(s.created_at).getTime()>weekAgo}).length;
+  var approvalRate=totalSub>0?Math.round(approved/totalSub*100):0;
+
+  // Oldest pending
+  var pendingSubs=allSubmissions.filter(function(s){return s.status==='pending'})
+    .sort(function(a,b){return new Date(a.created_at)-new Date(b.created_at)});
+  var oldestPendingDays=0;
+  if(pendingSubs.length){
+    oldestPendingDays=Math.floor((now-new Date(pendingSubs[0].created_at).getTime())/(24*60*60*1000));
+  }
+
+  // Appeals past SLA (14 days)
+  var slaBreaches=allAppeals.filter(function(a){
+    return a.status==='under_review'&&(now-new Date(a.created_at).getTime())>14*24*60*60*1000;
+  }).length;
+
+  var h='';
+  // Card 1: Total Submissions
+  h+='<div class="ov-stat accent-green">';
+  h+='<div class="ov-stat-label">Total Submissions</div>';
+  h+='<div class="ov-stat-row"><span class="ov-stat-val" data-countup="'+totalSub+'">0</span>';
+  h+='<span class="ov-stat-trend '+(thisWeek>0?'up':'neutral')+'">+'+ thisWeek+' this week</span></div>';
+  h+='<div class="ov-stat-sub">'+approved+' approved, '+rejected+' rejected</div>';
+  h+='</div>';
+
+  // Card 2: Pending Review
+  h+='<div class="ov-stat accent-amber">';
+  h+='<div class="ov-stat-label">Pending Review</div>';
+  h+='<div class="ov-stat-row"><span class="ov-stat-val" data-countup="'+pending+'">0</span>';
+  if(pending>0){
+    h+='<span class="ov-stat-trend '+(oldestPendingDays>7?'down':'neutral')+'">oldest: '+oldestPendingDays+'d ago</span>';
+  }
+  h+='</div>';
+  h+='<div class="ov-stat-sub">Awaiting moderation</div>';
+  h+='</div>';
+
+  // Card 3: Approval Rate with ring
+  h+='<div class="ov-stat accent-blue">';
+  h+='<div class="ov-stat-label">Approval Rate</div>';
+  h+='<div class="ov-stat-row"><span class="ov-stat-val" data-countup="'+approvalRate+'">0</span>';
+  h+='<span style="font-size:1.2rem;color:var(--text3);margin-bottom:2px">%</span></div>';
+  h+='<div class="ov-stat-sub">'+approved+' of '+totalSub+' submissions</div>';
+  var ringDeg=approvalRate*3.6;
+  h+='<div class="ov-stat-ring" style="background:conic-gradient(var(--green) 0 '+ringDeg+'deg,var(--bg3) '+ringDeg+'deg 360deg)">';
+  h+='<div class="donut-center"><span>'+approvalRate+'%</span></div></div>';
+  h+='</div>';
+
+  // Card 4: Open Appeals
+  h+='<div class="ov-stat accent-red">';
+  h+='<div class="ov-stat-label">Open Appeals</div>';
+  h+='<div class="ov-stat-row"><span class="ov-stat-val" data-countup="'+openAppeals+'">0</span>';
+  if(slaBreaches>0){
+    h+='<span class="ov-stat-trend down">'+slaBreaches+' past SLA</span>';
+  } else if(openAppeals>0){
+    h+='<span class="ov-stat-trend up">All within SLA</span>';
+  }
+  h+='</div>';
+  h+='<div class="ov-stat-sub">'+allAppeals.length+' total appeals</div>';
+  h+='</div>';
+
+  document.getElementById('ovStats').innerHTML=h;
+  setTimeout(animateCounters,50);
+
+  computeAttention();
+  buildTimeline();
+  buildCatDonut();
+  buildSevDonut();
+  renderActivityFeed();
+}
+
+// --- NEEDS ATTENTION ---
+function computeAttention(){
+  var section=document.getElementById('attnSection');
+  if(!section) return;
+  var alerts=[];
+  var now=Date.now();
+
+  // Stale submissions (pending > 7 days)
+  var staleSubs=allSubmissions.filter(function(s){
+    return s.status==='pending'&&(now-new Date(s.created_at).getTime())>7*24*60*60*1000;
+  });
+  if(staleSubs.length){
+    alerts.push({type:'warn',icon:'&#9888;',
+      text:staleSubs.length+' submission'+(staleSubs.length>1?'s':'')+' pending for 7+ days',
+      action:'Review now',tab:'submissions',filter:'pending'});
+  }
+
+  // SLA breaches (appeals > 14 days)
+  var slaBreach=allAppeals.filter(function(a){
+    return a.status==='under_review'&&(now-new Date(a.created_at).getTime())>14*24*60*60*1000;
+  });
+  if(slaBreach.length){
+    alerts.push({type:'critical',icon:'&#10071;',
+      text:slaBreach.length+' appeal'+(slaBreach.length>1?'s':'')+' past 14-day SLA',
+      action:'Review appeals',tab:'appeals',filter:'under_review'});
+  }
+
+  // Queue building up
+  var pendingCount=allSubmissions.filter(function(s){return s.status==='pending'}).length;
+  if(pendingCount>10){
+    alerts.push({type:'warn',icon:'&#128203;',
+      text:'Queue building up: '+pendingCount+' pending submissions',
+      action:'View queue',tab:'submissions',filter:'pending'});
+  }
+
+  // Unread messages
+  var unreadMsgs=allMessages.filter(function(m){return m.status==='unread'}).length;
+  if(unreadMsgs>0){
+    alerts.push({type:'info',icon:'&#9993;',
+      text:unreadMsgs+' unread message'+(unreadMsgs>1?'s':''),
+      action:'View messages',tab:'messages',filter:''});
+  }
+
+  if(!alerts.length){section.innerHTML='';return}
+
+  var html='<div class="attn-title">Needs Attention</div><div class="attn-grid">';
+  alerts.forEach(function(a){
+    html+='<div class="attn-card '+a.type+'" onclick="switchToTab(\''+a.tab+'\''+(a.filter?',\''+a.filter+'\'':'')+')\">';
+    html+='<div class="attn-icon">'+a.icon+'</div>';
+    html+='<div class="attn-text">'+escHtml(a.text)+'</div>';
+    html+='<div class="attn-action">'+escHtml(a.action)+' &rarr;</div>';
+    html+='</div>';
+  });
+  html+='</div>';
+  section.innerHTML=html;
+}
+
+// --- SWITCH TAB (used by attention cards) ---
+function switchToTab(tab,filter){
+  document.querySelectorAll('.admin-tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
+  var tabBtn=document.querySelector('[data-tab="'+tab+'"]');
+  if(tabBtn) tabBtn.classList.add('active');
+  var panel=document.getElementById('tab-'+tab);
+  if(panel) panel.classList.add('active');
+
+  if(tab==='submissions'&&filter){
+    subFilter=filter;
+    document.querySelectorAll('[data-filter]').forEach(function(p){p.classList.remove('on')});
+    var pill=document.querySelector('[data-filter="'+filter+'"]');
+    if(pill) pill.classList.add('on');
+    subPage=1;
+    renderSubmissions();
+  }
+  if(tab==='appeals'&&filter){
+    appealFilter=filter;
+    document.querySelectorAll('[data-afilter]').forEach(function(p){p.classList.remove('on')});
+    var apill=document.querySelector('[data-afilter="'+filter+'"]');
+    if(apill) apill.classList.add('on');
+    appealPage=1;
+    renderAppeals();
+  }
+  if(tab==='analytics') buildAnalytics();
+  if(tab==='messages') loadMessages();
+  if(tab==='overview') buildOverview();
+}
+
+// --- TIMELINE CHART ---
+function buildTimeline(){
+  var chart=document.getElementById('timelineChart');
+  var datesEl=document.getElementById('tlDates');
+  if(!chart) return;
+
+  var now=new Date();
+  now.setHours(23,59,59,999);
+  var days=[];
+  for(var i=29;i>=0;i--){
+    var d=new Date(now);
+    d.setDate(d.getDate()-i);
+    days.push({date:d.toISOString().slice(0,10),moderate:0,high:0,severe:0,total:0});
+  }
+
+  allSubmissions.forEach(function(s){
+    var key=s.created_at?s.created_at.slice(0,10):'';
+    var day=days.find(function(d){return d.date===key});
+    if(day){
+      var sev=(s.severity||'Moderate').toLowerCase();
+      if(sev==='severe') day.severe++;
+      else if(sev==='high') day.high++;
+      else day.moderate++;
+      day.total++;
+    }
+  });
+
+  var maxCount=Math.max.apply(null,days.map(function(d){return d.total}).concat([1]));
+  var chartHeight=120;
+
+  chart.innerHTML=days.map(function(d){
+    if(d.total===0){
+      return '<div class="timeline-bar"><div class="timeline-seg empty-bar" style="height:2px"></div>'+
+        '<div class="tl-tooltip">'+d.date.slice(5)+': 0</div></div>';
+    }
+    var mH=Math.max(1,Math.round(d.moderate/maxCount*chartHeight));
+    var hH=Math.max(1,Math.round(d.high/maxCount*chartHeight));
+    var sH=Math.max(1,Math.round(d.severe/maxCount*chartHeight));
+    if(!d.moderate) mH=0; if(!d.high) hH=0; if(!d.severe) sH=0;
+    return '<div class="timeline-bar">'+
+      (sH?'<div class="timeline-seg severe" style="height:'+sH+'px"></div>':'')+
+      (hH?'<div class="timeline-seg high" style="height:'+hH+'px"></div>':'')+
+      (mH?'<div class="timeline-seg moderate" style="height:'+mH+'px"></div>':'')+
+      '<div class="tl-tooltip">'+d.date.slice(5)+': '+d.total+' ('+d.severe+'s/'+d.high+'h/'+d.moderate+'m)</div></div>';
+  }).join('');
+
+  if(datesEl){
+    datesEl.innerHTML='<span>'+days[0].date.slice(5)+'</span><span>'+days[14].date.slice(5)+'</span><span>'+days[29].date.slice(5)+'</span>';
+  }
+}
+
+// --- DONUT CHARTS ---
+function buildCatDonut(){
+  var el=document.getElementById('catDonut');
+  if(!el) return;
+
+  var counts={};
+  allSubmissions.forEach(function(s){
+    var c=s.category||'Unknown';
+    counts[c]=(counts[c]||0)+1;
+  });
+
+  var total=allSubmissions.length||1;
+  var colors=['#9e1c2c','#e65100','#bf6d00','#2e7d32','#1565c0','#6a1b9a','#00838f'];
+  var sorted=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]});
+
+  var gradParts=[];
+  var cumDeg=0;
+  var legendHtml='';
+  sorted.forEach(function(cat,i){
+    var deg=counts[cat]/total*360;
+    var color=colors[i%colors.length];
+    gradParts.push(color+' '+cumDeg+'deg '+(cumDeg+deg)+'deg');
+    cumDeg+=deg;
+    legendHtml+='<div class="donut-legend-item"><span class="donut-legend-dot" style="background:'+color+'"></span>'+escHtml(cat)+' ('+counts[cat]+')</div>';
+  });
+
+  el.innerHTML='<div class="donut" style="background:conic-gradient('+gradParts.join(',')+')"><div class="donut-center"><span class="donut-center-val">'+sorted.length+'</span><span class="donut-center-label">categories</span></div></div>'+
+    '<div class="donut-legend">'+legendHtml+'</div>';
+}
+
+function buildSevDonut(){
+  var el=document.getElementById('sevDonut');
+  if(!el) return;
+
+  var counts={Moderate:0,High:0,Severe:0};
+  allSubmissions.forEach(function(s){
+    var sev=s.severity||'Moderate';
+    counts[sev]=(counts[sev]||0)+1;
+  });
+
+  var total=allSubmissions.length||1;
+  var hexMap={Severe:'#c62828',High:'#e65100',Moderate:'#bf6d00'};
+
+  var gradParts=[];
+  var cumDeg=0;
+  var legendHtml='';
+  ['Severe','High','Moderate'].forEach(function(sev){
+    if(!counts[sev]) return;
+    var deg=counts[sev]/total*360;
+    gradParts.push(hexMap[sev]+' '+cumDeg+'deg '+(cumDeg+deg)+'deg');
+    cumDeg+=deg;
+    legendHtml+='<div class="donut-legend-item"><span class="donut-legend-dot" style="background:'+hexMap[sev]+'"></span>'+sev+' ('+counts[sev]+')</div>';
+  });
+
+  var severeRate=Math.round((counts.Severe||0)/total*100);
+  el.innerHTML='<div class="donut" style="background:conic-gradient('+gradParts.join(',')+')"><div class="donut-center"><span class="donut-center-val">'+severeRate+'%</span><span class="donut-center-label">severe</span></div></div>'+
+    '<div class="donut-legend">'+legendHtml+'</div>';
+}
+
+// --- KEYBOARD SHORTCUTS ---
+function getVisibleQItems(){
+  return Array.from(document.querySelectorAll('#subList .q-item'));
+}
+
+function setKbFocus(idx){
+  var items=getVisibleQItems();
+  items.forEach(function(el){el.classList.remove('kb-focused')});
+  if(idx<0||idx>=items.length){kbFocusIndex=-1;return}
+  kbFocusIndex=idx;
+  items[idx].classList.add('kb-focused');
+  items[idx].scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+
+function getFocusedRefId(){
+  var items=getVisibleQItems();
+  if(kbFocusIndex<0||kbFocusIndex>=items.length) return null;
+  var idEl=items[kbFocusIndex].querySelector('.q-item-id');
+  return idEl?idEl.textContent:null;
+}
+
+document.addEventListener('keydown',function(e){
+  var tag=(e.target.tagName||'').toLowerCase();
+  if(tag==='input'||tag==='textarea'||tag==='select') return;
+
+  // ? — toggle keyboard help
+  if(e.key==='?'){
+    e.preventDefault();
+    document.getElementById('kbOverlay').classList.toggle('show');
+    return;
+  }
+
+  // Escape — close overlays
+  if(e.key==='Escape'){
+    document.getElementById('kbOverlay').classList.remove('show');
+    document.getElementById('confirmOverlay').classList.remove('show');
+    document.querySelectorAll('.edit-panel.show').forEach(function(el){el.classList.remove('show')});
+    return;
+  }
+
+  // Only j/k/a/r/h/e on submissions tab
+  var subTab=document.getElementById('tab-submissions');
+  if(!subTab||!subTab.classList.contains('active')) return;
+  if('ontouchstart' in window) return;
+
+  var items=getVisibleQItems();
+  if(!items.length) return;
+
+  if(e.key==='j'){
+    e.preventDefault();
+    setKbFocus(Math.min(kbFocusIndex+1,items.length-1));
+  } else if(e.key==='k'){
+    e.preventDefault();
+    setKbFocus(Math.max(kbFocusIndex-1,0));
+  } else if(e.key==='a'){
+    var aid=getFocusedRefId();
+    if(aid){e.preventDefault();modAction(aid,'approved')}
+  } else if(e.key==='r'){
+    var rid=getFocusedRefId();
+    if(rid){e.preventDefault();modAction(rid,'rejected')}
+  } else if(e.key==='h'){
+    var hid=getFocusedRefId();
+    if(hid){e.preventDefault();modAction(hid,'hold')}
+  } else if(e.key==='e'){
+    var eid=getFocusedRefId();
+    if(eid){e.preventDefault();toggleEdit(eid)}
+  }
+});
+
+// Init dark mode on page load (before login too, for preference persistence)
+if(localStorage.getItem('daag_dark')==='1'){
+  document.body.classList.add('dark');
+}
+updateDmIcon();
 </script>
 </body>
 </html>
