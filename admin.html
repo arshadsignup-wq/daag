@@ -875,11 +875,20 @@ async function loadSubmissions(){
 
 function useDemoMode(){
   demoMode=true;
-  allSubmissions=genDemoSubmissions();
-  allAppeals=genDemoAppeals();
+  var cachedSub=localStorage.getItem('daag_demo_submissions');
+  var cachedApp=localStorage.getItem('daag_demo_appeals');
+  allSubmissions=cachedSub?JSON.parse(cachedSub):genDemoSubmissions();
+  allAppeals=cachedApp?JSON.parse(cachedApp):genDemoAppeals();
   document.getElementById('demoBanner').style.display='block';
   renderSubmissions();
   renderAppeals();
+}
+
+function saveDemoState(){
+  if(!demoMode) return;
+  localStorage.setItem('daag_demo_submissions',JSON.stringify(allSubmissions));
+  localStorage.setItem('daag_demo_appeals',JSON.stringify(allAppeals));
+  localStorage.setItem('daag_demo_messages',JSON.stringify(allMessages));
 }
 
 function getFilteredSubmissions(){
@@ -1090,6 +1099,7 @@ async function modAction(id,status){
   showToast(id+' > '+status,'success');
   logActivity(status==='approved'?'approve':status==='rejected'?'reject':'hold','Admin '+status+' '+id);
   updateBadges();
+  saveDemoState();
 }
 
 function deleteSub(id){
@@ -1109,6 +1119,7 @@ function deleteSub(id){
     showToast(id+' deleted','success');
     logActivity('delete','Admin deleted submission '+id);
     updateBadges();
+    saveDemoState();
   });
 }
 
@@ -1153,6 +1164,7 @@ async function saveEdit(id){
   renderSubmissions();
   showToast(id+' updated','success');
   logActivity('edit','Admin edited '+id);
+  saveDemoState();
 }
 
 // --- BULK ACTIONS ---
@@ -1206,6 +1218,7 @@ async function bulkAction(action){
     showToast(ids.length+' submissions '+label,'success');
     logActivity(action==='delete'?'delete':action==='approved'?'approve':'reject','Bulk '+label+' '+ids.length+' submissions');
     updateBadges();
+    saveDemoState();
   });
 }
 
@@ -1369,6 +1382,7 @@ async function appealAction(id,status){
   showToast(id+' > '+status,'success');
   logActivity('appeal','Appeal '+id+' '+status);
   updateBadges();
+  saveDemoState();
 }
 
 async function saveAppealNotes(id){
@@ -1386,6 +1400,7 @@ async function saveAppealNotes(id){
   if(item) item.reviewer_notes=notes;
   showToast('Notes saved for '+id,'success');
   logActivity('edit','Notes updated for appeal '+id);
+  saveDemoState();
 }
 
 function deleteAppeal(id){
@@ -1404,6 +1419,7 @@ function deleteAppeal(id){
     showToast(id+' deleted','success');
     logActivity('delete','Admin deleted appeal '+id);
     updateBadges();
+    saveDemoState();
   });
 }
 
@@ -1551,7 +1567,8 @@ async function loadMessages(){
   if(!list) return;
   list.innerHTML='<div class="loading">Loading messages...</div>';
   if(!sb||demoMode){
-    allMessages=genDemoMessages();
+    var cachedMsg=localStorage.getItem('daag_demo_messages');
+    allMessages=cachedMsg?JSON.parse(cachedMsg):genDemoMessages();
     renderMessages();
     return;
   }
@@ -1675,6 +1692,7 @@ async function updateMsgStatus(id,newStatus,e){
   showToast('Message marked as '+newStatus,'success');
   logActivity('message','Message from '+msg.name+' marked '+newStatus);
   updateBadges();
+  saveDemoState();
 }
 
 // Messages filter pills
