@@ -244,6 +244,45 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .bar-fill.gray{background:var(--text3)}
 .bar-count{font-size:11px;color:var(--text3);font-family:var(--font-mono);width:50px;flex-shrink:0}
 
+/* SITE TRAFFIC */
+.traffic-section{margin-bottom:2rem}
+.traffic-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.2rem}
+.traffic-title{font-size:16px;font-weight:600;color:var(--text);font-family:var(--font-heading)}
+.traffic-subtitle{font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+.traffic-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.8rem}
+.traffic-stat{background:var(--bg1);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:6px;padding:1rem 1.1rem;transition:transform .15s,box-shadow .15s}
+.traffic-stat:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.traffic-stat:nth-child(2){border-left-color:var(--blue)}
+.traffic-stat:nth-child(3){border-left-color:var(--green)}
+.traffic-stat:nth-child(4){border-left-color:var(--amber)}
+.traffic-stat-label{font-size:11px;color:var(--text3);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem}
+.traffic-stat-val{font-size:1.6rem;font-weight:400;color:var(--text);font-family:var(--font-mono);letter-spacing:-.02em;line-height:1.2}
+.traffic-stat-trend{display:inline-flex;align-items:center;gap:.2rem;font-size:11px;font-family:var(--font-mono);margin-top:.3rem;padding:.15rem .45rem;border-radius:3px}
+.traffic-stat-trend.up{color:var(--green);background:var(--green-bg)}
+.traffic-stat-trend.down{color:var(--red);background:var(--red-bg)}
+.traffic-stat-trend.neutral{color:var(--text3);background:var(--bg2)}
+.traffic-mini-bars{display:flex;align-items:flex-end;gap:2px;height:80px;margin-bottom:1.8rem;padding:.5rem 0}
+.traffic-mini-bar{flex:1;background:var(--accent);border-radius:2px 2px 0 0;min-height:2px;transition:opacity .15s;cursor:default;position:relative;opacity:.7}
+.traffic-mini-bar:hover{opacity:1}
+.traffic-mini-bar:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--text);color:#fff;font-size:10px;font-family:var(--font-mono);padding:3px 7px;border-radius:3px;white-space:nowrap;pointer-events:none;z-index:10}
+.traffic-chart-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.traffic-err{padding:1.5rem;background:var(--red-bg);border:1px solid var(--red-border);border-radius:6px;color:var(--red);font-size:13px;font-family:var(--font-mono);text-align:center}
+.traffic-loading{padding:2rem;text-align:center;color:var(--text3);font-size:13px;font-family:var(--font-mono)}
+.traffic-divider{border:none;border-top:1px solid var(--border);margin:2rem 0}
+
+@media(max-width:900px){
+  .traffic-stats{grid-template-columns:repeat(2,1fr)}
+  .traffic-chart-row{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .traffic-stats{grid-template-columns:1fr 1fr}
+  .traffic-stat-val{font-size:1.3rem}
+  .traffic-mini-bars{height:60px}
+}
+@media(max-width:400px){
+  .traffic-stats{grid-template-columns:1fr}
+}
+
 /* EXPORT */
 .export-section{max-width:600px}
 .export-card{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:1.5rem 1.6rem;margin-bottom:1rem;transition:border-color .2s}
@@ -599,6 +638,23 @@ body{transition:background-color .3s,color .3s}
 
     <!-- TAB 3: ANALYTICS -->
     <div id="tab-analytics" class="tab-panel">
+      <!-- Site Traffic (Google Analytics) -->
+      <div id="trafficSection" class="traffic-section">
+        <div class="traffic-header">
+          <span class="traffic-title">Site Traffic</span>
+          <span class="traffic-subtitle">Last 28 days &mdash; Google Analytics</span>
+        </div>
+        <div id="trafficContent">
+          <div class="traffic-loading">Loading traffic data&hellip;</div>
+        </div>
+      </div>
+
+      <hr class="traffic-divider">
+
+      <!-- Submission Analytics -->
+      <div class="traffic-header" style="margin-bottom:1rem">
+        <span class="traffic-title">Submission Analytics</span>
+      </div>
       <div class="stats-grid" id="statsGrid"></div>
       <div class="chart-section">
         <div class="chart-title">Submissions by Category</div>
@@ -1582,10 +1638,127 @@ function buildAnalytics(){
     aHtml+='<div class="bar-row"><span class="bar-label">'+d.label+'</span><div class="bar-track"><div class="bar-fill '+d.cls+'" style="width:'+pct+'%"></div></div><span class="bar-count">'+d.count+'</span></div>';
   });
   document.getElementById('appealStatusChart').innerHTML=aHtml;
+
+  // Load site traffic data
+  buildTraffic();
 }
 
 function statCard(label,val,sub){
   return '<div class="stat-card"><div class="stat-label">'+escHtml(label)+'</div><div class="stat-val">'+val+'</div><div class="stat-sub">'+escHtml(sub)+'</div></div>';
+}
+
+// --- SITE TRAFFIC (Google Analytics) ---
+var trafficCache=null;
+
+function buildTraffic(){
+  var container=document.getElementById('trafficContent');
+  if(!container) return;
+
+  // Check sessionStorage cache (5-min TTL)
+  try{
+    var cached=sessionStorage.getItem('daag_traffic');
+    if(cached){
+      var parsed=JSON.parse(cached);
+      if(parsed.ts && Date.now()-parsed.ts<300000){
+        renderTraffic(parsed.data);
+        return;
+      }
+    }
+  }catch(e){}
+
+  container.innerHTML='<div class="traffic-loading">Loading traffic data&hellip;</div>';
+
+  fetch('/api/analytics')
+    .then(function(res){
+      if(!res.ok) return res.json().then(function(e){throw new Error(e.error||'Failed to load')});
+      return res.json();
+    })
+    .then(function(data){
+      try{sessionStorage.setItem('daag_traffic',JSON.stringify({ts:Date.now(),data:data}))}catch(e){}
+      renderTraffic(data);
+    })
+    .catch(function(err){
+      container.innerHTML='<div class="traffic-err">Could not load traffic data: '+escHtml(err.message)+'</div>';
+    });
+}
+
+function fmtNum(n){
+  if(n>=1000000) return (n/1000000).toFixed(1).replace(/\.0$/,'')+'M';
+  if(n>=1000) return (n/1000).toFixed(1).replace(/\.0$/,'')+'K';
+  return String(Math.round(n));
+}
+
+function fmtDuration(s){
+  var m=Math.floor(s/60);
+  var sec=Math.round(s%60);
+  return m+'m '+sec+'s';
+}
+
+function trendBadge(pct,invert){
+  var cls='neutral';
+  var arrow='';
+  if(pct>0){cls=invert?'down':'up';arrow='&#9650; '}
+  else if(pct<0){cls=invert?'up':'down';arrow='&#9660; '}
+  return '<span class="traffic-stat-trend '+cls+'">'+arrow+(pct>0?'+':'')+pct+'%</span>';
+}
+
+function trafficCard(label,value,change,invert){
+  return '<div class="traffic-stat">'+
+    '<div class="traffic-stat-label">'+escHtml(label)+'</div>'+
+    '<div class="traffic-stat-val">'+value+'</div>'+
+    trendBadge(change,invert)+
+    '</div>';
+}
+
+function buildDailyChart(daily){
+  if(!daily||!daily.length) return '';
+  var max=Math.max.apply(null,daily.map(function(d){return d.visitors}));
+  if(max===0) max=1;
+  var html='<div class="chart-section"><div class="chart-title">Daily Visitors &mdash; 28 Days</div><div class="traffic-mini-bars">';
+  daily.forEach(function(d){
+    var pct=Math.max(2,Math.round(d.visitors/max*100));
+    var dateStr=d.date.replace(/^(\d{4})(\d{2})(\d{2})$/,'$2/$3');
+    html+='<div class="traffic-mini-bar" style="height:'+pct+'%" data-tip="'+dateStr+': '+d.visitors+'"></div>';
+  });
+  html+='</div></div>';
+  return html;
+}
+
+function buildBarList(title,items,labelKey,valueKey,color){
+  if(!items||!items.length) return '';
+  var max=items[0][valueKey]||1;
+  var html='<div class="chart-section"><div class="chart-title">'+escHtml(title)+'</div><div class="bar-chart">';
+  items.forEach(function(item){
+    var pct=Math.round((item[valueKey]/max)*100);
+    var label=item[labelKey]||'(unknown)';
+    html+='<div class="bar-row"><span class="bar-label">'+escHtml(label)+'</span><div class="bar-track"><div class="bar-fill '+(color||'red')+'" style="width:'+pct+'%"></div></div><span class="bar-count">'+fmtNum(item[valueKey])+'</span></div>';
+  });
+  html+='</div></div>';
+  return html;
+}
+
+function renderTraffic(data){
+  var container=document.getElementById('trafficContent');
+  if(!container) return;
+  var o=data.overview||{};
+
+  var html='<div class="traffic-stats">'+
+    trafficCard('Visitors',fmtNum(o.visitors),o.visitorsChange,false)+
+    trafficCard('Page Views',fmtNum(o.pageViews),o.pageViewsChange,false)+
+    trafficCard('Sessions',fmtNum(o.sessions),o.sessionsChange,false)+
+    trafficCard('Avg Duration',fmtDuration(o.avgDuration),o.avgDurationChange,false)+
+    '</div>';
+
+  html+=buildDailyChart(data.daily);
+
+  html+='<div class="traffic-chart-row">';
+  html+=buildBarList('Top Pages',data.pages,'path','views','red');
+  html+=buildBarList('Traffic Sources',data.sources,'source','sessions','blue');
+  html+='</div>';
+
+  html+=buildBarList('Top Countries',data.countries,'country','visitors','green');
+
+  container.innerHTML=html;
 }
 
 // --- EXPORT ---
