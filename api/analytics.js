@@ -203,7 +203,13 @@ module.exports = async function handler(req, res) {
 
   const propertyId = process.env.GA_PROPERTY_ID;
   const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
-  const privateKey = (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n');
+  let privateKey = (process.env.GOOGLE_PRIVATE_KEY || '')
+    .replace(/\\n/g, '\n')
+    .replace(/\\\\n/g, '\n');
+  // Handle keys pasted with quotes around them
+  if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
+    privateKey = JSON.parse(privateKey);
+  }
 
   if (!propertyId || !clientEmail || !privateKey) {
     return res.status(500).json({
