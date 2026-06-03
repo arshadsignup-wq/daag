@@ -9,6 +9,7 @@
   gtag('js', new Date());
   gtag('config', 'G-0P8DZ2KS52');
 </script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daag - Admin Panel</title>
@@ -268,6 +269,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .traffic-chart-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
 .traffic-err{padding:1.5rem;background:var(--red-bg);border:1px solid var(--red-border);border-radius:6px;color:var(--red);font-size:13px;font-family:var(--font-mono);text-align:center}
 .traffic-loading{padding:2rem;text-align:center;color:var(--text3);font-size:13px;font-family:var(--font-mono)}
+.traffic-signin{padding:2rem;text-align:center}
+.traffic-signin-btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--bg1);border:1px solid var(--border2);border-radius:6px;padding:.7rem 1.4rem;font-size:13px;font-family:var(--font-sans);font-weight:500;color:var(--text);cursor:pointer;transition:all .2s}
+.traffic-signin-btn:hover{border-color:var(--border3);box-shadow:0 2px 8px rgba(0,0,0,.06);transform:translateY(-1px)}
+.traffic-signin-btn svg{width:18px;height:18px}
+.traffic-signout{font-size:11px;color:var(--text3);font-family:var(--font-mono);cursor:pointer;border:none;background:none;padding:.2rem .4rem;margin-left:.5rem;transition:color .15s}
+.traffic-signout:hover{color:var(--red)}
 .traffic-divider{border:none;border-top:1px solid var(--border);margin:2rem 0}
 
 @media(max-width:900px){
@@ -645,7 +652,13 @@ body{transition:background-color .3s,color .3s}
           <span class="traffic-subtitle">Last 28 days &mdash; Google Analytics</span>
         </div>
         <div id="trafficContent">
-          <div class="traffic-loading">Loading traffic data&hellip;</div>
+          <div class="traffic-signin" id="trafficSignin">
+            <button class="traffic-signin-btn" onclick="gaSignIn()">
+              <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              Sign in with Google to view traffic
+            </button>
+            <div style="margin-top:.8rem;font-size:11px;color:var(--text3);font-family:var(--font-mono)">Uses your Google account to read Analytics data</div>
+          </div>
         </div>
       </div>
 
@@ -1647,13 +1660,12 @@ function statCard(label,val,sub){
   return '<div class="stat-card"><div class="stat-label">'+escHtml(label)+'</div><div class="stat-val">'+val+'</div><div class="stat-sub">'+escHtml(sub)+'</div></div>';
 }
 
-// --- SITE TRAFFIC (Google Analytics) ---
-var trafficCache=null;
+// --- SITE TRAFFIC (Google Analytics — client-side) ---
+var GA_CLIENT_ID='';// Set after OAuth client is created
+var GA_PROPERTY_ID='540050565';
+var gaAccessToken=null;
 
 function buildTraffic(){
-  var container=document.getElementById('trafficContent');
-  if(!container) return;
-
   // Check sessionStorage cache (5-min TTL)
   try{
     var cached=sessionStorage.getItem('daag_traffic');
@@ -1665,21 +1677,86 @@ function buildTraffic(){
       }
     }
   }catch(e){}
+  // Show sign-in button if no cached data
+  var signin=document.getElementById('trafficSignin');
+  if(signin) signin.style.display='';
+}
 
-  container.innerHTML='<div class="traffic-loading">Loading traffic data&hellip;</div>';
+function gaSignIn(){
+  if(!GA_CLIENT_ID){
+    document.getElementById('trafficContent').innerHTML='<div class="traffic-err">OAuth Client ID not configured</div>';
+    return;
+  }
+  var client=google.accounts.oauth2.initTokenClient({
+    client_id:GA_CLIENT_ID,
+    scope:'https://www.googleapis.com/auth/analytics.readonly',
+    callback:function(resp){
+      if(resp.error){
+        document.getElementById('trafficContent').innerHTML='<div class="traffic-err">Auth failed: '+escHtml(resp.error)+'</div>';
+        return;
+      }
+      gaAccessToken=resp.access_token;
+      document.getElementById('trafficContent').innerHTML='<div class="traffic-loading">Loading traffic data&hellip;</div>';
+      fetchTrafficData();
+    }
+  });
+  client.requestAccessToken();
+}
 
-  fetch('/api/analytics')
-    .then(function(res){
-      if(!res.ok) return res.json().then(function(e){throw new Error(e.error||'Failed to load')});
-      return res.json();
-    })
-    .then(function(data){
-      try{sessionStorage.setItem('daag_traffic',JSON.stringify({ts:Date.now(),data:data}))}catch(e){}
-      renderTraffic(data);
-    })
-    .catch(function(err){
-      container.innerHTML='<div class="traffic-err">Could not load traffic data: '+escHtml(err.message)+'</div>';
-    });
+function fetchTrafficData(){
+  var today=new Date();
+  var endDate=today.toISOString().split('T')[0];
+  var start28=new Date(today);start28.setDate(start28.getDate()-27);
+  var startDate=start28.toISOString().split('T')[0];
+  var prev28End=new Date(start28);prev28End.setDate(prev28End.getDate()-1);
+  var prevEnd=prev28End.toISOString().split('T')[0];
+  var prev28Start=new Date(prev28End);prev28Start.setDate(prev28Start.getDate()-27);
+  var prevStart=prev28Start.toISOString().split('T')[0];
+
+  var body={requests:[
+    {dateRanges:[{startDate:startDate,endDate:endDate},{startDate:prevStart,endDate:prevEnd}],metrics:[{name:'totalUsers'},{name:'screenPageViews'},{name:'sessions'},{name:'averageSessionDuration'},{name:'bounceRate'}]},
+    {dateRanges:[{startDate:startDate,endDate:endDate}],dimensions:[{name:'date'}],metrics:[{name:'totalUsers'}],orderBys:[{dimension:{dimensionName:'date'}}]},
+    {dateRanges:[{startDate:startDate,endDate:endDate}],dimensions:[{name:'pagePath'}],metrics:[{name:'screenPageViews'}],orderBys:[{metric:{metricName:'screenPageViews'},desc:true}],limit:'10'},
+    {dateRanges:[{startDate:startDate,endDate:endDate}],dimensions:[{name:'sessionSource'}],metrics:[{name:'sessions'}],orderBys:[{metric:{metricName:'sessions'},desc:true}],limit:'8'},
+    {dateRanges:[{startDate:startDate,endDate:endDate}],dimensions:[{name:'country'}],metrics:[{name:'totalUsers'}],orderBys:[{metric:{metricName:'totalUsers'},desc:true}],limit:'8'}
+  ]};
+
+  fetch('https://analyticsdata.googleapis.com/v1beta/properties/'+GA_PROPERTY_ID+':batchRunReports',{
+    method:'POST',
+    headers:{'Authorization':'Bearer '+gaAccessToken,'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  })
+  .then(function(res){
+    if(!res.ok) return res.json().then(function(e){throw new Error(e.error?.message||'API error')});
+    return res.json();
+  })
+  .then(function(batch){
+    var data=transformGAResponse(batch);
+    try{sessionStorage.setItem('daag_traffic',JSON.stringify({ts:Date.now(),data:data}))}catch(e){}
+    renderTraffic(data);
+  })
+  .catch(function(err){
+    document.getElementById('trafficContent').innerHTML='<div class="traffic-err">Could not load traffic data: '+escHtml(err.message)+'</div>';
+  });
+}
+
+function transformGAResponse(batch){
+  var reports=batch.reports||[];
+  function mv(row,i){return parseFloat((row&&row.metricValues&&row.metricValues[i])?row.metricValues[i].value:'0')}
+  function pct(c,p){if(p===0)return c>0?100:0;return Math.round(((c-p)/p)*100)}
+  var r0=reports[0],cur=r0&&r0.rows&&r0.rows[0],prev=r0&&r0.rows&&r0.rows[1];
+  var overview={
+    visitors:mv(cur,0),visitorsChange:pct(mv(cur,0),mv(prev,0)),
+    pageViews:mv(cur,1),pageViewsChange:pct(mv(cur,1),mv(prev,1)),
+    sessions:mv(cur,2),sessionsChange:pct(mv(cur,2),mv(prev,2)),
+    avgDuration:mv(cur,3),avgDurationChange:pct(mv(cur,3),mv(prev,3)),
+    bounceRate:mv(cur,4),bounceRateChange:pct(mv(cur,4),mv(prev,4))
+  };
+  var daily=(reports[1]&&reports[1].rows||[]).map(function(r){return{date:r.dimensionValues[0].value,visitors:parseInt(r.metricValues[0].value,10)}});
+  var pages=(reports[2]&&reports[2].rows||[]).map(function(r){return{path:r.dimensionValues[0].value,views:parseInt(r.metricValues[0].value,10)}});
+  var sources=(reports[3]&&reports[3].rows||[]).map(function(r){return{source:r.dimensionValues[0].value,sessions:parseInt(r.metricValues[0].value,10)}});
+  var countries=(reports[4]&&reports[4].rows||[]).map(function(r){return{country:r.dimensionValues[0].value,visitors:parseInt(r.metricValues[0].value,10)}});
+  return{overview:overview,daily:daily,pages:pages,sources:sources,countries:countries};
 }
 
 function fmtNum(n){
@@ -1740,6 +1817,11 @@ function buildBarList(title,items,labelKey,valueKey,color){
 function renderTraffic(data){
   var container=document.getElementById('trafficContent');
   if(!container) return;
+  // Update subtitle with sign-out option if authenticated
+  var subtitle=document.querySelector('.traffic-subtitle');
+  if(subtitle&&gaAccessToken){
+    subtitle.innerHTML='Last 28 days &mdash; Google Analytics <button class="traffic-signout" onclick="gaSignOut()">Sign out</button>';
+  }
   var o=data.overview||{};
 
   var html='<div class="traffic-stats">'+
@@ -1759,6 +1841,17 @@ function renderTraffic(data){
   html+=buildBarList('Top Countries',data.countries,'country','visitors','green');
 
   container.innerHTML=html;
+}
+
+function gaSignOut(){
+  gaAccessToken=null;
+  try{sessionStorage.removeItem('daag_traffic')}catch(e){}
+  if(google&&google.accounts&&google.accounts.oauth2){
+    google.accounts.oauth2.revoke(gaAccessToken,function(){});
+  }
+  var subtitle=document.querySelector('.traffic-subtitle');
+  if(subtitle) subtitle.innerHTML='Last 28 days &mdash; Google Analytics';
+  document.getElementById('trafficContent').innerHTML='<div class="traffic-signin" id="trafficSignin"><button class="traffic-signin-btn" onclick="gaSignIn()"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Sign in with Google to view traffic</button><div style="margin-top:.8rem;font-size:11px;color:var(--text3);font-family:var(--font-mono)">Uses your Google account to read Analytics data</div></div>';
 }
 
 // --- EXPORT ---
