@@ -191,6 +191,16 @@ h1.hero-h{font-family:var(--font-serif);font-size:clamp(3.2rem,7vw,5.8rem);line-
 .entry-s{font-size:11.5px;color:var(--text3);font-family:var(--font-mono)}
 .thumb{width:90px;height:65px;background:var(--bg3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-family:var(--font-mono);color:var(--text3);text-transform:uppercase;letter-spacing:.08em;text-align:center;padding:.4rem;flex-shrink:0}
 
+/* SCREENSHOT MODAL */
+.ss-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:9999;display:none;align-items:center;justify-content:center;cursor:zoom-out;padding:1.5rem}
+.ss-overlay.open{display:flex}
+.ss-overlay img{max-width:90vw;max-height:88vh;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.5);cursor:default}
+.ss-close{position:fixed;top:1.2rem;right:1.5rem;font-size:28px;color:#fff;cursor:pointer;z-index:10000;font-family:var(--font-mono);line-height:1;opacity:.7;transition:opacity .2s}
+.ss-close:hover{opacity:1}
+.thumb-wrap{position:relative;overflow:hidden;padding:0}
+.thumb-wrap img{width:100%;height:100%;object-fit:cover;filter:blur(6px);cursor:pointer;transition:filter .3s}
+.thumb-wrap .thumb-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:8px;font-family:var(--font-mono);color:#fff;text-transform:uppercase;letter-spacing:.08em;pointer-events:none;background:rgba(0,0,0,.55);padding:.15rem .4rem;border-radius:2px;white-space:nowrap}
+
 /* STATUS BADGES */
 .status{font-size:9.5px;font-family:var(--font-mono);letter-spacing:.07em;padding:.2rem .55rem;border-radius:2px;text-transform:uppercase;display:inline-block}
 .s-ok{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
@@ -1236,7 +1246,7 @@ function renderArchive(){
   var toShow=archiveFiltered.slice(0,archiveShowCount);
   g.innerHTML=toShow.length?toShow.map(function(e){
     var sc=e.sev==='Severe'?'var(--accent)':e.sev==='High'?'#bf6d00':'var(--text3)';
-    var thumbHtml=e.screenshot?'<div class="thumb" style="overflow:hidden;padding:0"><img src="'+escHtml(e.screenshot)+'" alt="Evidence" style="width:100%;height:100%;object-fit:cover;filter:blur(6px);cursor:pointer;transition:filter .3s" onclick="this.style.filter=this.style.filter?\'\':\' blur(6px)\'"></div>':'<div class="thumb">No<br>Screenshot</div>';
+    var thumbHtml=e.screenshot?'<div class="thumb thumb-wrap" onclick="openScreenshot(\''+escHtml(e.screenshot)+'\')"><img src="'+escHtml(e.screenshot)+'" alt="Evidence"><span class="thumb-label">View</span></div>':'<div class="thumb">No<br>Screenshot</div>';
     return'<div class="arch-entry"><div><div class="entry-meta"><span class="badge b-cr">'+e.cat+'</span><span class="badge b-nv">'+e.inc+'</span><span class="badge b-gr">'+e.lang+'</span><span class="badge b-gr" style="color:'+sc+'">'+e.sev+'</span></div><div class="entry-t">'+e.note+'</div><div class="entry-s">'+e.id+' &nbsp;&middot;&nbsp; Archived '+e.date+' &nbsp;&middot;&nbsp; <span class="status s-ok">Verified</span> &nbsp;&middot;&nbsp; v'+e.ver+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">Edited '+e.lastEdit+'</span>':'')+'</div></div>'+thumbHtml+'</div>';
   }).join(''):'<div style="padding:3rem;text-align:center;color:var(--text3);font-size:13px">No entries match the current filters.</div>';
   // Update count
@@ -1760,10 +1770,23 @@ function resetContactForm(){
   document.getElementById('contactFormWrap').style.display='block';
 }
 
+// ===== SCREENSHOT MODAL =====
+function openScreenshot(url){
+  var ov=document.getElementById('ssOverlay');
+  var img=document.getElementById('ssImg');
+  if(ov&&img){img.src=url;ov.classList.add('open');document.body.style.overflow='hidden';}
+}
+function closeScreenshot(){
+  var ov=document.getElementById('ssOverlay');
+  if(ov){ov.classList.remove('open');document.body.style.overflow='';}
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeScreenshot();});
+
 // ===== INIT =====
 updateHeroStats();
 buildArchive();
 buildAnalytics();
 </script>
+<div class="ss-overlay" id="ssOverlay" onclick="closeScreenshot()"><span class="ss-close" onclick="closeScreenshot()">&times;</span><img id="ssImg" src="" alt="Screenshot evidence" onclick="event.stopPropagation()"></div>
 </body>
 </html>
