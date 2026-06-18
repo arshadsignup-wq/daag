@@ -286,9 +286,9 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
 .profile-name{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
 .profile-url{font-size:11.5px;color:var(--text3);font-family:var(--font-mono)}
 .risk-pill{margin-left:auto;font-size:11px;font-family:var(--font-mono);letter-spacing:.07em;text-transform:uppercase;padding:.35rem .9rem;border-radius:3px;white-space:nowrap;flex-shrink:0}
-.risk-high{background:rgba(158,28,44,.15);color:var(--accent);border:1px solid rgba(158,28,44,.3)}
-.risk-mod{background:#fff8e1;color:#bf6d00;border:1px solid #ffe082}
-.risk-low{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
+.risk-high{background:var(--bg2);color:var(--text2);border:1px solid var(--border2)}
+.risk-mod{background:var(--bg2);color:var(--text2);border:1px solid var(--border2)}
+.risk-low{background:var(--bg2);color:var(--text2);border:1px solid var(--border2)}
 .profile-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border)}
 .p-stat{background:var(--bg2);padding:1rem 1.2rem;text-align:center}
 .p-stat-n{font-size:1.3rem;font-family:var(--font-mono);color:var(--warm);font-weight:400}
@@ -422,6 +422,23 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
   .form-body{padding:1rem}
   .nav-inner{padding:0 .75rem}
 }
+/* LOADING STATES */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.loading-pulse{animation:pulse 1.5s ease-in-out infinite}
+.loading-spinner{width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-block{display:flex;align-items:center;justify-content:center;padding:3rem}
+/* FAQ */
+.faq-list{margin-top:2rem;display:flex;flex-direction:column;gap:0}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item:first-child{border-top:1px solid var(--border)}
+.faq-q{width:100%;background:none;border:none;text-align:left;padding:1.25rem 0;font-size:14.5px;font-family:var(--font-sans);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;font-weight:500;line-height:1.5}
+.faq-q:hover{color:var(--accent)}
+.faq-arrow{font-size:18px;color:var(--text3);transition:transform .25s;flex-shrink:0}
+.faq-item.open .faq-arrow{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a-inner{padding:0 0 1.25rem;font-size:13.5px;color:var(--text2);line-height:1.8}
 </style>
 </head>
 <body>
@@ -460,10 +477,10 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
         <a class="btn-g" href="/archive">Explore Archive</a>
       </div>
       <div class="hero-stats-row">
-        <div class="stat"><div class="stat-n" id="heroStatArchived">0</div><div class="stat-l">Entries Archived</div></div>
-        <div class="stat"><div class="stat-n" id="heroStatReview">0</div><div class="stat-l">Under Review</div></div>
-        <div class="stat"><div class="stat-n" id="heroStatAppeals">0</div><div class="stat-l">Appeals Filed</div></div>
-        <div class="stat"><div class="stat-n" id="heroStatRate">0%</div><div class="stat-l">Verified Rate</div></div>
+        <div class="stat"><div class="stat-n loading-pulse" id="heroStatArchived">--</div><div class="stat-l">Entries Archived</div></div>
+        <div class="stat"><div class="stat-n loading-pulse" id="heroStatReview">--</div><div class="stat-l">Under Review</div></div>
+        <div class="stat"><div class="stat-n loading-pulse" id="heroStatAppeals">--</div><div class="stat-l">Appeals Filed</div></div>
+        <div class="stat"><div class="stat-n loading-pulse" id="heroStatRate">--</div><div class="stat-l">Verified Rate</div></div>
       </div>
     </div>
   </div>
@@ -479,6 +496,19 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
       <div class="feat-card"><div class="feat-num">04</div><div class="feat-icon">⊞</div><div class="feat-t">Searchable Public Archive</div><div class="feat-d">Filter by category, incident type, date, and severity. Screenshots are blurred by default. Entries include full context and annotations.</div></div>
       <div class="feat-card"><div class="feat-num">05</div><div class="feat-icon">⊕</div><div class="feat-t">Appeals &amp; Dispute System</div><div class="feat-d">Any individual can dispute a submission. All appeals get a human review with documented reasoning. Successful appeals lead to removal or reclassification.</div></div>
       <div class="feat-card"><div class="feat-num">06</div><div class="feat-icon">◎</div><div class="feat-t">Pattern Analytics</div><div class="feat-d">Data journalism covering category trends, incident timelines, and language patterns. Published for research, advocacy, and journalism.</div></div>
+    </div>
+  </div>
+  <hr class="divider">
+  <div class="section-sm" style="padding-top:4.5rem">
+    <div class="section-tag">Frequently Asked Questions</div>
+    <h2 class="section-title" style="font-size:2rem;margin-bottom:.5rem">Common Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is my identity visible when I submit evidence?<span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner">No. Submitter information (email, relationship to incident) is never displayed publicly. It is stored only for internal moderation purposes and follow-up if clarification is needed. Your identity is not linked to published archive entries in any way.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How long does the review process take?<span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner">Most submissions are reviewed within 3 to 5 working days. During high-volume periods, it may take slightly longer. You will receive a reference ID upon submission that you can use to track your submission's status.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What happens after I submit evidence?<span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner">Your submission enters a moderation queue where it is reviewed by a trained moderator. They verify the URL, confirm the screenshot is genuine, assess the category and severity, and either approve, reject, or request additional context. Nothing is published until a human has reviewed it.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can the person I submitted about see who submitted it?<span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner">No. The archived individual can see only the public archive entry, which contains their public comment, category, and incident context. They cannot see who submitted the evidence or any submitter contact information.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What if someone disputes an entry about them?<span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner">Anyone can file a formal appeal through our Appeals system. A separate moderation panel (not the original reviewer) examines the evidence and grounds for dispute within 14 working days. If the appeal is upheld, the entry is removed or reclassified with full documentation.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Why only Facebook? What about other platforms?<span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner">Facebook is the dominant social media platform in Bangladesh where the majority of public discourse around gender violence incidents takes place. We are focused on doing one platform well with rigorous verification before expanding. Support for other platforms may be considered in the future.</div></div></div>
     </div>
   </div>
   <hr class="divider">
@@ -1070,6 +1100,24 @@ const profileDB=[];
 // XSS PROTECTION
 function escHtml(str){return(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
+// ===== ANIMATED COUNT-UP =====
+function animateNum(el,target,suffix){
+  if(!el)return;
+  el.classList.remove('loading-pulse');
+  var dur=600;var start=performance.now();
+  function step(now){
+    var t=Math.min((now-start)/dur,1);
+    var ease=1-Math.pow(1-t,3);
+    var val=Math.round(ease*target);
+    el.textContent=val.toLocaleString()+(suffix||'');
+    if(t<1)requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ===== FAQ TOGGLE =====
+function toggleFaq(btn){btn.parentElement.classList.toggle('open')}
+
 // ===== NAVIGATION (clean URL routing) =====
 function go(id){
   var url=id==='home'?'/':'/'+id;
@@ -1244,12 +1292,17 @@ function renderArchive(){
   if(!g)return;
   archiveFiltered=getFilteredArchive();
   var toShow=archiveFiltered.slice(0,archiveShowCount);
-  g.innerHTML=toShow.length?toShow.map(function(e){
-    var sc=e.sev==='Severe'?'var(--accent)':e.sev==='High'?'#bf6d00':'var(--text3)';
-    var thumbHtml=e.screenshot?'<div class="thumb thumb-wrap" onclick="openScreenshot(\''+escHtml(e.screenshot)+'\')"><img src="'+escHtml(e.screenshot)+'" alt="Evidence"><span class="thumb-label">View</span></div>':'<div class="thumb">No<br>Screenshot</div>';
-    var profileHtml=e.profileUrl?'<div style="margin-top:.45rem"><a href="'+escHtml(e.profileUrl)+'" target="_blank" rel="noopener noreferrer" style="font-size:12px;font-family:var(--font-mono);color:var(--accent);text-decoration:none;letter-spacing:.03em" onclick="event.stopPropagation()">'+(e.profileName||'View Profile')+' &rarr;</a></div>':'';
-    return'<div class="arch-entry"><div><div class="entry-meta"><span class="badge b-cr">'+e.cat+'</span><span class="badge b-nv">'+e.inc+'</span><span class="badge b-gr">'+e.lang+'</span><span class="badge b-gr" style="color:'+sc+'">'+e.sev+'</span></div><div class="entry-t">'+e.note+'</div>'+profileHtml+'<div class="entry-s">'+e.id+' &nbsp;&middot;&nbsp; Archived '+e.date+' &nbsp;&middot;&nbsp; <span class="status s-ok">Verified</span> &nbsp;&middot;&nbsp; v'+e.ver+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">Edited '+e.lastEdit+'</span>':'')+'</div></div>'+thumbHtml+'</div>';
-  }).join(''):'<div style="padding:3rem;text-align:center;color:var(--text3);font-size:13px">No entries match the current filters.</div>';
+  if(toShow.length){
+    g.innerHTML=toShow.map(function(e){
+      var sc=e.sev==='Severe'?'var(--accent)':e.sev==='High'?'#bf6d00':'var(--text3)';
+      var thumbHtml=e.screenshot?'<div class="thumb thumb-wrap" onclick="openScreenshot(\''+escHtml(e.screenshot)+'\')"><img src="'+escHtml(e.screenshot)+'" alt="Evidence"><span class="thumb-label">View</span></div>':'<div class="thumb">No<br>Screenshot</div>';
+      var profileHtml=e.profileUrl?'<div style="margin-top:.45rem"><a href="'+escHtml(e.profileUrl)+'" target="_blank" rel="noopener noreferrer" style="font-size:12px;font-family:var(--font-mono);color:var(--accent);text-decoration:none;letter-spacing:.03em" onclick="event.stopPropagation()">'+(e.profileName||'View Profile')+' &rarr;</a></div>':'';
+      return'<div class="arch-entry"><div><div class="entry-meta"><span class="badge b-cr">'+e.cat+'</span><span class="badge b-nv">'+e.inc+'</span><span class="badge b-gr">'+e.lang+'</span><span class="badge b-gr" style="color:'+sc+'">'+e.sev+'</span></div><div class="entry-t">'+e.note+'</div>'+profileHtml+'<div class="entry-s">'+e.id+' &nbsp;&middot;&nbsp; Archived '+e.date+' &nbsp;&middot;&nbsp; <span class="status s-ok">Verified</span> &nbsp;&middot;&nbsp; v'+e.ver+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">Edited '+e.lastEdit+'</span>':'')+'</div></div>'+thumbHtml+'</div>';
+    }).join('');
+  }else{
+    var hasFilters=archiveCatFilter!=='All Entries'||archiveIncFilter!=='All'||archiveSevFilter!=='All'||archiveSearchQuery;
+    g.innerHTML=hasFilters?'<div style="padding:3rem;text-align:center;color:var(--text3);font-size:13px">No entries match the current filters. Try broadening your search or removing some filters.</div>':'<div style="padding:3rem;text-align:center;color:var(--text3);font-size:13px"><div style="font-size:2rem;margin-bottom:.75rem;opacity:.3">&#9678;</div>No entries have been archived yet. The archive will populate as submissions are reviewed and approved.<br><br><a href="/submit" style="color:var(--accent);text-decoration:underline">Be the first to submit evidence &rarr;</a></div>';
+  }
   // Update count
   var countEl=document.getElementById('archCount');
   var loadMoreEl=document.getElementById('archLoadMore');
@@ -1258,6 +1311,8 @@ function renderArchive(){
 }
 
 async function buildArchive(){
+  var ag=document.getElementById('archGrid');
+  if(ag&&!ag.children.length)ag.innerHTML='<div class="loading-block"><div class="loading-spinner"></div></div>';
   if(isLive()){
     try{
       var {data,error}=await sb.from('submissions').select('*').eq('status','approved').order('created_at',{ascending:false}).limit(50);
@@ -1276,7 +1331,8 @@ var incColors={'Rape / Sexual Violence':'#b52030','Cyber Harassment':'#d84315','
 
 async function buildAnalytics(){
   var bc=document.getElementById('barC');
-  if(!bc||bc.children.length)return;
+  if(!bc)return;
+  bc.innerHTML='<div class="loading-block" style="width:100%"><div class="loading-spinner"></div></div>';
   var mData=[0,0,0,0,0,0,0,0,0,0,0,0];
   var catMap={},incMap={};
 
@@ -1326,10 +1382,15 @@ async function buildAnalytics(){
   var yearLbl=document.getElementById('chartYearLbl');
   if(yearLbl)yearLbl.textContent='Monthly Submissions - '+new Date().getFullYear();
   var mx=Math.max.apply(null,mData)||1;
-  bc.innerHTML=months.map(function(m,i){
-    var h=Math.round(mData[i]/mx*100);
-    return'<div class="b-wrap"><div class="b-bar" style="height:'+h+'%"></div><div class="b-lbl">'+m+'</div></div>';
-  }).join('');
+  var allZero=mData.every(function(v){return v===0});
+  if(allZero){
+    bc.innerHTML='<div style="width:100%;text-align:center;padding:2rem 0;color:var(--text3);font-size:13px">No submission data yet. Charts will populate as entries are archived.</div>';
+  }else{
+    bc.innerHTML=months.map(function(m,i){
+      var h=Math.round(mData[i]/mx*100);
+      return'<div class="b-wrap"><div class="b-bar" style="height:'+h+'%"></div><div class="b-lbl">'+m+'</div></div>';
+    }).join('');
+  }
 
   // Build distribution lists from real data or fallback
   var cats,incs;
@@ -1348,6 +1409,7 @@ async function buildAnalytics(){
   function buildList(id,items){
     var el=document.getElementById(id);
     if(!el)return;
+    if(!items.length){el.innerHTML='<div style="text-align:center;padding:1.5rem 0;color:var(--text3);font-size:13px">No distribution data available yet.</div>';return}
     el.innerHTML=items.map(function(i){return'<div class="cat-row"><span class="cat-dot" style="background:'+i.c+'"></span><span class="cat-name">'+i.n+'</span><div class="cat-track"><div class="cat-fill" style="width:'+i.p+'%;background:'+i.c+'"></div></div><span class="cat-pct">'+i.p+'%</span></div>'}).join('');
   }
   buildList('catL',cats);
@@ -1363,7 +1425,7 @@ async function runProfileSearch(){
     resultsEl.innerHTML='<div class="search-state-idle"><div class="search-state-icon">&#9678;</div><div class="search-state-t">Please enter a profile name or URL to search.</div></div>';
     return;
   }
-  resultsEl.innerHTML='<div class="search-state-idle"><div class="search-state-t" style="color:var(--text3)">Searching verified archive...</div></div>';
+  resultsEl.innerHTML='<div class="search-state-idle"><div class="loading-block"><div class="loading-spinner"></div></div><div class="search-state-t" style="color:var(--text3)">Searching verified archive...</div></div>';
 
   if(isLive()){
     try{
@@ -1507,6 +1569,27 @@ function resetSubmitForm(){
   clearUpload('screenshotPreview','screenshotZone');
   document.querySelectorAll('.tag-btn').forEach(function(b){b.classList.remove('on')});
 }
+
+// ===== REAL-TIME FORM VALIDATION =====
+(function(){
+  function valUrl(id,errId){
+    var el=document.getElementById(id);var err=document.getElementById(errId);if(!el||!err)return;
+    el.addEventListener('blur',function(){if(el.value&&!el.value.includes('facebook.com')){err.style.display='block';el.style.borderColor='var(--ink2)'}});
+    el.addEventListener('input',function(){if(el.value.includes('facebook.com')){err.style.display='none';el.style.borderColor=''}});
+  }
+  function valSel(id,errId){
+    var el=document.getElementById(id);var err=document.getElementById(errId);if(!el||!err)return;
+    el.addEventListener('blur',function(){if(!el.value){err.style.display='block';el.style.borderColor='var(--ink2)'}});
+    el.addEventListener('change',function(){if(el.value){err.style.display='none';el.style.borderColor=''}});
+  }
+  valUrl('fieldUrl','errUrl');
+  valUrl('fieldPostUrl','errPostUrl');
+  valSel('fieldCat','errCat');
+  valSel('fieldInc','errInc');
+  var ssInput=document.getElementById('screenshotInput');
+  var ssErr=document.getElementById('errScreenshot');
+  if(ssInput&&ssErr){ssInput.addEventListener('change',function(){if(ssInput.files&&ssInput.files.length){ssErr.style.display='none';var zone=document.getElementById('screenshotZone');if(zone)zone.style.borderColor=''}})}
+})();
 
 // ===== FILE UPLOAD =====
 function handleFileSelect(input,previewId,zoneId){var file=input.files[0];if(!file)return;processFile(file,previewId,zoneId)}
@@ -1679,18 +1762,21 @@ async function trackAppeal(){
 
 // ===== HERO STATS =====
 async function updateHeroStats(){
-  if(!isLive()) return;
+  if(!isLive()){
+    ['heroStatArchived','heroStatReview','heroStatAppeals'].forEach(function(id){var el=document.getElementById(id);if(el){el.textContent='0';el.classList.remove('loading-pulse')}});
+    var rateEl=document.getElementById('heroStatRate');if(rateEl){rateEl.textContent='0%';rateEl.classList.remove('loading-pulse')}
+    return;
+  }
   try{
     var {count:approved}=await sb.from('submissions').select('*',{count:'exact',head:true}).eq('status','approved');
     var {count:pending}=await sb.from('submissions').select('*',{count:'exact',head:true}).eq('status','pending');
     var {count:appeals}=await sb.from('appeals').select('*',{count:'exact',head:true});
     var total=approved||0;var pend=pending||0;var ap=appeals||0;
     var rate=total>0?Math.round((total/(total+pend))*100):0;
-    var el;
-    if(el=document.getElementById('heroStatArchived'))el.textContent=total.toLocaleString();
-    if(el=document.getElementById('heroStatReview'))el.textContent=pend.toLocaleString();
-    if(el=document.getElementById('heroStatAppeals'))el.textContent=ap.toLocaleString();
-    if(el=document.getElementById('heroStatRate'))el.textContent=rate+'%';
+    animateNum(document.getElementById('heroStatArchived'),total);
+    animateNum(document.getElementById('heroStatReview'),pend);
+    animateNum(document.getElementById('heroStatAppeals'),ap);
+    animateNum(document.getElementById('heroStatRate'),rate,'%');
   }catch(e){console.warn('Hero stats fetch failed',e)}
 }
 
