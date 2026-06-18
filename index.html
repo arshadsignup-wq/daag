@@ -1367,7 +1367,7 @@ async function runProfileSearch(){
 
   if(isLive()){
     try{
-      var {data,error}=await sb.from('submissions').select('*').eq('status','approved').ilike('profile_name','%'+query+'%');
+      var {data,error}=await sb.from('submissions').select('*').eq('status','approved').or('profile_name.ilike.%'+query+'%,perpetrator_url.ilike.%'+query+'%');
       if(!error&&data&&data.length){
         // Group by profile_name
         var grouped={};
@@ -1477,7 +1477,7 @@ async function submitEv(){
         perpetrator_url:url.value,
         source_post_url:postUrl.value,
         screenshot_url:screenshotUrl,
-        profile_name:url.value.split('facebook.com/')[1]||'',
+        profile_name:(url.value.split('facebook.com/')[1]||'').split('/')[0].split('?')[0],
         category:cat.value,
         incident_type:inc.value,
         context_note:contextNote,
