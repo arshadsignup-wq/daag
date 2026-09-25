@@ -189,6 +189,9 @@ h1.hero-h{font-family:var(--font-serif);font-size:clamp(3.2rem,7vw,5.8rem);line-
 .b-nv{background:#e3f2fd;color:#1565c0;border:1px solid #90caf9}
 .entry-t{font-size:13.5px;color:var(--text);margin-bottom:.35rem;line-height:1.55}
 .entry-s{font-size:11.5px;color:var(--text3);font-family:var(--font-mono)}
+.entry-links{display:flex;gap:1rem;flex-wrap:wrap;margin:.5rem 0 .55rem}
+.entry-link{font-size:11.5px;font-family:var(--font-mono);color:var(--accent);text-decoration:none;letter-spacing:.03em}
+.entry-link:hover{text-decoration:underline}
 .thumb{width:90px;height:65px;background:var(--bg3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-family:var(--font-mono);color:var(--text3);text-transform:uppercase;letter-spacing:.08em;text-align:center;padding:.4rem;flex-shrink:0}
 
 /* SCREENSHOT MODAL */
@@ -1099,6 +1102,15 @@ const profileDB=[];
 
 // XSS PROTECTION
 function escHtml(str){return(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+// A stored URL without a scheme renders as a relative href and goes nowhere,
+// so normalise it before it reaches an anchor. Blocks non-http schemes.
+function safeUrl(u){
+  u=(u||'').trim();
+  if(!u)return '';
+  if(/^https?:\/\//i.test(u))return u;
+  if(/^[a-z][a-z0-9+.-]*:/i.test(u))return '';
+  return 'https://'+u.replace(/^\/+/,'');
+}
 
 // ===== ANIMATED COUNT-UP =====
 function animateNum(el,target,suffix){
@@ -1296,7 +1308,10 @@ function renderArchive(){
     g.innerHTML=toShow.map(function(e){
       var sc=e.sev==='Severe'?'var(--accent)':e.sev==='High'?'#bf6d00':'var(--text3)';
       var thumbHtml=e.screenshot?'<div class="thumb thumb-wrap" onclick="openScreenshot(\''+escHtml(e.screenshot)+'\')"><img src="'+escHtml(e.screenshot)+'" alt="Evidence"><span class="thumb-label">View</span></div>':'<div class="thumb">No<br>Screenshot</div>';
-      var profileHtml=e.profileUrl?'<div style="margin-top:.45rem"><a href="'+escHtml(e.profileUrl)+'" target="_blank" rel="noopener noreferrer" style="font-size:12px;font-family:var(--font-mono);color:var(--accent);text-decoration:none;letter-spacing:.03em" onclick="event.stopPropagation()">'+(e.profileName||'View Profile')+' &rarr;</a></div>':'';
+      var linkBits=[];
+      if(e.profileUrl) linkBits.push('<a class="entry-link" href="'+escHtml(safeUrl(e.profileUrl))+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Perpetrator Profile &rarr;</a>');
+      if(e.sourceUrl) linkBits.push('<a class="entry-link" href="'+escHtml(safeUrl(e.sourceUrl))+'" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Source Post &rarr;</a>');
+      var profileHtml=linkBits.length?'<div class="entry-links">'+linkBits.join('')+'</div>':'';
       return'<div class="arch-entry"><div><div class="entry-meta"><span class="badge b-cr">'+e.cat+'</span><span class="badge b-nv">'+e.inc+'</span><span class="badge b-gr">'+e.lang+'</span><span class="badge b-gr" style="color:'+sc+'">'+e.sev+'</span></div><div class="entry-t">'+e.note+'</div>'+profileHtml+'<div class="entry-s">'+e.id+' &nbsp;&middot;&nbsp; Archived '+e.date+' &nbsp;&middot;&nbsp; <span class="status s-ok">Verified</span> &nbsp;&middot;&nbsp; v'+e.ver+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">Edited '+e.lastEdit+'</span>':'')+'</div></div>'+thumbHtml+'</div>';
     }).join('');
   }else{
@@ -1317,7 +1332,7 @@ async function buildArchive(){
     try{
       var {data,error}=await sb.from('submissions').select('*').eq('status','approved').order('created_at',{ascending:false}).limit(50);
       if(!error&&data){
-        archiveData=data.map(function(r){return{id:r.ref_id,cat:r.category,inc:r.incident_type,date:new Date(r.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),lang:r.language||'Bangla',sev:r.severity||'Moderate',ver:r.version||1,lastEdit:r.last_edit?new Date(r.last_edit).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):null,note:r.context_note||('Verified case of '+r.category+' related to '+r.incident_type),screenshot:r.screenshot_url||null,profileUrl:r.perpetrator_url||null,profileName:r.profile_name||null}});
+        archiveData=data.map(function(r){return{id:r.ref_id,cat:r.category,inc:r.incident_type,date:new Date(r.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),lang:r.language||'Bangla',sev:r.severity||'Moderate',ver:r.version||1,lastEdit:r.last_edit?new Date(r.last_edit).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):null,note:r.context_note||('Verified case of '+r.category+' related to '+r.incident_type),screenshot:r.screenshot_url||null,profileUrl:r.perpetrator_url||null,sourceUrl:r.source_post_url||null,profileName:r.profile_name||null}});
       }
     }catch(e){console.warn('Supabase archive fetch failed, using demo data',e)}
   }
@@ -1443,7 +1458,7 @@ async function runProfileSearch(){
           var dateStr=d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
           if(!grouped[name].firstSeen||d<new Date(grouped[name].firstSeen))grouped[name].firstSeen=dateStr;
           if(!grouped[name].lastSeen||d>new Date(grouped[name].lastSeen))grouped[name].lastSeen=dateStr;
-          grouped[name].entries.push({cat:r.category,inc:r.incident_type,date:dateStr,sev:r.severity||'Moderate',ver:r.version||1,lastEdit:r.last_edit?new Date(r.last_edit).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):null,text:r.context_note||''});
+          grouped[name].entries.push({perpUrl:r.perpetrator_url||null,sourceUrl:r.source_post_url||null,cat:r.category,inc:r.incident_type,date:dateStr,sev:r.severity||'Moderate',ver:r.version||1,lastEdit:r.last_edit?new Date(r.last_edit).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):null,text:r.context_note||''});
         });
         var matches=Object.values(grouped);
         matches.forEach(function(m){m.risk=m.totalEntries>=3?'high':m.totalEntries>=2?'moderate':'low'});
@@ -1470,12 +1485,28 @@ function renderProfileCard(p){
   var catBadges=p.categories.map(function(c){return'<span class="badge b-cr" style="font-size:9.5px">'+escHtml(c)+'</span>'}).join(' ');
   function sevColor(s){return s==='Severe'?'var(--accent)':s==='High'?'#bf6d00':'var(--text3)'}
   var entries=p.entries.map(function(e){
-    return'<div class="pe-item"><div class="pe-meta"><span class="badge b-cr">'+escHtml(e.cat)+'</span><span class="badge b-nv">'+escHtml(e.inc)+'</span><span class="badge b-gr" style="color:'+sevColor(e.sev)+'">'+escHtml(e.sev)+'</span></div><div class="pe-text">'+escHtml(e.text)+'</div><div class="pe-date">Archived '+escHtml(e.date)+' &nbsp;&middot;&nbsp; <span class="status s-ok">Verified</span> &nbsp;&middot;&nbsp; v'+e.ver+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">Edited '+escHtml(e.lastEdit)+'</span>':'')+'</div></div>';
+    var peLinks=[];
+    if(e.perpUrl) peLinks.push('<a class="entry-link" href="'+escHtml(safeUrl(e.perpUrl))+'" target="_blank" rel="noopener noreferrer">Perpetrator Profile &rarr;</a>');
+    if(e.sourceUrl) peLinks.push('<a class="entry-link" href="'+escHtml(safeUrl(e.sourceUrl))+'" target="_blank" rel="noopener noreferrer">Source Post &rarr;</a>');
+    var peLinksHtml=peLinks.length?'<div class="entry-links" style="margin:.45rem 0 0">'+peLinks.join('')+'</div>':'';
+    return'<div class="pe-item"><div class="pe-meta"><span class="badge b-cr">'+escHtml(e.cat)+'</span><span class="badge b-nv">'+escHtml(e.inc)+'</span><span class="badge b-gr" style="color:'+sevColor(e.sev)+'">'+escHtml(e.sev)+'</span></div><div class="pe-text">'+escHtml(e.text)+'</div>'+peLinksHtml+'<div class="pe-date">Archived '+escHtml(e.date)+' &nbsp;&middot;&nbsp; <span class="status s-ok">Verified</span> &nbsp;&middot;&nbsp; v'+e.ver+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">Edited '+escHtml(e.lastEdit)+'</span>':'')+'</div></div>';
   }).join('');
-  return'<div class="profile-card"><div class="profile-card-head"><div class="profile-avatar">'+escHtml(p.initials)+'</div><div style="flex:1;min-width:0"><div class="profile-name">'+escHtml(p.name)+'</div><div class="profile-url">'+escHtml(p.url)+'</div><div style="margin-top:.5rem;display:flex;gap:.4rem;flex-wrap:wrap">'+catBadges+'</div></div><span class="risk-pill '+riskClass+'">'+riskLabel+'</span></div><div class="profile-stats"><div class="p-stat"><div class="p-stat-n">'+p.totalEntries+'</div><div class="p-stat-l">Verified Entries</div></div><div class="p-stat"><div class="p-stat-n">'+p.categories.length+'</div><div class="p-stat-l">Categories</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(p.firstSeen)+'</div><div class="p-stat-l">First Entry</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(p.lastSeen)+'</div><div class="p-stat-l">Most Recent</div></div></div><div class="profile-entries"><div class="pe-title">Documented Comments ('+p.entries.length+')</div>'+entries+'</div><div style="padding:1rem 1.75rem;border-top:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem"><div style="font-size:12px;color:var(--text3)">Believe this record is inaccurate?</div><a class="btn-g" style="font-size:12px;padding:.38rem 1rem;text-decoration:none" href="/appeals">File a Dispute &rarr;</a></div></div>';
+  return'<div class="profile-card"><div class="profile-card-head"><div class="profile-avatar">'+escHtml(p.initials)+'</div><div style="flex:1;min-width:0"><div class="profile-name">'+escHtml(p.name)+'</div><div class="profile-url">'+(p.url?'<a href="'+escHtml(safeUrl(p.url))+'" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none">'+escHtml(p.url)+' &rarr;</a>':'')+'</div><div style="margin-top:.5rem;display:flex;gap:.4rem;flex-wrap:wrap">'+catBadges+'</div></div><span class="risk-pill '+riskClass+'">'+riskLabel+'</span></div><div class="profile-stats"><div class="p-stat"><div class="p-stat-n">'+p.totalEntries+'</div><div class="p-stat-l">Verified Entries</div></div><div class="p-stat"><div class="p-stat-n">'+p.categories.length+'</div><div class="p-stat-l">Categories</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(p.firstSeen)+'</div><div class="p-stat-l">First Entry</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(p.lastSeen)+'</div><div class="p-stat-l">Most Recent</div></div></div><div class="profile-entries"><div class="pe-title">Documented Comments ('+p.entries.length+')</div>'+entries+'</div><div style="padding:1rem 1.75rem;border-top:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem"><div style="font-size:12px;color:var(--text3)">Believe this record is inaccurate?</div><a class="btn-g" style="font-size:12px;padding:.38rem 1rem;text-decoration:none" href="/appeals">File a Dispute &rarr;</a></div></div>';
 }
 
 // ===== EVIDENCE SUBMISSION =====
+// Facebook URLs are not all /username - share, permalink and profile.php links
+// carry no readable name, so return blank rather than a meaningless label.
+var fbReservedPaths=['share','profile.php','permalink.php','story.php','photo.php','photo','photos','watch','groups','pages','people','events','media','pg','reel','reels','videos','video','posts','notes','marketplace','hashtag','p','login','home.php'];
+function derivedProfileName(u){
+  var rest=(u||'').split('facebook.com/')[1]||'';
+  var seg=rest.split('?')[0].split('#')[0].split('/')[0].trim();
+  if(!seg)return '';
+  if(fbReservedPaths.indexOf(seg.toLowerCase())>-1)return '';
+  try{seg=decodeURIComponent(seg)}catch(err){}
+  return seg;
+}
+
 async function submitEv(){
   var submitBtn=document.querySelector('#submitFooter .btn-p');
   var honeypot=document.getElementById('honeypotField');
@@ -1536,10 +1567,10 @@ async function submitEv(){
 
       await sb.from('submissions').insert({
         ref_id:ref,
-        perpetrator_url:url.value,
-        source_post_url:postUrl.value,
+        perpetrator_url:safeUrl(url.value),
+        source_post_url:safeUrl(postUrl.value),
         screenshot_url:screenshotUrl,
-        profile_name:(url.value.split('facebook.com/')[1]||'').split('/')[0].split('?')[0],
+        profile_name:derivedProfileName(url.value),
         category:cat.value,
         incident_type:inc.value,
         context_note:contextNote,

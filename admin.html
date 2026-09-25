@@ -871,6 +871,15 @@ function genDemoAppeals(){
 
 // --- UTILS ---
 function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+// A stored URL without a scheme renders as a relative href and goes nowhere,
+// so normalise it before it reaches an anchor. Blocks non-http schemes.
+function safeUrl(u){
+  u=(u||'').trim();
+  if(!u)return '';
+  if(/^https?:\/\//i.test(u))return u;
+  if(/^[a-z][a-z0-9+.-]*:/i.test(u))return '';
+  return 'https://'+u.replace(/^\/+/,'');
+}
 
 function timeAgo(d){
   if(!d) return '';
@@ -1112,8 +1121,8 @@ function renderSubmissions(){
       }
 
       html+='<div class="q-item-links">';
-      if(s.perpetrator_url) html+='<a class="q-item-link" href="'+escHtml(s.perpetrator_url)+'" target="_blank" rel="noopener">Perpetrator Profile</a>';
-      if(s.source_post_url) html+='<a class="q-item-link" href="'+escHtml(s.source_post_url)+'" target="_blank" rel="noopener">Source Post</a>';
+      if(s.perpetrator_url) html+='<a class="q-item-link" href="'+escHtml(safeUrl(s.perpetrator_url))+'" target="_blank" rel="noopener">Perpetrator Profile</a>';
+      if(s.source_post_url) html+='<a class="q-item-link" href="'+escHtml(safeUrl(s.source_post_url))+'" target="_blank" rel="noopener">Source Post</a>';
       if(s.submitter_email) html+='<span class="q-item-email">'+escHtml(s.submitter_email)+'</span>';
       html+='</div>';
 
@@ -1433,7 +1442,7 @@ function renderAppeals(){
       html+='<div class="appeal-body">'+escHtml(a.statement)+'</div>';
 
       if(a.evidence_url){
-        html+='<div class="q-item-links"><a class="q-item-link" href="'+escHtml(a.evidence_url)+'" target="_blank" rel="noopener">Supporting Evidence</a></div>';
+        html+='<div class="q-item-links"><a class="q-item-link" href="'+escHtml(safeUrl(a.evidence_url))+'" target="_blank" rel="noopener">Supporting Evidence</a></div>';
       }
 
       html+='<div class="appeal-notes">';
