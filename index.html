@@ -1981,6 +1981,7 @@ function applyLang(lang,rerender){
     var an=document.getElementById('pg-analytics');
     if(an&&an.classList.contains('active'))buildAnalytics();
     updateHeroStats();
+    renderHubCount();
     setTimeout(drawThread,60);
   }
   var lbl=document.getElementById('langToggleLabel');
@@ -2087,6 +2088,16 @@ function revealIn(el){
 // the homepage can never show something the archive would not.
 // Kept below 48% so nothing rides up under the headline and search form,
 // and above 66% so no card is clipped by the board's own bottom edge.
+// Held so applyLang() can re-render the label without refetching the pins.
+var boardCount=0;
+function renderHubCount(){
+  var cnt=document.getElementById('hubCnt');
+  if(!cnt)return;
+  cnt.textContent=boardCount
+    ? t('hub.cnt','{n} entries on record',{n:bnNum(boardCount)})
+    : t('hub.none','Nothing pinned yet');
+}
+
 var BOARD_SPOTS=[
   {left:'2%',  top:'52%', w:'258px', rot:-2.4},
   {left:'25%', top:'64%', w:'238px', rot:1.6},
@@ -2126,10 +2137,8 @@ async function buildBoard(){
     board.appendChild(a);
   });
 
-  var cnt=document.getElementById('hubCnt');
-  if(cnt) cnt.textContent=rows.length
-    ? t('hub.cnt','{n} entries on record',{n:bnNum(rows.length)})
-    : t('hub.none','Nothing pinned yet');
+  boardCount=rows.length;
+  renderHubCount();
   drawThread();
 }
 
