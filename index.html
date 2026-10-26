@@ -266,8 +266,12 @@ html[lang="en"] .page-title,html[lang="en"] .eth-sec-t{letter-spacing:-.02em;lin
   background:rgba(246,240,224,.42);transform:rotate(-5deg);box-shadow:0 1px 3px rgba(0,0,0,.2)}
 .pin q{display:block;font-family:var(--font-quote);font-size:15.5px;line-height:1.45;
   margin:0 0 .6rem;color:#1c1917}
+.pin q{font-size:14.5px;line-height:1.5;color:#1c1917;margin:0 0 .55rem;
+  display:block;overflow-wrap:anywhere}
 .pin .pshot{height:92px;margin:-.3rem -.3rem .6rem;overflow:hidden;background:#2a2622;
   display:grid;place-items:center}
+/* when the quote leads, the screenshot is corroboration: smaller, below */
+.pin .pshot-sm{height:52px;margin:0 0 .55rem;border-radius:2px;opacity:.85}
 .pin .pshot img{width:100%;height:100%;object-fit:cover;filter:blur(6px)}
 .pin .pnone{font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;color:#8a8076}
 .pin .m{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.05em;color:#8b8277;
@@ -797,6 +801,28 @@ footer .foot-bottom{border-top:1px solid #2a251e;color:#6e655a}
 
 
 
+/* Each band gets its own ground so the page reads as a sequence of distinct
+   places, while staying inside one warm paper family: bone, then a deeper
+   tobacco for the erase demo, then clay for the policy memo, then the one
+   solid red, then the dark base. */
+.sheetbg.band-1{background:#efe7d6}
+.sheetbg.band-2{background:#ddd0b4}
+.sheetbg.band-3{background:#e7dcc4}
+html[data-theme="dark"] .sheetbg.band-1{background:#2e2823;color:#f1ebe1}
+html[data-theme="dark"] .sheetbg.band-2{background:#241f1b;color:#f1ebe1}
+html[data-theme="dark"] .sheetbg.band-3{background:#2a2420;color:#f1ebe1}
+html[data-theme="dark"] .sheetbg .h2{color:#fdfaf2}
+html[data-theme="dark"] .sheetbg .sub2{color:#c3b8a8}
+html[data-theme="dark"] .memo{background:#38302a;color:#f1ebe1}
+html[data-theme="dark"] .memo p{color:#d6cabb}
+html[data-theme="dark"] .slab{background:#38302a}
+html[data-theme="dark"] .slab q{color:#f6f1e8}
+html[data-theme="dark"] .viz .post{background:#38302a;border-color:#4a4038}
+html[data-theme="dark"] #post .hd{color:#f6f1e8}
+html[data-theme="dark"] .sitem.on{background:rgba(255,255,255,.06)}
+html[data-theme="dark"] .bub{background:#38302a;border-color:#52463c;color:#eadfd2}
+html[data-theme="dark"] .bub.red{background:#4a2420;border-color:#7a3a30;color:#ffb3a7}
+
 /* ===== BOARD SECTIONS =====
    The rest of design-directions/v3/06-board.html: the stepper, the
    rub-to-erase slab, the policy memo, the helpline band and the footer.
@@ -1019,7 +1045,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
   </div>
 
   <!-- ===== 2 · HOW IT WORKS · self-contained stepper ===== -->
-  <section class="sheetbg"><div class="wrapx">
+  <section class="sheetbg band-1"><div class="wrapx">
     <div class="eyebrow" data-i18n="s2.eyebrow">One incident, step by step</div>
     <h2 class="h2" data-i18n="s2.h2">One news story. Four hundred comments. <em>Three are kept.</em></h2>
     <p class="sub2" data-i18n="s2.sub">Easier to show than to tell. Tap through the steps.</p>
@@ -1058,7 +1084,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
   </div></section>
 
   <!-- ===== 3 · INDELIBLE ===== -->
-  <section class="sheetbg" style="background:#e2d8c0"><div class="wrapx">
+  <section class="sheetbg band-2"><div class="wrapx">
     <div class="rubgrid">
       <div>
         <div class="eyebrow" data-i18n="s3.eyebrow">Try to erase it</div>
@@ -1077,7 +1103,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 
 
   <!-- ===== 4 · THE RULE ===== -->
-  <section class="sheetbg"><div class="wrapx">
+  <section class="sheetbg band-3"><div class="wrapx">
     <div class="memo">
       <div class="mh"><span data-i18n="memo.k">Daag · Policy</span><span data-i18n="memo.v">Version 2026.10</span></div>
       <h3 data-i18n="memo.h">Check someone. <em>Don’t hunt them.</em></h3>
@@ -2265,7 +2291,12 @@ function fmtDate(raw){
   var en=d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
   if(currentLang()!=='bn')return en;
   var parts=en.split(' ');
-  return bnNum(parts[0])+' '+(BN_MONTHS[parts[1]]||parts[1])+' '+bnNum(parts[2]);
+  // en-GB renders September as "Sept" in current ICU, not "Sep", so key on the
+  // first three letters with the trailing dot stripped rather than on the
+  // exact token. One locale change should not leak an English month onto a
+  // Bengali page.
+  var key=parts[1].replace(/\.$/,'').slice(0,3);
+  return bnNum(parts[0])+' '+(BN_MONTHS[key]||parts[1])+' '+bnNum(parts[2]);
 }
 
 var EN_CACHE={},langCaptured=false;
@@ -2565,6 +2596,12 @@ function renderHubCount(){
     : t('hub.none','Nothing pinned yet');
 }
 
+// A pinned card has room for a sentence, not an essay.
+function clampWords(str,n){
+  var w=String(str).trim().split(/\s+/);
+  return w.length<=n ? str : w.slice(0,n).join(' ')+'\u2026';
+}
+
 var BOARD_SPOTS=[
   {left:'2%',  top:'52%', w:'258px', rot:-2.4},
   {left:'25%', top:'64%', w:'238px', rot:1.6},
@@ -2578,8 +2615,18 @@ async function buildBoard(){
   var rows=[];
   if(isLive()){
     try{
-      var r=await sb.from('public_entries').select('*').order('created_at',{ascending:false}).limit(4);
-      if(!r.error&&r.data)rows=r.data;
+      var r=await sb.from('public_entries').select('*').order('created_at',{ascending:true});
+      if(!r.error&&r.data&&r.data.length){
+        var all=r.data;
+        var withText=all.filter(function(x){return x.comment_text&&x.comment_text.trim()});
+        var pool=withText.length>=BOARD_SPOTS.length?withText:all;
+        // even stride across the pool, so the pinned dates span the archive
+        rows=[];
+        var step=(pool.length-1)/(BOARD_SPOTS.length-1);
+        for(var i=0;i<BOARD_SPOTS.length&&i<pool.length;i++){
+          rows.push(pool[Math.round(i*step)]);
+        }
+      }
     }catch(e){console.warn('Board fetch failed',e)}
   }
   board.querySelectorAll('.pin').forEach(function(n){n.remove()});
@@ -2593,12 +2640,15 @@ async function buildBoard(){
     a.style.cssText='left:'+sp.left+';top:'+sp.top+';width:'+sp.w+';transform:rotate('+sp.rot+'deg)';
     var inner='';
     if(i%2===1) inner+='<span class="tape" aria-hidden="true"></span>';
-    // Entries predating comment_text have only the screenshot, so the pin shows
-    // the evidence itself rather than an empty card.
-    inner+= row.screenshot_url
-      ? '<div class="pshot"><img src="'+escHtml(row.screenshot_url)+'" alt="'+escHtml(t('arch.evidenceAlt','Screenshot of the archived comment'))+'" loading="lazy"></div>'
-      : '<div class="pshot"><span class="pnone">'+escHtml(t('arch.noShot','No screenshot'))+'</span></div>';
-    if(row.comment_text) inner+='<q>'+escHtml(row.comment_text)+'</q>';
+    if(row.comment_text&&row.comment_text.trim()){
+      inner+='<q>'+escHtml(clampWords(row.comment_text,22))+'</q>';
+      if(row.screenshot_url) inner+='<div class="pshot pshot-sm"><img src="'+escHtml(row.screenshot_url)+'" alt="'+escHtml(t('arch.evidenceAlt','Screenshot of the archived comment'))+'" loading="lazy"></div>';
+    } else {
+      // no transcription yet: the screenshot is all there is to show
+      inner+= row.screenshot_url
+        ? '<div class="pshot"><img src="'+escHtml(row.screenshot_url)+'" alt="'+escHtml(t('arch.evidenceAlt','Screenshot of the archived comment'))+'" loading="lazy"></div>'
+        : '<div class="pshot"><span class="pnone">'+escHtml(t('arch.noShot','No screenshot'))+'</span></div>';
+    }
     inner+='<div class="m"><b>'+escHtml(row.ref_id)+'</b><span>'+escHtml(fmtDate(row.created_at))+'</span></div>';
     a.innerHTML=inner;
     board.appendChild(a);
