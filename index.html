@@ -791,6 +791,165 @@ footer .foot-link{color:#9b9183}
 footer .foot-bottom{border-top:1px solid #2a251e;color:#6e655a}
 
 
+
+/* ===== BOARD SECTIONS =====
+   The rest of design-directions/v3/06-board.html: the stepper, the
+   rub-to-erase slab, the policy memo, the helpline band and the footer.
+   Lifted verbatim, with the prototype's font variables remapped onto this
+   file's. The site's own .help-band and footer rules are superseded by the
+   board's .helpbg and .footx, which carry the markup below. */
+/* THE MOMENT: the investigation wall. Screenshots pinned and taped at angles,
+   red thread running between a man and every sentence he wrote. Physical,
+   handmade, and it shows CONNECTION, the one thing a list can never show. */
+body{background:#2a2622;color:#efe9e0;font-family:var(--font-sans);line-height:1.65;overflow-x:hidden}
+html[lang="en"] .h2,html[lang="en"] .lede h1,html[lang="en"] .sstep h3,html[lang="en"] .memo h3,html[lang="en"] .file h3{letter-spacing:-.02em;line-height:1.12}
+#thread{position:absolute;inset:0;z-index:2;pointer-events:none}
+/* Latin reads better with the tracking the Bengali cannot take. */
+html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height:1.3;
+  padding:.16rem .75rem;text-transform:uppercase}
+/* ===== BELOW THE BOARD =====
+   The board is the wall; everything under it is the desk the case is worked
+   on. Paper, folders, carbon copies, a stamped memo. Bengali display type is
+   set at 1.3+ leading with zero tracking throughout. That is the mistake the
+   headline taught us. */
+.sheetbg{position:relative;z-index:3;background:#e9e0cc;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23p)' opacity='.055'/%3E%3C/svg%3E");
+  color:#1c1917}
+.wrapx{max-width:1180px;margin:0 auto;padding:4.5rem 2rem}
+.eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:#c8231a;margin-bottom:1.1rem}
+.h2{font-family:var(--font-display);font-weight:700;font-size:clamp(1.6rem,3.1vw,2.5rem);line-height:1.34;
+  letter-spacing:0;margin:0 0 .9rem;max-width:20ch}
+.h2 em{font-style:normal;color:#c8231a}
+.sub2{color:#5a5248;font-size:15px;line-height:1.8;max-width:50ch;margin:0 0 2.6rem}
+/* filed cards with folder tabs */
+.files{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:1.6rem}
+.file{position:relative;background:#fdfaf2;padding:1.5rem 1.4rem 1.3rem;
+  box-shadow:0 10px 26px rgba(60,40,20,.17)}
+.file::before{content:'';position:absolute;top:-15px;left:1.2rem;width:94px;height:16px;
+  background:#fdfaf2;border-radius:3px 3px 0 0;box-shadow:0 -3px 8px rgba(60,40,20,.12)}
+.file .no{position:absolute;top:-13px;left:1.6rem;font-family:var(--font-mono);font-size:9.5px;
+  letter-spacing:.12em;color:#8b8277;z-index:2}
+.file h3{font-family:var(--font-display);font-weight:700;font-size:1.12rem;line-height:1.42;letter-spacing:0;
+  margin:.2rem 0 .55rem}
+.file p{margin:0;font-size:14px;line-height:1.8;color:#5a5248}
+.file:nth-child(2){transform:rotate(.5deg)}
+.file:nth-child(3){transform:rotate(-.4deg)}
+/* carbon-copy record strip */
+.slips{border-top:1.5px solid #c9bfa6;margin-top:.4rem}
+.slip{display:grid;grid-template-columns:118px 1fr auto;gap:1.4rem;align-items:center;
+  padding:1.15rem .4rem;border-bottom:1px solid #d6cbb3;transition:background .2s}
+.slip:hover{background:rgba(255,255,255,.5)}
+.slip .cid{font-family:var(--font-mono);font-size:11px;color:#c8231a;letter-spacing:.04em}
+.slip q{display:block;font-family:var(--font-quote);font-size:15.5px;line-height:1.65;margin:0}
+.slip .sm{font-family:var(--font-mono);font-size:10px;color:#8b8277;letter-spacing:.05em;white-space:nowrap}
+.more-l{margin-top:1.6rem;font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;color:#8b8277}
+.more-l a{color:#c8231a;border-bottom:1px solid currentColor}
+/* steps: one screen, no scroll hijack. The whole sequence is visible at
+   once, so the section has an obvious end instead of reading as infinite. */
+.sgrid{display:grid;grid-template-columns:330px 1fr;gap:3rem;align-items:start;margin-top:2.2rem}
+.vizwrap{display:flex;flex-direction:column;gap:1rem;position:sticky;top:88px}
+.viz{position:relative;width:100%;aspect-ratio:3/4}
+.post{position:absolute;inset:0;background:#fdfaf2;border:1px solid #d6cbb3;border-radius:3px;
+  padding:1.2rem;display:flex;flex-direction:column;gap:.5rem;
+  box-shadow:0 14px 34px rgba(60,40,20,.2);transition:transform .5s,opacity .5s}
+.post .hd{font-family:var(--font-display);font-weight:700;font-size:15px;line-height:1.5;margin-bottom:.3rem}
+.post .ph{height:8px;background:#e6ddc8;border-radius:3px}
+.post .ph.w85{width:85%}
+.post .pf{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;color:#9b9388}
+.bub{position:absolute;background:#fdfaf2;border:1px solid #d6cbb3;border-radius:10px;
+  padding:.35rem .6rem;font-size:11px;line-height:1.45;max-width:140px;opacity:0;
+  transform:scale(.7);transition:opacity .45s,transform .45s;box-shadow:0 6px 16px rgba(60,40,20,.16)}
+.bub.red{background:#fbe9e7;border-color:#e8b5ae;color:#8d1109}
+.prog{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.dots{display:flex;gap:5px}
+.dots i{width:24px;height:3px;border-radius:2px;background:#cfc4ae;transition:background .3s}
+.dots i.on{background:#c8231a}
+.pct{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:#9b9388;white-space:nowrap}
+.slist{list-style:none;margin:0;padding:0;counter-reset:none}
+.sitem{display:grid;grid-template-columns:44px 1fr;gap:1rem;padding:.85rem 1rem .85rem .5rem;
+  border-left:2px solid #d6cbb3;cursor:pointer;transition:border-color .25s,background .25s}
+.sitem:hover{background:rgba(255,255,255,.4)}
+.sitem.on{border-left-color:#c8231a;background:rgba(255,255,255,.55)}
+.sitem .sno{font-family:var(--font-mono);font-size:11px;color:#b3a894;letter-spacing:.1em;padding-top:.3rem;transition:color .25s}
+.sitem.on .sno{color:#c8231a}
+.sitem h3{font-family:var(--font-display);font-weight:700;font-size:1.08rem;line-height:1.4;letter-spacing:0;
+  margin:0;color:#6e6559;transition:color .25s}
+.sitem.on h3{color:#1c1917}
+.sitem p{margin:0;font-size:14.5px;line-height:1.8;color:#5a5248;max-width:46ch;
+  max-height:0;opacity:0;overflow:hidden;transition:max-height .4s ease,opacity .35s,margin .4s}
+.sitem.on p{max-height:9rem;opacity:1;margin-top:.5rem}
+/* indelible slab *//* indelible slab */
+.rubgrid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+.slab{position:relative;background:#fdfaf2;border:1px solid #d6cbb3;padding:2rem 1.9rem;
+  box-shadow:0 16px 42px rgba(60,40,20,.2);touch-action:none;cursor:none}
+.slabhead{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:#9b9388;display:flex;justify-content:space-between;gap:1rem;margin-bottom:1.1rem}
+.slabhead b{color:#c8231a;font-weight:400}
+.slab q{display:block;font-family:var(--font-quote);font-size:clamp(1.15rem,2.3vw,1.6rem);line-height:1.6;
+  margin:0 0 1.2rem;position:relative;z-index:1;transition:opacity .12s,filter .12s}
+.slabfoot{font-family:var(--font-mono);font-size:10px;color:#9b9388;border-top:1px solid #e3dccd;
+  padding-top:.8rem;position:relative;z-index:1}
+#rub{position:absolute;inset:0;z-index:2;border-radius:2px}
+.stayed{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;opacity:0;
+  transition:opacity .5s;z-index:3}
+.stayed span{background:#c8231a;color:#fff;font-family:var(--font-display);font-weight:700;font-size:1rem;
+  padding:.45rem 1.2rem;transform:rotate(-2.5deg)}
+.stayed.on{opacity:1}
+#rubcur{position:fixed;width:50px;height:50px;border:2px solid #c8231a;border-radius:5px;
+  pointer-events:none;z-index:999;transform:translate(-50%,-50%) rotate(-8deg);display:none;
+  background:rgba(200,35,26,.08)}
+  .spin{position:static;height:auto}
+  .slab{cursor:auto}
+/* stamped memo */
+.memo{background:#fdfaf2;max-width:760px;margin:0 auto;padding:2.4rem 2.4rem 2rem;position:relative;
+  box-shadow:0 14px 36px rgba(60,40,20,.2)}
+.memo::after{content:'';position:absolute;top:-14px;left:50%;transform:translateX(-50%) rotate(-3deg);
+  width:120px;height:26px;background:rgba(246,240,224,.55);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+.memo .mh{font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:#8b8277;border-bottom:1px solid #e3dccd;padding-bottom:.7rem;margin-bottom:1.3rem;
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.memo h3{font-family:var(--font-display);font-weight:700;font-size:clamp(1.3rem,2.6vw,1.9rem);line-height:1.34;
+  letter-spacing:0;margin:0 0 1rem}
+.memo h3 em{font-style:normal;color:#c8231a}
+.memo p{font-size:14.5px;line-height:1.85;color:#4a443c;margin:0 0 1rem;max-width:58ch}
+.memo .stampbig{display:inline-block;border:2.5px solid #c8231a;color:#c8231a;font-family:var(--font-display);
+  font-weight:700;font-size:.95rem;letter-spacing:.12em;padding:.3rem 1rem;transform:rotate(-2.5deg);
+  opacity:.9;margin-top:.6rem}
+/* helpline */
+.helpbg{position:relative;z-index:3;background:#c8231a;color:#fff}
+.helpbg .eyebrow{color:#ffd9d4}
+.helpbg .h2{color:#fff}
+.helpbg .sub2{color:#ffcdc7}
+.hgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(218px,1fr));gap:.9rem}
+.hcard{display:block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.26);
+  padding:1rem 1.1rem;text-decoration:none;color:#fff;transition:background .2s,transform .2s}
+.hcard:hover{background:rgba(255,255,255,.2);transform:translateY(-2px)}
+.hcard b{display:block;font-family:var(--font-mono);font-size:1.22rem;letter-spacing:.02em;line-height:1.2}
+.hcard span{display:block;font-size:12.5px;margin-top:.4rem;line-height:1.55}
+.hcard small{display:block;font-size:11px;color:#ffc9c2;margin-top:.25rem;line-height:1.5}
+/* footer */
+.footx{position:relative;z-index:3;background:#17140f;color:#8d8276;padding:2.6rem 0 3rem}
+.footx .wrapx{padding-top:0;padding-bottom:0}
+.frow{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;align-items:flex-start}
+.fbrand{font-family:var(--font-display);font-weight:700;font-size:1.3rem;color:#f3ede2;line-height:1.3}
+.fbrand span{display:block;font-family:var(--font-sans);font-weight:400;font-size:12.5px;color:#8d8276;margin-top:.3rem}
+.fcol h4{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:#6e655a;margin:0 0 .7rem}
+.fcol a{display:block;color:#bdb3a5;text-decoration:none;font-size:13.5px;line-height:2}
+.fcol a:hover{color:#fff}
+.fbot{border-top:1px solid #2a251e;margin-top:2.2rem;padding-top:1.2rem;display:flex;
+  justify-content:space-between;gap:1.5rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:10.5px;
+  letter-spacing:.05em;color:#6e655a}
+  .slip .sm{white-space:normal}
+  #thread{display:none}
+@media(max-width:900px){.sgrid{grid-template-columns:1fr;gap:2rem}.vizwrap{position:static;max-width:330px}}
+@media(max-width:900px){.sgrid,.rubgrid{grid-template-columns:1fr;gap:2rem}
+  .spin{position:static;height:auto}.sstep{min-height:auto;padding:1.2rem 0}
+  .slab{cursor:auto}#rubcur{display:none!important}}
+@media(max-width:860px){.slip{grid-template-columns:1fr;gap:.45rem}
+  .slip .sm{white-space:normal}}
 </style>
 </head>
 <body>
@@ -852,88 +1011,108 @@ footer .foot-bottom{border-top:1px solid #2a251e;color:#6e655a}
     <!-- Pins are built from the live archive by buildBoard(). -->
   </div>
 
-  <hr class="divider">
-  <div class="section">
-    <div class="section-tag rv" data-i18n="home.tag">How it works</div>
-    <h2 class="section-title rv rv-d1" data-i18n="home.title">Nothing disappears here.<br>Not even if they delete it.</h2>
-    <p class="rv rv-d2" style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14.5px" data-i18n="home.intro">Someone sends us a comment. We check that it is real. Then it goes into the archive, where anyone can search it.</p>
-    <div class="feat-grid">
-      <div class="feat-card rv rv-d1"><div class="feat-num">01</div><div class="feat-icon">◉</div><div class="feat-t" data-i18n="feat.1t">Send us a comment</div><div class="feat-d" data-i18n="feat.1d">Paste the link, add a screenshot, say what happened. It takes about two minutes.</div></div>
-      <div class="feat-card rv rv-d2"><div class="feat-num">02</div><div class="feat-icon">⊟</div><div class="feat-t" data-i18n="feat.2t">A person checks it</div><div class="feat-d" data-i18n="feat.2d">Not a bot. A trained moderator opens the link, confirms the screenshot has not been edited, and decides. Nothing goes up on its own.</div></div>
-      <div class="feat-card rv rv-d3"><div class="feat-num">03</div><div class="feat-icon">◈</div><div class="feat-t" data-i18n="feat.3t">AI helps, but never decides</div><div class="feat-d" data-i18n="feat.3d">Software flags what looks abusive and suggests a category. The moderator can ignore it. The last word is always a person’s.</div></div>
-      <div class="feat-card rv rv-d1"><div class="feat-num">04</div><div class="feat-icon">⊞</div><div class="feat-t" data-i18n="feat.4t">Search by name or link</div><div class="feat-d" data-i18n="feat.4d">Type a name, or paste a profile link. Narrow it down by what was said, how bad it was, and when. Screenshots stay blurred until you click.</div></div>
-      <div class="feat-card rv rv-d2"><div class="feat-num">05</div><div class="feat-icon">⊕</div><div class="feat-t" data-i18n="feat.5t">Think an entry is wrong? Say so</div><div class="feat-d" data-i18n="feat.5d">Anyone can challenge an entry about them. A different moderator reviews it within 14 working days, never the one who approved it.</div></div>
-      <div class="feat-card rv rv-d3"><div class="feat-num">06</div><div class="feat-icon">◎</div><div class="feat-t" data-i18n="feat.6t">See the bigger picture</div><div class="feat-d" data-i18n="feat.6d">Which words come up most often. Which incidents draw the worst comments. Open for researchers and journalists to use.</div></div>
-    </div>
-  </div>
-  <hr class="divider">
-  <div class="section-sm" style="padding-top:4.5rem">
-    <div class="section-tag" data-i18n="faq.tag">Questions</div>
-    <h2 class="section-title" style="font-size:2rem;margin-bottom:.5rem" data-i18n="faq.title">Things people ask</h2>
-    <div class="faq-list">
-      <div class="faq-item rv rv-d1"><button class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.1q">Will anyone see that I sent this?</span><span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.1a">No. Your email and your connection to the incident are never shown on the site. We keep them only so a moderator can reach you if something is unclear. Your name is never attached to a published entry.</div></div></div>
-      <div class="faq-item rv rv-d2"><button class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.2q">How long does checking take?</span><span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.2a">Three to five working days, usually. Longer when a lot comes in at once. You get a reference ID when you send something. Use it to check where your submission stands.</div></div></div>
-      <div class="faq-item rv rv-d3"><button class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.3q">What happens after I send it?</span><span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.3a">It joins a queue. A moderator opens your link, checks the screenshot has not been edited, picks the category, and then approves it, rejects it, or asks you for more. Nothing is published until a person has looked at it.</div></div></div>
-      <div class="faq-item rv rv-d4"><button class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.4q">Can they find out who reported them?</span><span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.4a">No. They see the same public entry everyone else sees: their comment, the category, and the incident it was about. They cannot see who sent it in.</div></div></div>
-      <div class="faq-item rv rv-d5"><button class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.5q">What if they say the entry is wrong?</span><span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.5a">They file an appeal. A different moderator looks at the evidence within 14 working days, never the one who approved it. If they are right, the entry comes down or is corrected, and we write down why.</div></div></div>
-      <div class="faq-item rv rv-d6"><button class="faq-q" onclick="toggleFaq(this)"><span data-i18n="faq.6q">Which platforms can I report from?</span><span class="faq-arrow">+</span></button><div class="faq-a"><div class="faq-a-inner" data-i18n="faq.6a">Any public one: Facebook, Instagram, TikTok, YouTube, X, Reddit. Most of what we get is Facebook, because that is where most of this happens in Bangladesh. The only rule is that the comment must be public, so a moderator can open the link and see it too.</div></div></div>
-    </div>
-  </div>
-  <hr class="divider">
-  <div class="section-sm" style="padding-top:4.5rem">
-    <div class="section-tag" data-i18n="pol.tag">The rules</div>
-    <h2 class="section-title" style="font-size:2rem;margin-bottom:1.5rem" data-i18n="pol.title">Check people.<br>Don’t hunt them.</h2>
-    <div class="notice rv rv-d1"><div class="notice-t" data-i18n="pol.1t">Looking someone up is the point</div><div class="notice-b" data-i18n="pol.1b">Daag exists so you can check a person before you trust them, work with them, or marry into their family. That is what it is for. What it is not for is organising a pile-on: taking entries from here to brigade, dox or threaten someone is a misuse, and we act on it.</div></div>
-    <div class="notice rv rv-d2"><div class="notice-t" data-i18n="pol.2t">Anyone can appeal</div><div class="notice-b" data-i18n="pol.2b">If you think an entry is wrong, missing context, or sent in bad faith, you can challenge it. A separate panel reviews every appeal within 14 working days.</div></div>
-    <div class="notice rv rv-d3"><div class="notice-t" data-i18n="pol.3t">What we never touch</div><div class="notice-b" data-i18n="pol.3b">Only comments that are already public. We do not archive phone numbers, addresses, private profiles, or anything from a closed group.</div></div>
-  </div>
-  <div class="help-band">
-    <div class="help-inner">
-      <div class="help-eyebrow" data-i18n="help.tag">Emergency helpline</div>
-      <h3 class="help-h" data-i18n="help.title">In danger right now? Call, don’t wait.</h3>
-      <p class="help-sub" data-i18n="help.sub">Daag is a record, not an emergency service. If someone is being threatened, blackmailed or hurt, these lines answer around the clock and the calls are free.</p>
-      <div class="help-grid">
-        <a class="help-card rv rv-d1" href="tel:999"><span class="help-num">999</span><span class="help-name" data-i18n="help.1n">National Emergency Service</span><span class="help-note" data-i18n="help.1d">Police, fire and ambulance. 24 hours, free.</span></a>
-        <a class="help-card rv rv-d2" href="tel:109"><span class="help-num">109</span><span class="help-name" data-i18n="help.2n">Violence against women and children</span><span class="help-note" data-i18n="help.2d">Government helpline for abuse, harassment and child marriage. 24 hours, free.</span></a>
-        <a class="help-card rv rv-d3" href="tel:1098"><span class="help-num">1098</span><span class="help-name" data-i18n="help.3n">Child Helpline</span><span class="help-note" data-i18n="help.3d">For anyone under 18, or an adult reporting on their behalf. 24 hours, free.</span></a>
-        <a class="help-card rv rv-d4" href="tel:01320000888"><span class="help-num">01320-000888</span><span class="help-name" data-i18n="help.4n">Police Cyber Support for Women</span><span class="help-note" data-i18n="help.4d">An all-women cell at Police Headquarters for online harassment and blackmail.</span></a>
-        <a class="help-card rv rv-d5" href="tel:01320010148"><span class="help-num">01320-010148</span><span class="help-name" data-i18n="help.5n">CID Cyber Police Centre</span><span class="help-note" data-i18n="help.5d">For hacked accounts, fake profiles and leaked images.</span></a>
-        <a class="help-card rv rv-d6" href="tel:16430"><span class="help-num">16430</span><span class="help-name" data-i18n="help.6n">National Legal Aid</span><span class="help-note" data-i18n="help.6d">Free legal advice and help filing a case. Office hours, toll free.</span></a>
-        <a class="help-card rv rv-d6" href="https://cybercrime.gov.bd" target="_blank" rel="noopener"><span class="help-num">cybercrime.gov.bd</span><span class="help-name" data-i18n="help.7n">Report online</span><span class="help-note" data-i18n="help.7d">The police complaint portal, if you would rather not call.</span></a>
+  <!-- ===== 2 · HOW IT WORKS · self-contained stepper ===== -->
+  <section class="sheetbg"><div class="wrapx">
+    <div class="eyebrow" data-i18n="s2.eyebrow">One incident, step by step</div>
+    <h2 class="h2" data-i18n="s2.h2">One news story. Four hundred comments. <em>Three are kept.</em></h2>
+    <p class="sub2" data-i18n="s2.sub">Easier to show than to tell. Tap through the steps.</p>
+
+    <div class="sgrid">
+      <div class="vizwrap">
+        <div class="viz" id="viz">
+          <div class="post" id="post">
+            <div class="hd" id="ptitle">একটি নির্যাতনের খবর প্রকাশ পেল</div>
+            <div class="ph w85"></div><div class="ph w70"></div><div class="ph w45"></div>
+            <div style="flex:1"></div>
+            <div class="pf" id="pfoot">পাবলিক পোস্ট · ১৩ অক্টোবর ২০২৬</div>
+          </div>
+        </div>
+        <div class="prog"><div class="dots" id="dots"></div><span class="pct" id="pct"></span></div>
       </div>
+
+      <ol class="slist" id="slist">
+        <li class="sitem on" data-s="1"><span class="sno">০১</span><div>
+          <h3 data-i18n="st1.h">The story breaks</h3>
+          <p data-i18n="st1.p">A woman has been attacked. The press reports it. The post is public. Anyone can read it.</p></div></li>
+        <li class="sitem" data-s="2"><span class="sno">০২</span><div>
+          <h3 data-i18n="st2.h">The comments fill up</h3>
+          <p data-i18n="st2.p">Four hundred within hours. Most are sympathetic. Some are not: blame, abuse, threats.</p></div></li>
+        <li class="sitem" data-s="3"><span class="sno">০৩</span><div>
+          <h3 data-i18n="st3.h">Someone notices</h3>
+          <p data-i18n="st3.p">Anyone can send the link and a screenshot without giving their name. It takes two minutes.</p></div></li>
+        <li class="sitem" data-s="4"><span class="sno">০৪</span><div>
+          <h3 data-i18n="st4.h">A person checks it</h3>
+          <p data-i18n="st4.p">The link is opened and matched by hand, the screenshot checked for edits. Most submissions are rejected right here.</p></div></li>
+        <li class="sitem" data-s="5"><span class="sno">০৫</span><div>
+          <h3 data-i18n="st5.h">Three are kept</h3>
+          <p data-i18n="st5.p">The post may be deleted later. The account may change. But what was written stays on record.</p></div></li>
+      </ol>
     </div>
-  </div>
-  <footer>
-    <div class="foot-inner">
+  </div></section>
+
+  <!-- ===== 3 · INDELIBLE ===== -->
+  <section class="sheetbg" style="background:#e2d8c0"><div class="wrapx">
+    <div class="rubgrid">
       <div>
-        <div class="foot-brand">Daag · দাগ</div>
-        <div class="foot-tag" style="margin-bottom:1rem" data-i18n="foot.tag">Every word leaves a mark.<br>A public record for Bangladesh.</div>
-        <div class="disclaimer" style="margin:0;font-size:11.5px" data-i18n="foot.disclaimer">Check someone before you trust them. Do not use what you find to brigade, dox or threaten them.</div>
+        <div class="eyebrow" data-i18n="s3.eyebrow">Try to erase it</div>
+        <h2 class="h2" data-i18n="s3.h2">Deleting it <em>does not erase it.</em></h2>
+        <p class="sub2" data-i18n="s3.sub">Hold the mouse down and rub the line out. However hard you rub, the mark stays. The internet works the same way.</p>
       </div>
-      <div>
-        <div class="foot-col-t" data-i18n="foot.colPlatform">Platform</div>
-        <nav class="foot-links" data-i18n-aria="Platform links" aria-label="Platform links">
-          <a class="foot-link" href="/submit" data-i18n="foot.lSubmit">Send evidence</a>
-          <a class="foot-link" href="/archive" data-i18n="foot.lArchive">Archive</a>
-          <a class="foot-link" href="/analytics" data-i18n="foot.lAnalytics">Analytics</a>
-          <a class="foot-link" href="/appeals" data-i18n="foot.lAppeals">File an appeal</a>
-        </nav>
-      </div>
-      <div>
-        <div class="foot-col-t" data-i18n="foot.colAbout">About</div>
-        <nav class="foot-links" data-i18n-aria="About links" aria-label="About links">
-          <a class="foot-link" href="/about" data-i18n="foot.lAbout">About Daag</a>
-          <a class="foot-link" href="/terms" data-i18n="foot.lTerms">Terms</a>
-          <a class="foot-link" href="/privacy" data-i18n="foot.lPrivacy">Privacy</a>
-          <a class="foot-link" href="/contact" data-i18n="foot.lContact">Contact</a>
-        </nav>
+      <div class="slab" id="slab">
+        <div class="slabhead"><b>DG-2026-8351</b><span data-i18n="slab.st">Verified · v2</span></div>
+        <q id="slabq">মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q>
+        <div class="slabfoot" data-i18n="slab.meta">Facebook · Dhaka · 13 October 2026</div>
+        <canvas id="rub"></canvas>
+        <div class="stayed" id="stayed"><span data-i18n="slab.stay">Still there</span></div>
       </div>
     </div>
-    <div class="foot-bottom">
-      <span><span data-i18n="foot.copyPre">&copy; 2026 Daag. All rights reserved. An initiative of </span><a href="https://www.linkedin.com/in/s-m-ashfaque-hossain-cams-10083696/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">S M Ashfaque Hossain</a><span data-i18n="foot.copyPost">.</span></span>
-      <span data-i18n="foot.bottomRight">Every word leaves a mark &middot; Not a harassment tool</span>
+  </div></section>
+
+
+  <!-- ===== 4 · THE RULE ===== -->
+  <section class="sheetbg"><div class="wrapx">
+    <div class="memo">
+      <div class="mh"><span data-i18n="memo.k">Daag · Policy</span><span data-i18n="memo.v">Version 2026.10</span></div>
+      <h3 data-i18n="memo.h">Check someone. <em>Don’t hunt them.</em></h3>
+      <p data-i18n="memo.p1">Everyone has a right to know who they are dealing with. Daag exists for exactly that: one look before you trust someone, hire them, or marry into their family.</p>
+      <p data-i18n="memo.p2">But that is where it ends. Do not take these records and brigade someone, circulate their address or phone number, or threaten them. Any such complaint, once proven, means the account is removed.</p>
+      <p data-i18n="memo.p3">We hold only comments that were published in the open. Phone numbers, home addresses, private profiles and anything from a closed group never enter this archive.</p>
+      <p data-i18n="memo.p4">Anyone who believes a record in their name is wrong can dispute it. The moderator who approved it does not handle the dispute. A different one reviews it within 14 working days.</p>
+      <span class="stampbig" data-i18n="memo.stamp">A record · not a weapon</span>
     </div>
-  </footer>
+  </div></section>
+
+  <!-- ===== 5 · HELPLINE ===== -->
+  <section class="helpbg"><div class="wrapx">
+    <div class="eyebrow" data-i18n="help.eye">Emergency helpline</div>
+    <h2 class="h2" data-i18n="help.h2">In danger now? <em>Call. Don’t wait.</em></h2>
+    <p class="sub2" data-i18n="help.sub">Daag keeps records; it cannot come and get you. If someone is threatening you, blackmailing you, or has raised a hand to you, call one of the numbers below without delay. All of them are open day and night, and the calls are free.</p>
+    <div class="hgrid">
+      <a class="hcard" href="tel:999"><b>999</b><span data-i18n="h1.n">National Emergency Service</span><small data-i18n="h1.d">Police, fire, ambulance · 24 hours</small></a>
+      <a class="hcard" href="tel:109"><b>109</b><span data-i18n="h2.n">Violence against women and children</span><small data-i18n="h2.d">Government helpline · 24 hours, free</small></a>
+      <a class="hcard" href="tel:1098"><b>1098</b><span data-i18n="h3.n">Child Helpline</span><small data-i18n="h3.d">For anyone under 18</small></a>
+      <a class="hcard" href="tel:01320000888"><b>01320-000888</b><span data-i18n="h4.n">Police Cyber Support for Women</span><small data-i18n="h4.d">Online harassment and blackmail</small></a>
+      <a class="hcard" href="tel:16430"><b>16430</b><span data-i18n="h5.n">National Legal Aid</span><small data-i18n="h5.d">Free legal advice · office hours</small></a>
+      <a class="hcard" href="https://cybercrime.gov.bd" target="_blank" rel="noopener"><b>cybercrime.gov.bd</b><span data-i18n="h6.n">Report online</span><small data-i18n="h6.d">If you would rather not call</small></a>
+    </div>
+  </div></section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footx"><div class="wrapx">
+    <div class="frow">
+      <div class="fbrand">দাগ<span data-i18n="f.tag">A public record of online abuse</span></div>
+      <div class="fcol"><h4 data-i18n="f.c1">The board</h4>
+        <a href="#" data-i18n="nav.arch">Archive</a><a href="#" data-i18n="f.ana">Analytics</a><a href="#" data-i18n="nav.cta">Submit evidence</a></div>
+      <div class="fcol"><h4 data-i18n="f.c2">About</h4>
+        <a href="#" data-i18n="f.about">About Daag</a><a href="#" data-i18n="f.pol">Policy</a><a href="#" data-i18n="nav.app">Appeals</a><a href="#" data-i18n="f.contact">Contact</a></div>
+      <div class="fcol"><h4 data-i18n="f.c3">Help</h4>
+        <a href="tel:999" data-i18n="f.e1">Emergency 999</a><a href="tel:109" data-i18n="f.e2">Women & children 109</a><a href="tel:01320000888" data-i18n="f.e3">Cyber support</a></div>
+    </div>
+    <div class="fbot">
+      <span data-i18n="f.cr">© 2026 Daag · All rights reserved</span>
+      <span data-i18n="f.mot">Every word leaves a mark · a record, not a weapon</span>
+    </div>
+  </div></footer>
 </section>
 
 <!-- SUBMIT EVIDENCE -->
@@ -1536,6 +1715,68 @@ var BN={
   'arch.viewEvidence':'পুরো স্ক্রিনশট খুলুন',
   'arch.evidenceAlt':'নথিভুক্ত মন্তব্যের স্ক্রিনশট',
   'arch.noShot':'স্ক্রিনশট নেই',
+
+  // The board sections, ported with their markup in Bengali. Markup is the
+  // English source of truth in this file, so the two were swapped: English
+  // into the markup, Bengali into here.
+  's2.eyebrow':'একটি ঘটনা, ধাপে ধাপে',
+  's2.h2':'একটা খবর। চারশো মন্তব্য। <em>তিনটে থেকে যায়।</em>',
+  's2.sub':'বলার চেয়ে দেখানো সহজ। নিচের ধাপগুলোয় চাপ দিন।',
+  'st1.h':'খবরটা ছড়ায়',
+  'st1.p':'একজন নারী নির্যাতনের শিকার হয়েছেন। সংবাদমাধ্যম খবরটি দেয়। পোস্টটি পাবলিক, যে কেউ পড়তে পারেন।',
+  'st2.h':'কমেন্টের ঘর ভরে ওঠে',
+  'st2.p':'কয়েক ঘণ্টায় চারশোর বেশি মন্তব্য। বেশির ভাগ সহানুভূতির। কিছু আবার উল্টো। দোষ চাপানো, গালি, হুমকি।',
+  'st3.h':'কারও চোখে পড়ে',
+  'st3.p':'পরিচয় গোপন রেখে যে কেউ লিংক আর স্ক্রিনশট পাঠাতে পারেন। দুই মিনিটের কাজ।',
+  'st4.h':'দেখেন একজন মানুষ',
+  'st4.p':'লিংক নিজে খুলে মিলিয়ে দেখা হয়, স্ক্রিনশটে বদল আছে কি না যাচাই হয়। বেশির ভাগ জমা এই ধাপেই বাদ পড়ে।',
+  'st5.h':'তিনটে থেকে যায়',
+  'st5.p':'পোস্টটি হয়তো পরে মুছে ফেলা হয়েছে। অ্যাকাউন্টও বদলেছে। কিন্তু যা লেখা হয়েছিল, তা নথিতে রয়ে গেছে।',
+  's3.eyebrow':'মুছে দেখুন',
+  's3.h2':'মুছে ফেললেই <em>মুছে যায় না।</em>',
+  's3.sub':'পাশের লেখাটা মাউস চেপে ঘষে মুছে ফেলার চেষ্টা করুন। যতই ঘষুন, দাগটা থেকে যাবে। ইন্টারনেটেও তাই হয়।',
+  'slab.st':'যাচাইকৃত · v2',
+  'slab.meta':'ফেসবুক · ঢাকা · ১৩ অক্টোবর ২০২৬',
+  'slab.stay':'তবু রয়ে গেল',
+  'memo.k':'দাগ · নীতিমালা',
+  'memo.v':'সংস্করণ ২০২৬.১০',
+  'memo.h':'যাচাই করুন। <em>শিকার করতে যাবেন না।</em>',
+  'memo.p1':'কারও সম্পর্কে জানার অধিকার সবারই আছে। কাউকে বিশ্বাস করার আগে, কাজে নেওয়ার আগে কিংবা আত্মীয়তা করার আগে একবার দেখে নেওয়া। দাগ এটুকুর জন্যই।',
+  'memo.p2':'কিন্তু এখানেই শেষ। এই নথি হাতে নিয়ে কারও ওপর দল বেঁধে চড়াও হওয়া, ঠিকানা-ফোন নম্বর ছড়িয়ে দেওয়া বা হুমকি দেওয়া চলবে না। এমন অভিযোগ প্রমাণিত হলে সংশ্লিষ্ট অ্যাকাউন্ট বাতিল করা হয়।',
+  'memo.p3':'আমরা কেবল প্রকাশ্যে লেখা মন্তব্যই রাখি। ফোন নম্বর, বাড়ির ঠিকানা, প্রাইভেট প্রোফাইল কিংবা ক্লোজড গ্রুপের কোনো কথা এই আর্কাইভে ওঠে না।',
+  'memo.p4':'নিজের নামে থাকা কোনো নথি ভুল মনে হলে আপত্তি জানানো যায়। অনুমোদন যিনি দিয়েছিলেন তিনি নন। বিষয়টি খতিয়ে দেখেন আলাদা একজন, ১৪ কর্মদিবসের মধ্যে।',
+  'memo.stamp':'রেকর্ড · অস্ত্র নয়',
+  'help.eye':'জরুরি হেল্পলাইন',
+  'help.h2':'বিপদ এখনই? <em>ফোন করুন, অপেক্ষা নয়।</em>',
+  'help.sub':'দাগ নথি রাখে, উদ্ধার করতে পারে না। কেউ হুমকি দিচ্ছে, ব্ল্যাকমেইল করছে, কিংবা গায়ে হাত তুলেছে, দেরি না করে নিচের নম্বরে ফোন করুন। সব কটি রাত-দিন খোলা, কল করতে পয়সা লাগে না।',
+  'h1.n':'জাতীয় জরুরি সেবা',
+  'h1.d':'পুলিশ, ফায়ার, অ্যাম্বুলেন্স · ২৪ ঘণ্টা',
+  'h2.n':'নারী ও শিশু নির্যাতন',
+  'h2.d':'সরকারি হেল্পলাইন · ২৪ ঘণ্টা, ফ্রি',
+  'h3.n':'শিশু সহায়তা',
+  'h3.d':'১৮ বছরের কম যে কারও জন্য',
+  'h4.n':'পুলিশ সাইবার সাপোর্ট ফর উইমেন',
+  'h4.d':'অনলাইন হয়রানি ও ব্ল্যাকমেইল',
+  'h5.n':'জাতীয় আইনগত সহায়তা',
+  'h5.d':'ফ্রি আইনি পরামর্শ · অফিস সময়',
+  'h6.n':'অনলাইনে অভিযোগ',
+  'h6.d':'ফোন করতে না চাইলে',
+  'f.tag':'অনলাইন হয়রানির পাবলিক রেকর্ড',
+  'f.c1':'বোর্ড',
+  'nav.arch':'আর্কাইভ',
+  'f.ana':'বিশ্লেষণ',
+  'nav.cta':'প্রমাণ জমা দিন',
+  'f.c2':'পরিচিতি',
+  'f.about':'দাগ সম্পর্কে',
+  'f.pol':'নীতিমালা',
+  'nav.app':'আপিল',
+  'f.contact':'যোগাযোগ',
+  'f.c3':'সাহায্য',
+  'f.e1':'জরুরি ৯৯৯',
+  'f.e2':'নারী ও শিশু ১০৯',
+  'f.e3':'সাইবার সাপোর্ট',
+  'f.cr':'© ২০২৬ দাগ · সর্বস্বত্ব সংরক্ষিত',
+  'f.mot':'প্রতিটি শব্দ দাগ রেখে যায় · রেকর্ড, অস্ত্র নয়',
   'hub.label':'ভদ্রলোক',
   'hub.sub':'পাবলিক প্রোফাইল',
   'hub.cnt':'{n}টি নথিভুক্ত এন্ট্রি',
@@ -2066,6 +2307,7 @@ function applyLang(lang,rerender){
     if(an&&an.classList.contains('active'))buildAnalytics();
     updateHeroStats();
     renderHubCount();
+    syncBoardSections(lang);
     setTimeout(drawThread,60);
   }
   var lbl=document.getElementById('langToggleLabel');
@@ -2165,6 +2407,134 @@ function initReveal(){
 function revealIn(el){
   if(el&&window.daagReveal)window.daagReveal(el);
 }
+
+// ===== BOARD SECTIONS =====
+// The stepper's card text and the rub-slab's quote live in JS rather than in
+// markup, so they need their own language handling. Everything else on these
+// sections goes through data-i18n like the rest of the site.
+var STEP_BN={
+ 1:['একটি নির্যাতনের খবর প্রকাশ পেল','পাবলিক পোস্ট · ১৩ অক্টোবর ২০২৬'],
+ 2:['৪১৭টি মন্তব্য','তার মধ্যে কিছু আপত্তিকর'],
+ 3:['স্ক্রিনশট জমা পড়ল','পরিচয় গোপন · ৩টি জমা'],
+ 4:['যাচাই চলছে','একজন মডারেটর দেখছেন'],
+ 5:['৩টি নথি রেকর্ডে গেল','যাচাইকৃত · স্থায়ী']};
+var STEP_EN={
+ 1:['A report of an assault is published','Public post · 13 October 2026'],
+ 2:['417 comments','Some of them abusive'],
+ 3:['Screenshots submitted','Anonymous · 3 submissions'],
+ 4:['Under review','A moderator is checking'],
+ 5:['3 entries recorded','Verified · permanent']};
+window.DAAG_T={step:STEP_BN};
+
+var BUB_BN=['মেয়েটারই দোষ','এসব সাজানো','নাম ঠিকানা বের করব','বিচার চাই','ওর পোশাক দেখুন','ভয়ংকর খবর'];
+var BUB_EN=['She asked for it','It is all staged','We will find his address','Horrifying','Look at her clothes','Justice now'];
+
+var SLAB_BN='মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।';
+var SLAB_EN='Ask first what she was doing outside that late.';
+
+// Called from applyLang(). The stepper redraws its current card so the switch
+// is visible immediately rather than on the next click.
+function syncBoardSections(lang){
+  window.DAAG_T.step = (lang==='en') ? STEP_EN : STEP_BN;
+  if(window.DAAG_STEP && window.DAAG_CUR) window.DAAG_STEP(window.DAAG_CUR);
+  document.querySelectorAll('.bub').forEach(function(b,i){
+    b.textContent=(lang==='en'?BUB_EN:BUB_BN)[i]||b.textContent;
+  });
+  var q=document.getElementById('slabq');
+  if(q) q.textContent = (lang==='en') ? SLAB_EN : SLAB_BN;
+}
+
+(function(){
+  var viz=document.getElementById('viz'),list=document.getElementById('slist');
+  if(!viz||!list)return;
+  var pt=document.getElementById('ptitle'),pf=document.getElementById('pfoot'),
+      post=document.getElementById('post'),
+      dots=document.getElementById('dots'),pct=document.getElementById('pct');
+  var BUBS=[{t:'মেয়েটারই দোষ',x:'-6%',y:'8%',r:1},{t:'এসব সাজানো',x:'70%',y:'2%',r:0},
+   {t:'নাম ঠিকানা বের করব',x:'-10%',y:'70%',r:1},{t:'বিচার চাই',x:'74%',y:'78%',r:0},
+   {t:'ওর পোশাক দেখুন',x:'76%',y:'42%',r:1},{t:'ভয়ংকর খবর',x:'-12%',y:'40%',r:0}];
+  BUBS.forEach(function(b,i){
+    var d=document.createElement('div');
+    d.className='bub'+(b.r?' red':'');d.textContent=b.t;
+    d.style.left=b.x;d.style.top=b.y;d.dataset.r=b.r;d.style.transitionDelay=(i*50)+'ms';
+    viz.appendChild(d);
+  });
+  if(dots)dots.innerHTML='<i></i><i></i><i></i><i></i><i></i>';
+  var BND=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+  function num(v){return document.documentElement.lang==='en'?String(v):String(v).replace(/[0-9]/g,function(d){return BND[+d]})}
+  window.DAAG_CUR=1;
+  window.DAAG_STEP=function(st){
+    window.DAAG_CUR=st;
+    var c=(window.DAAG_T&&window.DAAG_T.step&&window.DAAG_T.step[st])||null;
+    if(c){pt.textContent=c[0];pf.textContent=c[1]}
+    viz.querySelectorAll('.bub').forEach(function(b){
+      var red=b.dataset.r==='1';
+      var show = st===2 ? true : (st>=3 ? red : false);
+      b.style.opacity=show?'1':'0';
+      b.style.transform=show?'scale(1)':'scale(.7)';
+    });
+    post.style.transform = st>=4 ? 'scale(.9)' : 'scale(1)';
+    post.style.opacity = st===5 ? '.45' : '1';
+    list.querySelectorAll('.sitem').forEach(function(li){
+      li.classList.toggle('on', +li.dataset.s===st);
+    });
+    if(dots)[].forEach.call(dots.children,function(d,i){d.className=i<st?'on':''});
+    if(pct)pct.textContent=num('0'+st)+' / '+num('05');
+  };
+  list.addEventListener('click',function(e){
+    var li=e.target.closest('.sitem');
+    if(li){stop();window.DAAG_STEP(+li.dataset.s)}
+  });
+  // advances itself once so the mechanism is discoverable, then hands over
+  var timer=null,touched=false;
+  function stop(){touched=true;if(timer){clearInterval(timer);timer=null}}
+  ['pointerdown','keydown','wheel'].forEach(function(ev){
+    list.addEventListener(ev,stop,{once:true,passive:true});
+  });
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting&&!touched&&!timer){
+        timer=setInterval(function(){
+          var nx=window.DAAG_CUR+1;
+          if(nx>5){stop();return}
+          window.DAAG_STEP(nx);
+        },2600);
+      }
+    });
+  },{threshold:.45});
+  io.observe(list);
+  window.DAAG_STEP(1);
+})();
+
+(function(){
+  var slab=document.getElementById('slab'),cv=document.getElementById('rub');
+  if(!slab||!cv)return;
+  var q=document.getElementById('slabq'),stayed=document.getElementById('stayed');
+  var cur=document.createElement('div');cur.id='rubcur';document.body.appendChild(cur);
+  var ctx,down=false,work=0,FLOOR=.34;
+  function fit(){var r=slab.getBoundingClientRect();cv.width=r.width;cv.height=r.height;ctx=cv.getContext('2d')}
+  fit();addEventListener('resize',fit);
+  function rub(e){
+    if(!down||!ctx)return;
+    var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    for(var i=0;i<3;i++){
+      ctx.fillStyle='rgba(200,35,26,.032)';
+      ctx.beginPath();ctx.arc(x+(Math.random()-.5)*40,y+(Math.random()-.5)*40,15+Math.random()*18,0,7);ctx.fill();
+    }
+    ctx.fillStyle='rgba(28,25,23,.02)';
+    ctx.beginPath();ctx.arc(x,y,26,0,7);ctx.fill();
+    work++;
+    q.style.opacity=Math.max(FLOOR,1-work/140);
+    q.style.filter='blur('+Math.min(1.1,work/260)+'px)';
+    if(work>130)stayed.classList.add('on');
+  }
+  cv.addEventListener('pointerdown',function(e){down=true;cv.setPointerCapture(e.pointerId);rub(e)});
+  cv.addEventListener('pointerup',function(){down=false});
+  cv.addEventListener('pointermove',rub);
+  cv.addEventListener('pointerenter',function(){cur.style.display='block'});
+  cv.addEventListener('pointerleave',function(){cur.style.display='none';down=false});
+  addEventListener('pointermove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+})();
 
 // ===== THE BOARD =====
 // Pins four real approved entries around the anonymised subject and runs red
@@ -3473,6 +3843,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeScreens
 
 // ===== INIT =====
 updateHeroStats();
+syncBoardSections(currentLang());
 buildBoard();
 buildArchive();
 buildAnalytics();
