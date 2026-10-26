@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="robots" content="noindex,nofollow,noarchive">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0P8DZ2KS52"></script>
 <script>
@@ -39,7 +40,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 
 /* LOGIN SCREEN */
 .login-screen{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;background:#08080f}
-/* LEFT PANEL — immersive visual */
+/* LEFT PANEL: immersive visual */
 .login-left{position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:4rem 3rem;overflow:hidden}
 .login-left-bg{position:absolute;inset:0;background:linear-gradient(160deg,#12111e 0%,#1a0a10 40%,#200e14 70%,#0d0d18 100%)}
 .login-left-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(158,28,44,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(158,28,44,.05) 1px,transparent 1px);background-size:52px 52px;animation:gridPulse 4s ease-in-out infinite}
@@ -64,7 +65,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-sans);font-si
 .login-hero-title{font-family:var(--font-heading);font-size:clamp(1.4rem,3vw,2rem);font-weight:600;color:rgba(255,255,255,.85);line-height:1.25;margin-bottom:1rem;letter-spacing:-.01em}
 .login-hero-title span{background:linear-gradient(135deg,#e84057,#ff6b7a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .login-hero-desc{font-size:13.5px;color:rgba(255,255,255,.3);line-height:1.75;font-family:var(--font-sans)}
-/* RIGHT PANEL — login form */
+/* RIGHT PANEL: login form */
 .login-right{display:flex;align-items:center;justify-content:center;padding:3rem 2.5rem;position:relative;background:#0c0c16}
 .login-right::before{content:'';position:absolute;left:0;top:10%;bottom:10%;width:1px;background:linear-gradient(180deg,transparent,rgba(158,28,44,.2),rgba(158,28,44,.05),transparent)}
 .login-box{position:relative;z-index:1;max-width:380px;width:100%;text-align:center}
@@ -522,16 +523,23 @@ body{transition:background-color .3s,color .3s}
       <div class="login-title">Welcome back</div>
       <div class="login-sub">Enter your credentials to access the moderation dashboard</div>
       <div class="login-field-wrap">
+        <div class="login-field-label">Email</div>
+        <div class="login-field-inner">
+          <span class="login-field-icon">&#9993;</span>
+          <input type="email" id="loginEmail" class="login-input" placeholder="moderator@daag-bd.com" autocomplete="username">
+        </div>
+      </div>
+      <div class="login-field-wrap">
         <div class="login-field-label">Password</div>
         <div class="login-field-inner">
           <span class="login-field-icon">&#9919;</span>
-          <input type="password" id="loginPass" class="login-input" placeholder="Enter admin password" autocomplete="off">
+          <input type="password" id="loginPass" class="login-input" placeholder="Password" autocomplete="current-password">
         </div>
       </div>
-      <button id="loginBtn" class="login-btn">Authenticate</button>
+      <button id="loginBtn" class="login-btn">Sign in</button>
       <div id="loginErr" class="login-err">&#10007; Invalid credentials. Access denied.</div>
       <div class="login-divider">secured connection</div>
-      <div class="login-security"><span class="login-security-icon">&#128274;</span> End-to-end encrypted &middot; SHA-256 verified</div>
+      <div class="login-security"><span class="login-security-icon">&#128274;</span> Supabase Auth &middot; access checked server-side</div>
       <div class="login-footer">&copy; 2026 Daag &middot; <a href="https://www.daag-bd.com" target="_blank" rel="noopener">daag-bd.com</a></div>
     </div>
   </div>
@@ -755,7 +763,7 @@ body{transition:background-color .3s,color .3s}
    ============================================================ */
 
 // --- CONFIG ---
-var PASS_HASH = '4f60b05a021f0d37bc8facefa207e4057473a6223824e6be8db4dadbfdb9f840';
+var currentAdmin = null;   // the signed-in moderator's admin_users row
 
 // Supabase (anon key - safe for client-side; never use service_role key here)
 var SUPABASE_URL = 'https://cangysctagsljckdepyc.supabase.co';
@@ -919,28 +927,75 @@ document.getElementById('confirmNo').onclick=function(){
   confirmCb=null;
 };
 
-// --- SHA-256 ---
-async function sha256(msg){
-  var buf=new TextEncoder().encode(msg);
-  var hash=await crypto.subtle.digest('SHA-256',buf);
-  return Array.from(new Uint8Array(hash)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+// --- AUTH ---
+// Real authentication. The old version hashed a password in the browser and
+// compared it to a constant shipped in this file, then set a sessionStorage
+// flag - two seconds of devtools to bypass, and irrelevant anyway because the
+// database accepted writes from the public anon key. Both halves are fixed:
+// migrations/001-lockdown.sql only grants writes to a signed-in admin_users row,
+// so a forged session now gets a UI with no permissions behind it.
+
+function loginError(msg){
+  var el=document.getElementById('loginErr');
+  el.innerHTML='&#10007; '+msg;
+  el.style.display='block';
 }
 
-// --- AUTH ---
 async function tryLogin(){
+  var email=(document.getElementById('loginEmail').value||'').trim();
   var pass=document.getElementById('loginPass').value;
-  if(!pass){document.getElementById('loginErr').style.display='block';return}
-  var h=await sha256(pass);
-  if(h===PASS_HASH){
-    sessionStorage.setItem('daag_admin','1');
-    bootAdmin();
-  } else {
-    document.getElementById('loginErr').style.display='block';
+  if(!email||!pass){loginError('Enter your email and password.');return}
+  var btn=document.getElementById('loginBtn');
+  btn.disabled=true; btn.textContent='Signing in...';
+  try{
+    initSupabase();
+    if(!sb){loginError('Cannot reach the database.');return}
+    var res=await sb.auth.signInWithPassword({email:email,password:pass});
+    if(res.error){loginError('Invalid credentials. Access denied.');return}
+    if(!await bootIfAdmin()){
+      await sb.auth.signOut();
+      loginError('That account is not a moderator.');
+      return;
+    }
+    document.getElementById('loginPass').value='';
+    document.getElementById('loginErr').style.display='none';
+  }catch(e){
+    loginError('Sign-in failed. Please try again.');
+  }finally{
+    btn.disabled=false; btn.textContent='Sign in';
   }
 }
 
-function logout(){
-  sessionStorage.removeItem('daag_admin');
+// Membership of admin_users is what grants moderation rights, not the password.
+// RLS lets a signed-in user read only their own row, so an empty result means
+// "not a moderator" and every write would be rejected anyway.
+// supabase-js hydrates a stored session from localStorage asynchronously, so a
+// one-shot getSession() at script-eval time can return null while a perfectly
+// good session exists - which left a signed-in moderator staring at the login
+// screen. Every entry point now funnels through this, and onAuthStateChange
+// catches the session whenever it actually lands.
+var booted=false;
+async function bootIfAdmin(){
+  if(booted)return true;
+  if(!await confirmAdmin())return false;
+  booted=true;
+  await bootAdmin();
+  return true;
+}
+
+async function confirmAdmin(){
+  try{
+    var r=await sb.from('admin_users').select('user_id,email,role').limit(1);
+    if(r.error||!r.data||!r.data.length)return false;
+    currentAdmin=r.data[0];
+    return true;
+  }catch(e){return false}
+}
+
+async function logout(){
+  try{ if(sb) await sb.auth.signOut(); }catch(e){}
+  currentAdmin=null;
+  booted=false;
   sessionStorage.removeItem('daag_activity');
   activityLog=[];
   document.getElementById('adminWrap').style.display='none';
@@ -950,7 +1005,9 @@ function logout(){
 }
 
 document.getElementById('loginBtn').onclick=tryLogin;
-document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')tryLogin()});
+['loginEmail','loginPass'].forEach(function(id){
+  document.getElementById(id).addEventListener('keydown',function(e){if(e.key==='Enter')tryLogin()});
+});
 document.getElementById('logoutBtn').onclick=logout;
 document.getElementById('refreshBtn').onclick=async function(){
   var btn=document.getElementById('refreshBtn');
@@ -968,7 +1025,6 @@ document.getElementById('refreshBtn').onclick=async function(){
 async function bootAdmin(){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('adminWrap').style.display='block';
-  initSupabase();
   initDarkMode();
   await loadSubmissions();
   await loadAppeals();
@@ -983,10 +1039,24 @@ function initSupabase(){
   }
 }
 
-// Check session on load
-if(sessionStorage.getItem('daag_admin')==='1'){
-  bootAdmin();
-}
+// Restore a real Supabase session on load, and re-check admin membership every
+// time - a revoked moderator must lose the panel on their next page load.
+(function restoreSession(){
+  initSupabase();
+  if(!sb)return;
+  // Fires with INITIAL_SESSION once hydration finishes, and again on SIGNED_IN.
+  // bootIfAdmin() is idempotent, so a double fire is harmless.
+  sb.auth.onAuthStateChange(function(event,session){
+    if(session) bootIfAdmin();
+  });
+  // In case the event fired before this listener was attached.
+  (async function(){
+    try{
+      var {data}=await sb.auth.getSession();
+      if(data&&data.session) await bootIfAdmin();
+    }catch(e){}
+  })();
+})();
 
 // --- TAB SWITCHING ---
 document.querySelectorAll('.admin-tab').forEach(function(tab){
@@ -1234,13 +1304,27 @@ function toggleSelectAll(el){
 }
 
 // --- SUBMISSION ACTIONS ---
+// Turn a database constraint violation into something a moderator can act on.
+// Postgres says 'violates check constraint "submissions_approved_needs_evidence"',
+// which tells a human nothing about what to do next.
+function moderationError(e){
+  var m=(e&&e.message)||'';
+  if(m.indexOf('submissions_approved_needs_evidence')>-1)
+    return 'Cannot approve: this report has no screenshot. Evidence is required before anything is published. Reject it, or edit it to attach the screenshot.';
+  if(m.indexOf('submissions_status_valid')>-1)
+    return 'That is not a valid status.';
+  if(m.indexOf('permission denied')>-1||m.indexOf('row-level security')>-1)
+    return 'You do not have permission for that. Try signing out and back in.';
+  return 'Failed: '+m;
+}
+
 async function modAction(id,status){
   if(!demoMode&&sb){
     try{
       var{error}=await sb.from('submissions').update({status:status}).eq('ref_id',id);
       if(error) throw error;
     }catch(e){
-      showToast('Failed: '+e.message,'error');
+      showToast(moderationError(e),'error');
       return;
     }
   }
@@ -1345,19 +1429,38 @@ async function bulkAction(action){
   var ids=Array.from(selectedIds);
   var label=action==='delete'?'delete':'set to '+action;
   showConfirm(label+' '+ids.length+' submission(s)?',async function(){
+    var skipped=[];
     if(!demoMode&&sb){
       try{
         if(action==='delete'){
           var{error}=await sb.from('submissions').delete().in('ref_id',ids);
           if(error) throw error;
         } else {
-          var{error}=await sb.from('submissions').update({status:action}).in('ref_id',ids);
-          if(error) throw error;
+          // A single evidence-free row would make the whole UPDATE fail and
+          // apply none of it. Set those aside, do the rest, and say which were
+          // left behind rather than dropping the moderator's work on the floor.
+          var todo=ids;
+          if(action==='approved'){
+            var chk=await sb.from('submissions').select('ref_id,screenshot_url').in('ref_id',ids);
+            if(chk.error) throw chk.error;
+            skipped=(chk.data||[]).filter(function(r){return !r.screenshot_url||!String(r.screenshot_url).trim()})
+                                  .map(function(r){return r.ref_id});
+            todo=ids.filter(function(i){return skipped.indexOf(i)===-1});
+          }
+          if(todo.length){
+            var{error}=await sb.from('submissions').update({status:action}).in('ref_id',todo);
+            if(error) throw error;
+          }
+          ids=todo;
         }
       }catch(e){
-        showToast('Bulk action failed: '+e.message,'error');
+        showToast(moderationError(e),'error');
         return;
       }
+      if(skipped.length){
+        showToast(skipped.length+' skipped: no screenshot, so they cannot be published ('+skipped.join(', ')+')','error');
+      }
+      if(!ids.length){ selectedIds.clear(); renderSubmissions(); updateBadges(); return }
     }
     if(action==='delete'){
       allSubmissions=allSubmissions.filter(function(s){return!selectedIds.has(s.ref_id)});
@@ -1509,7 +1612,7 @@ async function appealAction(id,status){
       var{error}=await sb.from('appeals').update({status:status}).eq('ref_id',id);
       if(error) throw error;
     }catch(e){
-      showToast('Failed: '+e.message,'error');
+      showToast(moderationError(e),'error');
       return;
     }
   }
@@ -1656,7 +1759,7 @@ function statCard(label,val,sub){
   return '<div class="stat-card"><div class="stat-label">'+escHtml(label)+'</div><div class="stat-val">'+val+'</div><div class="stat-sub">'+escHtml(sub)+'</div></div>';
 }
 
-// --- SITE TRAFFIC (Google Analytics — server-side API) ---
+// --- SITE TRAFFIC (Google Analytics, server-side API) ---
 var trafficLoaded=false;
 
 function buildTraffic(){
@@ -2393,14 +2496,14 @@ document.addEventListener('keydown',function(e){
   var tag=(e.target.tagName||'').toLowerCase();
   if(tag==='input'||tag==='textarea'||tag==='select') return;
 
-  // ? — toggle keyboard help
+  // ? toggles keyboard help
   if(e.key==='?'){
     e.preventDefault();
     document.getElementById('kbOverlay').classList.toggle('show');
     return;
   }
 
-  // Escape — close overlays
+  // Escape closes overlays
   if(e.key==='Escape'){
     document.getElementById('kbOverlay').classList.remove('show');
     document.getElementById('confirmOverlay').classList.remove('show');
@@ -2443,7 +2546,7 @@ if(localStorage.getItem('daag_dark')==='1'){
 }
 updateDmIcon();
 
-// No additional login JS needed — orb animations are pure CSS
+// No additional login JS needed; orb animations are pure CSS
 </script>
 </body>
 </html>

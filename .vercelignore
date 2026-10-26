@@ -1,0 +1,21 @@
+# Nothing in here belongs on daag-bd.com.
+#
+# design-directions/ matters most: twelve of those prototypes contain
+# FABRICATED archive entries with invented quotes and invented DG-2026-xxxx
+# reference numbers. Vercel serves any .html at its own path, so without this
+# file they would be publicly reachable at daag-bd.com/design-directions/...
+# Fake abuse records sitting on a real abuse archive is not a cosmetic problem.
+
+design-directions/
+facebook/
+motion/
+Essentials/
+content social media/
+
+# Working files
+.DS_Store
+*.log
+
+# The schema lives in the repo as the source of truth for the database.
+# It is applied in the Supabase SQL editor, never served to a browser.
+migrations/

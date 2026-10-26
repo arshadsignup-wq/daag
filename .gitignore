@@ -2,3 +2,26 @@
 *.json
 !package.json
 !package-lock.json
+
+# Remotion motion graphics project
+motion/node_modules
+motion/out
+# the blanket *.json above (which keeps the service-account key out) would
+# otherwise swallow the TypeScript config a fresh clone needs
+!motion/tsconfig.json
+# Generated score, rebuild with: cd motion && python3 audio/score.py
+motion/public/audio
+
+# Photographs for the films: sourced, not generated. Keep the README.
+motion/public/stills/*
+!motion/public/stills/README.md
+motion/src/stills.generated.ts
+
+# macOS
+.DS_Store
+
+# Large working directories: raw video, renders and source media. Kept out of
+# git to stop the repo ballooning; they are not part of the deployed site.
+motion/
+content social media/
+Essentials/
