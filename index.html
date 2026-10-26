@@ -449,7 +449,11 @@ a.entry-who:hover{color:var(--accent);border-bottom-color:var(--accent)}
 .entry-meta{display:flex;align-items:center;gap:.6rem;margin-bottom:.65rem;flex-wrap:wrap}
 .badge{font-size:10px;font-family:var(--font-mono);letter-spacing:.07em;text-transform:uppercase;padding:.22rem .6rem;border-radius:2px;white-space:nowrap}
 .b-cr{background:var(--ink-glow);color:var(--accent);border:1px solid var(--cr-br)}
-.b-gr{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.b-gr{background:var(--bg3);color:var(--text2);border:1px solid var(--border2)}
+.b-sev{border-width:1px;border-style:solid;font-weight:600}
+.b-sev-severe{background:var(--ink-glow);color:var(--accent);border-color:var(--cr-br)}
+.b-sev-high{background:var(--warn-bg);color:var(--warn-fg);border-color:var(--warn-br)}
+.b-sev-mod{background:var(--bg3);color:var(--text2);border-color:var(--border3)}
 .b-nv{background:var(--info-bg);color:var(--info-fg);border:1px solid var(--info-br)}
 .plat-strip{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--umber);border-radius:5px;padding:1.1rem 1.3rem;margin-bottom:.25rem}
 .plat-strip-t{font-size:10px;font-family:var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--umber);margin-bottom:.8rem}
@@ -820,6 +824,40 @@ html[data-theme="dark"] .sitem.on{background:rgba(255,255,255,.06)}
 html[data-theme="dark"] .bub{background:#38302a;border-color:#52463c;color:#eadfd2}
 html[data-theme="dark"] .bub.red{background:#4a2420;border-color:#7a3a30;color:#ffb3a7}
 
+/* Severity donut, carried over from the admin dashboard. A conic-gradient
+   rather than an SVG arc: no library, and it scales with the text size. */
+.donut-wrap{display:flex;align-items:center;gap:2rem;flex-wrap:wrap;margin-top:1.2rem}
+.donut{position:relative;width:148px;height:148px;border-radius:50%;flex-shrink:0}
+.donut-center{position:absolute;inset:26%;background:var(--bg1);border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1rem}
+.donut-center-val{font-family:var(--font-display);font-weight:700;font-size:1.35rem;color:var(--text)}
+.donut-center-label{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text3)}
+.donut-legend{display:flex;flex-direction:column;gap:.55rem}
+.donut-legend-item{display:flex;align-items:center;gap:.6rem;font-size:13px;color:var(--text2)}
+.donut-legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.donut-empty{font-size:13px;color:var(--text3);padding:1.5rem 0}
+@media(max-width:560px){.donut-wrap{gap:1.2rem}.donut{width:120px;height:120px}}
+
+/* The district band. Dark, between the erase demo and the policy memo, so the
+   page breathes before the memo's bright sheet. */
+.mapbg{position:relative;z-index:3;background:#241f1a;color:#efe9e0;
+  background-image:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(200,35,26,.14),transparent 70%)}
+.mapbg .h2{color:#fdfaf2}
+.mapbg .sub2{color:#c3b8a8}
+.mapwrap{position:relative;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.1);
+  border-radius:4px;padding:1.4rem}
+.mapwrap svg{width:100%;height:min(62vh,540px);display:block}
+.mp{fill:#3a3430;stroke:#241f1a;stroke-width:1;transition:fill .25s}
+.mp.l1{fill:rgba(200,35,26,.42)}
+.mp.l2{fill:rgba(200,35,26,.72)}
+.mp.l3{fill:#e0362f}
+.mlegend{display:flex;gap:1.1rem;flex-wrap:wrap;margin-top:1.1rem;
+  font-family:var(--font-mono);font-size:10px;color:#8d8276}
+.mlegend i{width:10px;height:10px;border-radius:2px;display:inline-block;
+  margin-right:.35rem;vertical-align:-1px}
+@media(max-width:560px){.mapwrap{padding:.9rem}.mapwrap svg{height:46vh}}
+
 /* ===== BOARD SECTIONS =====
    The rest of design-directions/v3/06-board.html: the stepper, the
    rub-to-erase slab, the policy memo, the helpline band and the footer.
@@ -996,6 +1034,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
     <button class="nav-hamburger" onclick="toggleMobileNav()" data-i18n-aria="Toggle navigation menu" aria-label="Toggle navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
       <a class="nav-link" data-page="archive" href="/archive" data-i18n="nav.archive"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="12" height="3.2" rx="1"/><path d="M3.2 6.2V13h9.6V6.2M6.5 9h3"/></svg><span>Archive</span></a>
+      <a class="nav-link" href="/#map" data-i18n="nav.map" onclick="event.preventDefault();goToMap()"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 14s4.5-4.2 4.5-7.4A4.5 4.5 0 0 0 8 2.1a4.5 4.5 0 0 0-4.5 4.5C3.5 9.8 8 14 8 14Z"/><circle cx="8" cy="6.5" r="1.6"/></svg><span>Map</span></a>
       <a class="nav-link" data-page="search" href="/search" data-i18n="nav.search"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="4.3"/><path d="M10.2 10.2 13.6 13.6"/></svg><span>Profile Search</span></a>
       <a class="nav-link" data-page="analytics" href="/analytics" data-i18n="nav.analytics"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.6 13.4h10.8M4.8 11V7.2M8 11V3.4M11.2 11V8.6"/></svg><span>Analytics</span></a>
       <a class="nav-link" data-page="appeals" href="/appeals" data-i18n="nav.appeals"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="5.6"/><path d="M8 5.2v3.4M8 10.6v.1"/></svg><span>Appeals</span></a>
@@ -1100,6 +1139,23 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 
 
   <!-- ===== 4 · THE RULE ===== -->
+  <!-- ===== BY DISTRICT ===== -->
+  <section class="mapbg"><div class="wrapx">
+    <div class="eyebrow" data-i18n="map.eye">By district</div>
+    <h2 class="h2" data-i18n="map.h2">How many entries, <em>and where</em></h2>
+    <p class="sub2" data-i18n="map.sub">Search by district name to see only the entries recorded there. Three districts have come up so far. The rest are empty, nobody has sent anything in from them yet.</p>
+    <div class="mapwrap">
+      <svg id="bdm" viewBox="0 0 1000 1180" preserveAspectRatio="xMidYMid meet"
+           role="img" data-i18n-aria="District map of Bangladesh" aria-label="District map of Bangladesh"></svg>
+      <div class="mlegend">
+        <span><i style="background:#3a3430"></i><span data-i18n="map.lg0">None</span></span>
+        <span><i style="background:rgba(200,35,26,.42)"></i>1&ndash;2</span>
+        <span><i style="background:rgba(200,35,26,.72)"></i>3&ndash;5</span>
+        <span><i style="background:#e0362f"></i>6+</span>
+      </div>
+    </div>
+  </div></section>
+
   <section class="sheetbg band-3"><div class="wrapx">
     <div class="memo">
       <div class="mh"><span data-i18n="memo.k">Daag · Policy</span><span data-i18n="memo.v">Version 2026.10</span></div>
@@ -1296,6 +1352,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
       <div class="a-card"><div class="a-num" id="analyticsAppeals">0</div><div data-i18n="analytics.x7" class="a-lbl">Appeals Filed</div><div style="font-size:11px;color:var(--text3);margin-top:.4rem" id="analyticsAppealBreakdown"></div></div>
     </div>
     <div class="chart-box"><div data-i18n="analytics.x8" class="chart-lbl" id="chartYearLbl">Monthly Submissions</div><div class="bar-chart" id="barC"></div></div>
+    <div class="chart-box"><div data-i18n="analytics.sevTitle" class="chart-lbl">Severity Distribution</div><div class="donut-wrap" id="sevDonut"></div></div>
     <div class="two-col">
       <div class="col-cell"><div data-i18n="analytics.x9" class="chart-lbl">Category Distribution</div><div id="catL"></div></div>
       <div class="col-cell"><div data-i18n="analytics.x10" class="chart-lbl">Incident Type Breakdown</div><div id="incL"></div></div>
@@ -1736,6 +1793,7 @@ function animateNum(el,target,suffix){
 // source of truth for it and the dictionary can never drift out of sync.
 var BN={
   'nav.archive':'আর্কাইভ',
+  'nav.map':'ম্যাপ',
   'arch.advFilter':'বিস্তারিত ছাঁকনি',
   'arch.perpProfile':'অভিযুক্তের প্রোফাইল',
   'arch.unnamed':'নাম পাওয়া যায়নি',
@@ -1745,6 +1803,11 @@ var BN={
   'arch.viewEvidence':'পুরো স্ক্রিনশট খুলুন',
   'arch.evidenceAlt':'নথিভুক্ত মন্তব্যের স্ক্রিনশট',
   'arch.noShot':'স্ক্রিনশট নেই',
+  'map.eye':'জেলাভিত্তিক',
+  'map.h2':'কোন জেলায় <em>কত নথি</em>',
+  'map.sub':'জেলার নাম ধরে খুঁজলে ওই এলাকার নথিগুলো আলাদা করে দেখা যায়। এ পর্যন্ত নাম উঠেছে তিনটি জেলার। বাকিগুলো ফাঁকা, সেখান থেকে এখনো কেউ কিছু পাঠাননি।',
+  'map.lg0':'নেই',
+  'analytics.sevTitle':'মাত্রা অনুযায়ী',
   'up.ready':'পাঠানোর জন্য প্রস্তুত',
   'an.rejected':'{n}% বাতিল বা একই জিনিস',
   'an.thisMonth':'এই মাসে {n}টি',
@@ -2218,6 +2281,7 @@ var BN={
 // database and must stay that way - they are the archive's vocabulary and the
 // moderation console writes them. Only the label shown to a reader is swapped.
 var ARIA_BN={
+  'District map of Bangladesh':'বাংলাদেশের জেলাভিত্তিক মানচিত্র',
   'Main navigation':'প্রধান মেনু',
   'Toggle navigation menu':'মেনু খুলুন বা বন্ধ করুন',
   'Switch to light mode':'লাইট মোডে যান',
@@ -2575,6 +2639,84 @@ function syncBoardSections(lang){
   cv.addEventListener('pointerenter',function(){cur.style.display='block'});
   cv.addEventListener('pointerleave',function(){cur.style.display='none';down=false});
   addEventListener('pointermove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+})();
+
+// Severity donut for the public analytics page, carried over from the admin
+// dashboard. Reads the same approved rows the rest of the page does.
+function buildSevDonut(counts){
+  var el=document.getElementById('sevDonut');
+  if(!el)return;
+  var order=['Severe','High','Moderate'];
+  var total=order.reduce(function(a,k){return a+(counts[k]||0)},0);
+  if(!total){
+    el.innerHTML='<div class="donut-empty">'+escHtml(t('analytics.noDist','Nothing to break down yet.'))+'</div>';
+    return;
+  }
+  var hex={Severe:'#c8231a',High:'#d8452c',Moderate:'#c9743a'};
+  var parts=[],legend='',cum=0;
+  order.forEach(function(k){
+    if(!counts[k])return;
+    var deg=counts[k]/total*360;
+    parts.push(hex[k]+' '+cum+'deg '+(cum+deg)+'deg');
+    cum+=deg;
+    legend+='<div class="donut-legend-item"><span class="donut-legend-dot" style="background:'+hex[k]+'"></span>'
+          +escHtml(tv(k))+' ('+bnNum(counts[k])+')</div>';
+  });
+  var severePct=Math.round((counts.Severe||0)/total*100);
+  el.innerHTML='<div class="donut" style="background:conic-gradient('+parts.join(',')+')">'
+    +'<div class="donut-center"><span class="donut-center-val">'+bnNum(severePct)+'%</span>'
+    +'<span class="donut-center-label">'+escHtml(tv('Severe'))+'</span></div></div>'
+    +'<div class="donut-legend">'+legend+'</div>';
+}
+
+// The Map nav item jumps to the band on the homepage rather than pretending to
+// be a route: there is no separate map page any more, and a nav link that goes
+// nowhere is worse than no nav link.
+function goToMap(){
+  var jump=function(){
+    var band=document.querySelector('.mapbg');
+    if(!band)return;
+    band.scrollIntoView({behavior:'smooth',block:'start'});
+    ensureMapData(renderDistrictMap);
+  };
+  if(document.getElementById('pg-home').classList.contains('active')) jump();
+  else { go('home'); setTimeout(jump,260); }
+}
+
+// ===== DISTRICT MAP =====
+// The 64 outlines are ~180KB, so they load when the band first scrolls into
+// view rather than on every page load.
+var mapLoaded=false,mapLoading=false;
+function ensureMapData(cb){
+  if(mapLoaded)return cb();
+  if(mapLoading)return;
+  mapLoading=true;
+  var sc=document.createElement('script');
+  sc.src='/map-data.js';
+  sc.onload=function(){mapLoaded=true;mapLoading=false;cb()};
+  sc.onerror=function(){mapLoading=false};
+  document.head.appendChild(sc);
+}
+
+function renderDistrictMap(){
+  var svg=document.getElementById('bdm');
+  if(!svg||!window.DAAG_DISTRICTS)return;
+  // Illustrative, like the rest of this page: the submissions table carries no
+  // district column, so there is nothing real to shade yet.
+  var HOT={'Dhaka':3,'Chittagong':2,'Khulna':1};
+  svg.innerHTML=window.DAAG_DISTRICTS.map(function(d){
+    var lv=HOT[d.n]||0;
+    return '<path class="mp'+(lv?' l'+lv:'')+'" d="'+d.d+'"><title>'+escHtml(currentLang()==='bn'?d.bn:d.n)+'</title></path>';
+  }).join('');
+}
+
+(function watchMapBand(){
+  var band=document.querySelector('.mapbg');
+  if(!band||!('IntersectionObserver' in window)){ensureMapData(renderDistrictMap);return}
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ ensureMapData(renderDistrictMap); io.disconnect(); } });
+  },{rootMargin:'200px'});
+  io.observe(band);
 })();
 
 // ===== THE BOARD =====
@@ -2953,7 +3095,7 @@ function renderArchive(){
     // titles and the archived comment - the only reason the archive exists -
     // never appeared anywhere on the page.
     g.innerHTML=toShow.map(function(e){
-      var sc=e.sev==='Severe'?'var(--accent)':e.sev==='High'?'#bf6d00':'var(--text3)';
+      var sevCls=e.sev==='Severe'?'b-sev-severe':e.sev==='High'?'b-sev-high':'b-sev-mod';
       var thumbHtml=e.screenshot
         ? '<button type="button" class="thumb thumb-wrap" onclick="event.stopPropagation();openScreenshot(\''+escHtml(e.screenshot)+'\')" aria-label="'+escHtml(t('arch.viewEvidence','Open the full screenshot'))+'"><img src="'+escHtml(e.screenshot)+'" alt="'+escHtml(t('arch.evidenceAlt','Screenshot of the archived comment')+': '+tv(e.cat)+', '+tv(e.inc)+', '+(e.profileName?prettyProfileName(e.profileName):t('arch.unnamed','profile not named')))+'" loading="lazy"><span class="thumb-label">'+escHtml(t('arch.view','View'))+'</span></button>'
         : '<div class="thumb">'+escHtml(t('arch.noShot','No screenshot'))+'</div>';
@@ -2990,7 +3132,7 @@ function renderArchive(){
           +'<div class="entry-meta">'+platformBadge(e.platform||'other')
             +'<span class="badge b-cr">'+escHtml(tv(e.cat))+'</span>'
             +'<span class="badge b-nv">'+escHtml(tv(e.inc))+'</span>'
-            +'<span class="badge b-gr" style="color:'+sc+'">'+escHtml(tv(e.sev))+'</span>'
+            +'<span class="badge b-sev '+sevCls+'">'+escHtml(tv(e.sev))+'</span>'
           +'</div>'
           +quote+trans+ctx+linksHtml
           +'<div class="entry-s">'+escHtml(e.id)+' &nbsp;&middot;&nbsp; '+tv('Archived')+' '+fmtDate(e.date)+' &nbsp;&middot;&nbsp; <span class="status s-ok">'+tv('Verified')+'</span> &nbsp;&middot;&nbsp; v'+bnNum(e.ver)+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">'+tv('Edited')+' '+fmtDate(e.lastEdit)+'</span>':'')+'</div>'
@@ -3042,11 +3184,12 @@ async function buildAnalytics(){
   bc.innerHTML='<div class="loading-block" style="width:100%"><div class="loading-spinner"></div></div>';
   var mData=[0,0,0,0,0,0,0,0,0,0,0,0];
   var catMap={},incMap={};
+  var sevCounts={Severe:0,High:0,Moderate:0};
 
   if(isLive()){
     try{
       // Fetch all approved submissions
-      var {data:allData,error}=await sb.from('public_entries').select('category,incident_type,created_at');
+      var {data:allData,error}=await sb.from('public_entries').select('category,incident_type,created_at,severity');
       var {data:statRow}=await sb.from('public_stats').select('*').single();
       var pendingCount=statRow?statRow.pending:0;
       var appealCount=statRow?statRow.open_appeals:0;
@@ -3081,6 +3224,8 @@ async function buildAnalytics(){
           catMap[cat]=(catMap[cat]||0)+1;
           var inc=r.incident_type||'Other';
           incMap[inc]=(incMap[inc]||0)+1;
+          var sev=r.severity||'Moderate';
+          sevCounts[sev]=(sevCounts[sev]||0)+1;
         });
       }
     }catch(e){console.warn('Supabase analytics fetch failed',e)}
@@ -3122,6 +3267,7 @@ async function buildAnalytics(){
   }
   buildList('catL',cats);
   buildList('incL',incs);
+  buildSevDonut(sevCounts);
 }
 
 // ===== PROFILE SEARCH =====
@@ -3207,13 +3353,13 @@ function renderProfileCard(p){
   var riskLabel=bnNum(p.totalEntries)+' '+t('dyn.pVerified','Verified Entries');
   var riskClass={high:'risk-high',moderate:'risk-mod',low:'risk-low'}[p.risk];
   var catBadges=p.categories.map(function(c){return'<span class="badge b-cr" style="font-size:9.5px">'+escHtml(tv(c))+'</span>'}).join(' ');
-  function sevColor(s){return s==='Severe'?'var(--accent)':s==='High'?'#bf6d00':'var(--text3)'}
+  function sevClass(s){return s==='Severe'?'b-sev-severe':s==='High'?'b-sev-high':'b-sev-mod'}
   var entries=p.entries.map(function(e){
     var peLinks=[];
     if(e.perpUrl) peLinks.push('<a class="entry-link" href="'+escHtml(safeUrl(e.perpUrl))+'" target="_blank" rel="noopener noreferrer">'+escHtml(platformLabel(e.plat||'other'))+' Profile &rarr;</a>');
     if(e.sourceUrl) peLinks.push('<a class="entry-link" href="'+escHtml(safeUrl(e.sourceUrl))+'" target="_blank" rel="noopener noreferrer">Source Post &rarr;</a>');
     var peLinksHtml=peLinks.length?'<div class="entry-links" style="margin:.45rem 0 0">'+peLinks.join('')+'</div>':'';
-    return'<div class="pe-item"><div class="pe-meta">'+platformBadge(e.plat||'other')+'<span class="badge b-cr">'+escHtml(tv(e.cat))+'</span><span class="badge b-nv">'+escHtml(tv(e.inc))+'</span><span class="badge b-gr" style="color:'+sevColor(e.sev)+'">'+escHtml(tv(e.sev))+'</span></div>'+(e.quote?'<blockquote class="entry-q pe-q">'+escHtml(e.quote)+'</blockquote>':'<div class="pe-text">'+escHtml(e.text)+'</div>')+peLinksHtml+'<div class="pe-date">'+tv('Archived')+' '+escHtml(fmtDate(e.date))+' &nbsp;&middot;&nbsp; <span class="status s-ok">'+tv('Verified')+'</span> &nbsp;&middot;&nbsp; v'+bnNum(e.ver)+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">'+tv('Edited')+' '+escHtml(fmtDate(e.lastEdit))+'</span>':'')+'</div></div>';
+    return'<div class="pe-item"><div class="pe-meta">'+platformBadge(e.plat||'other')+'<span class="badge b-cr">'+escHtml(tv(e.cat))+'</span><span class="badge b-nv">'+escHtml(tv(e.inc))+'</span><span class="badge b-sev '+sevClass(e.sev)+'">'+escHtml(tv(e.sev))+'</span></div>'+(e.quote?'<blockquote class="entry-q pe-q">'+escHtml(e.quote)+'</blockquote>':'<div class="pe-text">'+escHtml(e.text)+'</div>')+peLinksHtml+'<div class="pe-date">'+tv('Archived')+' '+escHtml(fmtDate(e.date))+' &nbsp;&middot;&nbsp; <span class="status s-ok">'+tv('Verified')+'</span> &nbsp;&middot;&nbsp; v'+bnNum(e.ver)+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">'+tv('Edited')+' '+escHtml(fmtDate(e.lastEdit))+'</span>':'')+'</div></div>';
   }).join('');
   return'<div class="profile-card"><div class="profile-card-head"><div class="profile-avatar">'+escHtml(p.initials)+'</div><div style="flex:1;min-width:0"><div class="profile-name">'+escHtml(p.name)+'</div><div class="profile-url">'+(p.url?'<a href="'+escHtml(safeUrl(p.url))+'" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none">'+escHtml(p.url)+' &rarr;</a>':'')+'</div><div style="margin-top:.5rem;display:flex;gap:.4rem;flex-wrap:wrap">'+platformBadge(p.platform||'other')+catBadges+'</div></div><span class="risk-pill '+riskClass+'">'+riskLabel+'</span></div><div class="profile-stats"><div class="p-stat"><div class="p-stat-n">'+bnNum(p.totalEntries)+'</div><div class="p-stat-l">'+t('dyn.pVerified','Verified Entries')+'</div></div><div class="p-stat"><div class="p-stat-n">'+bnNum(p.categories.length)+'</div><div class="p-stat-l">'+t('dyn.pCategories','Categories')+'</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(fmtDate(p.firstSeen))+'</div><div class="p-stat-l">'+t('dyn.pFirst','First Entry')+'</div></div><div class="p-stat"><div class="p-stat-n">'+escHtml(fmtDate(p.lastSeen))+'</div><div class="p-stat-l">'+t('dyn.pRecent','Most Recent')+'</div></div></div><div class="profile-entries"><div class="pe-title">'+t('dyn.pComments','Documented Comments')+' ('+p.entries.length+')</div>'+entries+'</div><div style="padding:1rem 1.75rem;border-top:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem"><div style="font-size:12px;color:var(--text3)">'+t('dyn.pInaccurate','Believe this record is inaccurate?')+'</div><a class="btn-g" style="font-size:12px;padding:.38rem 1rem;text-decoration:none" href="/appeals">'+t('dyn.pDispute','File a Dispute')+' &rarr;</a></div></div>';
 }
