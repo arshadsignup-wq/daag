@@ -1,0 +1,50 @@
+/* Shared tokens for the v2 explorations. Each page differs by ARCHITECTURE
+   and primary interaction, so the palette and type stay mostly common and the
+   comparison is about structure rather than paint. */
+@import url('https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+:root{
+  --ink:#121214; --ink2:#4a4a52; --ink3:#8a8a93;
+  --pg:#ffffff; --pg1:#f6f5f2; --pg2:#eceae5;
+  --line:#e4e2dd; --line2:#cdcac3;
+  --red:#c8202f; --red2:#9d1522; --amber:#c47d10; --green:#1d7a4e;
+  --sans:'Hind Siliguri',system-ui,sans-serif;
+  --disp:'Anek Bangla',system-ui,sans-serif;
+  --mono:'DM Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--pg);color:var(--ink);font-family:var(--sans);line-height:1.7;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit}
+input,button{font:inherit;color:inherit}
+.mono{font-family:var(--mono)}
+.disp{font-family:var(--disp)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 2rem}
+
+/* minimal shared chrome so each page is judged on its body, not its navbar */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+  padding:.8rem 2rem;border-bottom:1px solid var(--line);position:relative;z-index:50}
+.bar .lg{font-family:var(--disp);font-weight:800;font-size:19px;text-decoration:none;letter-spacing:-.01em}
+.bar .lg i{color:var(--red);font-style:normal}
+.bar nav{display:flex;gap:1.1rem;font-size:13px}
+.bar nav a{color:var(--ink2);text-decoration:none}
+.bar nav a:hover{color:var(--ink)}
+.bar .go{background:var(--red);color:#fff;text-decoration:none;font-size:12.5px;font-weight:600;
+  padding:.45rem 1rem;border-radius:999px;white-space:nowrap}
+
+.lbl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
+  border:1px solid var(--line2);padding:.15rem .5rem;color:var(--ink2);white-space:nowrap}
+.tag.sev{border-color:var(--red);color:var(--red)}
+
+/* v2 index strip, shown on every exploration for quick flipping */
+.flip{position:fixed;left:0;right:0;bottom:0;z-index:999;background:var(--ink);color:#fff;
+  display:flex;gap:.1rem;padding:.4rem .6rem;font-family:var(--mono);font-size:10.5px;
+  overflow-x:auto;align-items:center}
+.flip b{color:#8a8a93;font-weight:400;padding:0 .6rem 0 .2rem;white-space:nowrap}
+.flip a{color:#c9c9d0;text-decoration:none;padding:.3rem .55rem;border-radius:4px;white-space:nowrap}
+.flip a:hover{background:#26262c;color:#fff}
+.flip a.on{background:var(--red);color:#fff}
+body{padding-bottom:42px}
+@media(max-width:700px){.bar nav{display:none}}

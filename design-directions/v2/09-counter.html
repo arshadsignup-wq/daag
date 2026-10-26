@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>09 Counter — দাগ</title><link rel="stylesheet" href="_base.css">
+<style>
+/* ARCHITECTURE: one number is the entire page. Everything else is a caption
+   underneath it. The scale of the thing is the message, and the figure keeps
+   counting while you watch. */
+body{background:var(--pg)}
+.big{min-height:calc(100vh - 100px);display:flex;flex-direction:column;justify-content:center;
+  align-items:center;text-align:center;padding:2rem;position:relative;overflow:hidden}
+.big::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(760px 420px at 50% 32%,rgba(200,32,47,.07),transparent 72%)}
+.pre{position:relative;z-index:1;font-size:clamp(1rem,2.2vw,1.35rem);color:var(--ink2);max-width:30ch;margin:0 0 .4rem}
+.fig{position:relative;z-index:1;font-family:var(--disp);font-weight:800;
+  font-size:clamp(7rem,27vw,21rem);line-height:.82;letter-spacing:-.045em;color:var(--red);
+  font-variant-numeric:tabular-nums}
+.post{position:relative;z-index:1;font-size:clamp(1rem,2.2vw,1.35rem);color:var(--ink);max-width:34ch;
+  margin:.9rem 0 0;font-weight:500}
+.post b{color:var(--red)}
+.tick{position:relative;z-index:1;font-family:var(--mono);font-size:11px;color:var(--ink3);
+  margin-top:1.6rem;letter-spacing:.07em;display:flex;align-items:center;gap:.5rem}
+.tick i{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;
+  animation:pls 2.2s infinite}
+@keyframes pls{0%,100%{opacity:1}50%{opacity:.25}}
+.act{position:relative;z-index:1;display:flex;gap:.7rem;margin-top:2.2rem;flex-wrap:wrap;justify-content:center}
+.act a{text-decoration:none;font-size:14px;font-weight:600;padding:.75rem 1.6rem;border-radius:999px}
+.act .p{background:var(--ink);color:#fff}
+.act .s{border:1.5px solid var(--line2);color:var(--ink)}
+.act .s:hover{border-color:var(--ink)}
+
+.under{border-top:1px solid var(--line);background:var(--pg1)}
+.under-in{max-width:1240px;margin:0 auto;padding:2.2rem 2rem;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.6rem}
+.u b{display:block;font-family:var(--disp);font-weight:800;font-size:2.1rem;line-height:1}
+.u span{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink3)}
+.u p{margin:.45rem 0 0;font-size:13px;color:var(--ink2);line-height:1.6}
+.recent{border-top:1px solid var(--line);padding:1rem 2rem;max-width:1240px;margin:0 auto;
+  display:flex;gap:2rem;align-items:center;overflow:hidden;font-size:13px;color:var(--ink2)}
+.recent .lbl{flex-shrink:0}
+.recent q{white-space:nowrap}
+</style></head><body>
+
+<header class="bar">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<main class="big">
+  <p class="pre">নির্যাতনের খবরের নিচে লেখা</p>
+  <div class="fig" id="fig">০</div>
+  <p class="post">টি মন্তব্য যাচাই করে রেকর্ডে রাখা হয়েছে। <b>সবগুলো আসল।</b> সবগুলো প্রকাশ্যে লেখা।</p>
+  <div class="tick"><i></i> সর্বশেষ যুক্ত হয়েছে ২ ঘণ্টা আগে · ঢাকা</div>
+  <div class="act">
+    <a class="p" href="#">নাম দিয়ে খুঁজুন</a>
+    <a class="s" href="#">প্রমাণ জমা দিন</a>
+  </div>
+</main>
+
+<section class="under"><div class="under-in">
+  <div class="u"><b>১২</b><span>চিহ্নিত ব্যক্তি</span><p>প্রতিটি মন্তব্যের পেছনে একটি পাবলিক প্রোফাইল আছে, যা যাচাই করা হয়েছে।</p></div>
+  <div class="u"><b>৬</b><span>জেলা</span><p>ঢাকা থেকে খুলনা — যেখান থেকেই হোক, রেকর্ড একই জায়গায় থাকে।</p></div>
+  <div class="u"><b>৯৩%</b><span>যাচাইয়ে টিকেছে</span><p>বাকিগুলো বাতিল হয়েছে। প্রমাণ যথেষ্ট না হলে আমরা প্রকাশ করি না।</p></div>
+  <div class="u"><b>১৪</b><span>কর্মদিবসে আপিল</span><p>কোনো এন্ট্রি ভুল মনে হলে যে কেউ আপত্তি জানাতে পারেন।</p></div>
+</div></section>
+
+<div class="recent">
+  <span class="lbl">সর্বশেষ</span>
+  <q id="rq">"মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।"</q>
+</div>
+
+<script>
+var BN=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function bn(n){return String(n).replace(/[0-9]/g,function(d){return BN[+d]})}
+// counts up once on load, then ticks on so the figure is never static
+var fig=document.getElementById('fig'),target=25,cur=0;
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduce){fig.textContent=bn(target)}
+else{
+  var t0=null,dur=1500;
+  requestAnimationFrame(function step(ts){
+    if(!t0)t0=ts;
+    var p=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-p,3);
+    fig.textContent=bn(Math.round(target*e));
+    if(p<1)requestAnimationFrame(step);
+  });
+}
+var QS=['"মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।"',
+ '"এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।"',
+ '"এসব মেয়ের জন্য এটাই উপযুক্ত শাস্তি।"',
+ '"মেয়েমানুষ সাংবাদিকতা করতে এসেছে, ঘরে বসে থাক।"'];
+var qi=0,rq=document.getElementById('rq');
+if(!reduce)setInterval(function(){
+  qi=(qi+1)%QS.length;
+  rq.style.opacity=0;
+  setTimeout(function(){rq.textContent=QS[qi];rq.style.opacity=1},260);
+},4200);
+rq.style.transition='opacity .26s';
+</script>
+
+<div class="flip"><b>v2 · ১০টি কাঠামো</b>
+<a href="01-lookup.html">01 Lookup</a><a href="02-atlas.html">02 Atlas</a><a href="03-scrollytale.html">03 Scrollytale</a>
+<a href="04-wall.html">04 Wall</a><a href="05-split.html">05 Split</a><a href="06-timeline.html">06 Timeline</a>
+<a href="07-stack.html">07 Stack</a><a href="08-index.html">08 Index</a><a class="on" href="09-counter.html">09 Counter</a>
+<a href="10-terminal.html">10 Terminal</a></div>
+</body></html>

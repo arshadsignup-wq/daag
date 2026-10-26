@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>10 Terminal — দাগ</title><link rel="stylesheet" href="_base.css">
+<style>
+/* ARCHITECTURE: a query console. There is no page to read — you ask the
+   archive a question and it answers in place. Everything is one transcript
+   that grows downward, so the record itself is the interface. */
+body{background:#0d0f12;color:#d7dbe0;font-family:var(--mono);font-size:13.5px;padding-bottom:42px}
+.bar{background:#0d0f12;border-color:#1e2228}
+.bar .lg{color:#fff;font-family:var(--disp)}
+.bar nav a{color:#7c838d}.bar nav a:hover{color:#fff}
+.bar .go{background:#e8495c}
+.console{max-width:980px;margin:0 auto;padding:2rem 2rem 1rem;min-height:calc(100vh - 160px)}
+.greet{color:#7c838d;border-bottom:1px solid #1e2228;padding-bottom:1.2rem;margin-bottom:1.4rem}
+.greet b{color:#d7dbe0;font-weight:400;font-family:var(--disp);font-size:1.5rem;display:block;margin-bottom:.4rem}
+.greet .bn{font-family:var(--sans);font-size:14px;line-height:1.75;color:#949aa3;max-width:60ch;margin-top:.5rem}
+.ln{margin:0 0 .25rem;white-space:pre-wrap;word-break:break-word}
+.ln.cmd{color:#fff}
+.ln.cmd::before{content:'দাগ ❯ ';color:#e8495c}
+.ln.dim{color:#7c838d}
+.ln.ok{color:#5fd39b}
+.ln.warn{color:#e8b64c}
+.out{margin:.35rem 0 1.3rem;border-left:2px solid #1e2228;padding-left:1rem}
+.out .q{font-family:var(--sans);font-size:14.5px;color:#fff;line-height:1.6;margin:.5rem 0 .25rem}
+.out .meta{color:#7c838d;font-size:11.5px}
+.out table{width:100%;border-collapse:collapse;margin:.5rem 0}
+.out td{padding:.3rem .8rem .3rem 0;vertical-align:top;font-size:12.5px;border-bottom:1px solid #15181c}
+.out td:first-child{color:#e8495c;white-space:nowrap}
+.out td .bn{font-family:var(--sans)}
+.prompt{display:flex;align-items:center;gap:.5rem;border-top:1px solid #1e2228;padding:.9rem 0 0;position:sticky;bottom:42px;background:#0d0f12}
+.prompt span{color:#e8495c;flex-shrink:0}
+.prompt input{flex:1;background:transparent;border:0;outline:none;color:#fff;font-family:var(--sans);font-size:14.5px}
+.cursor{width:8px;height:16px;background:#e8495c;display:inline-block;animation:bl 1.1s steps(2) infinite}
+@keyframes bl{50%{opacity:0}}
+.chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.8rem}
+.chips button{background:transparent;border:1px solid #262b32;color:#949aa3;border-radius:999px;
+  padding:.3rem .8rem;font-family:var(--sans);font-size:12.5px;cursor:pointer}
+.chips button:hover{border-color:#e8495c;color:#e8495c}
+</style></head><body>
+
+<header class="bar">
+  <a class="lg" href="#">দা<i style="color:#e8495c;font-style:normal">গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<main class="console">
+  <div class="greet">
+    <b>দাগ · পাবলিক রেকর্ড কনসোল</b>
+    <div>২৫টি যাচাই করা এন্ট্রি · ১২ জন চিহ্নিত · ৬টি জেলা · সর্বশেষ হালনাগাদ ২৪.১০.২০২৬</div>
+    <p class="bn">নাম লিখে এন্টার চাপুন। কাউকে বিশ্বাস করার আগে দেখে নিন, সে আগে কী লিখেছে। আপনার সার্চ আমরা রাখি না।</p>
+  </div>
+
+  <div id="log"></div>
+
+  <form class="prompt" onsubmit="run();return false">
+    <span>দাগ ❯</span>
+    <input id="in" autocomplete="off" placeholder="নাম, জেলা বা ধরন লিখুন…" autofocus>
+  </form>
+
+  <div class="chips">
+    <button onclick="seed('রাকিব হাসান')">রাকিব হাসান</button>
+    <button onclick="seed('ঢাকা')">ঢাকা</button>
+    <button onclick="seed('হুমকি')">হুমকি</button>
+    <button onclick="seed('সাহায্য')">সাহায্য</button>
+  </div>
+</main>
+
+<script>
+var DB={
+ 'রাকিব হাসান':{t:'person',n:'রাকিব হাসান',d:'ঢাকা',c:3,rows:[
+   ['DG-2026-8351','মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।','ভিকটিমকে দোষারোপ · ১৩ অক্টো ২০২৬'],
+   ['DG-2026-7104','ওর পোশাক দেখলেই তো বোঝা যায়।','ভিকটিমকে দোষারোপ · ০৮ অক্টো ২০২৬'],
+   ['DG-2026-6611','মেয়েটার চরিত্র নিয়ে আগে খোঁজ নিন।','ভিকটিমকে দোষারোপ · ০৫ অক্টো ২০২৬']]},
+ 'ঢাকা':{t:'place',n:'ঢাকা',c:11,rows:[
+   ['DG-2026-8351','মেয়েটা অত রাতে বাইরে কী করছিল…','রাকিব হাসান · ১৩ অক্টো'],
+   ['DG-2026-7720','এসব খবর সাজানো, বিশ্বাস করবেন না।','মিজানুর রহমান · ১১ অক্টো'],
+   ['DG-2026-7104','ওর পোশাক দেখলেই তো বোঝা যায়।','রাকিব হাসান · ০৮ অক্টো']]},
+ 'হুমকি':{t:'cat',n:'হুমকি',c:4,rows:[
+   ['DG-2026-4959','এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।','শাহরিয়ার মনির · চট্টগ্রাম'],
+   ['DG-2026-2240','বিচার না হলে আমরাই দেখে নেব।','রুবেল মিয়া · রংপুর']]}
+};
+var log=document.getElementById('log'),inp=document.getElementById('in');
+function line(cls,txt){var d=document.createElement('p');d.className='ln '+cls;d.textContent=txt;log.appendChild(d);return d}
+function out(html){var d=document.createElement('div');d.className='out';d.innerHTML=html;log.appendChild(d);return d}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+
+function run(){
+  var v=inp.value.trim(); if(!v)return;
+  inp.value='';
+  line('cmd',v);
+
+  if(v==='সাহায্য'||v==='help'){
+    out('<p class="meta">যা লিখতে পারেন:</p><table>'+
+      '<tr><td>একটি নাম</td><td class="bn">ওই ব্যক্তির সব যাচাই করা এন্ট্রি</td></tr>'+
+      '<tr><td>একটি জেলা</td><td class="bn">ওই জেলার এন্ট্রি</td></tr>'+
+      '<tr><td>একটি ধরন</td><td class="bn">যেমন হুমকি, নারীবিদ্বেষ</td></tr>'+
+      '<tr><td>জমা</td><td class="bn">নতুন প্রমাণ পাঠানোর নিয়ম</td></tr></table>');
+    scroll(); return;
+  }
+  if(v==='জমা'){
+    line('dim','লিংক + স্ক্রিনশট + কী ঘটেছে → একজন মডারেটর ৩-৫ কর্মদিবসে যাচাই করেন।');
+    line('ok','→ প্রমাণ জমা দিন');
+    scroll(); return;
+  }
+
+  var hit=null;
+  for(var k in DB){ if(k.indexOf(v)>-1||v.indexOf(k)>-1){hit=DB[k];break} }
+  if(!hit){
+    line('warn','কোনো যাচাই করা এন্ট্রি পাওয়া যায়নি: "'+v+'"');
+    line('dim','এর মানে এই নয় যে কিছু লেখা হয়নি — কেবল কেউ এখনও প্রমাণ পাঠায়নি বা তা যাচাই হয়নি।');
+    scroll(); return;
+  }
+  line('ok','✓ '+hit.c+'টি যাচাই করা এন্ট্রি পাওয়া গেছে'+(hit.d?' · '+hit.d:''));
+  out('<table>'+hit.rows.map(function(r){
+    return '<tr><td>'+r[0]+'</td><td><span class="bn">'+esc(r[1])+'</span>'+
+      '<div class="meta">'+r[2]+'</div></td></tr>';
+  }).join('')+'</table>'+
+   (hit.c>hit.rows.length?'<p class="meta">'+hit.rows.length+'টি দেখানো হচ্ছে, মোট '+hit.c+'টি।</p>':''));
+  scroll();
+}
+function seed(v){inp.value=v;run();inp.focus()}
+function scroll(){window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}
+</script>
+
+<div class="flip"><b>v2 · ১০টি কাঠামো</b>
+<a href="01-lookup.html">01 Lookup</a><a href="02-atlas.html">02 Atlas</a><a href="03-scrollytale.html">03 Scrollytale</a>
+<a href="04-wall.html">04 Wall</a><a href="05-split.html">05 Split</a><a href="06-timeline.html">06 Timeline</a>
+<a href="07-stack.html">07 Stack</a><a href="08-index.html">08 Index</a><a href="09-counter.html">09 Counter</a>
+<a class="on" href="10-terminal.html">10 Terminal</a></div>
+</body></html>

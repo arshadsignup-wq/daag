@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>08 Index — দাগ</title><link rel="stylesheet" href="_base.css">
+<style>
+/* ARCHITECTURE: the back-of-book index. No cards, no images, no hero image —
+   the landing page is a dense typographic index of every name, category and
+   district, with dot leaders and counts. Browsing replaces searching. */
+body{background:#fbfaf7}
+.masthead{padding:2.6rem 2rem 1.6rem;max-width:1240px;margin:0 auto;
+  display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:end;border-bottom:2px solid var(--ink)}
+.masthead h1{font-family:var(--disp);font-weight:800;font-size:clamp(1.9rem,4.2vw,3.1rem);
+  line-height:1.08;margin:.5rem 0 .6rem;letter-spacing:-.025em;max-width:16ch}
+.masthead p{margin:0;color:var(--ink2);font-size:14.5px;max-width:46ch}
+.jump{display:flex;gap:.25rem;flex-wrap:wrap;max-width:240px;justify-content:flex-end}
+.jump a{font-family:var(--disp);font-weight:600;font-size:14px;width:26px;height:26px;display:grid;
+  place-items:center;text-decoration:none;color:var(--ink2);border-radius:4px}
+.jump a:hover{background:var(--ink);color:#fff}
+.cols{max-width:1240px;margin:0 auto;padding:1.8rem 2rem 3rem;
+  column-count:3;column-gap:2.6rem;column-rule:1px solid var(--line)}
+.grp{break-inside:avoid;margin-bottom:1.6rem}
+.grp h2{font-family:var(--disp);font-weight:800;font-size:1.6rem;margin:0 0 .3rem;
+  border-bottom:1px solid var(--line2);padding-bottom:.2rem;letter-spacing:-.01em}
+.grp .sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:.5rem}
+.ent{display:flex;align-items:baseline;gap:.35rem;font-size:13.5px;padding:.16rem 0;cursor:pointer}
+.ent:hover .nm{color:var(--red)}
+.ent .nm{white-space:nowrap}
+.ent .dots{flex:1;border-bottom:1px dotted var(--line2);transform:translateY(-3px)}
+.ent .n{font-family:var(--mono);font-size:11.5px;color:var(--ink2)}
+.ent.big .nm{font-weight:600}
+.ent.big .n{color:var(--red)}
+.sect{break-inside:avoid;margin:0 0 1.6rem;padding-top:.2rem}
+.sect h3{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink3);margin:0 0 .5rem;border-bottom:1px solid var(--line);padding-bottom:.3rem}
+.find{position:sticky;top:0;z-index:40;background:#fbfaf7;border-bottom:1px solid var(--line);
+  padding:.7rem 2rem;display:flex;align-items:center;gap:.8rem}
+.find input{flex:1;max-width:460px;border:0;border-bottom:1.5px solid var(--ink);outline:none;
+  background:transparent;padding:.35rem 0;font-size:14.5px;font-family:var(--sans)}
+.find .c{font-family:var(--mono);font-size:10.5px;color:var(--ink3);margin-left:auto}
+@media(max-width:1000px){.cols{column-count:2}}
+@media(max-width:680px){.cols{column-count:1}.masthead{grid-template-columns:1fr}.jump{justify-content:flex-start;max-width:none}}
+</style></head><body>
+
+<header class="bar">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<section class="masthead">
+  <div>
+    <div class="lbl">নামের সূচি · সংস্করণ ২০২৬.১০</div>
+    <h1>পুরো রেকর্ডটা এক পাতায়।</h1>
+    <p>খুঁজতে না জানলেও চলবে। নাম, ধরন বা জেলা — যেটা দিয়ে শুরু করতে চান, সেখান থেকেই শুরু করুন।</p>
+  </div>
+  <nav class="jump" aria-label="অক্ষর">
+    <a href="#">অ</a><a href="#">আ</a><a href="#">ক</a><a href="#">খ</a><a href="#">গ</a><a href="#">ত</a>
+    <a href="#">ন</a><a href="#">ম</a><a href="#">র</a><a href="#">শ</a><a href="#">স</a><a href="#">হ</a>
+  </nav>
+</section>
+
+<div class="find">
+  <input placeholder="সূচিতে খুঁজুন…" oninput="filt(this.value)">
+  <span class="c" id="count">২৫টি এন্ট্রি · ১২ জন · ৮টি ধরন · ৬টি জেলা</span>
+</div>
+
+<main class="cols" id="cols">
+  <div class="grp">
+    <h2>ক</h2><div class="sub">চিহ্নিত ব্যক্তি</div>
+    <div class="ent"><span class="nm">কামরুল ইসলাম</span><span class="dots"></span><span class="n">১</span></div>
+    <div class="ent"><span class="nm">কায়সার আহমেদ</span><span class="dots"></span><span class="n">১</span></div>
+  </div>
+  <div class="grp">
+    <h2>ত</h2><div class="sub">চিহ্নিত ব্যক্তি</div>
+    <div class="ent"><span class="nm">তানভীর আলম</span><span class="dots"></span><span class="n">১</span></div>
+    <div class="ent"><span class="nm">তৌহিদ হাসান</span><span class="dots"></span><span class="n">১</span></div>
+  </div>
+  <div class="grp">
+    <h2>ম</h2><div class="sub">চিহ্নিত ব্যক্তি</div>
+    <div class="ent"><span class="nm">মাহফুজ রহমান</span><span class="dots"></span><span class="n">১</span></div>
+    <div class="ent"><span class="nm">মিজানুর রহমান</span><span class="dots"></span><span class="n">১</span></div>
+    <div class="ent"><span class="nm">মোস্তাফিজ করিম</span><span class="dots"></span><span class="n">২</span></div>
+  </div>
+  <div class="grp">
+    <h2>র</h2><div class="sub">চিহ্নিত ব্যক্তি</div>
+    <div class="ent big"><span class="nm">রাকিব হাসান</span><span class="dots"></span><span class="n">৩</span></div>
+    <div class="ent"><span class="nm">রুবেল মিয়া</span><span class="dots"></span><span class="n">১</span></div>
+  </div>
+  <div class="grp">
+    <h2>শ</h2><div class="sub">চিহ্নিত ব্যক্তি</div>
+    <div class="ent big"><span class="nm">শাহরিয়ার মনির</span><span class="dots"></span><span class="n">২</span></div>
+    <div class="ent"><span class="nm">শফিকুল ইসলাম</span><span class="dots"></span><span class="n">১</span></div>
+  </div>
+  <div class="grp">
+    <h2>হ</h2><div class="sub">চিহ্নিত ব্যক্তি</div>
+    <div class="ent"><span class="nm">হাসিবুর রহমান</span><span class="dots"></span><span class="n">১</span></div>
+  </div>
+
+  <div class="sect">
+    <h3>মন্তব্যের ধরন</h3>
+    <div class="ent big"><span class="nm">ভিকটিমকে দোষারোপ</span><span class="dots"></span><span class="n">৯</span></div>
+    <div class="ent"><span class="nm">নারীবিদ্বেষ</span><span class="dots"></span><span class="n">৬</span></div>
+    <div class="ent"><span class="nm">হুমকি</span><span class="dots"></span><span class="n">৪</span></div>
+    <div class="ent"><span class="nm">অমানবিক ভাষা</span><span class="dots"></span><span class="n">৩</span></div>
+    <div class="ent"><span class="nm">সহিংস বক্তব্য</span><span class="dots"></span><span class="n">২</span></div>
+    <div class="ent"><span class="nm">চেহারা নিয়ে অবমাননা</span><span class="dots"></span><span class="n">১</span></div>
+  </div>
+
+  <div class="sect">
+    <h3>জেলা</h3>
+    <div class="ent big"><span class="nm">ঢাকা</span><span class="dots"></span><span class="n">১১</span></div>
+    <div class="ent"><span class="nm">চট্টগ্রাম</span><span class="dots"></span><span class="n">৫</span></div>
+    <div class="ent"><span class="nm">খুলনা</span><span class="dots"></span><span class="n">৩</span></div>
+    <div class="ent"><span class="nm">সিলেট</span><span class="dots"></span><span class="n">৩</span></div>
+    <div class="ent"><span class="nm">রাজশাহী</span><span class="dots"></span><span class="n">২</span></div>
+    <div class="ent"><span class="nm">বরিশাল</span><span class="dots"></span><span class="n">১</span></div>
+  </div>
+
+  <div class="sect">
+    <h3>ঘটনার ধরন</h3>
+    <div class="ent"><span class="nm">ধর্ষণ / যৌন সহিংসতা</span><span class="dots"></span><span class="n">১২</span></div>
+    <div class="ent"><span class="nm">সাইবার হয়রানি</span><span class="dots"></span><span class="n">৬</span></div>
+    <div class="ent"><span class="nm">পারিবারিক সহিংসতা</span><span class="dots"></span><span class="n">৪</span></div>
+    <div class="ent"><span class="nm">অ্যাসিড সহিংসতা</span><span class="dots"></span><span class="n">৩</span></div>
+  </div>
+
+  <div class="sect">
+    <h3>প্ল্যাটফর্ম</h3>
+    <div class="ent"><span class="nm">ফেসবুক</span><span class="dots"></span><span class="n">২০</span></div>
+    <div class="ent"><span class="nm">ইউটিউব</span><span class="dots"></span><span class="n">৩</span></div>
+    <div class="ent"><span class="nm">টিকটক</span><span class="dots"></span><span class="n">২</span></div>
+  </div>
+</main>
+
+<script>
+function filt(v){
+  v=v.trim();
+  document.querySelectorAll('#cols .ent').forEach(function(e){
+    e.style.display = !v || e.querySelector('.nm').textContent.indexOf(v)>-1 ? '' : 'none';
+  });
+  document.querySelectorAll('#cols .grp,#cols .sect').forEach(function(g){
+    var any=[].slice.call(g.querySelectorAll('.ent')).some(function(e){return e.style.display!=='none'});
+    g.style.display=any?'':'none';
+  });
+}
+</script>
+
+<div class="flip"><b>v2 · ১০টি কাঠামো</b>
+<a href="01-lookup.html">01 Lookup</a><a href="02-atlas.html">02 Atlas</a><a href="03-scrollytale.html">03 Scrollytale</a>
+<a href="04-wall.html">04 Wall</a><a href="05-split.html">05 Split</a><a href="06-timeline.html">06 Timeline</a>
+<a href="07-stack.html">07 Stack</a><a class="on" href="08-index.html">08 Index</a><a href="09-counter.html">09 Counter</a>
+<a href="10-terminal.html">10 Terminal</a></div>
+</body></html>

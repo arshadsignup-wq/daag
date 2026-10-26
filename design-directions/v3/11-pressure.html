@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>11 চাপ — Pressure</title><link rel="stylesheet" href="_b.css">
+<style>
+/* THE MOMENT: the pile-on made physical. One sentence sits alone and readable.
+   As you scroll, more arrive — crowding in from both edges, squeezing the
+   first line thinner and thinner until it is nearly crushed. You feel the
+   weight of four hundred comments instead of being told the number. */
+body{font-family:var(--sans);line-height:1.6;color:#111;background:#f1efeb;overflow-x:hidden}
+.top{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;gap:2rem;
+  position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(241,239,235,.9);
+  backdrop-filter:blur(10px);border-bottom:1px solid #ddd9d2}
+.lg{font-family:var(--fat);font-weight:800;font-size:21px;text-decoration:none;color:#111}
+.lg i{font-style:normal;color:#cf1f26}
+.top nav{display:flex;gap:1.2rem;font-size:13px}.top nav a{color:#6b665e;text-decoration:none}
+.go{background:#cf1f26;color:#fff;text-decoration:none;font-size:12.5px;font-weight:600;
+  padding:.5rem 1.1rem;border-radius:999px}
+
+.open{min-height:100vh;display:grid;place-items:center;text-align:center;padding:5rem 2rem 2rem}
+.open .kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:#cf1f26;margin-bottom:1.3rem}
+.open h1{font-family:var(--fat);font-weight:800;font-size:clamp(2.2rem,6vw,4.2rem);line-height:.98;
+  margin:0 0 1rem;letter-spacing:-.035em;max-width:14ch}
+.open p{color:#5d584f;max-width:42ch;margin:0 auto;font-size:15.5px}
+.open .dn{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:#a39d93;margin-top:3rem}
+
+/* the squeeze */
+.squeeze{height:430vh;position:relative}
+.stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.core{position:relative;z-index:5;max-width:min(760px,86vw);text-align:center;
+  transition:transform .12s linear}
+.core q{display:block;font-family:var(--ser);font-size:clamp(1.3rem,3.4vw,2.4rem);line-height:1.45;
+  margin:0 0 .9rem}
+.core .id{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;color:#cf1f26}
+.swarm{position:absolute;inset:0;z-index:2;pointer-events:none}
+.sw{position:absolute;font-size:13px;line-height:1.4;color:#7a736a;background:#e5e1da;
+  border-radius:12px;padding:.45rem .75rem;max-width:230px;opacity:0;
+  transition:opacity .4s,transform .4s;will-change:transform}
+.sw.on{opacity:1}
+.count{position:absolute;bottom:2.4rem;left:50%;transform:translateX(-50%);z-index:6;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:#a39d93}
+.count b{color:#cf1f26;font-weight:400;font-size:15px}
+
+.after{min-height:92vh;display:grid;place-items:center;text-align:center;padding:4rem 2rem}
+.after h2{font-family:var(--fat);font-weight:800;font-size:clamp(1.8rem,4.8vw,3.2rem);line-height:1.05;
+  margin:0 0 1rem;letter-spacing:-.03em;max-width:17ch}
+.after h2 em{font-style:normal;color:#cf1f26}
+.after p{color:#5d584f;max-width:40ch;margin:0 auto 2rem}
+.f{display:flex;max-width:460px;margin:0 auto;border:2px solid #111;border-radius:999px;
+  overflow:hidden;background:#fff}
+.f input{flex:1;border:0;outline:none;padding:.8rem 1.3rem;font-size:15px}
+.f button{border:0;background:#111;color:#fff;font-weight:600;padding:0 1.5rem;cursor:pointer;font-size:14px}
+@media(prefers-reduced-motion:reduce){.squeeze{height:auto}.stick{position:static;height:auto;padding:4rem 0}
+  .sw{opacity:1!important;position:relative;display:inline-block;margin:.3rem}}
+</style></head><body>
+
+<header class="top">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<section class="open"><div>
+  <div class="kick">একটা মন্তব্য · তারপর চারশো</div>
+  <h1>সংখ্যাটা শুনলে কিছু বোঝা যায় না।</h1>
+  <p>"৪১৭টি মন্তব্য" লিখলে সেটা স্রেফ একটা সংখ্যা। স্ক্রল করে দেখুন সেটা আসলে কেমন লাগে।</p>
+  <div class="dn">↓ স্ক্রল করুন</div>
+</div></section>
+
+<section class="squeeze" id="sq">
+  <div class="stick">
+    <div class="swarm" id="swarm"></div>
+    <div class="core" id="core">
+      <q>মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q>
+      <div class="id">DG-2026-8351 · ঢাকা · যাচাইকৃত</div>
+    </div>
+    <div class="count">মন্তব্য <b id="cnt">১</b></div>
+  </div>
+</section>
+
+<section class="after"><div>
+  <h2>আমরা এর ভেতর থেকে <em>চারটে তুলে রাখি।</em></h2>
+  <p>বাকিগুলো যাচাইয়ে টেকে না। যেগুলো টেকে, সেগুলো আর হারায় না।</p>
+  <form class="f" onsubmit="return false">
+    <input placeholder="নাম, ফেসবুক লিংক বা ইউজারনেম"><button>যাচাই করুন</button>
+  </form>
+</div></section>
+
+<script>
+var TX=['মেয়েটারই দোষ','এসব সাজানো','ওর পোশাক দেখুন','নাটক করছে','এত রাতে কী?',
+ 'টাকার জন্য','চরিত্র খারাপ','নাম ঠিকানা বের করব','এটাই শাস্তি','আমি চিনি ওকে',
+ 'ছবি দিলে বুঝতাম','বিচার না হলে দেখে নেব','ঘরে বসে থাক','মেয়েমানুষ','কে বিশ্বাস করে'];
+var swarm=document.getElementById('swarm'),core=document.getElementById('core'),
+    cnt=document.getElementById('cnt'),sq=document.getElementById('sq');
+var BN=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function bn(n){return String(n).replace(/[0-9]/g,function(d){return BN[+d]})}
+var N=54,items=[];
+for(var i=0;i<N;i++){
+  var d=document.createElement('div');
+  d.className='sw';d.textContent=TX[i%TX.length];
+  var left=i%2===0;
+  var y=4+Math.random()*88;
+  d.style.top=y+'%';
+  d.style[left?'left':'right']='0';
+  swarm.appendChild(d);
+  items.push({el:d,left:left,depth:.25+Math.random()*.75,order:Math.random()});
+}
+items.sort(function(a,b){return a.order-b.order});
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function tick(){
+  if(reduce)return;
+  var r=sq.getBoundingClientRect();
+  var p=Math.min(1,Math.max(0,-r.top/(r.height-innerHeight)));
+  items.forEach(function(it,i){
+    var start=i/N*.82;
+    var k=Math.min(1,Math.max(0,(p-start)/.18));
+    it.el.classList.toggle('on',k>0);
+    // travels inward from its edge as the reader scrolls
+    var travel=(1-k)*(52+it.depth*46);
+    it.el.style.transform='translateX('+(it.left?-travel:travel)+'vw)';
+  });
+  // the original sentence is physically compressed by the crowd
+  var squash=1-p*.78;
+  core.style.transform='scaleX('+Math.max(.22,squash)+')';
+  cnt.textContent=bn(Math.round(1+p*416));
+}
+addEventListener('scroll',tick,{passive:true});addEventListener('resize',tick);tick();
+</script>
+
+<div class="flip"><b>v3</b><a href="01-stain.html">01 দাগ</a><a href="02-indelible.html">02 মোছা যায় না</a><a href="03-redacted.html">03 কালো কালি</a><a href="04-thread.html">04 থ্রেড</a><a href="05-receipt.html">05 রসিদ</a><a href="06-board.html">06 তদন্ত বোর্ড</a><a href="07-hand.html">07 হাতের লেখা</a><a href="08-mirror.html">08 আয়না</a><a href="09-kantha.html">09 কাঁথা</a><a href="10-wall.html">10 দেয়াল</a><a class="on" href="11-pressure.html">11 চাপ</a><a href="12-exhibit.html">12 প্রমাণ</a></div>
+</body></html>

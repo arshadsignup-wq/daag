@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_base.css">
+<style>
+  /* Profile picture: 1024x1024, displayed as a circle.
+     Everything sits inside the centre 72% so the circle crop never clips it. */
+  .stage{width:1024px;height:1024px;display:flex;align-items:center;justify-content:center;background:var(--ink)}
+  .wash{position:absolute;inset:0;background:radial-gradient(circle at 50% 38%,#B3243A 0%,#9E1C2C 46%,#7A1520 100%)}
+  .grid{background-image:radial-gradient(circle,rgba(255,255,255,.07) 1px,transparent 1px);background-size:64px 64px}
+  .inner{position:relative;transform:translateY(30px);display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .bn{font-family:'Playfair Display',serif;font-weight:700;font-size:400px;line-height:.86;color:#fff}
+  .en{font-family:'DM Mono',monospace;font-weight:500;font-size:46px;letter-spacing:.42em;
+      color:rgba(255,255,255,.72);margin-top:26px;text-transform:uppercase;text-indent:.42em}
+</style></head><body>
+<div class="stage">
+  <div class="wash"></div><div class="grid"></div>
+  <div class="inner"><div class="bn">দাগ</div><div class="en">Daag</div></div>
+</div></body></html>

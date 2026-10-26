@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>02 Atlas — দাগ</title><link rel="stylesheet" href="_base.css">
+<style>
+/* ARCHITECTURE: the map is not a sub-page, it IS the landing page. Full-bleed,
+   dark, with everything else floating over it as glass panels. */
+body{background:#0a0d13;color:#e9ecf3;padding-bottom:42px}
+.bar{background:rgba(10,13,19,.75);backdrop-filter:blur(14px);border-color:rgba(255,255,255,.08)}
+.bar nav a{color:#9aa4b4}.bar nav a:hover{color:#fff}
+.bar .lg{color:#fff}
+.atlas{position:relative;height:calc(100vh - 100px);min-height:560px;overflow:hidden}
+.atlas svg{position:absolute;inset:0;width:100%;height:100%}
+.d{fill:#19202c;stroke:#0a0d13;stroke-width:1;transition:fill .2s}
+.d:hover{fill:#3a4558;cursor:pointer}
+.d.h1{fill:rgba(232,73,92,.38)}.d.h2{fill:rgba(232,73,92,.72)}.d.h3{fill:#f2596b}
+.d.sel{fill:#fff}
+.glass{position:absolute;background:rgba(14,18,26,.82);backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:1.3rem 1.5rem}
+.lead{top:2.2rem;left:2.2rem;max-width:400px}
+.lead h1{font-family:var(--disp);font-weight:800;font-size:clamp(1.7rem,3.2vw,2.5rem);
+  line-height:1.12;margin:.7rem 0 .7rem;letter-spacing:-.02em}
+.lead h1 i{font-style:normal;color:#f2596b}
+.lead p{font-size:13.5px;color:#9aa4b4;margin:0 0 1.1rem}
+.lead .f{display:flex;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+  border-radius:999px;padding:.3rem .3rem .3rem 1rem}
+.lead input{flex:1;background:transparent;border:0;outline:none;color:#fff;font-size:13.5px}
+.lead button{border:0;border-radius:999px;background:#e8495c;color:#fff;font-weight:600;
+  font-size:12.5px;padding:.5rem 1.1rem;cursor:pointer}
+.side{top:2.2rem;right:2.2rem;width:290px;max-height:calc(100% - 4.4rem);overflow:auto}
+.side h3{font-family:var(--disp);font-size:1.15rem;margin:0;font-weight:700}
+.side .dv{font-family:var(--mono);font-size:10.5px;color:#737d90;margin-bottom:.9rem}
+.e{border-top:1px solid rgba(255,255,255,.09);padding:.75rem 0}
+.e q{display:block;font-size:13px;line-height:1.5;color:#cfd5e0}
+.e .m{font-family:var(--mono);font-size:10px;color:#737d90;margin-top:.35rem}
+.bl{bottom:2.2rem;left:2.2rem;display:flex;gap:1.6rem;padding:.9rem 1.4rem}
+.bl div b{display:block;font-family:var(--mono);font-size:1.5rem;line-height:1}
+.bl div span{font-size:10.5px;color:#737d90}
+.key{bottom:2.2rem;right:2.2rem;display:flex;gap:.9rem;font-family:var(--mono);font-size:10px;
+  color:#737d90;padding:.6rem 1rem;align-items:center}
+.key i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:.3rem;vertical-align:-1px}
+@media(max-width:1000px){.side,.key{display:none}.lead{right:2.2rem;max-width:none}}
+</style></head><body>
+
+<header class="bar">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<main class="atlas">
+  <svg id="map" viewBox="0 0 1000 1180" preserveAspectRatio="xMidYMid meet"></svg>
+
+  <section class="glass lead">
+    <div class="lbl" style="color:#f2596b">৬৪ জেলার রেকর্ড</div>
+    <h1>আপনার জেলায় <i>কে কী লিখেছে?</i></h1>
+    <p>যেকোনো জেলায় চাপ দিন। ওই এলাকায় যাচাই করা সব মন্তব্য, কে লিখেছে আর কবে — সব দেখতে পাবেন।</p>
+    <form class="f" onsubmit="return false">
+      <input placeholder="নাম বা জেলা"><button>যাচাই</button>
+    </form>
+  </section>
+
+  <aside class="glass side" id="side">
+    <div class="lbl">জেলা নির্বাচন করুন</div>
+    <p style="font-size:13px;color:#9aa4b4;margin:.6rem 0 0">মানচিত্রে যেকোনো জেলায় চাপ দিলে সেখানকার এন্ট্রিগুলো এখানে আসবে।</p>
+  </aside>
+
+  <div class="glass bl">
+    <div><b>২৫</b><span>এন্ট্রি</span></div>
+    <div><b>১২</b><span>চিহ্নিত</span></div>
+    <div><b>৩</b><span>জেলা</span></div>
+  </div>
+
+  <div class="glass key">
+    <span><i style="background:#19202c"></i>নেই</span>
+    <span><i style="background:rgba(232,73,92,.38)"></i>১-২</span>
+    <span><i style="background:rgba(232,73,92,.72)"></i>৩-৫</span>
+    <span><i style="background:#f2596b"></i>৬+</span>
+  </div>
+</main>
+
+<script src="/map-data.js"></script>
+<script>
+var HOT={'Dhaka':3,'Chittagong':2,'Khulna':1};
+var ENT={
+ 'Dhaka':[{q:'মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।',m:'DG-2026-8351 · ফেসবুক · ১৩ অক্টো'},
+          {q:'এসব খবর বানানো, বিশ্বাস করবেন না।',m:'DG-2026-7720 · ফেসবুক · ১১ অক্টো'},
+          {q:'ওর পোশাক দেখলেই বোঝা যায়।',m:'DG-2026-7104 · ফেসবুক · ০৮ অক্টো'}],
+ 'Chittagong':[{q:'এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।',m:'DG-2026-4959 · ফেসবুক · ১২ অক্টো'},
+               {q:'মেয়েমানুষ বাইরে গেলে এমনই হয়।',m:'DG-2026-4412 · ফেসবুক · ০৬ অক্টো'}],
+ 'Khulna':[{q:'এসব মেয়ের জন্য এটাই উপযুক্ত শাস্তি।',m:'DG-2026-2699 · ইউটিউব · ০৯ অক্টো'}]
+};
+var svg=document.getElementById('map'),side=document.getElementById('side'),sel=null;
+function draw(){
+  if(!window.DAAG_DISTRICTS){side.innerHTML='<div class="lbl">মানচিত্র লোড হয়নি</div>';return}
+  svg.innerHTML=window.DAAG_DISTRICTS.map(function(d){
+    var lv=HOT[d.n]||0;
+    return '<path class="d'+(lv?' h'+lv:'')+(sel===d.n?' sel':'')+'" d="'+d.d+'" data-n="'+d.n+'" data-bn="'+d.bn+'"><title>'+d.bn+'</title></path>';
+  }).join('');
+}
+svg.addEventListener('click',function(ev){
+  var p=ev.target.closest('path'); if(!p)return;
+  sel=p.getAttribute('data-n'); var bn=p.getAttribute('data-bn');
+  draw();
+  var list=ENT[sel]||[];
+  side.innerHTML='<div class="lbl">নির্বাচিত জেলা</div><h3>'+bn+'</h3>'+
+    '<div class="dv">'+(list.length?list.length+'টি যাচাই করা এন্ট্রি':'কোনো এন্ট্রি নেই')+'</div>'+
+    list.map(function(e){return '<div class="e"><q>'+e.q+'</q><div class="m">'+e.m+'</div></div>'}).join('');
+});
+draw();
+</script>
+
+<div class="flip"><b>v2 · ১০টি কাঠামো</b>
+<a href="01-lookup.html">01 Lookup</a><a class="on" href="02-atlas.html">02 Atlas</a><a href="03-scrollytale.html">03 Scrollytale</a>
+<a href="04-wall.html">04 Wall</a><a href="05-split.html">05 Split</a><a href="06-timeline.html">06 Timeline</a>
+<a href="07-stack.html">07 Stack</a><a href="08-index.html">08 Index</a><a href="09-counter.html">09 Counter</a>
+<a href="10-terminal.html">10 Terminal</a></div>
+</body></html>

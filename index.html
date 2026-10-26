@@ -839,25 +839,6 @@ html[data-theme="dark"] .bub.red{background:#4a2420;border-color:#7a3a30;color:#
 .donut-empty{font-size:13px;color:var(--text3);padding:1.5rem 0}
 @media(max-width:560px){.donut-wrap{gap:1.2rem}.donut{width:120px;height:120px}}
 
-/* The district band. Dark, between the erase demo and the policy memo, so the
-   page breathes before the memo's bright sheet. */
-.mapbg{position:relative;z-index:3;background:#241f1a;color:#efe9e0;
-  background-image:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(200,35,26,.14),transparent 70%)}
-.mapbg .h2{color:#fdfaf2}
-.mapbg .sub2{color:#c3b8a8}
-.mapwrap{position:relative;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.1);
-  border-radius:4px;padding:1.4rem}
-.mapwrap svg{width:100%;height:min(62vh,540px);display:block}
-.mp{fill:#3a3430;stroke:#241f1a;stroke-width:1;transition:fill .25s}
-.mp.l1{fill:rgba(200,35,26,.42)}
-.mp.l2{fill:rgba(200,35,26,.72)}
-.mp.l3{fill:#e0362f}
-.mlegend{display:flex;gap:1.1rem;flex-wrap:wrap;margin-top:1.1rem;
-  font-family:var(--font-mono);font-size:10px;color:#8d8276}
-.mlegend i{width:10px;height:10px;border-radius:2px;display:inline-block;
-  margin-right:.35rem;vertical-align:-1px}
-@media(max-width:560px){.mapwrap{padding:.9rem}.mapwrap svg{height:46vh}}
-
 /* ===== BOARD SECTIONS =====
    The rest of design-directions/v3/06-board.html: the stepper, the
    rub-to-erase slab, the policy memo, the helpline band and the footer.
@@ -1034,7 +1015,6 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
     <button class="nav-hamburger" onclick="toggleMobileNav()" data-i18n-aria="Toggle navigation menu" aria-label="Toggle navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
       <a class="nav-link" data-page="archive" href="/archive" data-i18n="nav.archive"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="12" height="3.2" rx="1"/><path d="M3.2 6.2V13h9.6V6.2M6.5 9h3"/></svg><span>Archive</span></a>
-      <a class="nav-link" href="/#map" data-i18n="nav.map" onclick="event.preventDefault();goToMap()"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 14s4.5-4.2 4.5-7.4A4.5 4.5 0 0 0 8 2.1a4.5 4.5 0 0 0-4.5 4.5C3.5 9.8 8 14 8 14Z"/><circle cx="8" cy="6.5" r="1.6"/></svg><span>Map</span></a>
       <a class="nav-link" data-page="search" href="/search" data-i18n="nav.search"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="4.3"/><path d="M10.2 10.2 13.6 13.6"/></svg><span>Profile Search</span></a>
       <a class="nav-link" data-page="analytics" href="/analytics" data-i18n="nav.analytics"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.6 13.4h10.8M4.8 11V7.2M8 11V3.4M11.2 11V8.6"/></svg><span>Analytics</span></a>
       <a class="nav-link" data-page="appeals" href="/appeals" data-i18n="nav.appeals"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="5.6"/><path d="M8 5.2v3.4M8 10.6v.1"/></svg><span>Appeals</span></a>
@@ -1139,23 +1119,6 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 
 
   <!-- ===== 4 · THE RULE ===== -->
-  <!-- ===== BY DISTRICT ===== -->
-  <section class="mapbg"><div class="wrapx">
-    <div class="eyebrow" data-i18n="map.eye">By district</div>
-    <h2 class="h2" data-i18n="map.h2">How many entries, <em>and where</em></h2>
-    <p class="sub2" data-i18n="map.sub">Search by district name to see only the entries recorded there. Three districts have come up so far. The rest are empty, nobody has sent anything in from them yet.</p>
-    <div class="mapwrap">
-      <svg id="bdm" viewBox="0 0 1000 1180" preserveAspectRatio="xMidYMid meet"
-           role="img" data-i18n-aria="District map of Bangladesh" aria-label="District map of Bangladesh"></svg>
-      <div class="mlegend">
-        <span><i style="background:#3a3430"></i><span data-i18n="map.lg0">None</span></span>
-        <span><i style="background:rgba(200,35,26,.42)"></i>1&ndash;2</span>
-        <span><i style="background:rgba(200,35,26,.72)"></i>3&ndash;5</span>
-        <span><i style="background:#e0362f"></i>6+</span>
-      </div>
-    </div>
-  </div></section>
-
   <section class="sheetbg band-3"><div class="wrapx">
     <div class="memo">
       <div class="mh"><span data-i18n="memo.k">Daag · Policy</span><span data-i18n="memo.v">Version 2026.10</span></div>
@@ -1793,7 +1756,6 @@ function animateNum(el,target,suffix){
 // source of truth for it and the dictionary can never drift out of sync.
 var BN={
   'nav.archive':'আর্কাইভ',
-  'nav.map':'ম্যাপ',
   'arch.advFilter':'বিস্তারিত ছাঁকনি',
   'arch.perpProfile':'অভিযুক্তের প্রোফাইল',
   'arch.unnamed':'নাম পাওয়া যায়নি',
@@ -1803,10 +1765,6 @@ var BN={
   'arch.viewEvidence':'পুরো স্ক্রিনশট খুলুন',
   'arch.evidenceAlt':'নথিভুক্ত মন্তব্যের স্ক্রিনশট',
   'arch.noShot':'স্ক্রিনশট নেই',
-  'map.eye':'জেলাভিত্তিক',
-  'map.h2':'কোন জেলায় <em>কত নথি</em>',
-  'map.sub':'জেলার নাম ধরে খুঁজলে ওই এলাকার নথিগুলো আলাদা করে দেখা যায়। এ পর্যন্ত নাম উঠেছে তিনটি জেলার। বাকিগুলো ফাঁকা, সেখান থেকে এখনো কেউ কিছু পাঠাননি।',
-  'map.lg0':'নেই',
   'analytics.sevTitle':'মাত্রা অনুযায়ী',
   'up.ready':'পাঠানোর জন্য প্রস্তুত',
   'an.rejected':'{n}% বাতিল বা একই জিনিস',
@@ -2281,7 +2239,6 @@ var BN={
 // database and must stay that way - they are the archive's vocabulary and the
 // moderation console writes them. Only the label shown to a reader is swapped.
 var ARIA_BN={
-  'District map of Bangladesh':'বাংলাদেশের জেলাভিত্তিক মানচিত্র',
   'Main navigation':'প্রধান মেনু',
   'Toggle navigation menu':'মেনু খুলুন বা বন্ধ করুন',
   'Switch to light mode':'লাইট মোডে যান',
@@ -2668,56 +2625,6 @@ function buildSevDonut(counts){
     +'<span class="donut-center-label">'+escHtml(tv('Severe'))+'</span></div></div>'
     +'<div class="donut-legend">'+legend+'</div>';
 }
-
-// The Map nav item jumps to the band on the homepage rather than pretending to
-// be a route: there is no separate map page any more, and a nav link that goes
-// nowhere is worse than no nav link.
-function goToMap(){
-  var jump=function(){
-    var band=document.querySelector('.mapbg');
-    if(!band)return;
-    band.scrollIntoView({behavior:'smooth',block:'start'});
-    ensureMapData(renderDistrictMap);
-  };
-  if(document.getElementById('pg-home').classList.contains('active')) jump();
-  else { go('home'); setTimeout(jump,260); }
-}
-
-// ===== DISTRICT MAP =====
-// The 64 outlines are ~180KB, so they load when the band first scrolls into
-// view rather than on every page load.
-var mapLoaded=false,mapLoading=false;
-function ensureMapData(cb){
-  if(mapLoaded)return cb();
-  if(mapLoading)return;
-  mapLoading=true;
-  var sc=document.createElement('script');
-  sc.src='/map-data.js';
-  sc.onload=function(){mapLoaded=true;mapLoading=false;cb()};
-  sc.onerror=function(){mapLoading=false};
-  document.head.appendChild(sc);
-}
-
-function renderDistrictMap(){
-  var svg=document.getElementById('bdm');
-  if(!svg||!window.DAAG_DISTRICTS)return;
-  // Illustrative, like the rest of this page: the submissions table carries no
-  // district column, so there is nothing real to shade yet.
-  var HOT={'Dhaka':3,'Chittagong':2,'Khulna':1};
-  svg.innerHTML=window.DAAG_DISTRICTS.map(function(d){
-    var lv=HOT[d.n]||0;
-    return '<path class="mp'+(lv?' l'+lv:'')+'" d="'+d.d+'"><title>'+escHtml(currentLang()==='bn'?d.bn:d.n)+'</title></path>';
-  }).join('');
-}
-
-(function watchMapBand(){
-  var band=document.querySelector('.mapbg');
-  if(!band||!('IntersectionObserver' in window)){ensureMapData(renderDistrictMap);return}
-  var io=new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting){ ensureMapData(renderDistrictMap); io.disconnect(); } });
-  },{rootMargin:'200px'});
-  io.observe(band);
-})();
 
 // ===== THE BOARD =====
 // Pins four real approved entries around the anonymised subject and runs red

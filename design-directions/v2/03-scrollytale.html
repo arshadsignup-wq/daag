@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>03 Scrollytale — দাগ</title><link rel="stylesheet" href="_base.css">
+<style>
+/* ARCHITECTURE: no hero and no list. The page is a single scrolled narrative
+   with a pinned graphic that changes state as the text steps past it. */
+.open{min-height:72vh;display:grid;place-items:center;text-align:center;padding:3rem 2rem}
+.open h1{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,5.4vw,4rem);line-height:1.08;
+  margin:.8rem 0 1rem;max-width:16ch;letter-spacing:-.025em}
+.open p{color:var(--ink2);max-width:46ch;margin:0 auto;font-size:15.5px}
+.open .scrolldown{margin-top:2.5rem;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink3);animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(6px);opacity:1}}
+
+.scrolly{display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:1240px;margin:0 auto;padding:0 2rem}
+.sticky{position:sticky;top:90px;height:calc(100vh - 160px);display:flex;align-items:center;justify-content:center}
+.viz{width:100%;max-width:420px;aspect-ratio:1/1;position:relative}
+/* one post, then the pile-on, then the three we keep */
+.post{position:absolute;inset:0;border:2px solid var(--ink);border-radius:14px;background:var(--pg);
+  padding:1.1rem;display:flex;flex-direction:column;gap:.6rem;transition:transform .6s,opacity .6s}
+.post .ph{height:9px;background:var(--pg2);border-radius:4px}
+.post .ph.w70{width:70%}.post .ph.w45{width:45%}.post .ph.w85{width:85%}
+.post .hd{font-family:var(--disp);font-weight:700;font-size:15px;line-height:1.4;margin-bottom:.2rem}
+.bub{position:absolute;background:var(--pg1);border:1px solid var(--line2);border-radius:10px;
+  padding:.4rem .7rem;font-size:11.5px;opacity:0;transform:scale(.7);transition:opacity .5s,transform .5s;max-width:170px;line-height:1.4}
+.bub.red{background:#fdeaec;border-color:#f3b9bf;color:var(--red2)}
+.steps div:nth-child(n){}
+.step{min-height:86vh;display:flex;flex-direction:column;justify-content:center;padding:2rem 0}
+.step .n{font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:.14em;margin-bottom:.7rem}
+.step h2{font-family:var(--disp);font-weight:700;font-size:clamp(1.4rem,2.8vw,2.1rem);line-height:1.25;
+  margin:0 0 .8rem;letter-spacing:-.015em}
+.step p{color:var(--ink2);font-size:15px;margin:0;max-width:44ch}
+.end{text-align:center;padding:5rem 2rem 4rem;border-top:1px solid var(--line);margin-top:3rem}
+.end h2{font-family:var(--disp);font-weight:800;font-size:clamp(1.6rem,3.6vw,2.6rem);margin:0 0 1rem;line-height:1.15}
+.end .f{display:flex;max-width:520px;margin:0 auto;border:2px solid var(--ink);border-radius:999px;overflow:hidden}
+.end input{flex:1;border:0;outline:none;padding:.85rem 1.3rem;font-size:15px}
+.end button{border:0;background:var(--ink);color:#fff;font-weight:600;padding:0 1.6rem;cursor:pointer}
+@media(max-width:900px){.scrolly{grid-template-columns:1fr}.sticky{height:52vh;top:70px}}
+</style></head><body>
+
+<header class="bar">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<section class="open">
+  <div>
+    <div class="lbl">একটি ঘটনা, ধাপে ধাপে</div>
+    <h1>একটা খবর। চারশো মন্তব্য। তিনটে থেকে যায়।</h1>
+    <p>দাগ কীভাবে কাজ করে, সেটা বলার চেয়ে দেখানো সহজ। স্ক্রল করুন।</p>
+    <div class="scrolldown">↓ স্ক্রল করুন</div>
+  </div>
+</section>
+
+<div class="scrolly">
+  <div class="sticky">
+    <div class="viz" id="viz">
+      <div class="post" id="post">
+        <div class="hd" id="ptitle">একটি নির্যাতনের সংবাদ প্রকাশিত হলো</div>
+        <div class="ph w85"></div><div class="ph w70"></div><div class="ph w45"></div>
+        <div style="flex:1"></div>
+        <div class="lbl" id="pfoot">পাবলিক পোস্ট · ১৩ অক্টোবর ২০২৬</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <section class="step" data-s="1">
+      <div class="n">০১</div>
+      <h2>একটি খবর প্রকাশ পায়</h2>
+      <p>একজন নারী নির্যাতনের শিকার হয়েছেন। সংবাদমাধ্যম খবরটি দেয়। পোস্টটি পাবলিক, যে কেউ পড়তে পারেন।</p>
+    </section>
+    <section class="step" data-s="2">
+      <div class="n">০২</div>
+      <h2>কমেন্টের ঘর ভরে ওঠে</h2>
+      <p>কয়েক ঘণ্টায় চারশোর বেশি মন্তব্য। বেশির ভাগ সহানুভূতির। কিছু নয় — দোষ চাপানো, গালি, হুমকি। সবই নিজের নামে, প্রকাশ্যে।</p>
+    </section>
+    <section class="step" data-s="3">
+      <div class="n">০৩</div>
+      <h2>কেউ একজন স্ক্রিনশট পাঠান</h2>
+      <p>পরিচয় গোপন রেখে যে কেউ লিংক আর স্ক্রিনশট পাঠাতে পারেন। দুই মিনিটের কাজ।</p>
+    </section>
+    <section class="step" data-s="4">
+      <div class="n">০৪</div>
+      <h2>একজন মানুষ যাচাই করেন</h2>
+      <p>কোনো বট নয়। মডারেটর লিংক খোলেন, স্ক্রিনশট সম্পাদনা করা হয়েছে কি না দেখেন, তারপর সিদ্ধান্ত নেন। বেশির ভাগ জমা বাতিল হয়।</p>
+    </section>
+    <section class="step" data-s="5">
+      <div class="n">০৫</div>
+      <h2>তিনটি থেকে যায়</h2>
+      <p>পোস্টটি হয়তো মুছে ফেলা হয়েছে। মন্তব্যকারী হয়তো অ্যাকাউন্ট বদলেছেন। কিন্তু যা লেখা হয়েছিল, তা রেকর্ডে থেকে যায়।</p>
+    </section>
+  </div>
+</div>
+
+<section class="end">
+  <h2>এবার নামটা লিখুন।</h2>
+  <form class="f" onsubmit="return false"><input placeholder="নাম, ফেসবুক লিংক বা ইউজারনেম"><button>যাচাই করুন</button></form>
+</section>
+
+<script>
+var viz=document.getElementById('viz'),pt=document.getElementById('ptitle'),pf=document.getElementById('pfoot');
+var COPY={
+ 1:['একটি নির্যাতনের সংবাদ প্রকাশিত হলো','পাবলিক পোস্ট · ১৩ অক্টোবর ২০২৬'],
+ 2:['৪১৭টি মন্তব্য','তার মধ্যে কিছু আপত্তিকর'],
+ 3:['স্ক্রিনশট জমা পড়ল','পরিচয় গোপন · ৩টি জমা'],
+ 4:['যাচাই চলছে','একজন মডারেটর দেখছেন'],
+ 5:['৩টি এন্ট্রি রেকর্ডে গেল','যাচাইকৃত · স্থায়ী']
+};
+var BUBS=[{t:'মেয়েটারই দোষ',x:'4%',y:'8%',r:1},{t:'এসব সাজানো',x:'62%',y:'3%',r:0},
+ {t:'নাম ঠিকানা বের করব',x:'0%',y:'74%',r:1},{t:'ভয়ংকর খবর',x:'66%',y:'82%',r:0},
+ {t:'ওর পোশাক দেখুন',x:'70%',y:'44%',r:1},{t:'বিচার চাই',x:'-6%',y:'40%',r:0}];
+BUBS.forEach(function(b,i){
+  var d=document.createElement('div');
+  d.className='bub'+(b.r?' red':'');d.textContent=b.t;
+  d.style.left=b.x;d.style.top=b.y;d.dataset.r=b.r;d.style.transitionDelay=(i*60)+'ms';
+  viz.appendChild(d);
+});
+function setStep(s){
+  pt.textContent=COPY[s][0];pf.textContent=COPY[s][1];
+  var bs=viz.querySelectorAll('.bub');
+  bs.forEach(function(b){
+    var red=b.dataset.r==='1';
+    var show = s===2 ? true : (s>=3 ? red : false);
+    b.style.opacity=show?'1':'0';
+    b.style.transform=show?'scale(1)':'scale(.7)';
+  });
+  var p=document.getElementById('post');
+  p.style.transform = s>=4 ? 'scale(.86)' : 'scale(1)';
+  p.style.opacity = s===5 ? '.35' : '1';
+}
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting) setStep(+e.target.dataset.s) });
+},{rootMargin:'-45% 0px -45% 0px'});
+document.querySelectorAll('.step').forEach(function(s){io.observe(s)});
+setStep(1);
+</script>
+
+<div class="flip"><b>v2 · ১০টি কাঠামো</b>
+<a href="01-lookup.html">01 Lookup</a><a href="02-atlas.html">02 Atlas</a><a class="on" href="03-scrollytale.html">03 Scrollytale</a>
+<a href="04-wall.html">04 Wall</a><a href="05-split.html">05 Split</a><a href="06-timeline.html">06 Timeline</a>
+<a href="07-stack.html">07 Stack</a><a href="08-index.html">08 Index</a><a href="09-counter.html">09 Counter</a>
+<a href="10-terminal.html">10 Terminal</a></div>
+</body></html>

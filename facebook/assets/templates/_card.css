@@ -1,0 +1,24 @@
+/* Shared chrome for 1080x1080 post cards. Import after _base.css. */
+.stage{width:1080px;height:1080px;display:flex;flex-direction:column;padding:78px 84px}
+.inkbar{width:8px}
+.ghost{font-size:560px;right:-70px;bottom:-150px;color:rgba(158,28,44,.055)}
+
+.head{position:relative;display:flex;align-items:center;gap:15px}
+.mark{width:44px;height:44px;border-radius:5px;background:var(--ink);display:flex;align-items:center;
+      justify-content:center;font-family:'Noto Sans Bengali',serif;font-weight:500;font-size:21px;color:#fff}
+.nm{font-family:'Playfair Display',serif;font-weight:700;font-size:27px;color:var(--warm);letter-spacing:.03em}
+
+.body{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 0}
+
+.kicker{font-family:'DM Mono',monospace;font-size:15px;letter-spacing:.3em;text-transform:uppercase;
+        color:var(--accent);margin-bottom:34px}
+.h1{font-family:'Playfair Display',serif;font-weight:700;font-size:72px;line-height:1.16;color:var(--warm)}
+.h2{font-family:'Playfair Display',serif;font-size:50px;line-height:1.28;color:var(--warm)}
+.lead{font-size:28px;line-height:1.6;color:var(--muted);margin-top:30px;max-width:830px}
+.bn{font-family:'Noto Sans Bengali',sans-serif;font-size:27px;line-height:1.7;color:var(--muted);margin-top:24px;max-width:840px}
+.rule{width:84px;height:2px;background:var(--ink);margin:34px 0}
+
+.foot{position:relative;border-top:1px solid #1F1F25;padding-top:26px;display:flex;
+      justify-content:space-between;align-items:center;font-family:'DM Mono',monospace;
+      font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.foot .accent{color:var(--accent)}

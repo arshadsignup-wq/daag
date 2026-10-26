@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="bn" data-dir="e">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Direction E — Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pg:#fcfbf8;--ink:#15161a;--ink2:#4c4f57;--ink3:#8b8f98;
+  --rule:#e2e0da;--rule2:#c9c6be;--amb:#b8730b;--red:#b3202c;--grn:#1f7a4d;
+  --mono:'DM Mono',monospace;--sans:'Hind Siliguri',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--pg);color:var(--ink);font-family:var(--mono);font-size:13px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.bn{font-family:var(--sans)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 1.75rem}
+
+/* header */
+.top{border-bottom:1px solid var(--ink);padding:.7rem 0;font-size:11px;letter-spacing:.06em;display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;color:var(--ink2)}
+.top b{color:var(--grn);font-weight:400}
+.head{border-bottom:1px solid var(--rule2);padding:1.5rem 0}
+.head-in{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;flex-wrap:wrap}
+.mark{font-family:var(--sans);font-size:1.5rem;font-weight:600;letter-spacing:-.01em;line-height:1.1}
+.mark span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:400;margin-top:.25rem}
+.nv{display:flex;gap:.1rem;flex-wrap:wrap}
+.nv a{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);text-decoration:none;padding:.35rem .75rem;border:1px solid transparent}
+.nv a:hover,.nv a.on{border-color:var(--rule2);color:var(--ink);background:#fff}
+
+/* statement */
+.stmt{padding:2.6rem 0;border-bottom:1px solid var(--rule)}
+.stmt h1{font-family:var(--sans);font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:600;line-height:1.3;margin:0 0 .9rem;max-width:22ch;letter-spacing:-.015em}
+.stmt h1 u{text-decoration:none;border-bottom:3px solid var(--red)}
+.stmt p{font-family:var(--sans);font-size:14.5px;color:var(--ink2);max-width:62ch;margin:0 0 1.6rem;line-height:1.75}
+.q{display:flex;border:1px solid var(--ink);background:#fff;max-width:560px}
+.q input{flex:1;border:0;outline:none;background:transparent;padding:.75rem .9rem;font-family:var(--sans);font-size:14px}
+.q button{border:0;border-left:1px solid var(--ink);background:var(--ink);color:var(--pg);font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:0 1.3rem;cursor:pointer}
+.q button:hover{background:var(--red)}
+
+/* summary bar */
+.sum{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--rule2)}
+.sum div{padding:1rem 1rem 1rem 0;border-right:1px solid var(--rule)}
+.sum div:last-child{border:0}
+.sum dt{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin:0 0 .3rem}
+.sum dd{margin:0;font-size:1.45rem;font-weight:500;line-height:1}
+.sum .up{color:var(--grn);font-size:10px;letter-spacing:.06em;margin-left:.4rem}
+
+/* controls */
+.ctl{display:flex;gap:.4rem;flex-wrap:wrap;padding:1.1rem 0;border-bottom:1px solid var(--rule);font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+.ctl span{color:var(--ink3);padding:.3rem .2rem .3rem 0}
+.ctl a{color:var(--ink2);text-decoration:none;padding:.3rem .7rem;border:1px solid var(--rule2)}
+.ctl a.on{background:var(--ink);color:var(--pg);border-color:var(--ink)}
+
+/* the ledger */
+.lh,.lr{display:grid;grid-template-columns:116px 1fr 120px 96px 104px 92px;gap:1rem;align-items:start}
+.lh{padding:.7rem 0;border-bottom:1px solid var(--ink);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3)}
+.lr{padding:.95rem 0;border-bottom:1px solid var(--rule);transition:background .15s}
+.lr:hover{background:#fff}
+.lr .id{color:var(--red)}
+.lr .txt{font-family:var(--sans);font-size:13.5px;line-height:1.55}
+.lr .txt q{display:block;color:var(--ink2);font-size:12.5px;margin-top:.3rem}
+.lr .st{font-size:11px}
+.st.ok::before{content:'●';color:var(--grn);margin-right:.35rem;font-size:9px}
+.st.rev::before{content:'●';color:var(--amb);margin-right:.35rem;font-size:9px}
+.sev{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--red);color:var(--red);padding:.1rem .45rem;display:inline-block}
+.more{padding:1.4rem 0;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3)}
+.more a{color:var(--red);text-decoration:none;border-bottom:1px solid currentColor}
+footer{border-top:1px solid var(--ink);margin-top:1rem;padding:1.6rem 0 3rem;font-size:10.5px;letter-spacing:.07em;color:var(--ink3);display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+@media(max-width:900px){.sum{grid-template-columns:repeat(2,1fr)}.lh{display:none}
+  .lr{grid-template-columns:1fr;gap:.35rem;padding:1.1rem 0}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top">
+    <span><b>●</b> লাইভ · সর্বশেষ যাচাই ২ ঘণ্টা আগে</span>
+    <span>মোট নথি ২৫ · এই সপ্তাহে +৪ · আপিল ১টি বিচারাধীন</span>
+    <span>সর্বশেষ হালনাগাদ ২৪.১০.২০২৬ ০৯:১২</span>
+  </div>
+
+  <header class="head"><div class="head-in">
+    <div class="mark bn">দাগ<span>অনলাইন হয়রানির পাবলিক রেকর্ড</span></div>
+    <nav class="nv">
+      <a href="#" class="on">লেজার</a><a href="#">জেলা</a><a href="#">ধরন</a><a href="#">বিশ্লেষণ</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a><a href="#">প্রমাণ দিন</a>
+    </nav>
+  </div></header>
+
+  <section class="stmt">
+    <h1 class="bn">কে কী লিখেছে, সব <u>এখানে লেখা আছে।</u></h1>
+    <p class="bn">ধর্ষণ বা নির্যাতনের খবর এলে কেউ লেখে "মেয়েটারই দোষ", কেউ গালি দেয়, কেউ হুমকি পাঠায়। দাগ সেই মন্তব্যগুলো প্রমাণসহ জমা রাখে। কাউকে বিশ্বাস করার আগে দেখে নিন, সে আগে কী লিখেছে।</p>
+    <form class="q" onsubmit="return false">
+      <input class="bn" placeholder="নাম, ফেসবুক লিংক বা ইউজারনেম">
+      <button>যাচাই</button>
+    </form>
+  </section>
+
+  <dl class="sum">
+    <div><dt>নথিভুক্ত</dt><dd>২৫<span class="up">+৪</span></dd></div>
+    <div><dt>চিহ্নিত ব্যক্তি</dt><dd>১২</dd></div>
+    <div><dt>যাচাই চলছে</dt><dd>২</dd></div>
+    <div><dt>আপিল</dt><dd>১</dd></div>
+    <div><dt>যাচাইয়ে টিকেছে</dt><dd>৯৩%</dd></div>
+  </dl>
+
+  <nav class="ctl">
+    <span>ছাঁকুন:</span>
+    <a href="#" class="on">সব</a><a href="#">ভিকটিমকে দোষারোপ</a><a href="#">নারীবিদ্বেষ</a><a href="#">হুমকি</a><a href="#">অমানবিক ভাষা</a><a href="#">এই সপ্তাহে</a>
+  </nav>
+
+  <div class="lh">
+    <div>নথি নম্বর</div><div>মন্তব্য</div><div>ধরন</div><div>জেলা</div><div>তারিখ</div><div>অবস্থা</div>
+  </div>
+
+  <div class="lr">
+    <div class="id">DG-2026-8351</div>
+    <div class="txt">ধর্ষণের খবরে ভিকটিমকে দোষারোপ<q>মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q></div>
+    <div class="bn st">ভিকটিমকে দোষারোপ<br><span class="sev">অতি গুরুতর</span></div>
+    <div class="bn st">ঢাকা</div>
+    <div class="st">১৩.১০.২৬</div>
+    <div class="st ok bn">যাচাইকৃত</div>
+  </div>
+
+  <div class="lr">
+    <div class="id">DG-2026-4959</div>
+    <div class="txt">নির্যাতনের সংবাদে হুমকিমূলক মন্তব্য<q>এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।</q></div>
+    <div class="bn st">হুমকি<br><span class="sev">অতি গুরুতর</span></div>
+    <div class="bn st">চট্টগ্রাম</div>
+    <div class="st">১২.১০.২৬</div>
+    <div class="st rev bn">আপিল চলছে</div>
+  </div>
+
+  <div class="lr">
+    <div class="id">DG-2026-2699</div>
+    <div class="txt">অ্যাসিড সহিংসতার খবরে অবমাননাকর ভাষা<q>এসব মেয়ের জন্য এটাই উপযুক্ত শাস্তি।</q></div>
+    <div class="bn st">অমানবিক ভাষা<br><span class="sev">অতি গুরুতর</span></div>
+    <div class="bn st">খুলনা</div>
+    <div class="st">০৯.১০.২৬</div>
+    <div class="st ok bn">যাচাইকৃত</div>
+  </div>
+
+  <div class="lr">
+    <div class="id">DG-2026-3963</div>
+    <div class="txt">সাংবাদিকের পোস্টে নারীবিদ্বেষী আক্রমণ<q>মেয়েমানুষ সাংবাদিকতা করতে এসেছে, ঘরে বসে থাক।</q></div>
+    <div class="bn st">নারীবিদ্বেষ<br><span class="sev">গুরুতর</span></div>
+    <div class="bn st">সিলেট</div>
+    <div class="st">০৭.১০.২৬</div>
+    <div class="st ok bn">যাচাইকৃত</div>
+  </div>
+
+  <div class="more bn">২৫টির মধ্যে ৪টি দেখানো হচ্ছে · <a href="#">সব দেখুন →</a></div>
+</div>
+
+<footer><div class="wrap" style="display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;width:100%">
+  <span class="bn">দাগ · রেকর্ড, অস্ত্র নয়</span>
+  <span class="bn">জরুরি হেল্পলাইন ৯৯৯ · নারী ও শিশু ১০৯ · সাইবার ০১৩২০-০০০৮৮৮</span>
+</div></footer>
+</body>
+</html>

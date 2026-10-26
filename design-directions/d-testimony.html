@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="bn" data-dir="d">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Direction D — Testimony</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&family=Hind+Siliguri:wght@400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bone:#f6f4ef;--ink:#1b1917;--ink2:#514c45;--ink3:#8d867c;
+  --rule:#ddd7cc;--ox:#8c1c24;
+  --mono:'DM Mono',monospace;--sans:'Hind Siliguri',system-ui,sans-serif;--ser:'Tiro Bangla',Georgia,serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bone);color:var(--ink);font-family:var(--sans);line-height:1.75;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 2rem}
+.narrow{max-width:760px;margin:0 auto}
+
+nav{padding:1.6rem 0;position:sticky;top:0;background:rgba(246,244,239,.9);backdrop-filter:blur(10px);z-index:10}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:2rem}
+.lg{font-family:var(--ser);font-size:21px;text-decoration:none;color:var(--ink);letter-spacing:.01em}
+.lg b{color:var(--ox)}
+.nv{display:flex;gap:1.5rem;font-size:13px}
+.nv a{color:var(--ink2);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px}
+.nv a:hover{border-color:var(--ox);color:var(--ink)}
+
+/* opening */
+.open{padding:5rem 0 3rem;text-align:center}
+.open .eye{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:2.5rem}
+.open h1{font-family:var(--ser);font-weight:400;font-size:clamp(1.9rem,3.6vw,2.9rem);line-height:1.5;margin:0 auto 2rem;max-width:20ch;letter-spacing:-.005em}
+.open h1 em{font-style:italic;color:var(--ox)}
+.open p{font-size:15.5px;color:var(--ink2);max-width:56ch;margin:0 auto 2.5rem}
+.find{display:flex;max-width:520px;margin:0 auto;border-bottom:1.5px solid var(--ink);padding-bottom:.4rem}
+.find input{flex:1;border:0;background:transparent;font-family:var(--sans);font-size:15px;outline:none;color:var(--ink);padding:.4rem 0}
+.find button{border:0;background:transparent;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ox);cursor:pointer}
+
+/* the wall of words */
+.wall{padding:3.5rem 0 1rem}
+.wall-h{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);text-align:center;margin-bottom:3rem}
+.said{padding:3.2rem 0;border-top:1px solid var(--rule)}
+.said:first-of-type{border-top:0}
+.said blockquote{font-family:var(--ser);font-size:clamp(1.35rem,2.8vw,2rem);line-height:1.52;margin:0 0 1.5rem;letter-spacing:-.005em}
+.said blockquote::before{content:'\201C';color:var(--ox);margin-right:.08em}
+.said blockquote::after{content:'\201D';color:var(--ox)}
+.said .who{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:baseline;font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.04em}
+.said .who b{color:var(--ox);font-weight:400}
+.said .ctx{font-size:13.5px;color:var(--ink2);margin-top:.9rem;max-width:62ch;font-style:italic;font-family:var(--ser)}
+.said:hover blockquote{color:var(--ox);transition:color .3s}
+
+/* quiet stats */
+.quiet{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin-top:3rem;padding:2.2rem 0;display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;text-align:center}
+.q{flex:1;min-width:120px}
+.q b{display:block;font-family:var(--ser);font-size:2rem;line-height:1}
+.q span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+
+.close{padding:3.5rem 0 1rem;text-align:center}
+.close p{font-family:var(--ser);font-size:1.15rem;line-height:1.7;color:var(--ink2);max-width:46ch;margin:0 auto 1.6rem}
+.btn{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--ink);padding:.8rem 1.8rem;text-decoration:none;color:var(--ink)}
+.btn:hover{background:var(--ink);color:var(--bone)}
+footer{padding:3rem 0;font-family:var(--mono);font-size:10.5px;color:var(--ink3);letter-spacing:.06em;text-align:center}
+@media(max-width:700px){.open{padding-top:3rem}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap nav-in">
+  <a class="lg" href="#"><b>দাগ</b> · যা বলা হয়েছিল</a>
+  <div class="nv"><a href="#">রেকর্ড</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a><a href="#">প্রমাণ দিন</a></div>
+</div></nav>
+
+<div class="wrap">
+  <header class="open">
+    <div class="eye">অনলাইন হয়রানির পাবলিক রেকর্ড · বাংলাদেশ</div>
+    <h1>তারা মুছে ফেলেছে।<br><em>আমরা রেখে দিয়েছি।</em></h1>
+    <p>প্রতিটি লেখা নিচে আসল। কেউ একজন সত্যিই এটি লিখেছিলেন, নিজের নামে, প্রকাশ্যে, একটি নির্যাতনের খবরের নিচে। কাউকে বিশ্বাস করার আগে দেখে নিন, সে আগে কী লিখেছে।</p>
+    <form class="find" onsubmit="return false">
+      <input placeholder="নাম বা প্রোফাইল লিংক">
+      <button>খুঁজুন →</button>
+    </form>
+  </header>
+
+  <section class="wall narrow">
+    <div class="wall-h">নথিভুক্ত মন্তব্য · ২৫টির মধ্যে ৩টি</div>
+
+    <article class="said">
+      <blockquote>মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</blockquote>
+      <div class="who"><span><b>DG-2026-8351</b></span><span>ফেসবুক</span><span>ঢাকা</span><span>১৩ অক্টোবর ২০২৬</span><span>যাচাইকৃত</span></div>
+      <p class="ctx">একটি ধর্ষণের সংবাদ প্রতিবেদনের কমেন্টে লেখা হয়েছিল। পোস্টটি তখনও পাবলিক ছিল।</p>
+    </article>
+
+    <article class="said">
+      <blockquote>এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।</blockquote>
+      <div class="who"><span><b>DG-2026-4959</b></span><span>ফেসবুক</span><span>চট্টগ্রাম</span><span>১২ অক্টোবর ২০২৬</span><span>আপিল চলছে</span></div>
+      <p class="ctx">নির্যাতনের শিকার একজনের পরিচয় প্রকাশের হুমকি দিয়ে লেখা।</p>
+    </article>
+
+    <article class="said">
+      <blockquote>এসব মেয়ের জন্য এটাই উপযুক্ত শাস্তি।</blockquote>
+      <div class="who"><span><b>DG-2026-2699</b></span><span>ইউটিউব</span><span>খুলনা</span><span>০৯ অক্টোবর ২০২৬</span><span>যাচাইকৃত</span></div>
+      <p class="ctx">একটি অ্যাসিড সহিংসতার ভিডিওর নিচে লেখা হয়েছিল।</p>
+    </article>
+  </section>
+
+  <section class="quiet narrow">
+    <div class="q"><b>২৫</b><span>নথিভুক্ত</span></div>
+    <div class="q"><b>১২</b><span>চিহ্নিত ব্যক্তি</span></div>
+    <div class="q"><b>২</b><span>যাচাই চলছে</span></div>
+    <div class="q"><b>৯৩%</b><span>টিকেছে</span></div>
+  </section>
+
+  <section class="close">
+    <p>এমন কিছু আপনার চোখে পড়েছে? লিংক আর স্ক্রিনশট পাঠান। একজন মানুষ যাচাই করবেন, তারপর এটি রেকর্ডে যাবে।</p>
+    <a class="btn" href="#">প্রমাণ পাঠান</a>
+  </section>
+</div>
+
+<footer>দাগ · প্রতিটি শব্দ দাগ রেখে যায় · রেকর্ড, অস্ত্র নয় · জরুরি হেল্পলাইন ৯৯৯ / ১০৯</footer>
+</body>
+</html>

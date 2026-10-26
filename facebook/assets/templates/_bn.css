@@ -1,0 +1,32 @@
+/* Bangla typography overrides.
+   Rules that keep Bangla from looking machine-set:
+   - never letter-space Bangla (it breaks the matra and the conjuncts visually)
+   - never uppercase it (meaningless, and it only mangles rendering)
+   - give it more leading than Latin: matras sit above, descenders below
+   - display type uses a real Bangla serif, not a sans fallback from a Latin stack */
+body{font-family:'Noto Sans Bengali',sans-serif}
+
+.bnserif{font-family:'Noto Serif Bengali',serif}
+.bnsans{font-family:'Noto Sans Bengali',sans-serif}
+
+/* card chrome */
+.mark{font-family:'Noto Serif Bengali',serif;font-weight:700;font-size:20px;padding-bottom:2px}
+.nm{font-family:'Noto Serif Bengali',serif;font-weight:700;font-size:26px;letter-spacing:0}
+
+/* a Bangla kicker: no tracking, no caps, weight and colour do the work instead */
+.kicker{font-family:'Noto Sans Bengali',sans-serif;font-weight:600;font-size:21px;
+        letter-spacing:0;text-transform:none;color:var(--accent);margin-bottom:30px;line-height:1.6}
+
+.h1{font-family:'Noto Serif Bengali',serif;font-weight:700;font-size:62px;line-height:1.5}
+.h2{font-family:'Noto Serif Bengali',serif;font-weight:600;font-size:44px;line-height:1.55}
+.lead{font-family:'Noto Sans Bengali',sans-serif;font-size:26px;line-height:1.85;margin-top:28px}
+.bn{font-family:'Noto Sans Bengali',sans-serif;font-size:26px;line-height:1.85}
+
+/* footer: Bangla label at normal tracking, Latin URL keeps the mono treatment */
+.foot{font-family:'Noto Sans Bengali',sans-serif;font-size:19px;letter-spacing:0;text-transform:none}
+.foot .url{font-family:'DM Mono',monospace;font-size:15px;letter-spacing:.18em;text-transform:uppercase}
+
+/* দাঁড়ি sits loose after য়/া in Noto Serif Bengali, pull it tight in display type */
+.d{margin-left:-.11em}
+/* Bangla numerals need the Bangla face, not the Latin mono */
+.n,.num{font-family:'Noto Sans Bengali',sans-serif}

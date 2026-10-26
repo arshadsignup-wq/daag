@@ -1,0 +1,19 @@
+/* Daag brand tokens. Design system §14 */
+:root{
+  --bg:#09090B; --card:#0F0F12; --card-mid:#141418; --card-lt:#1A1A20;
+  --deep:#7A1520; --ink:#9E1C2C; --accent:#BF3347;
+  --warm:#EDE5D4; --body:#EDE9E0; --muted:#9C9890; --faint:#555250; --umber:#8C6A3F;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--body);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.stage{position:relative;overflow:hidden;background:var(--bg)}
+/* 56px dot grid */
+.grid{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(237,229,212,.055) 1px,transparent 1px);background-size:56px 56px}
+/* radial vignette */
+.vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 0%,transparent 42%,rgba(9,9,11,.82) 100%)}
+/* left ink bar */
+.inkbar{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--ink)}
+/* দাগ ghost watermark */
+.ghost{position:absolute;font-family:'Playfair Display',serif;font-weight:700;color:rgba(158,28,44,.085);line-height:.8;user-select:none;white-space:nowrap}
+.mono{font-family:'DM Mono',ui-monospace,monospace;text-transform:uppercase}
+.serif{font-family:'Playfair Display',serif}

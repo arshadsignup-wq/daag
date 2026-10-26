@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>02 মোছা যায় না — Indelible</title><link rel="stylesheet" href="_b.css">
+<style>
+/* THE MOMENT: you are handed an eraser and invited to wipe the comment away.
+   It smears. It lightens. It never goes. The site's central promise turned
+   into something the visitor does with their own hand. */
+body{background:#e9e5dc;color:#17150f;font-family:var(--sans);line-height:1.7;overflow-x:hidden}
+.top{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 2.2rem;gap:2rem;
+  border-bottom:1px solid #d3cdc0}
+.lg{font-family:var(--fat);font-weight:800;font-size:22px;text-decoration:none;color:#17150f}
+.lg i{font-style:normal;color:#b01722}
+.top nav{display:flex;gap:1.3rem;font-size:13px}.top nav a{color:#5e584c;text-decoration:none}
+.go{background:#17150f;color:#e9e5dc;text-decoration:none;font-size:12.5px;font-weight:600;padding:.5rem 1.1rem;border-radius:999px}
+.stage{max-width:1180px;margin:0 auto;padding:clamp(2.5rem,8vh,5rem) 2.2rem 3rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;min-height:68vh}
+.kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#b01722;margin-bottom:1.3rem}
+h1{font-family:var(--fat);font-weight:800;font-size:clamp(2.4rem,6.2vw,4.6rem);line-height:.95;
+  margin:0 0 1.2rem;letter-spacing:-.035em;max-width:12ch}
+h1 em{font-style:normal;color:#b01722}
+.lede{font-size:1.05rem;color:#4a443a;max-width:40ch;margin:0 0 2rem}
+.f{display:flex;max-width:460px;border:2px solid #17150f;border-radius:999px;overflow:hidden;background:#f6f3ec}
+.f input{flex:1;border:0;outline:none;background:transparent;padding:.8rem 1.3rem;font-size:15px}
+.f button{border:0;background:#17150f;color:#e9e5dc;font-weight:600;padding:0 1.5rem;cursor:pointer;font-size:14px}
+
+/* the erasable slab */
+.slab{position:relative;background:#f6f3ec;border:1px solid #d3cdc0;border-radius:4px;
+  padding:2.4rem 2.2rem;box-shadow:0 18px 50px rgba(0,0,0,.09);touch-action:none}
+.slab .stamp{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:#9b9388;margin-bottom:1.1rem;display:flex;justify-content:space-between;gap:1rem}
+.slab .stamp b{color:#b01722;font-weight:400}
+.slab q{display:block;font-family:var(--ser);font-size:clamp(1.25rem,2.6vw,1.9rem);line-height:1.5;
+  margin:0 0 1.4rem;position:relative;z-index:1;transition:opacity .12s,filter .12s}
+.slab .meta{font-family:var(--mono);font-size:10.5px;color:#9b9388;border-top:1px solid #e2dcd0;padding-top:.9rem}
+#rub{position:absolute;inset:0;z-index:2;cursor:none;border-radius:4px}
+.tip{position:absolute;left:50%;transform:translateX(-50%);bottom:-2.6rem;font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#9b9388;white-space:nowrap}
+.gone{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;opacity:0;
+  transition:opacity .5s;z-index:3}
+.gone span{background:#b01722;color:#fff;font-family:var(--fat);font-weight:700;font-size:1.1rem;
+  padding:.5rem 1.3rem;border-radius:999px;transform:rotate(-3deg)}
+.gone.on{opacity:1}
+.cursor{position:fixed;width:54px;height:54px;border:2px solid #b01722;border-radius:6px;
+  pointer-events:none;z-index:999;transform:translate(-50%,-50%) rotate(-8deg);display:none;
+  background:rgba(176,23,34,.07)}
+.under{border-top:1px solid #d3cdc0;background:#ded9ce}
+.under-in{max-width:1180px;margin:0 auto;padding:2.4rem 2.2rem;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.8rem}
+.u b{display:block;font-family:var(--fat);font-weight:800;font-size:2.1rem;line-height:1;color:#b01722}
+.u span{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:#7d7668}
+.u p{margin:.4rem 0 0;font-size:13.5px;color:#4a443a}
+@media(max-width:900px){.stage{grid-template-columns:1fr;gap:2.5rem}}
+</style></head><body>
+
+<header class="top">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<main class="stage">
+  <section>
+    <div class="kick">মুছে ফেলার চেষ্টা করে দেখুন</div>
+    <h1>মুছে ফেললেই<br><em>মুছে যায় না।</em></h1>
+    <p class="lede">ডানের লেখাটা ঘষে মুছে ফেলার চেষ্টা করুন। যতই ঘষুন, দাগটা থেকে যাবে। ইন্টারনেটেও তাই হয়।</p>
+    <form class="f" onsubmit="return false">
+      <input placeholder="নাম বা প্রোফাইল লিংক"><button>যাচাই করুন</button>
+    </form>
+  </section>
+
+  <section class="slab" id="slab">
+    <div class="stamp"><b>DG-2026-8351</b><span>যাচাইকৃত · v2</span></div>
+    <q>মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q>
+    <div class="meta">ফেসবুক · ঢাকা · ১৩ অক্টোবর ২০২৬ · একটি ধর্ষণের মামলার খবরের নিচে</div>
+    <canvas id="rub"></canvas>
+    <div class="gone" id="gone"><span>তবু রয়ে গেল</span></div>
+    <div class="tip">↑ মাউস চেপে ঘষুন</div>
+  </section>
+</main>
+
+<div class="cursor" id="cur"></div>
+
+<section class="under"><div class="under-in">
+  <div class="u"><b>২৫</b><span>নথিভুক্ত</span><p>প্রতিটি যাচাই করা, প্রতিটি প্রকাশ্যে লেখা।</p></div>
+  <div class="u"><b>১২</b><span>চিহ্নিত ব্যক্তি</span><p>পোস্ট মুছলেও রেকর্ড থাকে।</p></div>
+  <div class="u"><b>৯৩%</b><span>যাচাইয়ে টিকেছে</span><p>প্রমাণ যথেষ্ট না হলে আমরা প্রকাশ করি না।</p></div>
+</div></section>
+
+<script>
+// The quote stays readable. Rubbing fades it toward a floor it never passes,
+// while red smear builds on the canvas above. You cannot reach clean paper.
+var cv=document.getElementById('rub'),slab=document.getElementById('slab'),
+    cur=document.getElementById('cur'),gone=document.getElementById('gone'),
+    quote=slab.querySelector('q');
+var ctx,down=false,work=0,FLOOR=.34;
+function fit(){
+  var r=slab.getBoundingClientRect();
+  cv.width=r.width;cv.height=r.height;
+  ctx=cv.getContext('2d');           // starts fully transparent on purpose
+}
+fit();addEventListener('resize',fit);
+function rub(e){
+  if(!down||!ctx)return;
+  var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+  for(var i=0;i<3;i++){
+    ctx.fillStyle='rgba(176,23,34,.035)';
+    ctx.beginPath();
+    ctx.arc(x+(Math.random()-.5)*40,y+(Math.random()-.5)*40,16+Math.random()*18,0,7);
+    ctx.fill();
+  }
+  ctx.fillStyle='rgba(23,21,15,.022)';
+  ctx.beginPath();ctx.arc(x,y,26,0,7);ctx.fill();
+  work++;
+  var o=Math.max(FLOOR,1-work/140);
+  quote.style.opacity=o;
+  quote.style.filter='blur('+Math.min(1.1,work/260)+'px)';
+  if(work>130)gone.classList.add('on');
+}
+cv.addEventListener('pointerdown',function(e){down=true;cv.setPointerCapture(e.pointerId);rub(e)});
+cv.addEventListener('pointerup',function(){down=false});
+cv.addEventListener('pointermove',rub);
+cv.addEventListener('pointerenter',function(){cur.style.display='block'});
+cv.addEventListener('pointerleave',function(){cur.style.display='none';down=false});
+addEventListener('pointermove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+</script>
+
+<div class="flip"><b>v3</b><a href="01-stain.html">01 দাগ</a><a class="on" href="02-indelible.html">02 মোছা যায় না</a><a href="03-redacted.html">03 কালো কালি</a><a href="04-thread.html">04 থ্রেড</a><a href="05-receipt.html">05 রসিদ</a><a href="06-board.html">06 তদন্ত বোর্ড</a><a href="07-hand.html">07 হাতের লেখা</a><a href="08-mirror.html">08 আয়না</a><a href="09-kantha.html">09 কাঁথা</a><a href="10-wall.html">10 দেয়াল</a><a href="11-pressure.html">11 চাপ</a><a href="12-exhibit.html">12 প্রমাণ</a></div>
+</body></html>

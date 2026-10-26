@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>07 Stack — দাগ</title><link rel="stylesheet" href="_base.css">
+<style>
+/* ARCHITECTURE: one entry at a time. A physical deck you deal through with
+   keys, drag or buttons. Refuses the scanning behaviour a list invites —
+   you have to look at each one before you reach the next. */
+body{background:var(--pg1)}
+.room{min-height:calc(100vh - 100px);display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;
+  align-items:center;max-width:1240px;margin:0 auto;padding:2rem}
+.tell h1{font-family:var(--disp);font-weight:800;font-size:clamp(1.8rem,4vw,3rem);line-height:1.1;
+  margin:.7rem 0 .9rem;letter-spacing:-.022em}
+.tell h1 i{font-style:normal;color:var(--red)}
+.tell p{color:var(--ink2);font-size:15px;max-width:42ch;margin:0 0 1.6rem}
+.tell .f{display:flex;max-width:430px;border:2px solid var(--ink);border-radius:999px;overflow:hidden;background:var(--pg)}
+.tell input{flex:1;border:0;outline:none;padding:.75rem 1.2rem;font-size:14.5px}
+.tell button{border:0;background:var(--ink);color:#fff;font-weight:600;font-size:13.5px;padding:0 1.4rem;cursor:pointer}
+.keys{font-family:var(--mono);font-size:10.5px;color:var(--ink3);margin-top:1.4rem;letter-spacing:.04em}
+.keys kbd{border:1px solid var(--line2);border-bottom-width:2px;border-radius:4px;padding:.1rem .4rem;background:var(--pg)}
+
+.deck{position:relative;height:430px;perspective:1400px}
+.card{position:absolute;inset:0;background:var(--pg);border:1px solid var(--line2);border-radius:18px;
+  padding:1.6rem 1.7rem;display:flex;flex-direction:column;box-shadow:0 14px 40px rgba(0,0,0,.09);
+  transition:transform .42s cubic-bezier(.22,.8,.3,1),opacity .42s;transform-origin:50% 100%}
+.card .top{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1.1rem}
+.card .id{font-family:var(--mono);font-size:10.5px;color:var(--red);letter-spacing:.05em}
+.card q{display:block;font-family:var(--disp);font-weight:600;font-size:1.45rem;line-height:1.42;
+  letter-spacing:-.01em;margin-bottom:1.1rem}
+.card .ctx{font-size:13.5px;color:var(--ink2);border-left:2px solid var(--line2);padding-left:.9rem;line-height:1.65}
+.card .foot{margin-top:auto;padding-top:1.1rem;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
+.ctrl{display:flex;align-items:center;gap:.8rem;margin-top:1.5rem;justify-content:center}
+.ctrl button{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line2);background:var(--pg);
+  cursor:pointer;font-size:17px;color:var(--ink2);transition:all .18s}
+.ctrl button:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px)}
+.ctrl .pos{font-family:var(--mono);font-size:11.5px;color:var(--ink3);min-width:70px;text-align:center}
+.bars{display:flex;gap:4px;margin-top:1rem;justify-content:center}
+.bars i{width:26px;height:3px;border-radius:2px;background:var(--line2);transition:background .25s}
+.bars i.on{background:var(--red)}
+@media(max-width:900px){.room{grid-template-columns:1fr}.deck{height:380px}}
+</style></head><body>
+
+<header class="bar">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<main class="room">
+  <section class="tell">
+    <div class="lbl">একটি একটি করে</div>
+    <h1>তাড়াহুড়ো করে পড়ার জিনিস <i>এগুলো নয়।</i></h1>
+    <p>একসাথে পঁচিশটা দেখালে চোখ সরে যায়। তাই একবারে একটি। পড়ুন, তারপর পরেরটায় যান।</p>
+    <form class="f" onsubmit="return false">
+      <input placeholder="নাম বা প্রোফাইল লিংক"><button>যাচাই করুন</button>
+    </form>
+    <div class="keys">নেভিগেশন: <kbd>←</kbd> <kbd>→</kbd> চাপুন, অথবা কার্ড টেনে সরান</div>
+  </section>
+
+  <section>
+    <div class="deck" id="deck"></div>
+    <div class="ctrl">
+      <button onclick="deal(-1)" aria-label="আগের">←</button>
+      <span class="pos" id="pos"></span>
+      <button onclick="deal(1)" aria-label="পরের">→</button>
+    </div>
+    <div class="bars" id="bars"></div>
+  </section>
+</main>
+
+<script>
+var C=[
+ {id:'DG-2026-8351',q:'মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।',
+  x:'একটি ধর্ষণের মামলার শুনানির খবরের নিচে লেখা। পোস্টটি তখনও পাবলিক ছিল।',
+  m:'ভিকটিমকে দোষারোপ · ফেসবুক',d:'ঢাকা · ১৩ অক্টোবর ২০২৬'},
+ {id:'DG-2026-4959',q:'এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।',
+  x:'নির্যাতনের শিকার একজনের পরিচয় প্রকাশের হুমকি দিয়ে লেখা।',
+  m:'হুমকি · ফেসবুক',d:'চট্টগ্রাম · ১২ অক্টোবর ২০২৬'},
+ {id:'DG-2026-2699',q:'এসব মেয়ের জন্য এটাই উপযুক্ত শাস্তি।',
+  x:'একটি অ্যাসিড সহিংসতার ভিডিওর নিচে লেখা হয়েছিল।',
+  m:'অমানবিক ভাষা · ইউটিউব',d:'খুলনা · ০৯ অক্টোবর ২০২৬'},
+ {id:'DG-2026-3963',q:'মেয়েমানুষ সাংবাদিকতা করতে এসেছে, ঘরে বসে থাক।',
+  x:'একজন নারী সাংবাদিকের প্রতিবেদনের নিচে লেখা।',
+  m:'নারীবিদ্বেষ · ফেসবুক',d:'সিলেট · ০৭ অক্টোবর ২০২৬'},
+ {id:'DG-2026-7104',q:'ওর পোশাক দেখলেই তো বোঝা যায়।',
+  x:'একটি ধর্ষণের মামলার খবরের কমেন্টে।',
+  m:'ভিকটিমকে দোষারোপ · ফেসবুক',d:'ঢাকা · ০৮ অক্টোবর ২০২৬'}
+];
+var BN=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function bn(n){return String(n).replace(/[0-9]/g,function(d){return BN[+d]})}
+var deck=document.getElementById('deck'),k=0;
+deck.innerHTML=C.map(function(c){
+  return '<article class="card"><div class="top"><span class="id">'+c.id+'</span>'+
+    '<span class="tag sev">অতি গুরুতর</span></div>'+
+    '<q>'+c.q+'</q><p class="ctx">'+c.x+'</p>'+
+    '<div class="foot"><span>'+c.m+'</span><span>'+c.d+'</span></div></article>';
+}).join('');
+document.getElementById('bars').innerHTML=C.map(function(){return '<i></i>'}).join('');
+var cards=deck.querySelectorAll('.card'),bars=document.getElementById('bars').querySelectorAll('i');
+function render(){
+  cards.forEach(function(el,i){
+    var o=(i-k+C.length)%C.length;
+    el.style.zIndex=C.length-o;
+    el.style.opacity=o<3?1:0;
+    el.style.transform='translateY('+(o*-9)+'px) scale('+(1-o*.035)+')';
+  });
+  bars.forEach(function(b,i){b.className=i===k?'on':''});
+  document.getElementById('pos').textContent=bn(k+1)+' / '+bn(C.length);
+}
+function deal(d){k=(k+d+C.length)%C.length;render()}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight')deal(1); if(e.key==='ArrowLeft')deal(-1);
+});
+// drag the top card sideways to advance
+var sx=null;
+deck.addEventListener('pointerdown',function(e){sx=e.clientX});
+deck.addEventListener('pointerup',function(e){
+  if(sx===null)return; var dx=e.clientX-sx; sx=null;
+  if(Math.abs(dx)>60)deal(dx<0?1:-1);
+});
+render();
+</script>
+
+<div class="flip"><b>v2 · ১০টি কাঠামো</b>
+<a href="01-lookup.html">01 Lookup</a><a href="02-atlas.html">02 Atlas</a><a href="03-scrollytale.html">03 Scrollytale</a>
+<a href="04-wall.html">04 Wall</a><a href="05-split.html">05 Split</a><a href="06-timeline.html">06 Timeline</a>
+<a class="on" href="07-stack.html">07 Stack</a><a href="08-index.html">08 Index</a><a href="09-counter.html">09 Counter</a>
+<a href="10-terminal.html">10 Terminal</a></div>
+</body></html>

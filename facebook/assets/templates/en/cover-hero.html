@@ -1,0 +1,71 @@
+<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&family=Noto+Sans+Bengali:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_base.css"><link rel="stylesheet" href="_card.css">
+<style>
+  /* HERO COVER: 1640x856.
+     Safe zones: desktop crops to y 116–740; mobile crops x 59–1581;
+     the profile picture covers roughly x 40–392, y 416–740 on desktop,
+     so no critical text sits in that corner. */
+  .stage{width:1640px;height:856px;display:flex;align-items:center;justify-content:center;padding:0}
+
+  /* faint comment-section field, signals "this is about comments" at a glance */
+  .cloud{position:absolute;inset:0}
+  .bub{position:absolute;background:#101014;border:1px solid #1B1B21;border-radius:10px;padding:14px 16px;
+       display:flex;flex-direction:column;gap:9px}
+  .bub.cr{border-left:3px solid rgba(158,28,44,.75)}
+  .bub i{display:block;height:7px;border-radius:3px;background:#24242B}
+  .bub.del i{background:#1A1A20;position:relative}
+  .bub.del i:after{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:#3A2A2E}
+  .scrim{position:absolute;inset:0;
+         background:radial-gradient(ellipse 66% 62% at 50% 46%,
+           rgba(9,9,11,.985) 0%, rgba(9,9,11,.955) 38%, rgba(9,9,11,.82) 68%, rgba(9,9,11,.62) 100%)}
+
+  .safe{position:relative;width:1420px;display:flex;flex-direction:column;align-items:center;text-align:center}
+  .lock{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+  .mk{width:46px;height:46px;border-radius:5px;background:var(--ink);display:flex;align-items:center;
+      justify-content:center;font-family:'Noto Sans Bengali',sans-serif;font-weight:500;font-size:22px;color:#fff}
+  .wd{font-family:'Playfair Display',serif;font-weight:700;font-size:34px;color:var(--warm);letter-spacing:.03em}
+  .wd span{font-family:'Noto Sans Bengali',sans-serif;font-weight:500;color:var(--muted);font-size:30px}
+
+  .inkbar{width:6px}
+  .hl{font-family:'Playfair Display',serif;font-weight:700;font-size:74px;line-height:1.14;color:var(--warm)}
+  .hl em{font-style:normal;color:var(--accent)}
+  .sub{font-size:26px;line-height:1.52;color:var(--body);margin-top:26px;max-width:840px}
+  .sub b{color:var(--warm);font-weight:600}
+
+  .chips{display:flex;align-items:center;gap:16px;margin-top:30px}
+  .chip{font-family:'DM Mono',monospace;font-size:14px;letter-spacing:.2em;text-transform:uppercase;
+        color:var(--muted);border:1px solid #2A2A30;background:rgba(15,15,18,.85);padding:10px 18px;border-radius:2px}
+  .chip.on{color:var(--accent);border-color:rgba(191,51,71,.5);background:rgba(191,51,71,.1)}
+</style></head><body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="cloud">
+    <div class="bub"      style="left:60px;top:70px;width:330px"><i style="width:92%"></i><i style="width:64%"></i></div>
+    <div class="bub del"  style="left:150px;top:210px;width:280px"><i style="width:88%"></i><i style="width:52%"></i></div>
+    <div class="bub cr"   style="left:40px;top:340px;width:360px"><i style="width:80%"></i><i style="width:95%"></i><i style="width:45%"></i></div>
+    <div class="bub"      style="left:170px;top:520px;width:300px"><i style="width:70%"></i><i style="width:88%"></i></div>
+    <div class="bub del"  style="left:55px;top:660px;width:340px"><i style="width:94%"></i><i style="width:58%"></i></div>
+    <div class="bub"      style="left:430px;top:40px;width:260px"><i style="width:86%"></i></div>
+    <div class="bub cr"   style="left:395px;top:700px;width:290px"><i style="width:76%"></i><i style="width:90%"></i></div>
+    <div class="bub"      style="right:70px;top:60px;width:340px"><i style="width:90%"></i><i style="width:55%"></i></div>
+    <div class="bub cr"   style="right:160px;top:215px;width:290px"><i style="width:82%"></i><i style="width:94%"></i><i style="width:48%"></i></div>
+    <div class="bub del"  style="right:45px;top:380px;width:360px"><i style="width:72%"></i><i style="width:88%"></i></div>
+    <div class="bub"      style="right:150px;top:540px;width:300px"><i style="width:92%"></i><i style="width:60%"></i></div>
+    <div class="bub del"  style="right:60px;top:680px;width:330px"><i style="width:84%"></i><i style="width:50%"></i></div>
+    <div class="bub"      style="left:960px;top:30px;width:250px"><i style="width:78%"></i></div>
+    <div class="bub"      style="left:900px;top:745px;width:270px"><i style="width:88%"></i></div>
+  </div>
+  <div class="scrim"></div>
+  <div class="inkbar"></div>
+
+  <div class="safe">
+    <div class="lock"><span class="mk">দাগ</span><span class="wd">Daag <span>· দাগ</span></span></div>
+    <div class="hl">The comments disappear.<br><em>The record does not.</em></div>
+    <div class="sub">A verified public archive of the <b>misogynistic and victim-blaming comments</b> that follow every case of gender violence in Bangladesh.</div>
+    <div class="chips">
+      <span class="chip">Search a profile</span>
+      <span class="chip">Submit evidence</span>
+      <span class="chip on">daag-bd.com</span>
+    </div>
+  </div>
+</div></body></html>

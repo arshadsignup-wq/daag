@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>দাগ · Reel caption deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&family=Noto+Sans+Bengali:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09090B; --card:#0F0F12; --card-mid:#141418; --card-lt:#1A1A20;
+  --deep:#7A1520; --ink:#9E1C2C; --accent:#BF3347;
+  --warm:#EDE5D4; --body:#EDE9E0; --muted:#9C9890; --faint:#555250; --umber:#8C6A3F;
+  --line:#1F1F25;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--body);font-family:'Inter',system-ui,sans-serif;
+     font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:120px}
+.inkbar{position:fixed;left:0;top:0;bottom:0;width:6px;background:var(--ink);z-index:50}
+header{padding:64px 0 40px;border-bottom:1px solid var(--line);margin-bottom:8px;position:relative;overflow:hidden}
+.ghost{position:absolute;right:40px;top:50%;transform:translateY(-50%);font-family:'Noto Sans Bengali',serif;
+       font-weight:500;font-size:200px;color:rgba(158,28,44,.07);line-height:.8;user-select:none;pointer-events:none}
+.wrap{max-width:900px;margin:0 auto;padding:0 32px;position:relative}
+.lock{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+.mark{width:48px;height:48px;border-radius:6px;background:var(--ink);display:flex;align-items:center;
+      justify-content:center;font-family:'Noto Sans Bengali',serif;font-weight:500;font-size:23px;color:#fff}
+h1{font-family:'Playfair Display',serif;font-weight:700;font-size:34px;color:var(--warm);letter-spacing:.02em;line-height:1.1}
+.sub{color:var(--muted);max-width:640px;margin-top:4px}
+.sub b{color:var(--body);font-weight:500}
+nav{position:sticky;top:0;background:rgba(9,9,11,.94);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);z-index:40;padding:14px 0}
+nav .wrap{display:flex;gap:6px;flex-wrap:wrap}
+nav a{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+      color:var(--muted);text-decoration:none;padding:6px 11px;border:1px solid var(--line);border-radius:2px;
+      white-space:nowrap;transition:.15s}
+nav a:hover{color:var(--accent);border-color:rgba(191,51,71,.5);background:rgba(191,51,71,.07)}
+section{padding:52px 0 8px;scroll-margin-top:70px}
+.shead{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.snum{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.2em;color:var(--accent)}
+h2{font-family:'Playfair Display',serif;font-weight:700;font-size:26px;color:var(--warm)}
+.sdesc{color:var(--muted);margin-bottom:28px;max-width:680px;font-size:13.5px}
+.sdesc code{font-family:'DM Mono',monospace;font-size:12.5px;color:var(--body);background:var(--card-lt);
+            padding:1px 6px;border-radius:2px}
+.block{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ink);
+       border-radius:3px;margin-bottom:18px;overflow:hidden}
+.bhead{display:flex;align-items:center;justify-content:space-between;gap:16px;
+       padding:13px 18px;background:var(--card-mid);border-bottom:1px solid var(--line)}
+.blabel{font-family:'Noto Sans Bengali',sans-serif;font-weight:500;font-size:14px;letter-spacing:0;color:var(--body)}
+.bmeta{font-family:'DM Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:.1em;white-space:nowrap}
+pre{padding:20px 18px;white-space:pre-wrap;word-wrap:break-word;
+    font-family:'Noto Sans Bengali','Inter',sans-serif;
+    font-size:15px;line-height:1.95;color:var(--body)}
+button.copy{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+       background:transparent;color:var(--muted);border:1px solid #2A2A30;border-radius:2px;
+       padding:6px 14px;cursor:pointer;transition:.15s;white-space:nowrap}
+button.copy:hover{color:var(--warm);border-color:var(--ink);background:rgba(158,28,44,.12)}
+button.copy.done{color:#4E8C5B;border-color:rgba(78,140,91,.5);background:rgba(78,140,91,.1)}
+.vid{display:flex;gap:14px;align-items:center;padding:12px 18px;border-top:1px solid var(--line);background:var(--card-mid)}
+.vid .pn{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;color:var(--accent)}
+.vid .pd{font-size:12.5px;color:var(--faint);margin-top:3px}
+.warn{background:rgba(158,28,44,.08);border:1px solid rgba(158,28,44,.35);border-left:4px solid var(--ink);
+      border-radius:3px;padding:16px 20px;margin-bottom:22px;font-size:13.5px;color:var(--body)}
+.warn b{color:var(--accent);font-weight:600}
+.rules{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:6px 4px;margin-bottom:24px}
+.rules .r{display:flex;gap:16px;padding:14px 18px;border-bottom:1px solid var(--line);font-size:13.5px}
+.rules .r:last-child{border-bottom:none}
+.rules .rk{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+           color:var(--accent);width:150px;flex-shrink:0;padding-top:2px}
+.rules .rv{color:var(--body)}
+.rules .rv .bn{font-family:'Noto Sans Bengali',sans-serif;color:var(--warm)}
+.note{font-size:12.5px;color:var(--faint);margin:-6px 0 22px;line-height:1.6}
+.bn{font-family:'Noto Sans Bengali',sans-serif}
+footer{margin-top:70px;padding-top:28px;border-top:1px solid var(--line);
+       font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+@media(max-width:640px){.wrap{padding:0 20px}.ghost{display:none}h1{font-size:26px}
+  .rules .rk{width:auto}.rules .r{flex-direction:column;gap:4px}}
+</style></head><body>
+<div class="inkbar"></div>
+
+<header><div class="ghost">দাগ</div><div class="wrap">
+  <div class="lock"><div class="mark">দাগ</div>
+    <div><h1>Reel caption deck</h1></div></div>
+  <p class="sub">One caption per film, in Bangla, written to the voice of the eight launch posts
+  and to the conventions of Bangla newspaper reporting. Click <b>Copy</b>, paste into Facebook,
+  attach the matching MP4 from <code>content social media/</code>.</p>
+</div></header>
+
+<nav><div class="wrap">
+  <a href="#voice">00 Voice</a><a href="#rules">01 Before posting</a><a href="#caps">02 Captions</a>
+</div></nav>
+
+<div class="wrap">
+
+<section id="voice">
+  <div class="shead"><span class="snum">00</span><h2>The voice these follow</h2></div>
+  <p class="sdesc">Drawn from two places: the eight approved captions in <code>copy-paste.html</code>,
+  and how Prothom Alo, Bangla Tribune and bdnews24 actually write. The newspaper conventions matter
+  because they are already the conventions Daag lives by. Bangla journalism has solved the problem
+  of writing about an accused person without degrading them, and that is precisely the line this
+  project walks.</p>
+
+  <div class="rules">
+    <div class="r"><div class="rk">Register</div><div class="rv">Written how a thoughtful person actually posts, not how a paper prints. The first draft of this deck leaned on newspaper construction (<span class="bn">দেওয়া হয়</span>, <span class="bn">করা হয়</span>, <span class="bn">প্রকাশ করা হয়</span>) and read like a government circular. Passives are now active, and bureaucratic nouns (<span class="bn">প্রক্রিয়া</span>, <span class="bn">সংস্করণ-ইতিহাস</span>, <span class="bn">কার্যদিবস</span>) are gone or plainer.</div></div>
+    <div class="r"><div class="rk">Pronouns</div><div class="rv">Most lines speak generally (<span class="bn">যে লিখেছে, তার হয়তো মনেও নেই</span>) and the generic takes the plain form. Stacking <span class="bn">যাঁকে</span> / <span class="bn">তাঁর</span> / <span class="bn">যিনি</span> into every sentence is exactly what made it sound robotic. Dignity is carried by what the sentence says, not by decorating every pronoun.</div></div>
+    <div class="r"><div class="rk">Naming</div><div class="rv">Bangla papers name the <em>place</em> and withhold the <em>person</em>: <span class="bn">কুড়িগ্রামে তরুণীকে ধর্ষণের অভিযোগ</span>. People get identified by circumstance, not name. That convention stays; it is the same redaction logic already drawn into the films.</div></div>
+    <div class="r"><div class="rk">Allegation</div><div class="rv"><span class="bn">অভিযোগ</span> and <span class="bn">অভিযুক্ত</span> stay scrupulous. No caption states a comment's author as fact.</div></div>
+    <div class="r"><div class="rk">Rhythm</div><div class="rv">Short lines, frequent breaks, fragments where a fragment lands harder. Rhetorical questions are allowed and used (<span class="bn">আর সপ্তাহখানেক পর?</span>, <span class="bn">তথ্যটাই ভুল?</span>) because that is how people write when they mean it.</div></div>
+    <div class="r"><div class="rk">Punctuation</div><div class="rv">No emoji. No exclamation marks; the subject does not need amplifying. Quotes in <span class="bn">“ ”</span>, proper <span class="bn">।</span>, Bangla numerals with <span class="bn">লাখ</span> / <span class="bn">হাজার</span>.</div></div>
+    <div class="r"><div class="rk">Shape</div><div class="rv">Opening statement → the turn → the guardrail (what Daag is not) where the film needs it → three or four hashtags. No URL: see below.</div></div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="shead"><span class="snum">01</span><h2>Before you post any of these</h2></div>
+
+  <div class="warn">
+    <b>The first line is the whole caption on mobile.</b> Facebook truncates a reel caption to roughly
+    one line before <span class="bn">আরও দেখুন</span>. Every opening line below is written to stand alone
+    if nobody taps. Do not add a greeting or a hook above it.
+  </div>
+
+  <p class="sdesc"><code>content-plan.md</code> §0 governs these exactly as it governs the images: no name,
+  handle, profile link or workplace in the caption, no screenshots of comments, nothing that reads as a call
+  to action against a person. Moderate comments for two hours after each post; if nobody is free to do that,
+  do not post. Cadence stays three a week: Sunday, Tuesday, Thursday, around 8–9pm Bangladesh time.</p>
+
+  <div class="warn">
+    <b>No link in any caption.</b> A caption with an external URL in it gets throttled on Facebook,
+    and on Instagram it is not tappable at all, so the address lives in three better places instead:
+    burnt into the last three seconds of every film, on the Page's CTA button, and in the first comment.
+    Post the reel, then paste the matching first comment below straight away.
+  </div>
+
+  <p class="sdesc">Two first comments, one per kind of ask. Post it yourself from the Page within a
+  minute of publishing, before anyone else comments, so it stays at the top and it is where
+  <span class="bn">লিংক কমেন্টে</span> is pointing.</p>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">প্রথম কমেন্ট · সাধারণ</span><button class="copy">Copy</button></div>
+<pre>আর্কাইভ, পুরো পদ্ধতি, আপত্তি জানানোর নিয়ম, সব এখানে:
+www.daag-bd.com</pre>
+    <div class="vid"><div><div class="pn">reels 00, 01, 03, 04, 05, 06, 07, 09, 10</div><div class="pd">paste as the first comment</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">প্রথম কমেন্ট · প্রোফাইল সার্চ</span><button class="copy">Copy</button></div>
+<pre>প্রোফাইল সার্চ এখানে:
+www.daag-bd.com
+
+যা পাবেন সেটা রায় না, তথ্য। আর কিছু না পেলে ধরে নেবেন না যে কিছু ঘটেনি।</pre>
+    <div class="vid"><div><div class="pn">reels 02, 08, 11</div><div class="pd">paste as the first comment</div></div></div>
+  </div>
+
+    <div class="warn">
+    <b>Two films carry illustrative numbers, not findings.</b> The two hundred reactions in film 06 and the
+    dates and districts in film 10 are representative of the pattern, not counts from the archive. The captions
+    below are written so that neither claims otherwise. Do not add a statistic to either until Pattern Analytics
+    can support it with a sample size and a date range.
+  </div>
+</section>
+
+<section id="caps">
+  <div class="shead"><span class="snum">02</span><h2>Captions</h2></div>
+  <p class="sdesc">In suggested posting order. Start with 00, pin it. Then 01, 08 and 02, the three most
+  likely to travel. Hold 07 until the first person argues this is a shaming tool; it is the answer.</p>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ০০ · পিন করা · দাগ কী</span><button class="copy">Copy</button></div>
+<pre>একটা খবর ছড়ায়। তারপর কমেন্টে গিয়ে দেখবেন, নির্যাতনটা আবার শুরু হয়ে গেছে।
+
+দোষ গিয়ে পড়ে ভুক্তভোগীর ঘাড়েই। অভিযুক্তের পক্ষে দাঁড়িয়ে যায় একদল। আর সপ্তাহখানেক পর? কমেন্টগুলো আর নেই। প্রমাণও নেই।
+
+দাগ ওই প্রমাণটা রেখে দেয়।
+
+অনলাইনে হেনস্তা আর ভুক্তভোগীকে দোষ দেওয়ার একটা পাবলিক আর্কাইভ। নারী, পুরুষ, যে কেউ। প্রতিটা এন্ট্রি সোর্স লিংক ধরে মিলিয়ে দেখা। আর প্রতিটার বিরুদ্ধে আপত্তি জানানো যায়।
+
+দাগ কাউকে হেয় করার জায়গা না। আমরা কারও ইনবক্স খুলি না, যাচাই না করে কিছু তুলি না, কারও বিরুদ্ধে কোনো ডাক দিই না।
+
+আর্কাইভ আর পুরো পদ্ধতি দেখুন, লিংক কমেন্টে।
+
+প্রতিটি শব্দ দাগ রেখে যায়।
+
+#দাগ #Daag #অনলাইনহেনস্তা #StopVictimBlaming</pre>
+    <div class="vid"><div><div class="pn">Daag_00_Explainer_9x16.mp4</div><div class="pd">30.8s · pin this post</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ০১ · চল্লিশ সেকেন্ড</span><button class="copy">Copy</button></div>
+<pre>কমেন্টটা লিখতে চল্লিশ সেকেন্ড লাগে।
+
+লিখে, পোস্ট করে, স্ক্রল করে মানুষ চলে যায়। কমেন্টটা থেকে যায়। চার দিন, চার মাস, চার বছর পরেও।
+
+যে লিখেছে, তার হয়তো মনেও নেই।
+যার নামে লিখেছে, তার আছে।
+
+#দাগ #Daag #অনলাইনহেনস্তা</pre>
+    <div class="vid"><div><div class="pn">Daag_01_FortySeconds_9x16.mp4</div><div class="pd">31.7s</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ০২ · বিয়ের আগে</span><button class="copy">Copy</button></div>
+<pre>বায়োডাটায় কী কী থাকে? উচ্চতা, পড়াশোনা, চাকরি, বেতন।
+
+অনলাইনে মানুষটা কী লেখে, সেটা থাকে না।
+
+পাত্র হোক বা পাত্রী, প্রকাশ্য প্রোফাইলটা দাগে খুঁজে দেখতে পারেন। যা পাবেন সেটা রায় না, তথ্য। আর কিছু না পেলে ধরে নেবেন না যে কিছু ঘটেনি।
+
+সিদ্ধান্তটা আপনার।
+
+প্রোফাইল সার্চ করুন, লিংক কমেন্টে।
+
+#দাগ #Daag</pre>
+    <div class="vid"><div><div class="pn">Daag_02_BeforeMarriage_9x16.mp4</div><div class="pd">25.4s</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ০৩ · আব্বু, এটা তুমি লিখেছিলে?</span><button class="copy">Copy</button></div>
+<pre>বাচ্চাটার কাছে আপনি যা, ইন্টারনেটে আপনি হয়তো তা না।
+
+আজ যে বাবার নাম লিখতে শিখছে, কয়েক বছর পর নামটা সে নিজেই সার্চ করবে। তখন যা আসবে, সেটা আপনি আজ লিখে রাখছেন।
+
+দাগ কাউকে শাস্তি দেয় না। শুধু লিখে রাখে।
+
+#দাগ #Daag #অনলাইনহেনস্তা</pre>
+    <div class="vid"><div><div class="pn">Daag_03_DadDidYouWrite_9x16.mp4</div><div class="pd">28.7s · test this one before posting</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ০৪ · মুছে ফেলা</span><button class="copy">Copy</button></div>
+<pre>কমেন্টগুলো সাত দিনও টেকে না।
+
+কেউ মুছে দেয়, কেউ এডিট করে ফেলে, বাকিগুলো নতুন খবরের নিচে চাপা পড়ে যায়।
+
+যে পড়েছিল, তার মনে থাকে। প্রমাণটা আর থাকে না।
+
+দাগ ওটাই রেখে দেয়। সোর্স লিংক, তারিখ, প্রসঙ্গ, সব নিয়ে।
+
+#দাগ #Daag #অনলাইনহেনস্তা</pre>
+    <div class="vid"><div><div class="pn">Daag_04_Deleted_9x16.mp4</div><div class="pd">33.7s</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ০৫ · কেউ একজন পড়ে</span><button class="copy">Copy</button></div>
+<pre>আর্কাইভটা নিজে নিজে তৈরি হয় না।
+
+প্রতিটা জমা একজন মানুষ খুলে পড়ে। সোর্স লিংক ধরে মিলিয়ে দেখে কমেন্টটা আসল কি না, প্রকাশ্য কি না, ওই প্রোফাইলেরই কি না। তারপর কেন সিদ্ধান্তটা নিল, সেটাও লিখে রাখে।
+
+একটানা ৩০টার বেশি কেউ দেখতে পারে না। এটা নিয়ম, অনুরোধ না।
+
+কারণ এগুলো পড়তে হয়। আর পড়লে কিছু একটা থেকে যায়।
+
+#দাগ #স্বচ্ছতা #Daag</pre>
+    <div class="vid"><div><div class="pn">Daag_05_SomeoneReads_9x16.mp4</div><div class="pd">30.4s</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ০৬ · ২০০ টা রিঅ্যাকশন</span><button class="copy">Copy</button></div>
+<pre>একজন কমেন্টটা লেখে। বাকিরা শুধু রিঅ্যাক্ট দেয়।
+
+আর্কাইভে নাম ওঠে ওই একজনেরই। কিন্তু একটা কমেন্টের নিচে দুইশ রিঅ্যাকশন জমলে ওটা আর একজনের মত থাকে না।
+
+একটা কমেন্ট একজনের মত। হাজারটা কমেন্ট একটা পরিবেশ।
+
+আর ওই পরিবেশটাই মানুষকে চুপ করিয়ে দেয়।
+
+#দাগ #StopVictimBlaming #অনলাইনহেনস্তা</pre>
+    <div class="vid"><div><div class="pn">Daag_06_TwoHundred_9x16.mp4</div><div class="pd">26.3s · illustrative figure, not archive data</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ০৭ · আপিল</span><button class="copy">Copy</button></div>
+<pre>দাগের যেকোনো এন্ট্রির বিরুদ্ধে আপত্তি জানানো যায়।
+
+ভুল মানুষের নাম উঠেছে? প্রসঙ্গ কেটে নেওয়া হয়েছে? তথ্যটাই ভুল? আপত্তি জানান। আইনজীবী লাগবে না।
+
+আপত্তিটা দেখে আলাদা একটা প্যানেল। যে মডারেটর এন্ট্রিটা তুলেছিল, সে ওই প্যানেলে থাকে না। সিদ্ধান্ত আসে ১৪ কর্মদিবসের মধ্যে। এন্ট্রি ঠিক করা যায়, টীকা জোড়া যায়, একেবারে সরিয়েও ফেলা যায়। আর কী বদলাল, সেটাও লেখা থাকে।
+
+যে আর্কাইভ ঠিক করা যায় না, ওটা আর্কাইভ না। ওটা অভিযোগ।
+
+#দাগ #স্বচ্ছতা</pre>
+    <div class="vid"><div><div class="pn">Daag_07_TheAppeal_9x16.mp4</div><div class="pd">42.0s · hold until someone calls this a shaming tool</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ০৮ · সার্চ বার</span><button class="copy">Copy</button></div>
+<pre>যাকে বিয়ে করার কথা। যাকে চাকরিটা দেওয়ার কথা। যে পাশের ফ্ল্যাটে উঠল।
+
+আর নিজের নামটা।
+
+প্রোফাইল সার্চ করুন, লিংক কমেন্টে।
+
+#দাগ #Daag</pre>
+    <div class="vid"><div><div class="pn">Daag_08_SearchBar_9x16.mp4</div><div class="pd">19.1s · shortest, most shareable</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ০৯ · যা মুছে যায়, যা থাকে</span><button class="copy">Copy</button></div>
+<pre>কমেন্ট মুছে যায়। খবর পুরোনো হয়। হ্যাশট্যাগ থেমে যায়।
+
+ভয়টা যায় না। রাতে বের না হওয়ার অভ্যাসটা যায় না। চুপ করে থাকাটাও না।
+
+যার জন্য কিছুই মোছেনি, তার জন্য রেকর্ডটাও মুছবে না।
+
+#দাগ #StopVictimBlaming</pre>
+    <div class="vid"><div><div class="pn">Daag_09_FadesStays_9x16.mp4</div><div class="pd">30.6s</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ১০ · একই কথা</span><button class="copy">Copy</button></div>
+<pre>ঘটনা বদলায়। জেলা বদলায়। মানুষটাও বদলায়।
+
+বাক্যটা বদলায় না।
+
+একই কথা বারবার ফিরে এলে ওটা আর একজনের মত থাকে না। ওটা একটা ধরন।
+
+আর ধরন ধরতে হলে আগে নথি লাগে। দাগ ওই নথিটাই রাখে।
+
+#দাগ #Daag #অনলাইনহেনস্তা</pre>
+    <div class="vid"><div><div class="pn">Daag_10_SameWords_9x16.mp4</div><div class="pd">30.9s · dates and districts are illustrative</div></div></div>
+  </div>
+
+  <div class="block">
+    <div class="bhead"><span class="blabel">রিল ১১ · ভদ্রলোক</span><button class="copy">Copy</button></div>
+<pre>সেই রাতে সবাই একজন ভদ্রলোককেই দেখেছে।
+
+চা এগিয়ে দিচ্ছে, মুরুব্বিদের সালাম করছে, সবাই হাসছে। আংটি বদলের রাত।
+
+ঠিক ওই সময়টায়, ফোনে, অচেনা একটা মেয়ের ছবির নিচে সে একটা কমেন্ট করছিল।
+
+কেউ ভুল দেখেনি। সবটা দেখেনি, এই যা।
+
+কমেন্টটা প্রকাশ্যই ছিল। শুধু কেউ খুঁজে দেখেনি।
+
+দাগ বলে না মানুষটা কে। শুধু দেখায় সে কী লিখেছে।
+
+প্রোফাইল সার্চ করুন, লিংক কমেন্টে।
+
+#দাগ #Daag #অনলাইনহেনস্তা</pre>
+    <div class="vid"><div><div class="pn">Daag_11_TheGentleman_9x16.mp4</div><div class="pd">39.3s · pair with the profile-search first comment</div></div></div>
+  </div>
+</section>
+
+<footer><div class="wrap">দাগ · Reel caption deck · প্রতিটি শব্দ দাগ রেখে যায়</div></footer>
+</div>
+
+<script>
+function put(text, btn){
+  var done = function(){
+    var old = btn.textContent;
+    btn.textContent = 'Copied'; btn.classList.add('done');
+    setTimeout(function(){ btn.textContent = old; btn.classList.remove('done'); }, 1400);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done, function(){ fallback(text, done); });
+  } else { fallback(text, done); }
+}
+function fallback(text, done){
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); done(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+document.querySelectorAll('button.copy').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var pre = btn.closest('.block').querySelector('pre');
+    put(pre.textContent, btn);
+  });
+});
+</script>
+</body></html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>05 রসিদ — Receipts</title><link rel="stylesheet" href="_b.css">
+<style>
+/* THE MOMENT: "the receipts", taken literally. One long thermal till-roll
+   printing itself down the page, torn at the bottom, with every comment
+   itemised like a purchase. Casual, merciless, and instantly legible. */
+body{background:#3a3a3e;color:#1a1a1a;font-family:var(--mono);font-size:13px;line-height:1.7}
+.room{min-height:100vh;display:grid;grid-template-columns:1fr 420px;gap:0;align-items:start}
+.left{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:3rem clamp(2rem,5vw,5rem);color:#efece6;font-family:var(--sans)}
+.lg{font-family:var(--fat);font-weight:800;font-size:23px;text-decoration:none;color:#efece6;
+  margin-bottom:auto;display:inline-block}
+.lg i{font-style:normal;color:#ff5a4d}
+.kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#ff5a4d;margin-bottom:1.2rem}
+h1{font-family:var(--fat);font-weight:800;font-size:clamp(2.2rem,5.4vw,4.2rem);line-height:.98;
+  margin:0 0 1.2rem;letter-spacing:-.035em;max-width:12ch}
+h1 em{font-style:normal;color:#ff5a4d}
+.lede{color:#aeaaa3;max-width:38ch;margin:0 0 2rem;font-size:1.02rem;line-height:1.75}
+.f{display:flex;max-width:400px;border:1px solid #5d5d63;border-radius:4px;overflow:hidden;background:#2c2c30}
+.f input{flex:1;border:0;outline:none;background:transparent;padding:.75rem 1rem;font-size:14px;
+  color:#efece6;font-family:var(--sans)}
+.f button{border:0;background:#ff5a4d;color:#1a1a1a;font-weight:700;padding:0 1.3rem;cursor:pointer;
+  font-family:var(--sans);font-size:13.5px}
+.foot-n{margin-top:auto;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#75726c;text-transform:uppercase}
+
+/* the roll */
+.rollwrap{padding:2rem 0 4rem;display:flex;justify-content:center}
+.roll{width:360px;background:#fdfbf4;padding:1.8rem 1.5rem 0;position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,.4);
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 27px,rgba(0,0,0,.016) 27px,rgba(0,0,0,.016) 28px)}
+/* torn top and bottom */
+.roll::before,.roll::after{content:'';position:absolute;left:0;right:0;height:9px;
+  background:#fdfbf4;
+  -webkit-mask:repeating-linear-gradient(90deg,#000 0 7px,transparent 7px 14px);
+  mask:repeating-linear-gradient(90deg,#000 0 7px,transparent 7px 14px)}
+.roll::before{top:-8px}
+.roll::after{bottom:-8px}
+.rh{text-align:center;border-bottom:1px dashed #c9c3b4;padding-bottom:1rem;margin-bottom:1rem}
+.rh b{font-family:var(--fat);font-weight:800;font-size:1.5rem;letter-spacing:.08em;display:block}
+.rh span{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8a8478;display:block;margin-top:.2rem}
+.meta-l{display:flex;justify-content:space-between;font-size:10.5px;color:#8a8478;letter-spacing:.04em}
+.item{border-bottom:1px dashed #d8d2c4;padding:.95rem 0}
+.item .r1{display:flex;justify-content:space-between;gap:.8rem;font-size:10px;letter-spacing:.06em;
+  color:#a0271f;text-transform:uppercase}
+.item q{display:block;font-family:var(--sans);font-size:14px;line-height:1.55;margin:.45rem 0 .5rem;color:#1a1a1a}
+.item .r2{display:flex;justify-content:space-between;gap:.8rem;font-size:10px;color:#8a8478}
+.tot{padding:1.1rem 0;border-bottom:1px dashed #c9c3b4;margin-bottom:1rem}
+.tot div{display:flex;justify-content:space-between;font-size:11.5px;padding:.15rem 0}
+.tot .big{font-family:var(--fat);font-weight:800;font-size:1.15rem;letter-spacing:.02em;padding-top:.5rem}
+.stamp{text-align:center;padding:1rem 0 1.6rem}
+.stamp .s{display:inline-block;border:2px solid #a0271f;color:#a0271f;font-family:var(--fat);
+  font-weight:800;font-size:1rem;letter-spacing:.14em;padding:.35rem 1rem;transform:rotate(-4deg);opacity:.85}
+.stamp p{font-size:10px;color:#8a8478;letter-spacing:.08em;margin:1rem 0 0;line-height:1.7}
+.bars{display:flex;gap:1.5px;justify-content:center;padding:.6rem 0 1.4rem;align-items:flex-end;height:44px}
+.bars i{background:#1a1a1a;width:2px}
+@media(max-width:980px){.room{grid-template-columns:1fr}.left{position:static;height:auto;padding-top:3rem}}
+</style></head><body>
+
+<div class="room">
+  <section class="left">
+    <a class="lg" href="#">দা<i>গ</i></a>
+    <div>
+      <div class="kick">সব হিসাব রাখা আছে</div>
+      <h1>রসিদটা <em>রেখে দিয়েছি।</em></h1>
+      <p class="lede">যা লেখা হয়েছিল, কে লিখেছিল, কোথায় আর কবে — পুরো হিসাব। পোস্ট মুছলেও রসিদ থেকে যায়।</p>
+      <form class="f" onsubmit="return false">
+        <input placeholder="নাম বা প্রোফাইল লিংক"><button>হিসাব দেখুন</button>
+      </form>
+    </div>
+    <div class="foot-n">জরুরি হেল্পলাইন ৯৯৯ · নারী ও শিশু ১০৯</div>
+  </section>
+
+  <div class="rollwrap"><div class="roll">
+    <div class="rh">
+      <b>দা গ</b>
+      <span>অনলাইন হয়রানির পাবলিক রেকর্ড</span>
+    </div>
+    <div class="meta-l"><span>নথি #DG-2026</span><span>২৪.১০.২০২৬</span></div>
+    <div class="meta-l" style="margin-bottom:1rem"><span>যাচাই করেছেন মডারেটর ০৭</span><span>পৃষ্ঠা ১/১</span></div>
+
+    <div class="item">
+      <div class="r1"><span>ভিকটিমকে দোষারোপ</span><span>অতি গুরুতর</span></div>
+      <q>মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q>
+      <div class="r2"><span>DG-2026-8351 · ঢাকা</span><span>১৩.১০.২৬</span></div>
+    </div>
+    <div class="item">
+      <div class="r1"><span>হুমকি</span><span>অতি গুরুতর</span></div>
+      <q>এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।</q>
+      <div class="r2"><span>DG-2026-4959 · চট্টগ্রাম</span><span>১২.১০.২৬</span></div>
+    </div>
+    <div class="item">
+      <div class="r1"><span>অমানবিক ভাষা</span><span>অতি গুরুতর</span></div>
+      <q>এসব মেয়ের জন্য এটাই উপযুক্ত শাস্তি।</q>
+      <div class="r2"><span>DG-2026-2699 · খুলনা</span><span>০৯.১০.২৬</span></div>
+    </div>
+    <div class="item">
+      <div class="r1"><span>নারীবিদ্বেষ</span><span>গুরুতর</span></div>
+      <q>মেয়েমানুষ সাংবাদিকতা করতে এসেছে, ঘরে বসে থাক।</q>
+      <div class="r2"><span>DG-2026-3963 · সিলেট</span><span>০৭.১০.২৬</span></div>
+    </div>
+
+    <div class="tot">
+      <div><span>মোট নথিভুক্ত</span><span>২৫</span></div>
+      <div><span>চিহ্নিত ব্যক্তি</span><span>১২</span></div>
+      <div><span>বাতিল হয়েছে</span><span>০৭</span></div>
+      <div><span>আপিল বিচারাধীন</span><span>০১</span></div>
+      <div class="big"><span>স্থায়ী রেকর্ড</span><span>২৫</span></div>
+    </div>
+
+    <div class="stamp">
+      <div class="s">পরিশোধ হয়নি</div>
+      <p>এই রসিদ ফেরত নেওয়া যায় না।<br>প্রশ্ন থাকলে আপিল করুন · ১৪ কর্মদিবস</p>
+    </div>
+    <div class="bars" id="bars"></div>
+  </div></div>
+</div>
+
+<script>
+// barcode strip, drawn rather than pasted so it never looks like clip art
+var b=document.getElementById('bars'),h='';
+for(var i=0;i<58;i++){
+  h+='<i style="height:'+(18+Math.round(Math.random()*24))+'px;width:'+(Math.random()<.3?3:1.5)+'px"></i>';
+}
+b.innerHTML=h;
+</script>
+
+<div class="flip"><b>v3</b><a href="01-stain.html">01 দাগ</a><a href="02-indelible.html">02 মোছা যায় না</a><a href="03-redacted.html">03 কালো কালি</a><a href="04-thread.html">04 থ্রেড</a><a class="on" href="05-receipt.html">05 রসিদ</a><a href="06-board.html">06 তদন্ত বোর্ড</a><a href="07-hand.html">07 হাতের লেখা</a><a href="08-mirror.html">08 আয়না</a><a href="09-kantha.html">09 কাঁথা</a><a href="10-wall.html">10 দেয়াল</a><a href="11-pressure.html">11 চাপ</a><a href="12-exhibit.html">12 প্রমাণ</a></div>
+</body></html>

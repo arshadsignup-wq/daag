@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>04 থ্রেড — The Thread</title><link rel="stylesheet" href="_b.css">
+<style>
+/* THE MOMENT: the familiar comment thread, rendered faithfully — then as you
+   scroll the platform chrome drains away (avatars, likes, timestamps, colour)
+   until only the sentences are left, each one stamped with a case number.
+   The interface you scroll past every day becomes evidence in front of you. */
+body{background:#eef0f3;color:#0f1114;font-family:var(--sans);line-height:1.6}
+.top{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.2rem;gap:2rem;
+  background:#fff;border-bottom:1px solid #dcdfe4;position:sticky;top:0;z-index:30}
+.lg{font-family:var(--fat);font-weight:800;font-size:21px;text-decoration:none;color:#0f1114}
+.lg i{font-style:normal;color:#d1242f}
+.top nav{display:flex;gap:1.2rem;font-size:13px}.top nav a{color:#5f6672;text-decoration:none}
+.go{background:#d1242f;color:#fff;text-decoration:none;font-size:12.5px;font-weight:600;padding:.5rem 1.1rem;border-radius:999px}
+.intro{max-width:720px;margin:0 auto;padding:3.4rem 1.5rem 2rem;text-align:center}
+.kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#d1242f;margin-bottom:1.1rem}
+h1{font-family:var(--fat);font-weight:800;font-size:clamp(2rem,5vw,3.4rem);line-height:1.02;
+  margin:0 0 .9rem;letter-spacing:-.03em}
+.intro p{color:#5f6672;margin:0 auto;max-width:44ch;font-size:15.5px}
+.scrolltip{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:#9aa1ad;margin-top:2rem}
+
+.feed{max-width:720px;margin:0 auto;padding:0 1.5rem 5rem}
+.post{background:#fff;border:1px solid #dcdfe4;border-radius:10px;overflow:hidden;margin-bottom:1.2rem}
+.post .ph{padding:1rem 1.2rem;border-bottom:1px solid #eef0f3}
+.post .ph b{display:block;font-size:14.5px}
+.post .ph span{font-size:11.5px;color:#8b93a1}
+.post .body{padding:1.1rem 1.2rem;font-size:15px}
+.post .bar{display:flex;gap:1.6rem;padding:.7rem 1.2rem;border-top:1px solid #eef0f3;
+  font-size:12.5px;color:#737b89}
+
+.c{display:grid;grid-template-columns:38px 1fr;gap:.75rem;padding:.85rem 0;transition:all .55s ease}
+.c .av{width:38px;height:38px;border-radius:50%;background:#d6dae1;display:grid;place-items:center;
+  font-family:var(--fat);font-weight:700;color:#7b838f;font-size:15px;transition:all .55s}
+.c .bub{background:#f1f3f6;border-radius:14px;padding:.6rem .9rem;transition:all .55s}
+.c .nm{font-size:13px;font-weight:600;margin-bottom:.12rem;transition:all .55s}
+.c .tx{font-size:14.5px;line-height:1.5}
+.c .act{font-size:11.5px;color:#8b93a1;margin-top:.3rem;display:flex;gap:.9rem;transition:opacity .55s}
+.c .stampid{font-family:var(--mono);font-size:10px;letter-spacing:.07em;color:#d1242f;
+  opacity:0;height:0;overflow:hidden;transition:opacity .55s}
+
+/* the stripped state */
+.c.bare .av{opacity:0;transform:scale(.4)}
+.c.bare .bub{background:transparent;padding:0;border-left:3px solid #d1242f;padding-left:1rem;border-radius:0}
+.c.bare .nm{opacity:0;height:0;margin:0;overflow:hidden}
+.c.bare .act{opacity:0;height:0;overflow:hidden;margin:0}
+.c.bare .stampid{opacity:1;height:auto;margin-top:.45rem}
+.c.bare .tx{font-family:var(--ser);font-size:17px;line-height:1.5}
+.c.kind.bare{opacity:.12}
+
+.after{max-width:720px;margin:0 auto;padding:1rem 1.5rem 5rem;text-align:center}
+.after h2{font-family:var(--fat);font-weight:800;font-size:clamp(1.5rem,3.6vw,2.4rem);line-height:1.15;
+  margin:0 0 1rem;letter-spacing:-.02em}
+.after p{color:#5f6672;max-width:42ch;margin:0 auto 1.7rem}
+.f{display:flex;max-width:440px;margin:0 auto;border:2px solid #0f1114;border-radius:999px;overflow:hidden;background:#fff}
+.f input{flex:1;border:0;outline:none;padding:.75rem 1.2rem;font-size:14.5px}
+.f button{border:0;background:#0f1114;color:#fff;font-weight:600;padding:0 1.4rem;cursor:pointer;font-size:13.5px}
+</style></head><body>
+
+<header class="top">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<section class="intro">
+  <div class="kick">চেনা জায়গা, চেনা দৃশ্য</div>
+  <h1>আপনি রোজ এটা স্ক্রল করে চলে যান।</h1>
+  <p>নিচেরটা একটা সাধারণ কমেন্ট থ্রেড। স্ক্রল করতে থাকুন — চেনা মোড়কটা খসে পড়বে।</p>
+  <div class="scrolltip">↓ স্ক্রল করুন</div>
+</section>
+
+<main class="feed">
+  <article class="post">
+    <div class="ph"><b>দৈনিক সংবাদ</b><span>১৩ অক্টোবর ২০২৬ · পাবলিক</span></div>
+    <div class="body">মিরপুরে এক তরুণীর ওপর নির্যাতনের অভিযোগে মামলা। আদালতে আজ শুনানি।</div>
+    <div class="bar"><span>৪১৭টি মন্তব্য</span><span>১.২ হাজার</span><span>শেয়ার ৩১৮</span></div>
+  </article>
+
+  <div id="cs">
+    <div class="c kind"><div class="av">স</div><div><div class="bub"><div class="nm">সুমাইয়া আক্তার</div>
+      <div class="tx">মেয়েটার জন্য খারাপ লাগছে। বিচার হোক।</div></div>
+      <div class="act"><span>পছন্দ</span><span>উত্তর</span><span>২ ঘ</span></div></div></div>
+
+    <div class="c"><div class="av">র</div><div><div class="bub"><div class="nm">রাকিব হাসান</div>
+      <div class="tx">মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</div></div>
+      <div class="act"><span>পছন্দ ৮৪</span><span>উত্তর</span><span>২ ঘ</span></div>
+      <div class="stampid">DG-2026-8351 · ভিকটিমকে দোষারোপ · যাচাইকৃত</div></div></div>
+
+    <div class="c kind"><div class="av">আ</div><div><div class="bub"><div class="nm">আরিফুল ইসলাম</div>
+      <div class="tx">দ্রুত বিচার চাই।</div></div>
+      <div class="act"><span>পছন্দ ১২</span><span>উত্তর</span><span>১ ঘ</span></div></div></div>
+
+    <div class="c"><div class="av">ম</div><div><div class="bub"><div class="nm">মিজানুর রহমান</div>
+      <div class="tx">এসব খবর সাজানো, বিশ্বাস করবেন না।</div></div>
+      <div class="act"><span>পছন্দ ৩১</span><span>উত্তর</span><span>১ ঘ</span></div>
+      <div class="stampid">DG-2026-7720 · মিথ্যা দাবি · যাচাইকৃত</div></div></div>
+
+    <div class="c"><div class="av">শ</div><div><div class="bub"><div class="nm">শাহরিয়ার মনির</div>
+      <div class="tx">এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।</div></div>
+      <div class="act"><span>পছন্দ ১৯</span><span>উত্তর</span><span>৫৮ মি</span></div>
+      <div class="stampid">DG-2026-4959 · হুমকি · আপিল চলছে</div></div></div>
+
+    <div class="c kind"><div class="av">ন</div><div><div class="bub"><div class="nm">নাফিসা রহমান</div>
+      <div class="tx">কমেন্টগুলো পড়ে আরও খারাপ লাগছে।</div></div>
+      <div class="act"><span>পছন্দ ২০৩</span><span>উত্তর</span><span>৪০ মি</span></div></div></div>
+
+    <div class="c"><div class="av">ত</div><div><div class="bub"><div class="nm">তানভীর আলম</div>
+      <div class="tx">ওর পোশাক দেখলেই তো বোঝা যায়।</div></div>
+      <div class="act"><span>পছন্দ ৬৭</span><span>উত্তর</span><span>২২ মি</span></div>
+      <div class="stampid">DG-2026-7104 · ভিকটিমকে দোষারোপ · যাচাইকৃত</div></div></div>
+  </div>
+</main>
+
+<section class="after">
+  <h2>মোড়কটা খুলে গেলে যা থাকে।</h2>
+  <p>চারশো সতেরোটা মন্তব্যের মধ্যে চারটি রেকর্ডে গেছে। বাকিগুলো যাচাইয়ে টেকেনি।</p>
+  <form class="f" onsubmit="return false">
+    <input placeholder="নাম বা প্রোফাইল লিংক"><button>যাচাই করুন</button>
+  </form>
+</section>
+
+<script>
+// Each comment strips its platform chrome once it has been on screen a beat.
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting)setTimeout(function(){e.target.classList.add('bare')},160);
+  });
+},{rootMargin:'-30% 0px -30% 0px'});
+document.querySelectorAll('#cs .c').forEach(function(c){io.observe(c)});
+</script>
+
+<div class="flip"><b>v3</b><a href="01-stain.html">01 দাগ</a><a href="02-indelible.html">02 মোছা যায় না</a><a href="03-redacted.html">03 কালো কালি</a><a class="on" href="04-thread.html">04 থ্রেড</a><a href="05-receipt.html">05 রসিদ</a><a href="06-board.html">06 তদন্ত বোর্ড</a><a href="07-hand.html">07 হাতের লেখা</a><a href="08-mirror.html">08 আয়না</a><a href="09-kantha.html">09 কাঁথা</a><a href="10-wall.html">10 দেয়াল</a><a href="11-pressure.html">11 চাপ</a><a href="12-exhibit.html">12 প্রমাণ</a></div>
+</body></html>

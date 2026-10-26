@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>06 Timeline — দাগ</title><link rel="stylesheet" href="_base.css">
+<style>
+/* ARCHITECTURE: time is the organising axis, not relevance. A horizontal,
+   draggable chronology where each incident is a column and the comments it
+   provoked stack under it. Reading left to right IS the product. */
+.head{padding:2.4rem 2rem 1.4rem;max-width:760px}
+.head h1{font-family:var(--disp);font-weight:800;font-size:clamp(1.8rem,4vw,3rem);line-height:1.12;
+  margin:.6rem 0 .7rem;letter-spacing:-.022em}
+.head h1 i{font-style:normal;color:var(--red)}
+.head p{color:var(--ink2);margin:0;font-size:15px;max-width:52ch}
+.rail-wrap{position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:var(--pg1);overflow:hidden}
+.axis{display:flex;align-items:center;gap:.6rem;padding:.6rem 2rem;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.axis .yr{color:var(--ink);border:1px solid var(--line2);padding:.2rem .6rem;border-radius:999px}
+.rail{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x proximity;cursor:grab;
+  padding:1.6rem 2rem 2rem;scrollbar-width:thin}
+.rail.drag{cursor:grabbing;scroll-snap-type:none}
+.ev{flex:0 0 310px;scroll-snap-align:center;padding-right:1.6rem;position:relative}
+.ev::before{content:'';position:absolute;left:0;right:0;top:46px;height:1px;background:var(--line2)}
+.ev .dot{width:13px;height:13px;border-radius:50%;background:var(--pg);border:3px solid var(--red);
+  position:relative;z-index:1;margin-top:40px}
+.ev.quiet .dot{border-color:var(--line2)}
+.ev .dt{font-family:var(--mono);font-size:10.5px;color:var(--ink3);letter-spacing:.07em;margin-bottom:.1rem;height:16px}
+.ev h3{font-family:var(--disp);font-weight:700;font-size:1.05rem;line-height:1.35;margin:.9rem 0 .2rem;max-width:17rem}
+.ev .pl{font-family:var(--mono);font-size:10px;color:var(--ink3);letter-spacing:.06em;margin-bottom:.9rem}
+.ev .stack{display:flex;flex-direction:column;gap:.5rem;max-width:17rem}
+.ev .c{background:var(--pg);border:1px solid var(--line);border-left:2px solid var(--red);
+  border-radius:0 8px 8px 0;padding:.6rem .75rem;font-size:12.5px;line-height:1.5;color:var(--ink2);
+  transition:transform .18s,border-color .18s}
+.ev .c:hover{transform:translateX(3px);border-left-color:var(--ink)}
+.ev .c b{display:block;font-family:var(--mono);font-size:9.5px;color:var(--ink3);margin-top:.3rem;font-weight:400}
+.ev .none{font-size:12.5px;color:var(--ink3);font-style:italic}
+.scrub{display:flex;align-items:center;gap:1rem;padding:.8rem 2rem;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
+.scrub input{flex:1;accent-color:var(--red)}
+.below{padding:2.4rem 2rem 3rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.4rem;max-width:1240px;margin:0 auto}
+.below div b{display:block;font-family:var(--disp);font-weight:800;font-size:2rem;line-height:1}
+.below div span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+</style></head><body>
+
+<header class="bar">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<section class="head">
+  <div class="lbl">সময় ধরে সাজানো</div>
+  <h1>প্রতিটি ঘটনার পর <i>কারা কী লিখেছিল।</i></h1>
+  <p>বাঁ থেকে ডানে টেনে দেখুন। উপরে ঘটনা, নিচে সেই ঘটনার পর যা লেখা হয়েছিল।</p>
+</section>
+
+<div class="rail-wrap">
+  <div class="axis"><span class="yr">২০২৬</span><span>অক্টোবর</span><span>→</span><span>টেনে সরান বা স্ক্রল করুন</span></div>
+  <div class="rail" id="rail"></div>
+  <div class="scrub"><span>সেপ্টে</span><input type="range" id="sc" min="0" max="100" value="0" oninput="jump(this.value)"><span>অক্টো</span></div>
+</div>
+
+<section class="below">
+  <div><b>২৫</b><span>নথিভুক্ত মন্তব্য</span></div>
+  <div><b>৭</b><span>ঘটনা</span></div>
+  <div><b>১২</b><span>চিহ্নিত ব্যক্তি</span></div>
+  <div><b>৯৩%</b><span>যাচাইয়ে টিকেছে</span></div>
+</section>
+
+<script>
+var EV=[
+ {d:'২৮ সেপ্টেম্বর',t:'একটি সাইবার হয়রানির অভিযোগ সংবাদে আসে',p:'ঢাকা · অনলাইন সংবাদ',c:[]},
+ {d:'০৬ অক্টোবর',t:'নির্যাতনের একটি ঘটনা সামনে আসে',p:'চট্টগ্রাম · ফেসবুক পোস্ট',c:[
+   ['মেয়েমানুষ বাইরে গেলে এমনই হয়।','DG-2026-4412'],
+   ['এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।','DG-2026-4959']]},
+ {d:'০৮ অক্টোবর',t:'একটি ধর্ষণের মামলার খবর প্রকাশ',p:'ঢাকা · সংবাদপত্র',c:[
+   ['ওর পোশাক দেখলেই তো বোঝা যায়।','DG-2026-7104']]},
+ {d:'০৯ অক্টোবর',t:'অ্যাসিড সহিংসতার ভিডিও ছড়ায়',p:'খুলনা · ইউটিউব',c:[
+   ['এসব মেয়ের জন্য এটাই উপযুক্ত শাস্তি।','DG-2026-2699']]},
+ {d:'১১ অক্টোবর',t:'ঘটনাটি নিয়ে পাল্টা দাবি ওঠে',p:'ঢাকা · ফেসবুক',c:[
+   ['এসব খবর সাজানো, বিশ্বাস করবেন না।','DG-2026-7720']]},
+ {d:'১২ অক্টোবর',t:'একজন নারী সাংবাদিক প্রতিবেদন করেন',p:'সিলেট · অনলাইন',c:[
+   ['মেয়েমানুষ সাংবাদিকতা করতে এসেছে, ঘরে বসে থাক।','DG-2026-3963']]},
+ {d:'১৩ অক্টোবর',t:'আদালতের শুনানির খবর আসে',p:'ঢাকা · সংবাদপত্র',c:[
+   ['মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।','DG-2026-8351'],
+   ['মেয়েটার চরিত্র নিয়ে আগে খোঁজ নিন।','DG-2026-6611']]}
+];
+var rail=document.getElementById('rail');
+rail.innerHTML=EV.map(function(e){
+  return '<div class="ev'+(e.c.length?'':' quiet')+'">'+
+    '<div class="dt">'+e.d+'</div><div class="dot"></div>'+
+    '<h3>'+e.t+'</h3><div class="pl">'+e.p+'</div>'+
+    '<div class="stack">'+(e.c.length?e.c.map(function(c){
+      return '<div class="c">'+c[0]+'<b>'+c[1]+' · যাচাইকৃত</b></div>'}).join('')
+      :'<div class="none">কোনো আপত্তিকর মন্তব্য নথিভুক্ত হয়নি।</div>')+'</div></div>';
+}).join('');
+
+function jump(v){rail.scrollLeft=(rail.scrollWidth-rail.clientWidth)*(v/100)}
+rail.addEventListener('scroll',function(){
+  var m=rail.scrollWidth-rail.clientWidth;
+  document.getElementById('sc').value=m?Math.round(rail.scrollLeft/m*100):0;
+});
+// click-drag to pan, which suits a horizontal rail better than a scrollbar
+var down=false,sx=0,sl=0;
+rail.addEventListener('mousedown',function(e){down=true;sx=e.pageX;sl=rail.scrollLeft;rail.classList.add('drag')});
+['mouseup','mouseleave'].forEach(function(ev){
+  rail.addEventListener(ev,function(){down=false;rail.classList.remove('drag')});
+});
+rail.addEventListener('mousemove',function(e){
+  if(!down)return; e.preventDefault(); rail.scrollLeft=sl-(e.pageX-sx);
+});
+</script>
+
+<div class="flip"><b>v2 · ১০টি কাঠামো</b>
+<a href="01-lookup.html">01 Lookup</a><a href="02-atlas.html">02 Atlas</a><a href="03-scrollytale.html">03 Scrollytale</a>
+<a href="04-wall.html">04 Wall</a><a href="05-split.html">05 Split</a><a class="on" href="06-timeline.html">06 Timeline</a>
+<a href="07-stack.html">07 Stack</a><a href="08-index.html">08 Index</a><a href="09-counter.html">09 Counter</a>
+<a href="10-terminal.html">10 Terminal</a></div>
+</body></html>

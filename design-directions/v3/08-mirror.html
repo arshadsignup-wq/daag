@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>08 আয়না — The Mirror</title><link rel="stylesheet" href="_b.css">
+<style>
+/* THE MOMENT: almost nothing on the page. One sentence at a time, in the
+   second person, arriving slowly. No cards, no stats, no grid. It asks the
+   visitor a question instead of presenting them a product. Restraint as force. */
+body{background:#0c0c0d;color:#f0eeea;font-family:var(--sans);line-height:1.6}
+.rail{position:fixed;left:0;top:0;bottom:40px;width:2px;background:#1c1c1f;z-index:5}
+.rail i{display:block;width:2px;background:#c01f1f;height:0;transition:height .25s}
+.brand{position:fixed;top:1.4rem;left:2rem;z-index:6;font-family:var(--fat);font-weight:800;
+  font-size:20px;text-decoration:none;color:#f0eeea}
+.brand i{font-style:normal;color:#c01f1f}
+.skip{position:fixed;top:1.5rem;right:2rem;z-index:6;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:#6a6a70;text-decoration:none}
+.skip:hover{color:#f0eeea}
+
+.beat{min-height:100vh;display:grid;place-items:center;padding:4rem 2rem;text-align:center}
+.beat p{font-family:var(--ser);font-size:clamp(1.5rem,4.2vw,3.1rem);line-height:1.42;
+  max-width:19ch;margin:0;opacity:0;transform:translateY(22px);
+  transition:opacity 1.1s cubic-bezier(.2,.7,.3,1),transform 1.1s cubic-bezier(.2,.7,.3,1)}
+.beat.in p{opacity:1;transform:none}
+.beat.red p{color:#ff4b43}
+.beat small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:#5c5c62;margin-top:2rem;opacity:0;transition:opacity 1.2s .5s}
+.beat.in small{opacity:1}
+
+/* the quoted sentence gets a different weight entirely */
+.beat.said p{font-family:var(--fat);font-weight:700;font-size:clamp(1.7rem,5.2vw,3.8rem);
+  line-height:1.26;max-width:17ch;letter-spacing:-.02em}
+
+.final{min-height:100vh;display:grid;place-items:center;padding:4rem 2rem;text-align:center}
+.final .in{max-width:640px}
+.final h2{font-family:var(--fat);font-weight:800;font-size:clamp(1.9rem,5.4vw,3.6rem);line-height:1.06;
+  margin:0 0 1.2rem;letter-spacing:-.03em}
+.final h2 em{font-style:normal;color:#ff4b43}
+.final p{color:#9b9ba2;font-size:16px;max-width:42ch;margin:0 auto 2.2rem}
+.f{display:flex;max-width:460px;margin:0 auto 1.4rem;border:1px solid #33333a;border-radius:999px;
+  overflow:hidden;background:#141416}
+.f input{flex:1;border:0;outline:none;background:transparent;padding:.85rem 1.3rem;font-size:15px;color:#fff}
+.f button{border:0;background:#c01f1f;color:#fff;font-weight:600;padding:0 1.5rem;cursor:pointer;font-size:14px}
+.note{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:#5c5c62}
+.help{position:fixed;bottom:48px;left:50%;transform:translateX(-50%);z-index:6;
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#4e4e55}
+</style></head><body>
+
+<div class="rail"><i id="prog"></i></div>
+<a class="brand" href="#">দা<i>গ</i></a>
+<a class="skip" href="#end">সরাসরি খুঁজুন →</a>
+
+<section class="beat"><p>আপনি কাউকে চেনেন।</p></section>
+<section class="beat"><p>ভদ্র। হাসিখুশি। পরিবারের ছবি দেন।</p></section>
+<section class="beat"><p>গত মাসে একটা খবর এসেছিল। একটি মেয়ের ওপর নির্যাতনের খবর।</p></section>
+<section class="beat"><p>খবরটার নিচে, নিজের নামে, প্রকাশ্যে, সে লিখেছিল —</p></section>
+<section class="beat said red"><p>"মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।"</p>
+  <small>DG-2026-8351 · ঢাকা · যাচাইকৃত</small></section>
+<section class="beat"><p>তারপর পোস্টটা মুছে ফেলা হয়েছিল।</p></section>
+<section class="beat red"><p>আপনি জানতেন না।</p></section>
+<section class="beat"><p>এখন জানার উপায় আছে।</p></section>
+
+<section class="final" id="end"><div class="in">
+  <h2>নামটা লিখুন।<br><em>বাকিটা আমরা দেখাচ্ছি।</em></h2>
+  <p>২৫টি যাচাই করা এন্ট্রি। ১২ জন চিহ্নিত ব্যক্তি। সবগুলো প্রকাশ্যে লেখা, সবগুলো প্রমাণসহ।</p>
+  <form class="f" onsubmit="return false">
+    <input placeholder="নাম, ফেসবুক লিংক বা ইউজারনেম"><button>যাচাই করুন</button>
+  </form>
+  <div class="note">আপনার সার্চ আমরা রাখি না · জরুরি হেল্পলাইন ৯৯৯ / ১০৯</div>
+</div></section>
+
+<div class="help" id="hint">↓ স্ক্রল করুন</div>
+
+<script>
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting)e.target.classList.add('in');
+  });
+},{threshold:.4});
+document.querySelectorAll('.beat').forEach(function(b){io.observe(b)});
+var prog=document.getElementById('prog'),hint=document.getElementById('hint');
+addEventListener('scroll',function(){
+  var m=document.body.scrollHeight-innerHeight;
+  prog.style.height=(m? scrollY/m*100:0)+'%';
+  hint.style.opacity=scrollY>120?0:1;
+},{passive:true});
+</script>
+
+<div class="flip"><b>v3</b><a href="01-stain.html">01 দাগ</a><a href="02-indelible.html">02 মোছা যায় না</a><a href="03-redacted.html">03 কালো কালি</a><a href="04-thread.html">04 থ্রেড</a><a href="05-receipt.html">05 রসিদ</a><a href="06-board.html">06 তদন্ত বোর্ড</a><a href="07-hand.html">07 হাতের লেখা</a><a class="on" href="08-mirror.html">08 আয়না</a><a href="09-kantha.html">09 কাঁথা</a><a href="10-wall.html">10 দেয়াল</a><a href="11-pressure.html">11 চাপ</a><a href="12-exhibit.html">12 প্রমাণ</a></div>
+</body></html>

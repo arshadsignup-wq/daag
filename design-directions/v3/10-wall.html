@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>10 দেয়াল — The Wall</title><link rel="stylesheet" href="_b.css">
+<style>
+/* THE MOMENT: a Dhaka wall. Wheatpasted notices layered over each other,
+   torn at the corners, sprayed over. The lineage is the 2024 graffiti and the
+   liberation-era poster, not a Western landing page. Loud, public, unpolished. */
+body{font-family:var(--sans);line-height:1.6;color:#f2ece1;
+  background:#4a4742;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.62' numOctaves='5'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E"),
+    linear-gradient(170deg,#55514b,#3a3733 70%)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;gap:2rem;
+  position:relative;z-index:9}
+.lg{font-family:var(--fat);font-weight:800;font-size:23px;text-decoration:none;color:#f2ece1;
+  text-shadow:2px 2px 0 #c01b16}
+.lg i{font-style:normal;color:#ff3b2f}
+.top nav{display:flex;gap:1.2rem;font-size:13px}
+.top nav a{color:#cfc7ba;text-decoration:none}
+.go{background:#ff3b2f;color:#1a1916;text-decoration:none;font-size:12.5px;font-weight:700;
+  padding:.5rem 1.1rem;transform:rotate(-1.5deg);display:inline-block}
+
+.wall{position:relative;max-width:1280px;margin:0 auto;padding:1rem 2rem 5rem;min-height:92vh}
+/* pasted sheets */
+.paste{position:relative;background:#f4eee1;color:#1a1916;padding:1.3rem 1.4rem;
+  box-shadow:0 10px 26px rgba(0,0,0,.45);margin-bottom:-14px}
+.paste::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.45;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23m)' opacity='.1'/%3E%3C/svg%3E")}
+/* torn bottom edge */
+.torn{-webkit-mask:linear-gradient(#000 0 0) top/100% calc(100% - 13px) no-repeat,
+   repeating-linear-gradient(90deg,#000 0 6px,transparent 6px 9px) bottom/100% 13px no-repeat;
+  mask:linear-gradient(#000 0 0) top/100% calc(100% - 13px) no-repeat,
+   repeating-linear-gradient(90deg,#000 0 6px,transparent 6px 9px) bottom/100% 13px no-repeat}
+.main-sheet{max-width:760px;transform:rotate(-.8deg);padding:2.2rem 2.2rem 2.6rem;z-index:5}
+.stamp{display:inline-block;background:#1a1916;color:#f4eee1;font-family:var(--mono);font-size:10px;
+  letter-spacing:.18em;text-transform:uppercase;padding:.35rem .8rem;margin-bottom:1.2rem;
+  transform:rotate(1.2deg)}
+h1{font-family:var(--fat);font-weight:800;font-size:clamp(2.4rem,7.4vw,5.4rem);line-height:.92;
+  margin:0 0 1rem;letter-spacing:-.035em;color:#1a1916}
+h1 em{font-style:normal;background:#ff3b2f;color:#f4eee1;padding:0 .1em;display:inline-block;
+  transform:rotate(-1.2deg)}
+.main-sheet p{font-size:16px;color:#3a362f;max-width:44ch;margin:0 0 1.6rem}
+.f{display:flex;max-width:460px;border:3px solid #1a1916;background:#fff}
+.f input{flex:1;border:0;outline:none;padding:.8rem 1.1rem;font-size:15px;color:#1a1916;background:transparent}
+.f button{border:0;border-left:3px solid #1a1916;background:#1a1916;color:#f4eee1;font-family:var(--fat);
+  font-weight:700;font-size:15px;padding:0 1.4rem;cursor:pointer}
+
+.notices{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:1.5rem;
+  margin-top:3.2rem;position:relative;z-index:4}
+.notice{padding:1.1rem 1.2rem;background:#efe8d8}
+.n1{transform:rotate(1.3deg)}.n2{transform:rotate(-1.6deg)}.n3{transform:rotate(.7deg)}
+.notice .hd{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:#c01b16;margin-bottom:.6rem;display:flex;justify-content:space-between;gap:.6rem}
+.notice q{display:block;font-family:var(--fat);font-weight:600;font-size:1.1rem;line-height:1.38;
+  color:#1a1916;margin:0 0 .8rem}
+.notice .ft{font-family:var(--mono);font-size:9.5px;color:#6a6358;border-top:1px solid #d6cdb9;padding-top:.5rem}
+/* spray-paint overline, the loudest thing on the page */
+.spray{position:relative;z-index:8;margin:3.4rem 0 0;text-align:center}
+.spray span{font-family:var(--fat);font-weight:800;font-size:clamp(1.6rem,5.4vw,3.4rem);
+  color:#ff3b2f;letter-spacing:-.02em;display:inline-block;transform:rotate(-2deg);
+  text-shadow:0 0 22px rgba(255,59,47,.55),0 0 46px rgba(255,59,47,.28);
+  -webkit-text-stroke:1px rgba(255,59,47,.5)}
+.tiny{text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  color:#a79e90;margin-top:1.4rem}
+</style></head><body>
+
+<header class="top">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<main class="wall">
+  <section class="paste torn main-sheet">
+    <span class="stamp">দেয়ালে সাঁটা · ঢাকা · ২০২৬</span>
+    <h1>মুছে ফেলেছ?<br><em>আমরা আবার সাঁটব।</em></h1>
+    <p>পোস্ট ডিলিট হয়। অ্যাকাউন্ট উধাও হয়। কিন্তু যে কথাটা একবার প্রকাশ্যে বলা হয়েছে, সেটা দেয়ালে থেকে যায়।</p>
+    <form class="f" onsubmit="return false">
+      <input placeholder="নাম, ফেসবুক লিংক বা ইউজারনেম"><button>যাচাই</button>
+    </form>
+  </section>
+
+  <div class="notices">
+    <article class="paste torn notice n1">
+      <div class="hd"><span>DG-2026-8351</span><span>অতি গুরুতর</span></div>
+      <q>মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q>
+      <div class="ft">ফেসবুক · ঢাকা · ১৩ অক্টোবর ২০২৬ · যাচাইকৃত</div>
+    </article>
+    <article class="paste torn notice n2">
+      <div class="hd"><span>DG-2026-4959</span><span>অতি গুরুতর</span></div>
+      <q>এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।</q>
+      <div class="ft">ফেসবুক · চট্টগ্রাম · ১২ অক্টোবর ২০২৬ · আপিল চলছে</div>
+    </article>
+    <article class="paste torn notice n3">
+      <div class="hd"><span>DG-2026-2699</span><span>অতি গুরুতর</span></div>
+      <q>এসব মেয়ের জন্য এটাই উপযুক্ত শাস্তি।</q>
+      <div class="ft">ইউটিউব · খুলনা · ০৯ অক্টোবর ২০২৬ · যাচাইকৃত</div>
+    </article>
+  </div>
+
+  <div class="spray"><span>কথা দেয়ালে থাকে</span></div>
+  <div class="tiny">২৫টি নথিভুক্ত · ১২ জন চিহ্নিত · জরুরি হেল্পলাইন ৯৯৯ · নারী ও শিশু ১০৯</div>
+</main>
+
+<div class="flip"><b>v3</b><a href="01-stain.html">01 দাগ</a><a href="02-indelible.html">02 মোছা যায় না</a><a href="03-redacted.html">03 কালো কালি</a><a href="04-thread.html">04 থ্রেড</a><a href="05-receipt.html">05 রসিদ</a><a href="06-board.html">06 তদন্ত বোর্ড</a><a href="07-hand.html">07 হাতের লেখা</a><a href="08-mirror.html">08 আয়না</a><a href="09-kantha.html">09 কাঁথা</a><a class="on" href="10-wall.html">10 দেয়াল</a><a href="11-pressure.html">11 চাপ</a><a href="12-exhibit.html">12 প্রমাণ</a></div>
+</body></html>

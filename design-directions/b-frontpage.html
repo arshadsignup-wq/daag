@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="bn" data-dir="b">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Direction B — Front Page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@500;700;800&family=Hind+Siliguri:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;--ink:#101014;--ink2:#44444e;--ink3:#86868f;
+  --rule:#e6e6ea;--red:#d61f33;--hi:#ffd84d;--dark:#101014;
+  --mono:'DM Mono',monospace;--sans:'Hind Siliguri',system-ui,sans-serif;
+  --disp:'Anek Bangla',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1300px;margin:0 auto;padding:0 2rem}
+
+nav{background:var(--dark);color:#fff;position:sticky;top:0;z-index:20}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:2rem;padding:.85rem 0}
+.lg{font-family:var(--disp);font-weight:800;font-size:22px;letter-spacing:-.01em;color:#fff;text-decoration:none;display:flex;align-items:center;gap:.6rem}
+.lg i{width:26px;height:26px;background:var(--red);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-style:normal}
+.nv{display:flex;gap:1.5rem;font-size:13.5px}
+.nv a{color:#c9c9d2;text-decoration:none}
+.nv a:hover,.nv a.on{color:#fff}
+.cta{background:var(--red);color:#fff;text-decoration:none;font-size:13.5px;font-weight:600;padding:.55rem 1.2rem;border-radius:999px}
+
+/* hero */
+.hero{padding:3.5rem 0 2.5rem;border-bottom:1px solid var(--rule)}
+.kicker{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:1rem}
+h1{font-family:var(--disp);font-weight:800;font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.08;margin:0 0 1.2rem;max-width:17ch;letter-spacing:-.02em}
+h1{position:relative;z-index:0}
+h1 mark{position:relative;background:none;color:inherit;display:inline-block;z-index:0}
+h1 mark::before{content:'';position:absolute;left:-.07em;right:-.07em;bottom:.30em;height:.26em;background:var(--hi);z-index:-1}
+.sub{font-size:17px;color:var(--ink2);max-width:60ch;margin:0 0 1.8rem}
+.find{display:flex;max-width:620px;border:2px solid var(--ink);border-radius:999px;overflow:hidden;background:#fff}
+.find input{flex:1;border:0;padding:.95rem 1.4rem;font-family:var(--sans);font-size:15px;outline:none}
+.find button{border:0;background:var(--ink);color:#fff;font-weight:600;font-size:14px;padding:0 1.8rem;cursor:pointer;font-family:var(--sans)}
+.find button:hover{background:var(--red)}
+.note{font-family:var(--mono);font-size:11px;color:var(--ink3);margin-top:.7rem}
+
+/* split feature */
+.grid{display:grid;grid-template-columns:1.9fr 1fr;gap:1.5rem;padding:2.5rem 0}
+.lead{position:relative;border-radius:14px;overflow:hidden;background:var(--dark);min-height:420px;display:flex;align-items:flex-end;color:#fff}
+.lead .shot{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(16,16,20,.15) 0%,rgba(16,16,20,.92) 72%),
+  repeating-linear-gradient(135deg,#2a2a34,#2a2a34 14px,#232330 14px,#232330 28px)}
+.lead .body{position:relative;padding:2rem;z-index:1}
+.lead h2{font-family:var(--disp);font-weight:700;font-size:1.9rem;line-height:1.25;margin:.5rem 0 .7rem}
+.lead q{display:block;font-size:14.5px;color:#d8d8e0;border-left:3px solid var(--red);padding-left:.9rem;margin-bottom:1rem}
+.chips{display:flex;gap:.45rem;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:.22rem .7rem}
+.chip.r{background:var(--red);border-color:var(--red)}
+.side{display:flex;flex-direction:column;gap:1rem}
+.card{border:1px solid var(--rule);border-radius:14px;padding:1.2rem;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--ink);transform:translateY(-2px)}
+.card .id{font-family:var(--mono);font-size:10.5px;color:var(--red);letter-spacing:.05em}
+.card h3{font-family:var(--disp);font-weight:700;font-size:1.05rem;line-height:1.35;margin:.4rem 0 .5rem}
+.card .m{font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
+
+/* stat strip */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.st{padding:1.6rem 1.2rem;border-right:1px solid var(--rule)}
+.st:last-child{border:0}
+.st b{display:block;font-family:var(--disp);font-weight:800;font-size:2.4rem;line-height:1}
+.st span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.st.hl b{color:var(--red)}
+
+/* how */
+.how{padding:3.5rem 0}
+.how-h{font-family:var(--disp);font-weight:800;font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.15;margin:0 0 2rem;max-width:20ch}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.step{border-top:3px solid var(--ink);padding-top:1rem}
+.step b{font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:.1em}
+.step h4{font-family:var(--disp);font-weight:700;font-size:1.15rem;margin:.5rem 0 .4rem}
+.step p{font-size:14px;color:var(--ink2);margin:0}
+footer{background:var(--dark);color:#9b9ba6;padding:2.5rem 0;font-size:13px;margin-top:2rem}
+footer b{color:#fff}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.strip{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap nav-in">
+  <a class="lg" href="#"><i>দ</i>দাগ</a>
+  <div class="nv"><a href="#" class="on">রেকর্ড</a><a href="#">মানচিত্র</a><a href="#">বিশ্লেষণ</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></div>
+  <a class="cta" href="#">প্রমাণ জমা দিন</a>
+</div></nav>
+
+<div class="wrap">
+  <header class="hero">
+    <span class="kicker">পরিচয় গোপন রেখে হয়রানির বিরুদ্ধে দাঁড়ান</span>
+    <h1>কে বলেছে, <mark>জেনে নিন।</mark></h1>
+    <p class="sub">ধর্ষণ বা নির্যাতনের খবর এলে কেউ লেখে "মেয়েটারই দোষ", কেউ গালি দেয়, কেউ হুমকি পাঠায়। দাগ সেই মন্তব্যগুলো প্রমাণসহ জমা রাখে। কাউকে বিশ্বাস করার আগে দেখে নিন, সে আগে কী লিখেছে।</p>
+    <form class="find" onsubmit="return false">
+      <input placeholder="নাম, ফেসবুক লিংক বা ইউজারনেম দিয়ে খুঁজুন…">
+      <button>যাচাই করুন</button>
+    </form>
+    <div class="note">শুধু যাচাই করা এন্ট্রি · আপনার সার্চ আমরা রাখি না</div>
+  </header>
+
+  <section class="grid">
+    <article class="lead">
+      <div class="shot"></div>
+      <div class="body">
+        <div class="chips"><span class="chip r">অতি গুরুতর</span><span class="chip">ফেসবুক</span><span class="chip">ঢাকা</span></div>
+        <h2>ধর্ষণের খবরে ভিকটিমকে দোষারোপ করে প্রকাশ্য মন্তব্য</h2>
+        <q>মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q>
+        <div class="note" style="color:#9b9ba6">DG-2026-8351 · ১৩ অক্টোবর ২০২৬ · যাচাইকৃত</div>
+      </div>
+    </article>
+    <div class="side">
+      <article class="card">
+        <div class="id">DG-2026-4959</div>
+        <h3>নির্যাতনের সংবাদের নিচে হুমকিমূলক মন্তব্য</h3>
+        <div class="m">চট্টগ্রাম · হুমকি · আপিল চলছে</div>
+      </article>
+      <article class="card">
+        <div class="id">DG-2026-2699</div>
+        <h3>অ্যাসিড সহিংসতার খবরে অবমাননাকর ভাষা</h3>
+        <div class="m">খুলনা · অমানবিক ভাষা · যাচাইকৃত</div>
+      </article>
+      <article class="card">
+        <div class="id">DG-2026-3963</div>
+        <h3>সাংবাদিকের পোস্টে নারীবিদ্বেষী আক্রমণ</h3>
+        <div class="m">সিলেট · নারীবিদ্বেষ · যাচাইকৃত</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="strip">
+    <div class="st"><b>২৫</b><span>নথিভুক্ত এন্ট্রি</span></div>
+    <div class="st"><b>১২</b><span>চিহ্নিত ব্যক্তি</span></div>
+    <div class="st"><b>২</b><span>যাচাই চলছে</span></div>
+    <div class="st hl"><b>৯৩%</b><span>যাচাইয়ে টিকেছে</span></div>
+  </section>
+
+  <section class="how">
+    <h2 class="how-h">এখানে কিছু হারিয়ে যায় না। তারা মুছে ফেললেও না।</h2>
+    <div class="steps">
+      <div class="step"><b>০১</b><h4>একটি কমেন্ট পাঠান</h4><p>লিংকটি পেস্ট করুন, স্ক্রিনশট দিন, কী ঘটেছে লিখুন। দুই মিনিটের মতো সময় লাগে।</p></div>
+      <div class="step"><b>০২</b><h4>একজন মানুষ যাচাই করেন</h4><p>কোনো বট নয়। মডারেটর লিংক খোলেন, স্ক্রিনশট আসল কি না দেখেন, তারপর সিদ্ধান্ত নেন।</p></div>
+      <div class="step"><b>০৩</b><h4>রেকর্ডে যুক্ত হয়</h4><p>নাম বা লিংক দিয়ে যে কেউ খুঁজে দেখতে পারেন। ভুল মনে হলে আপিল করা যায়।</p></div>
+    </div>
+  </section>
+</div>
+
+<footer><div class="wrap"><b>দাগ</b> · প্রতিটি শব্দ দাগ রেখে যায় · রেকর্ড, অস্ত্র নয় · জরুরি হেল্পলাইন <b>৯৯৯</b> / <b>১০৯</b></div></footer>
+</body>
+</html>

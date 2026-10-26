@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>01 দাগ — The Stain</title><link rel="stylesheet" href="_b.css">
+<style>
+/* THE MOMENT: the page stains as you scroll. Ink soaks outward from the
+   headline, bleeds through the paper, and never fades back. The brand word
+   made literal instead of written in a box. */
+body{background:#f2efe8;color:#141210;font-family:var(--sans);line-height:1.7}
+.paper{position:relative;min-height:100vh;overflow:hidden}
+.paper::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.55;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23f)' opacity='.085'/%3E%3C/svg%3E")}
+#ink{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none;filter:url(#goo);mix-blend-mode:multiply;opacity:.5}
+.blot{fill:#9d2b1c;opacity:.13}
+.z{position:relative;z-index:2}
+.one q,h1,.lede{position:relative}
+.top{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 2.2rem;gap:2rem}
+.lg{font-family:var(--fat);font-weight:800;font-size:22px;letter-spacing:-.01em;text-decoration:none;color:#141210}
+.lg i{font-style:normal;color:#8e0f18}
+.top nav{display:flex;gap:1.3rem;font-size:13px}
+.top nav a{color:#5b544d;text-decoration:none}
+.go{background:#141210;color:#f2efe8;text-decoration:none;font-size:12.5px;font-weight:600;padding:.5rem 1.1rem;border-radius:999px}
+.hero{max-width:1100px;margin:0 auto;padding:clamp(3rem,10vh,7rem) 2.2rem 4rem}
+.kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#8e0f18;margin-bottom:1.6rem}
+h1{font-family:var(--fat);font-weight:800;font-size:clamp(3rem,11vw,8.5rem);line-height:.86;
+  margin:0 0 1.4rem;letter-spacing:-.04em;max-width:11ch}
+h1 .soak{position:relative;display:inline-block;color:#8e0f18}
+h1 .soak::after{content:'';position:absolute;left:-.06em;right:-.06em;top:.1em;bottom:.08em;z-index:-1;
+  background:radial-gradient(ellipse at 30% 50%,rgba(142,15,24,.2),transparent 70%)}
+.lede{font-size:clamp(1rem,1.9vw,1.25rem);max-width:46ch;color:#3d3832;margin:0 0 2.2rem;line-height:1.75}
+.f{display:flex;max-width:520px;border-bottom:2.5px solid #141210;padding-bottom:.5rem;gap:1rem}
+.f input{flex:1;border:0;background:transparent;outline:none;font-size:1.05rem;font-family:var(--sans)}
+.f button{border:0;background:transparent;cursor:pointer;font-family:var(--mono);font-size:12px;
+  letter-spacing:.1em;text-transform:uppercase;color:#8e0f18}
+.sc{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:#9a9289;margin-top:5rem;display:flex;align-items:center;gap:.6rem}
+.sc i{display:block;width:34px;height:1px;background:#c3bbb0}
+.said{max-width:1100px;margin:0 auto;padding:0 2.2rem 5rem}
+.one{padding:3.4rem 0;border-top:1px solid #d9d2c7}
+.one q{display:block;font-family:var(--ser);font-size:clamp(1.3rem,3.4vw,2.4rem);line-height:1.45;
+  margin-bottom:1.2rem;position:relative}
+.one q::before{content:'';position:absolute;left:-1.4rem;top:.1em;width:4px;height:calc(100% - .2em);
+  background:#8e0f18;opacity:.7}
+.one .m{font-family:var(--mono);font-size:11px;color:#8a8279;letter-spacing:.05em;
+  display:flex;gap:1.2rem;flex-wrap:wrap}
+.one .m b{color:#8e0f18;font-weight:400}
+.end{max-width:1100px;margin:0 auto;padding:0 2.2rem 6rem}
+.end p{font-family:var(--fat);font-weight:700;font-size:clamp(1.5rem,4vw,2.8rem);line-height:1.2;
+  max-width:16ch;margin:0 0 1.4rem;letter-spacing:-.02em}
+.end a{display:inline-block;background:#8e0f18;color:#f2efe8;text-decoration:none;font-weight:600;
+  padding:.85rem 2rem;border-radius:999px;font-size:15px}
+</style></head><body>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+<filter id="goo" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur in="SourceGraphic" stdDeviation="22" result="b"/><feColorMatrix in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 9 -3.4" result="g"/><feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="4" seed="7" result="n"/><feDisplacementMap in="g" in2="n" scale="46" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="7"/></filter>
+</defs></svg>
+
+<div class="paper">
+<svg id="ink" aria-hidden="true" preserveAspectRatio="none"></svg>
+
+<div class="z">
+  <header class="top">
+    <a class="lg" href="#">দা<i>গ</i></a>
+    <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+    <a class="go" href="#">প্রমাণ জমা দিন</a>
+  </header>
+
+  <section class="hero">
+    <div class="kick">অনলাইন হয়রানির পাবলিক রেকর্ড</div>
+    <h1>কথা <span class="soak">দাগ</span> রেখে যায়।</h1>
+    <p class="lede">তারা পোস্ট মুছে ফেলে। অ্যাকাউন্ট বদলায়। কিন্তু যা একবার লেখা হয়েছে, সেটা কোথাও না কোথাও থেকে যায়। দাগ সেটাই রেখে দেয়।</p>
+    <form class="f" onsubmit="return false">
+      <input placeholder="নাম, ফেসবুক লিংক বা ইউজারনেম"><button>যাচাই →</button>
+    </form>
+    <div class="sc"><i></i> স্ক্রল করুন · দাগ ছড়াতে থাকবে</div>
+  </section>
+
+  <section class="said">
+    <article class="one">
+      <q>মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q>
+      <div class="m"><b>DG-2026-8351</b><span>ঢাকা</span><span>১৩ অক্টোবর ২০২৬</span><span>যাচাইকৃত</span></div>
+    </article>
+    <article class="one">
+      <q>এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।</q>
+      <div class="m"><b>DG-2026-4959</b><span>চট্টগ্রাম</span><span>১২ অক্টোবর ২০২৬</span><span>আপিল চলছে</span></div>
+    </article>
+    <article class="one">
+      <q>এসব মেয়ের জন্য এটাই উপযুক্ত শাস্তি।</q>
+      <div class="m"><b>DG-2026-2699</b><span>খুলনা</span><span>০৯ অক্টোবর ২০২৬</span><span>যাচাইকৃত</span></div>
+    </article>
+  </section>
+
+  <section class="end">
+    <p>দাগ তোলা যায় না। সেটাই আমাদের কাজ।</p>
+    <a href="#">প্রমাণ জমা দিন</a>
+  </section>
+</div>
+</div>
+
+<script>
+// Ink blots seed as the reader scrolls and never shrink back — the page keeps
+// the marks it has picked up, which is the whole premise of the site.
+var svg=document.getElementById('ink'),NS='http://www.w3.org/2000/svg',blots=[],seeded=0;
+function vb(){svg.setAttribute('viewBox','0 0 '+innerWidth+' '+innerHeight)}
+vb();addEventListener('resize',vb);
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function add(x,y,r){
+  var c=document.createElementNS(NS,'circle');
+  c.setAttribute('class','blot');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',1);
+  svg.appendChild(c);blots.push({el:c,r:r,cur:1});
+}
+function seed(){
+  var w=innerWidth,h=innerHeight;
+  add(w*(.1+Math.random()*.8),h*(.2+Math.random()*.6),60+Math.random()*120);
+  for(var i=0;i<3;i++){
+    var b=blots[blots.length-1];
+    add(+b.el.getAttribute('cx')+(Math.random()-.5)*190,
+        +b.el.getAttribute('cy')+(Math.random()-.5)*190,30+Math.random()*70);
+  }
+}
+function grow(){
+  var any=false;
+  blots.forEach(function(b){
+    if(b.cur<b.r){b.cur+=(b.r-b.cur)*.06;b.el.setAttribute('r',b.cur);any=true}
+  });
+  requestAnimationFrame(grow);
+}
+if(!reduce){
+  addEventListener('scroll',function(){
+    var p=scrollY/(document.body.scrollHeight-innerHeight||1);
+    var want=Math.floor(p*7)+1;
+    while(seeded<want){seed();seeded++}
+  },{passive:true});
+  seed();seeded=1;grow();
+}
+</script>
+
+<div class="flip"><b>v3</b><a class="on" href="01-stain.html">01 দাগ</a><a href="02-indelible.html">02 মোছা যায় না</a><a href="03-redacted.html">03 কালো কালি</a><a href="04-thread.html">04 থ্রেড</a><a href="05-receipt.html">05 রসিদ</a><a href="06-board.html">06 তদন্ত বোর্ড</a><a href="07-hand.html">07 হাতের লেখা</a><a href="08-mirror.html">08 আয়না</a><a href="09-kantha.html">09 কাঁথা</a><a href="10-wall.html">10 দেয়াল</a><a href="11-pressure.html">11 চাপ</a><a href="12-exhibit.html">12 প্রমাণ</a></div>
+</body></html>

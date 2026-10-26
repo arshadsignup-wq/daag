@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>06 তদন্ত বোর্ড · The Board</title><link rel="stylesheet" href="_b.css">
+<style>
+/* THE MOMENT: the investigation wall. Screenshots pinned and taped at angles,
+   red thread running between a man and every sentence he wrote. Physical,
+   handmade, and it shows CONNECTION, the one thing a list can never show. */
+body{background:#2a2622;color:#efe9e0;font-family:var(--sans);line-height:1.65;overflow-x:hidden}
+.cork{position:fixed;inset:0;z-index:0;
+  background:#6b543c;
+  background-image:
+    radial-gradient(rgba(0,0,0,.22) 1px,transparent 1.4px),
+    radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.4px),
+    linear-gradient(145deg,#73593f,#5b4733);
+  background-size:7px 7px,11px 11px,100% 100%}
+.vig{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 70% 62% at 50% 44%,transparent 30%,rgba(20,15,10,.55) 100%)}
+.z{position:relative;z-index:3}
+.top{display:flex;align-items:center;gap:1.6rem;padding:.8rem 2rem;position:sticky;top:0;z-index:40;
+  background:rgba(38,34,30,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.09)}
+.topright{display:flex;align-items:center;gap:.55rem;flex-shrink:0}
+.lg{font-family:var(--fat);font-weight:800;font-size:22px;text-decoration:none;color:#f6f1e8;
+  text-shadow:0 2px 6px rgba(0,0,0,.5)}
+.lg i{font-style:normal;color:#ff5340}
+.top nav{display:flex;gap:.2rem;font-size:13.5px;margin-right:auto}
+.top nav a{color:#cdc2b1;text-decoration:none;padding:.45rem .8rem;border-radius:4px;
+  transition:background .18s,color .18s}
+.top nav a:hover{background:rgba(255,255,255,.1);color:#fff}
+.top nav a.on{color:#fff;background:rgba(255,255,255,.14)}
+.lang{background:transparent;border:1px solid rgba(255,255,255,.26);color:#cdc2b1;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;padding:.5rem .7rem;border-radius:4px;cursor:pointer;flex-shrink:0;transition:all .18s}
+.lang:hover{background:#efe9e0;color:#1c1917;border-color:#efe9e0}
+html[lang="en"] .h2,html[lang="en"] .lede h1,html[lang="en"] .sstep h3,html[lang="en"] .memo h3,html[lang="en"] .file h3{letter-spacing:-.02em;line-height:1.12}
+.go{background:#c8231a;color:#fff;text-decoration:none;font-size:13.5px;font-weight:700;
+  padding:.62rem 1.25rem;border-radius:4px;display:inline-flex;align-items:center;gap:.5rem;
+  box-shadow:0 5px 18px rgba(200,35,26,.4);transition:background .18s,transform .18s,box-shadow .18s}
+.go:hover{background:#e0362f;transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,35,26,.5)}
+.go .ar{transition:transform .2s}
+.go:hover .ar{transform:translateX(3px)}
+
+.board{position:relative;min-height:96vh;max-width:1280px;margin:0 auto;padding:1rem 2rem 1.5rem}
+#thread{position:absolute;inset:0;z-index:2;pointer-events:none}
+.pin{position:absolute;z-index:4;background:#fdfaf2;color:#1c1917;padding:.9rem 1rem .8rem;
+  box-shadow:0 14px 34px rgba(0,0,0,.5);transition:transform .22s;cursor:default}
+.pin:hover{transform:scale(1.035) rotate(0deg)!important;z-index:9}
+.pin::before{content:'';position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 34% 32%,#ff6a57,#9d1a10);
+  box-shadow:0 3px 7px rgba(0,0,0,.55)}
+.pin .tape{position:absolute;top:-13px;left:14%;width:70px;height:24px;background:rgba(246,240,224,.42);
+  transform:rotate(-5deg);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.pin q{display:block;font-family:var(--ser);font-size:15.5px;line-height:1.45;margin:0 0 .6rem}
+.pin .m{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:#8b8277;
+  border-top:1px solid #e3dccd;padding-top:.45rem;display:flex;justify-content:space-between;gap:.6rem}
+.pin .m b{color:#c8231a;font-weight:400}
+.pin .shot{height:74px;margin:-.3rem -.3rem .6rem;background:#2a2622;
+  background-image:repeating-linear-gradient(118deg,#3a3430,#3a3430 9px,#332e2a 9px,#332e2a 18px);
+  display:grid;place-items:center;font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:#8a8076}
+
+.who{position:absolute;z-index:5;background:#fdfaf2;padding:.7rem;box-shadow:0 18px 44px rgba(0,0,0,.6);
+  width:188px;text-align:center}
+.who::before{content:'';position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 34% 32%,#ffe066,#b58900);
+  box-shadow:0 3px 8px rgba(0,0,0,.6)}
+.who .face{height:122px;background:linear-gradient(160deg,#cfc6b6,#a8a093);display:grid;place-items:center;
+  font-family:var(--fat);font-weight:800;font-size:3rem;color:#fdfaf2;margin-bottom:.55rem}
+.who .nm{font-family:var(--fat);font-weight:700;font-size:1rem;color:#1c1917;line-height:1.2}
+.who .nm.stamp{display:inline-block;border:2px solid #c8231a;color:#c8231a;
+  font-family:var(--fat);font-weight:700;letter-spacing:0;font-size:1.02rem;line-height:1.45;
+  padding:.1rem .8rem .22rem;transform:rotate(-2.5deg);margin:.25rem 0 .5rem}
+/* Latin reads better with the tracking the Bengali cannot take. */
+html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height:1.3;
+  padding:.16rem .75rem;text-transform:uppercase}
+.who .face.anon{background:linear-gradient(160deg,#b9b0a1,#8e8679);color:#efe9dd;filter:blur(.4px)}
+.who .sub{font-family:var(--mono);font-size:9.5px;color:#8b8277;margin-top:.2rem}
+.who .cnt{margin-top:.5rem;background:#c8231a;color:#fff;font-family:var(--mono);font-size:10px;
+  letter-spacing:.08em;padding:.25rem 0}
+
+.lede{position:absolute;z-index:5;left:2rem;top:1rem;max-width:520px}
+.lede h1{font-family:var(--fat);font-weight:700;font-size:clamp(1.85rem,3.5vw,2.85rem);line-height:1.34;text-wrap:balance;
+  margin:0 0 1.15rem;letter-spacing:0;color:#fdfaf2;text-shadow:0 3px 16px rgba(0,0,0,.7)}
+.lede h1 em{font-style:normal;color:#ff5340}
+.lede p{color:#d4c9b8;font-size:15px;margin:0 0 1.5rem;max-width:34ch;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.f{display:flex;max-width:380px;background:#fdfaf2;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.f input{flex:1;border:0;outline:none;padding:.7rem 1rem;font-size:14px;color:#1c1917;background:transparent}
+.f button{border:0;background:#c8231a;color:#fff;font-weight:700;padding:0 1.2rem;cursor:pointer;font-size:13.5px}
+
+/* ===== BELOW THE BOARD =====
+   The board is the wall; everything under it is the desk the case is worked
+   on. Paper, folders, carbon copies, a stamped memo. Bengali display type is
+   set at 1.3+ leading with zero tracking throughout. That is the mistake the
+   headline taught us. */
+.sheetbg{position:relative;z-index:3;background:#e9e0cc;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23p)' opacity='.055'/%3E%3C/svg%3E");
+  color:#1c1917}
+.wrapx{max-width:1180px;margin:0 auto;padding:4.5rem 2rem}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:#c8231a;margin-bottom:1.1rem}
+.h2{font-family:var(--fat);font-weight:700;font-size:clamp(1.6rem,3.1vw,2.5rem);line-height:1.34;
+  letter-spacing:0;margin:0 0 .9rem;max-width:20ch}
+.h2 em{font-style:normal;color:#c8231a}
+.sub2{color:#5a5248;font-size:15px;line-height:1.8;max-width:50ch;margin:0 0 2.6rem}
+
+/* filed cards with folder tabs */
+.files{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:1.6rem}
+.file{position:relative;background:#fdfaf2;padding:1.5rem 1.4rem 1.3rem;
+  box-shadow:0 10px 26px rgba(60,40,20,.17)}
+.file::before{content:'';position:absolute;top:-15px;left:1.2rem;width:94px;height:16px;
+  background:#fdfaf2;border-radius:3px 3px 0 0;box-shadow:0 -3px 8px rgba(60,40,20,.12)}
+.file .no{position:absolute;top:-13px;left:1.6rem;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.12em;color:#8b8277;z-index:2}
+.file h3{font-family:var(--fat);font-weight:700;font-size:1.12rem;line-height:1.42;letter-spacing:0;
+  margin:.2rem 0 .55rem}
+.file p{margin:0;font-size:14px;line-height:1.8;color:#5a5248}
+.file:nth-child(2){transform:rotate(.5deg)}
+.file:nth-child(3){transform:rotate(-.4deg)}
+
+/* carbon-copy record strip */
+.slips{border-top:1.5px solid #c9bfa6;margin-top:.4rem}
+.slip{display:grid;grid-template-columns:118px 1fr auto;gap:1.4rem;align-items:center;
+  padding:1.15rem .4rem;border-bottom:1px solid #d6cbb3;transition:background .2s}
+.slip:hover{background:rgba(255,255,255,.5)}
+.slip .cid{font-family:var(--mono);font-size:11px;color:#c8231a;letter-spacing:.04em}
+.slip q{display:block;font-family:var(--ser);font-size:15.5px;line-height:1.65;margin:0}
+.slip .sm{font-family:var(--mono);font-size:10px;color:#8b8277;letter-spacing:.05em;white-space:nowrap}
+.more-l{margin-top:1.6rem;font-family:var(--mono);font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;color:#8b8277}
+.more-l a{color:#c8231a;border-bottom:1px solid currentColor}
+
+/* steps: one screen, no scroll hijack. The whole sequence is visible at
+   once, so the section has an obvious end instead of reading as infinite. */
+.sgrid{display:grid;grid-template-columns:330px 1fr;gap:3rem;align-items:start;margin-top:2.2rem}
+.vizwrap{display:flex;flex-direction:column;gap:1rem;position:sticky;top:88px}
+.viz{position:relative;width:100%;aspect-ratio:3/4}
+.post{position:absolute;inset:0;background:#fdfaf2;border:1px solid #d6cbb3;border-radius:3px;
+  padding:1.2rem;display:flex;flex-direction:column;gap:.5rem;
+  box-shadow:0 14px 34px rgba(60,40,20,.2);transition:transform .5s,opacity .5s}
+.post .hd{font-family:var(--fat);font-weight:700;font-size:15px;line-height:1.5;margin-bottom:.3rem}
+.post .ph{height:8px;background:#e6ddc8;border-radius:3px}
+.post .ph.w85{width:85%}.post .ph.w70{width:70%}.post .ph.w45{width:45%}
+.post .pf{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:#9b9388}
+.bub{position:absolute;background:#fdfaf2;border:1px solid #d6cbb3;border-radius:10px;
+  padding:.35rem .6rem;font-size:11px;line-height:1.45;max-width:140px;opacity:0;
+  transform:scale(.7);transition:opacity .45s,transform .45s;box-shadow:0 6px 16px rgba(60,40,20,.16)}
+.bub.red{background:#fbe9e7;border-color:#e8b5ae;color:#8d1109}
+.prog{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.dots{display:flex;gap:5px}
+.dots i{width:24px;height:3px;border-radius:2px;background:#cfc4ae;transition:background .3s}
+.dots i.on{background:#c8231a}
+.pct{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:#9b9388;white-space:nowrap}
+
+.slist{list-style:none;margin:0;padding:0;counter-reset:none}
+.sitem{display:grid;grid-template-columns:44px 1fr;gap:1rem;padding:.85rem 1rem .85rem .5rem;
+  border-left:2px solid #d6cbb3;cursor:pointer;transition:border-color .25s,background .25s}
+.sitem:hover{background:rgba(255,255,255,.4)}
+.sitem.on{border-left-color:#c8231a;background:rgba(255,255,255,.55)}
+.sitem .sno{font-family:var(--mono);font-size:11px;color:#b3a894;letter-spacing:.1em;padding-top:.3rem;transition:color .25s}
+.sitem.on .sno{color:#c8231a}
+.sitem h3{font-family:var(--fat);font-weight:700;font-size:1.08rem;line-height:1.4;letter-spacing:0;
+  margin:0;color:#6e6559;transition:color .25s}
+.sitem.on h3{color:#1c1917}
+.sitem p{margin:0;font-size:14.5px;line-height:1.8;color:#5a5248;max-width:46ch;
+  max-height:0;opacity:0;overflow:hidden;transition:max-height .4s ease,opacity .35s,margin .4s}
+.sitem.on p{max-height:9rem;opacity:1;margin-top:.5rem}
+@media(max-width:900px){.sgrid{grid-template-columns:1fr;gap:2rem}.vizwrap{position:static;max-width:330px}}
+
+/* indelible slab *//* indelible slab */
+.rubgrid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+.slab{position:relative;background:#fdfaf2;border:1px solid #d6cbb3;padding:2rem 1.9rem;
+  box-shadow:0 16px 42px rgba(60,40,20,.2);touch-action:none;cursor:none}
+.slabhead{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:#9b9388;display:flex;justify-content:space-between;gap:1rem;margin-bottom:1.1rem}
+.slabhead b{color:#c8231a;font-weight:400}
+.slab q{display:block;font-family:var(--ser);font-size:clamp(1.15rem,2.3vw,1.6rem);line-height:1.6;
+  margin:0 0 1.2rem;position:relative;z-index:1;transition:opacity .12s,filter .12s}
+.slabfoot{font-family:var(--mono);font-size:10px;color:#9b9388;border-top:1px solid #e3dccd;
+  padding-top:.8rem;position:relative;z-index:1}
+#rub{position:absolute;inset:0;z-index:2;border-radius:2px}
+.stayed{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;opacity:0;
+  transition:opacity .5s;z-index:3}
+.stayed span{background:#c8231a;color:#fff;font-family:var(--fat);font-weight:700;font-size:1rem;
+  padding:.45rem 1.2rem;transform:rotate(-2.5deg)}
+.stayed.on{opacity:1}
+#rubcur{position:fixed;width:50px;height:50px;border:2px solid #c8231a;border-radius:5px;
+  pointer-events:none;z-index:999;transform:translate(-50%,-50%) rotate(-8deg);display:none;
+  background:rgba(200,35,26,.08)}
+@media(max-width:900px){.sgrid,.rubgrid{grid-template-columns:1fr;gap:2rem}
+  .spin{position:static;height:auto}.sstep{min-height:auto;padding:1.2rem 0}
+  .slab{cursor:auto}#rubcur{display:none!important}}
+
+
+/* stamped memo */
+.memo{background:#fdfaf2;max-width:760px;margin:0 auto;padding:2.4rem 2.4rem 2rem;position:relative;
+  box-shadow:0 14px 36px rgba(60,40,20,.2)}
+.memo::after{content:'';position:absolute;top:-14px;left:50%;transform:translateX(-50%) rotate(-3deg);
+  width:120px;height:26px;background:rgba(246,240,224,.55);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+.memo .mh{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:#8b8277;border-bottom:1px solid #e3dccd;padding-bottom:.7rem;margin-bottom:1.3rem;
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.memo h3{font-family:var(--fat);font-weight:700;font-size:clamp(1.3rem,2.6vw,1.9rem);line-height:1.34;
+  letter-spacing:0;margin:0 0 1rem}
+.memo h3 em{font-style:normal;color:#c8231a}
+.memo p{font-size:14.5px;line-height:1.85;color:#4a443c;margin:0 0 1rem;max-width:58ch}
+.memo .stampbig{display:inline-block;border:2.5px solid #c8231a;color:#c8231a;font-family:var(--fat);
+  font-weight:700;font-size:.95rem;letter-spacing:.12em;padding:.3rem 1rem;transform:rotate(-2.5deg);
+  opacity:.9;margin-top:.6rem}
+
+/* helpline */
+.helpbg{position:relative;z-index:3;background:#c8231a;color:#fff}
+.helpbg .eyebrow{color:#ffd9d4}
+.helpbg .h2{color:#fff}
+.helpbg .sub2{color:#ffcdc7}
+.hgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(218px,1fr));gap:.9rem}
+.hcard{display:block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.26);
+  padding:1rem 1.1rem;text-decoration:none;color:#fff;transition:background .2s,transform .2s}
+.hcard:hover{background:rgba(255,255,255,.2);transform:translateY(-2px)}
+.hcard b{display:block;font-family:var(--mono);font-size:1.22rem;letter-spacing:.02em;line-height:1.2}
+.hcard span{display:block;font-size:12.5px;margin-top:.4rem;line-height:1.55}
+.hcard small{display:block;font-size:11px;color:#ffc9c2;margin-top:.25rem;line-height:1.5}
+
+/* footer */
+.footx{position:relative;z-index:3;background:#17140f;color:#8d8276;padding:2.6rem 0 3rem}
+.footx .wrapx{padding-top:0;padding-bottom:0}
+.frow{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;align-items:flex-start}
+.fbrand{font-family:var(--fat);font-weight:700;font-size:1.3rem;color:#f3ede2;line-height:1.3}
+.fbrand span{display:block;font-family:var(--sans);font-weight:400;font-size:12.5px;color:#8d8276;margin-top:.3rem}
+.fcol h4{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:#6e655a;margin:0 0 .7rem}
+.fcol a{display:block;color:#bdb3a5;text-decoration:none;font-size:13.5px;line-height:2}
+.fcol a:hover{color:#fff}
+.fbot{border-top:1px solid #2a251e;margin-top:2.2rem;padding-top:1.2rem;display:flex;
+  justify-content:space-between;gap:1.5rem;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.05em;color:#6e655a}
+@media(max-width:860px){.slip{grid-template-columns:1fr;gap:.45rem}
+  .slip .sm{white-space:normal}}
+
+@media(max-width:1000px){
+  .board{min-height:auto;padding-bottom:2rem}
+  .lede{position:static;max-width:none;margin-bottom:2rem}
+  .pin,.who{position:relative!important;left:auto!important;top:auto!important;width:auto!important;
+    transform:none!important;margin:0 auto 1.6rem;max-width:420px}
+  #thread{display:none}
+}
+</style></head><body>
+
+<div class="cork"></div><div class="vig"></div>
+
+<div class="z">
+  <header class="top">
+    <a class="lg" href="#">দা<i>গ</i></a>
+    <nav><a href="#" class="on" data-i18n="nav.arch">আর্কাইভ</a><a href="#" data-i18n="nav.search">প্রোফাইল খুঁজুন</a><a href="#" data-i18n="nav.app">আপিল</a><a href="#" data-i18n="nav.help">হেল্পলাইন</a></nav>
+    <div class="topright">
+      <button class="lang" id="lang" type="button" onclick="toggleLang()">EN</button>
+      <a class="go" href="#"><span data-i18n="nav.cta">প্রমাণ জমা দিন</span><span class="ar" aria-hidden="true">→</span></a>
+    </div>
+  </header>
+
+  <main class="board" id="board">
+    <svg id="thread" aria-hidden="true"></svg>
+
+    <section class="lede">
+      <h1 data-i18n="hero.h1">ভদ্র মুখের আড়ালে<br><em>কে কী লিখেছে, দেখে নিন।</em></h1>
+      <p data-i18n="hero.sub">একটা মন্তব্য আলাদা করে দেখলে হয়তো কিছুই মনে হয় না। পাশাপাশি চারটে রাখলে মানুষটাকে চেনা যায়।</p>
+      <form class="f" onsubmit="return false">
+        <input data-i18n-ph="hero.ph" placeholder="নাম বা প্রোফাইল লিংক"><button data-i18n="hero.btn">যাচাই</button>
+      </form>
+    </section>
+
+    <div class="who" id="hub" style="left:58%;top:5%">
+      <div class="face anon">?</div>
+      <div class="nm stamp" data-i18n="hub.label">ভদ্রলোক</div>
+      <div class="sub" data-i18n="hub.sub">ঢাকা · পাবলিক প্রোফাইল</div>
+      <div class="cnt" data-i18n="hub.cnt">৪টি নথিভুক্ত এন্ট্রি</div>
+    </div>
+
+    <article class="pin card" style="left:4%;top:54%;width:270px;transform:rotate(-2.4deg)">
+      <div class="shot" data-i18n="shot">স্ক্রিনশট · ঝাপসা</div>
+      <q data-i18n="q1">মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q>
+      <div class="m"><b>DG-2026-8351</b><span>১৩.১০.২৬</span></div>
+    </article>
+
+    <article class="pin card" style="left:30%;top:64%;width:258px;transform:rotate(1.8deg)">
+      <div class="tape"></div>
+      <q data-i18n="q2">ওর পোশাক দেখলেই তো বোঝা যায়।</q>
+      <div class="m"><b>DG-2026-7104</b><span>০৮.১০.২৬</span></div>
+    </article>
+
+    <article class="pin card" style="left:55%;top:58%;width:262px;transform:rotate(-1.4deg)">
+      <div class="shot" data-i18n="shot">স্ক্রিনশট · ঝাপসা</div>
+      <q data-i18n="q3">মেয়েটার চরিত্র নিয়ে আগে খোঁজ নিন।</q>
+      <div class="m"><b>DG-2026-6611</b><span>০৫.১০.২৬</span></div>
+    </article>
+
+    <article class="pin card" style="left:78%;top:45%;width:246px;transform:rotate(2.6deg)">
+      <div class="tape" style="left:50%;transform:rotate(6deg)"></div>
+      <q data-i18n="q4">এসব খবর সাজানো, বিশ্বাস করবেন না।</q>
+      <div class="m"><b>DG-2026-7720</b><span>১১.১০.২৬</span></div>
+    </article>
+  </main>
+
+  <!-- ===== 2 · HOW IT WORKS · self-contained stepper ===== -->
+  <section class="sheetbg"><div class="wrapx">
+    <div class="eyebrow" data-i18n="s2.eyebrow">একটি ঘটনা, ধাপে ধাপে</div>
+    <h2 class="h2" data-i18n="s2.h2">একটা খবর। চারশো মন্তব্য। <em>তিনটে থেকে যায়।</em></h2>
+    <p class="sub2" data-i18n="s2.sub">বলার চেয়ে দেখানো সহজ। নিচের ধাপগুলোয় চাপ দিন।</p>
+
+    <div class="sgrid">
+      <div class="vizwrap">
+        <div class="viz" id="viz">
+          <div class="post" id="post">
+            <div class="hd" id="ptitle">একটি নির্যাতনের খবর প্রকাশ পেল</div>
+            <div class="ph w85"></div><div class="ph w70"></div><div class="ph w45"></div>
+            <div style="flex:1"></div>
+            <div class="pf" id="pfoot">পাবলিক পোস্ট · ১৩ অক্টোবর ২০২৬</div>
+          </div>
+        </div>
+        <div class="prog"><div class="dots" id="dots"></div><span class="pct" id="pct"></span></div>
+      </div>
+
+      <ol class="slist" id="slist">
+        <li class="sitem on" data-s="1"><span class="sno">০১</span><div>
+          <h3 data-i18n="st1.h">খবরটা ছড়ায়</h3>
+          <p data-i18n="st1.p">একজন নারী নির্যাতনের শিকার হয়েছেন। সংবাদমাধ্যম খবরটি দেয়। পোস্টটি পাবলিক, যে কেউ পড়তে পারেন।</p></div></li>
+        <li class="sitem" data-s="2"><span class="sno">০২</span><div>
+          <h3 data-i18n="st2.h">কমেন্টের ঘর ভরে ওঠে</h3>
+          <p data-i18n="st2.p">কয়েক ঘণ্টায় চারশোর বেশি মন্তব্য। বেশির ভাগ সহানুভূতির। কিছু আবার উল্টো। দোষ চাপানো, গালি, হুমকি।</p></div></li>
+        <li class="sitem" data-s="3"><span class="sno">০৩</span><div>
+          <h3 data-i18n="st3.h">কারও চোখে পড়ে</h3>
+          <p data-i18n="st3.p">পরিচয় গোপন রেখে যে কেউ লিংক আর স্ক্রিনশট পাঠাতে পারেন। দুই মিনিটের কাজ।</p></div></li>
+        <li class="sitem" data-s="4"><span class="sno">০৪</span><div>
+          <h3 data-i18n="st4.h">দেখেন একজন মানুষ</h3>
+          <p data-i18n="st4.p">লিংক নিজে খুলে মিলিয়ে দেখা হয়, স্ক্রিনশটে বদল আছে কি না যাচাই হয়। বেশির ভাগ জমা এই ধাপেই বাদ পড়ে।</p></div></li>
+        <li class="sitem" data-s="5"><span class="sno">০৫</span><div>
+          <h3 data-i18n="st5.h">তিনটে থেকে যায়</h3>
+          <p data-i18n="st5.p">পোস্টটি হয়তো পরে মুছে ফেলা হয়েছে। অ্যাকাউন্টও বদলেছে। কিন্তু যা লেখা হয়েছিল, তা নথিতে রয়ে গেছে।</p></div></li>
+      </ol>
+    </div>
+  </div></section>
+
+  <!-- ===== 3 · INDELIBLE ===== -->
+  <section class="sheetbg" style="background:#e2d8c0"><div class="wrapx">
+    <div class="rubgrid">
+      <div>
+        <div class="eyebrow" data-i18n="s3.eyebrow">মুছে দেখুন</div>
+        <h2 class="h2" data-i18n="s3.h2">মুছে ফেললেই <em>মুছে যায় না।</em></h2>
+        <p class="sub2" data-i18n="s3.sub">পাশের লেখাটা মাউস চেপে ঘষে মুছে ফেলার চেষ্টা করুন। যতই ঘষুন, দাগটা থেকে যাবে। ইন্টারনেটেও তাই হয়।</p>
+      </div>
+      <div class="slab" id="slab">
+        <div class="slabhead"><b>DG-2026-8351</b><span data-i18n="slab.st">যাচাইকৃত · v2</span></div>
+        <q id="slabq">মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q>
+        <div class="slabfoot" data-i18n="slab.meta">ফেসবুক · ঢাকা · ১৩ অক্টোবর ২০২৬</div>
+        <canvas id="rub"></canvas>
+        <div class="stayed" id="stayed"><span data-i18n="slab.stay">তবু রয়ে গেল</span></div>
+      </div>
+    </div>
+  </div></section>
+
+
+  <!-- ===== 4 · THE RULE ===== -->
+  <section class="sheetbg"><div class="wrapx">
+    <div class="memo">
+      <div class="mh"><span data-i18n="memo.k">দাগ · নীতিমালা</span><span data-i18n="memo.v">সংস্করণ ২০২৬.১০</span></div>
+      <h3 data-i18n="memo.h">যাচাই করুন। <em>শিকার করতে যাবেন না।</em></h3>
+      <p data-i18n="memo.p1">কারও সম্পর্কে জানার অধিকার সবারই আছে। কাউকে বিশ্বাস করার আগে, কাজে নেওয়ার আগে কিংবা আত্মীয়তা করার আগে একবার দেখে নেওয়া। দাগ এটুকুর জন্যই।</p>
+      <p data-i18n="memo.p2">কিন্তু এখানেই শেষ। এই নথি হাতে নিয়ে কারও ওপর দল বেঁধে চড়াও হওয়া, ঠিকানা-ফোন নম্বর ছড়িয়ে দেওয়া বা হুমকি দেওয়া চলবে না। এমন অভিযোগ প্রমাণিত হলে সংশ্লিষ্ট অ্যাকাউন্ট বাতিল করা হয়।</p>
+      <p data-i18n="memo.p3">আমরা কেবল প্রকাশ্যে লেখা মন্তব্যই রাখি। ফোন নম্বর, বাড়ির ঠিকানা, প্রাইভেট প্রোফাইল কিংবা ক্লোজড গ্রুপের কোনো কথা এই আর্কাইভে ওঠে না।</p>
+      <p data-i18n="memo.p4">নিজের নামে থাকা কোনো নথি ভুল মনে হলে আপত্তি জানানো যায়। অনুমোদন যিনি দিয়েছিলেন তিনি নন। বিষয়টি খতিয়ে দেখেন আলাদা একজন, ১৪ কর্মদিবসের মধ্যে।</p>
+      <span class="stampbig" data-i18n="memo.stamp">রেকর্ড · অস্ত্র নয়</span>
+    </div>
+  </div></section>
+
+  <!-- ===== 5 · HELPLINE ===== -->
+  <section class="helpbg"><div class="wrapx">
+    <div class="eyebrow" data-i18n="help.eye">জরুরি হেল্পলাইন</div>
+    <h2 class="h2" data-i18n="help.h2">বিপদ এখনই? <em>ফোন করুন, অপেক্ষা নয়।</em></h2>
+    <p class="sub2" data-i18n="help.sub">দাগ নথি রাখে, উদ্ধার করতে পারে না। কেউ হুমকি দিচ্ছে, ব্ল্যাকমেইল করছে, কিংবা গায়ে হাত তুলেছে, দেরি না করে নিচের নম্বরে ফোন করুন। সব কটি রাত-দিন খোলা, কল করতে পয়সা লাগে না।</p>
+    <div class="hgrid">
+      <a class="hcard" href="tel:999"><b>999</b><span data-i18n="h1.n">জাতীয় জরুরি সেবা</span><small data-i18n="h1.d">পুলিশ, ফায়ার, অ্যাম্বুলেন্স · ২৪ ঘণ্টা</small></a>
+      <a class="hcard" href="tel:109"><b>109</b><span data-i18n="h2.n">নারী ও শিশু নির্যাতন</span><small data-i18n="h2.d">সরকারি হেল্পলাইন · ২৪ ঘণ্টা, ফ্রি</small></a>
+      <a class="hcard" href="tel:1098"><b>1098</b><span data-i18n="h3.n">শিশু সহায়তা</span><small data-i18n="h3.d">১৮ বছরের কম যে কারও জন্য</small></a>
+      <a class="hcard" href="tel:01320000888"><b>01320-000888</b><span data-i18n="h4.n">পুলিশ সাইবার সাপোর্ট ফর উইমেন</span><small data-i18n="h4.d">অনলাইন হয়রানি ও ব্ল্যাকমেইল</small></a>
+      <a class="hcard" href="tel:16430"><b>16430</b><span data-i18n="h5.n">জাতীয় আইনগত সহায়তা</span><small data-i18n="h5.d">ফ্রি আইনি পরামর্শ · অফিস সময়</small></a>
+      <a class="hcard" href="https://cybercrime.gov.bd" target="_blank" rel="noopener"><b>cybercrime.gov.bd</b><span data-i18n="h6.n">অনলাইনে অভিযোগ</span><small data-i18n="h6.d">ফোন করতে না চাইলে</small></a>
+    </div>
+  </div></section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footx"><div class="wrapx">
+    <div class="frow">
+      <div class="fbrand">দাগ<span data-i18n="f.tag">অনলাইন হয়রানির পাবলিক রেকর্ড</span></div>
+      <div class="fcol"><h4 data-i18n="f.c1">বোর্ড</h4>
+        <a href="#" data-i18n="nav.arch">আর্কাইভ</a><a href="#" data-i18n="f.ana">বিশ্লেষণ</a><a href="#" data-i18n="nav.cta">প্রমাণ জমা দিন</a></div>
+      <div class="fcol"><h4 data-i18n="f.c2">পরিচিতি</h4>
+        <a href="#" data-i18n="f.about">দাগ সম্পর্কে</a><a href="#" data-i18n="f.pol">নীতিমালা</a><a href="#" data-i18n="nav.app">আপিল</a><a href="#" data-i18n="f.contact">যোগাযোগ</a></div>
+      <div class="fcol"><h4 data-i18n="f.c3">সাহায্য</h4>
+        <a href="tel:999" data-i18n="f.e1">জরুরি ৯৯৯</a><a href="tel:109" data-i18n="f.e2">নারী ও শিশু ১০৯</a><a href="tel:01320000888" data-i18n="f.e3">সাইবার সাপোর্ট</a></div>
+    </div>
+    <div class="fbot">
+      <span data-i18n="f.cr">© ২০২৬ দাগ · সর্বস্বত্ব সংরক্ষিত</span>
+      <span data-i18n="f.mot">প্রতিটি শব্দ দাগ রেখে যায় · রেকর্ড, অস্ত্র নয়</span>
+    </div>
+  </div></footer>
+</div>
+
+<script>
+// ----- steps: click (or let it advance once) instead of hijacking scroll -----
+(function(){
+  var viz=document.getElementById('viz'),list=document.getElementById('slist');
+  if(!viz||!list)return;
+  var pt=document.getElementById('ptitle'),pf=document.getElementById('pfoot'),
+      post=document.getElementById('post'),
+      dots=document.getElementById('dots'),pct=document.getElementById('pct');
+  var BUBS=[{t:'মেয়েটারই দোষ',x:'-6%',y:'8%',r:1},{t:'এসব সাজানো',x:'70%',y:'2%',r:0},
+   {t:'নাম ঠিকানা বের করব',x:'-10%',y:'70%',r:1},{t:'বিচার চাই',x:'74%',y:'78%',r:0},
+   {t:'ওর পোশাক দেখুন',x:'76%',y:'42%',r:1},{t:'ভয়ংকর খবর',x:'-12%',y:'40%',r:0}];
+  BUBS.forEach(function(b,i){
+    var d=document.createElement('div');
+    d.className='bub'+(b.r?' red':'');d.textContent=b.t;
+    d.style.left=b.x;d.style.top=b.y;d.dataset.r=b.r;d.style.transitionDelay=(i*50)+'ms';
+    viz.appendChild(d);
+  });
+  if(dots)dots.innerHTML='<i></i><i></i><i></i><i></i><i></i>';
+  var BND=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+  function num(v){return document.documentElement.lang==='en'?String(v):String(v).replace(/[0-9]/g,function(d){return BND[+d]})}
+  window.DAAG_CUR=1;
+  window.DAAG_STEP=function(st){
+    window.DAAG_CUR=st;
+    var c=(window.DAAG_T&&window.DAAG_T.step&&window.DAAG_T.step[st])||null;
+    if(c){pt.textContent=c[0];pf.textContent=c[1]}
+    viz.querySelectorAll('.bub').forEach(function(b){
+      var red=b.dataset.r==='1';
+      var show = st===2 ? true : (st>=3 ? red : false);
+      b.style.opacity=show?'1':'0';
+      b.style.transform=show?'scale(1)':'scale(.7)';
+    });
+    post.style.transform = st>=4 ? 'scale(.9)' : 'scale(1)';
+    post.style.opacity = st===5 ? '.45' : '1';
+    list.querySelectorAll('.sitem').forEach(function(li){
+      li.classList.toggle('on', +li.dataset.s===st);
+    });
+    if(dots)[].forEach.call(dots.children,function(d,i){d.className=i<st?'on':''});
+    if(pct)pct.textContent=num('0'+st)+' / '+num('05');
+  };
+  list.addEventListener('click',function(e){
+    var li=e.target.closest('.sitem');
+    if(li){stop();window.DAAG_STEP(+li.dataset.s)}
+  });
+  // advances itself once so the mechanism is discoverable, then hands over
+  var timer=null,touched=false;
+  function stop(){touched=true;if(timer){clearInterval(timer);timer=null}}
+  ['pointerdown','keydown','wheel'].forEach(function(ev){
+    list.addEventListener(ev,stop,{once:true,passive:true});
+  });
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting&&!touched&&!timer){
+        timer=setInterval(function(){
+          var nx=window.DAAG_CUR+1;
+          if(nx>5){stop();return}
+          window.DAAG_STEP(nx);
+        },2600);
+      }
+    });
+  },{threshold:.45});
+  io.observe(list);
+  window.DAAG_STEP(1);
+})();
+
+// ----- indelible: the quote fades toward a floor it never passes -----
+(function(){
+  var slab=document.getElementById('slab'),cv=document.getElementById('rub');
+  if(!slab||!cv)return;
+  var q=document.getElementById('slabq'),stayed=document.getElementById('stayed');
+  var cur=document.createElement('div');cur.id='rubcur';document.body.appendChild(cur);
+  var ctx,down=false,work=0,FLOOR=.34;
+  function fit(){var r=slab.getBoundingClientRect();cv.width=r.width;cv.height=r.height;ctx=cv.getContext('2d')}
+  fit();addEventListener('resize',fit);
+  function rub(e){
+    if(!down||!ctx)return;
+    var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    for(var i=0;i<3;i++){
+      ctx.fillStyle='rgba(200,35,26,.032)';
+      ctx.beginPath();ctx.arc(x+(Math.random()-.5)*40,y+(Math.random()-.5)*40,15+Math.random()*18,0,7);ctx.fill();
+    }
+    ctx.fillStyle='rgba(28,25,23,.02)';
+    ctx.beginPath();ctx.arc(x,y,26,0,7);ctx.fill();
+    work++;
+    q.style.opacity=Math.max(FLOOR,1-work/140);
+    q.style.filter='blur('+Math.min(1.1,work/260)+'px)';
+    if(work>130)stayed.classList.add('on');
+  }
+  cv.addEventListener('pointerdown',function(e){down=true;cv.setPointerCapture(e.pointerId);rub(e)});
+  cv.addEventListener('pointerup',function(){down=false});
+  cv.addEventListener('pointermove',rub);
+  cv.addEventListener('pointerenter',function(){cur.style.display='block'});
+  cv.addEventListener('pointerleave',function(){cur.style.display='none';down=false});
+  addEventListener('pointermove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+})();
+</script>
+
+
+<script>
+// Red thread from the man to each pinned sentence, drawn as a slack catenary
+// so it hangs like string instead of looking like a chart connector.
+function draw(){
+  var svg=document.getElementById('thread'),board=document.getElementById('board'),
+      hub=document.getElementById('hub');
+  if(innerWidth<1000){svg.innerHTML='';return}
+  var b=board.getBoundingClientRect(),h=hub.getBoundingClientRect();
+  svg.setAttribute('viewBox','0 0 '+b.width+' '+b.height);
+  var hx=h.left-b.left+h.width/2, hy=h.top-b.top+h.height;
+  var d='';
+  document.querySelectorAll('.pin.card').forEach(function(p){
+    var r=p.getBoundingClientRect();
+    var px=r.left-b.left+r.width/2, py=r.top-b.top;
+    var mx=(hx+px)/2, my=Math.max(hy,py)+58;   // sag
+    d+='<path d="M'+hx+' '+hy+' Q'+mx+' '+my+' '+px+' '+py+'" fill="none" '+
+       'stroke="#c8231a" stroke-width="1.6" opacity=".92"/>'+
+       '<circle cx="'+px+'" cy="'+py+'" r="3.4" fill="#8d1109"/>';
+  });
+  svg.innerHTML=d;
+}
+addEventListener('load',draw);addEventListener('resize',draw);setTimeout(draw,180);
+</script>
+
+<div class="flip"><b>v3</b><a href="01-stain.html">01 দাগ</a><a href="02-indelible.html">02 মোছা যায় না</a><a href="03-redacted.html">03 কালো কালি</a><a href="04-thread.html">04 থ্রেড</a><a href="05-receipt.html">05 রসিদ</a><a class="on" href="06-board.html">06 তদন্ত বোর্ড</a><a href="07-hand.html">07 হাতের লেখা</a><a href="08-mirror.html">08 আয়না</a><a href="09-kantha.html">09 কাঁথা</a><a href="10-wall.html">10 দেয়াল</a><a href="11-pressure.html">11 চাপ</a><a href="12-exhibit.html">12 প্রমাণ</a></div>
+<script>
+/* ---- Bengali is the source; English is the overlay. Bengali strings are
+   captured from the markup on first run, so nothing can fall out of sync. ---- */
+var EN={
+  "nav.arch":"Archive",
+  "nav.search":"Profile Search",
+  "nav.app":"Appeals",
+  "nav.help":"Helpline",
+  "nav.cta":"Submit evidence",
+  "hero.h1":"Behind the polite face,<br><em>see what he actually wrote.</em>",
+  "hero.sub":"One comment on its own may look like nothing. Put four side by side and you know the man.",
+  "ph:hero.ph":"Name or profile link",
+  "hero.btn":"Check",
+  "hub.label":"The Gentleman",
+  "hub.sub":"Dhaka · public profile",
+  "hub.cnt":"4 entries on record",
+  "shot":"Screenshot · blurred",
+  "q1":"Ask first what she was doing outside that late.",
+  "q2":"You can tell just by looking at what she wore.",
+  "q3":"Look into her character first.",
+  "q4":"This news is staged. Don’t believe it.",
+  "s2.eyebrow":"One incident, step by step",
+  "s2.h2":"One news story. Four hundred comments. <em>Three are kept.</em>",
+  "s2.sub":"Easier to show than to tell. Tap through the steps.",
+  "st1.h":"The story breaks",
+  "st1.p":"A woman has been attacked. The press reports it. The post is public. Anyone can read it.",
+  "st2.h":"The comments fill up",
+  "st2.p":"Four hundred within hours. Most are sympathetic. Some are not: blame, abuse, threats.",
+  "st3.h":"Someone notices",
+  "st3.p":"Anyone can send the link and a screenshot without giving their name. It takes two minutes.",
+  "st4.h":"A person checks it",
+  "st4.p":"The link is opened and matched by hand, the screenshot checked for edits. Most submissions are rejected right here.",
+  "st5.h":"Three are kept",
+  "st5.p":"The post may be deleted later. The account may change. But what was written stays on record.",
+  "s3.eyebrow":"Try to erase it",
+  "s3.h2":"Deleting it <em>does not erase it.</em>",
+  "s3.sub":"Hold the mouse down and rub the line out. However hard you rub, the mark stays. The internet works the same way.",
+  "slab.st":"Verified · v2",
+  "slab.meta":"Facebook · Dhaka · 13 October 2026",
+  "slab.stay":"Still there",
+  "memo.k":"Daag · Policy",
+  "memo.v":"Version 2026.10",
+  "memo.h":"Check someone. <em>Don’t hunt them.</em>",
+  "memo.p1":"Everyone has a right to know who they are dealing with. Daag exists for exactly that: one look before you trust someone, hire them, or marry into their family.",
+  "memo.p2":"But that is where it ends. Do not take these records and brigade someone, circulate their address or phone number, or threaten them. Any such complaint, once proven, means the account is removed.",
+  "memo.p3":"We hold only comments that were published in the open. Phone numbers, home addresses, private profiles and anything from a closed group never enter this archive.",
+  "memo.p4":"Anyone who believes a record in their name is wrong can dispute it. The moderator who approved it does not handle the dispute. A different one reviews it within 14 working days.",
+  "memo.stamp":"A record · not a weapon",
+  "help.eye":"Emergency helpline",
+  "help.h2":"In danger now? <em>Call. Don’t wait.</em>",
+  "help.sub":"Daag keeps records; it cannot come and get you. If someone is threatening you, blackmailing you, or has raised a hand to you, call one of the numbers below without delay. All of them are open day and night, and the calls are free.",
+  "h1.n":"National Emergency Service",
+  "h1.d":"Police, fire, ambulance · 24 hours",
+  "h2.n":"Violence against women and children",
+  "h2.d":"Government helpline · 24 hours, free",
+  "h3.n":"Child Helpline",
+  "h3.d":"For anyone under 18",
+  "h4.n":"Police Cyber Support for Women",
+  "h4.d":"Online harassment and blackmail",
+  "h5.n":"National Legal Aid",
+  "h5.d":"Free legal advice · office hours",
+  "h6.n":"Report online",
+  "h6.d":"If you would rather not call",
+  "f.tag":"A public record of online abuse",
+  "f.c1":"The board",
+  "f.c2":"About",
+  "f.c3":"Help",
+  "f.ana":"Analytics",
+  "f.about":"About Daag",
+  "f.pol":"Policy",
+  "f.contact":"Contact",
+  "f.e1":"Emergency 999",
+  "f.e2":"Women & children 109",
+  "f.e3":"Cyber support",
+  "f.cr":"© 2026 Daag · All rights reserved",
+  "f.mot":"Every word leaves a mark · a record, not a weapon"
+};
+var BN={},captured=false;
+function capture(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){BN[el.getAttribute('data-i18n')]=el.innerHTML});
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){BN['ph:'+el.getAttribute('data-i18n-ph')]=el.getAttribute('placeholder')||''});
+  captured=true;
+}
+function curLang(){try{return localStorage.getItem('daag_v3_lang')==='en'?'en':'bn'}catch(e){return 'bn'}}
+function applyLang(L){
+  if(!captured)capture();
+  document.documentElement.lang=L;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n');
+    var v=(L==='en'&&EN[k]!==undefined)?EN[k]:BN[k];
+    if(v!==undefined)el.innerHTML=v;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+    var k='ph:'+el.getAttribute('data-i18n-ph');
+    var v=(L==='en'&&EN[k]!==undefined)?EN[k]:BN[k];
+    if(v!==undefined)el.setAttribute('placeholder',v);
+  });
+  var b=document.getElementById('lang');
+  if(b){b.textContent=L==='en'?'বাংলা':'EN';b.setAttribute('aria-label',L==='en'?'বাংলায় দেখুন':'View in English')}
+  if(window.DAAG_SETLANG)window.DAAG_SETLANG(L);
+}
+function toggleLang(){
+  var next=curLang()==='en'?'bn':'en';
+  try{localStorage.setItem('daag_v3_lang',next)}catch(e){}
+  applyLang(next);
+}
+/* strings the scrollytale writes into the pinned card */
+window.DAAG_T={step:{
+ 1:['একটি নির্যাতনের খবর প্রকাশ পেল','পাবলিক পোস্ট · ১৩ অক্টোবর ২০২৬'],
+ 2:['৪১৭টি মন্তব্য','তার মধ্যে কিছু আপত্তিকর'],
+ 3:['স্ক্রিনশট জমা পড়ল','পরিচয় গোপন · ৩টি জমা'],
+ 4:['যাচাই চলছে','একজন মডারেটর দেখছেন'],
+ 5:['৩টি নথি রেকর্ডে গেল','যাচাইকৃত · স্থায়ী']}};
+var STEP_EN={
+ 1:['A report of an assault is published','Public post · 13 October 2026'],
+ 2:['417 comments','Some of them abusive'],
+ 3:['Screenshots submitted','Anonymous · 3 submissions'],
+ 4:['Under review','A moderator is checking'],
+ 5:['3 entries recorded','Verified · permanent']};
+var STEP_BN=JSON.parse(JSON.stringify(window.DAAG_T.step));
+window.DAAG_SETLANG=function(L){
+  window.DAAG_T.step = (L==='en')?STEP_EN:STEP_BN;
+  var cur=document.querySelector('.sstep');
+  if(window.DAAG_STEP){
+    var active=1;
+    document.querySelectorAll('.sstep').forEach(function(x){
+      var r=x.getBoundingClientRect();
+      if(r.top<innerHeight*0.55&&r.bottom>innerHeight*0.45)active=+x.dataset.s;
+    });
+    window.DAAG_STEP(active);
+  }
+  /* bubbles carry their own text */
+  var BUB_EN=['She asked for it','It’s all staged','We’ll find his address','Horrifying','Look at her clothes','Justice now'];
+  var BUB_BN=['মেয়েটারই দোষ','এসব সাজানো','নাম ঠিকানা বের করব','বিচার চাই','ওর পোশাক দেখুন','ভয়ংকর খবর'];
+  document.querySelectorAll('.bub').forEach(function(b,i){
+    b.textContent=(L==='en'?BUB_EN:BUB_BN)[i]||b.textContent;
+  });
+};
+applyLang(curLang());
+</script>
+</body></html>

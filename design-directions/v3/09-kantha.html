@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>09 কাঁথা — Kantha</title><link rel="stylesheet" href="_b.css">
+<style>
+/* THE MOMENT: kantha — the Bengali running stitch, worked by women for
+   generations to hold worn cloth together and sew a record into it. Every
+   entry is a patch stitched onto the quilt. A women's craft made to carry
+   the evidence of misogyny. Nothing here could come from anywhere else. */
+body{font-family:var(--sans);line-height:1.7;color:#2a2018;
+  background:#d8c9ad;
+  background-image:
+    repeating-linear-gradient(90deg,rgba(0,0,0,.035) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(0deg,rgba(0,0,0,.035) 0 1px,transparent 1px 3px),
+    radial-gradient(ellipse at 30% 10%,#e2d5bb,#cdbb9c 70%)}
+.top{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 2.2rem;gap:2rem}
+.lg{font-family:var(--fat);font-weight:800;font-size:22px;text-decoration:none;color:#2a2018}
+.lg i{font-style:normal;color:#9e2a2b}
+.top nav{display:flex;gap:1.2rem;font-size:13px}.top nav a{color:#6b5a48;text-decoration:none}
+.go{background:#9e2a2b;color:#f3e9d7;text-decoration:none;font-size:12.5px;font-weight:600;
+  padding:.5rem 1.1rem;border-radius:999px}
+
+.quilt{max-width:1180px;margin:0 auto;padding:1rem 2.2rem 4rem}
+.lede{max-width:46ch;padding:2.2rem 0 2.6rem;position:relative}
+.kick{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:#9e2a2b;margin-bottom:1.2rem}
+h1{font-family:var(--fat);font-weight:800;font-size:clamp(2.2rem,5.4vw,4rem);line-height:1.02;
+  margin:0 0 1rem;letter-spacing:-.03em}
+h1 em{font-style:normal;color:#9e2a2b}
+.lede p{color:#5a4a39;margin:0 0 1.6rem;font-size:15.5px}
+.f{display:flex;max-width:430px;background:#f3e9d7;border:2px solid #2a2018;border-radius:2px;
+  position:relative}
+.f::after{content:'';position:absolute;inset:3px;border:1px dashed #9e2a2b;pointer-events:none}
+.f input{flex:1;border:0;outline:none;background:transparent;padding:.75rem 1rem;font-size:14.5px}
+.f button{border:0;background:#2a2018;color:#f3e9d7;font-weight:600;padding:0 1.3rem;cursor:pointer;font-size:13.5px}
+
+/* stitched seam that runs the page */
+.seam{height:2px;margin:0 0 2.2rem;
+  background-image:repeating-linear-gradient(90deg,#9e2a2b 0 13px,transparent 13px 23px)}
+.patches{display:grid;grid-template-columns:repeat(auto-fit,minmax(282px,1fr));gap:1.5rem}
+.patch{position:relative;padding:1.4rem 1.5rem;border-radius:2px;
+  box-shadow:0 5px 16px rgba(60,40,20,.16);transition:transform .2s}
+.patch:hover{transform:translateY(-3px) rotate(0deg)!important}
+/* the running stitch border, drawn with dashes on all four sides */
+.patch::before{content:'';position:absolute;inset:7px;pointer-events:none;
+  background:
+    repeating-linear-gradient(90deg,#2a2018 0 9px,transparent 9px 17px) top/100% 1.6px no-repeat,
+    repeating-linear-gradient(90deg,#2a2018 0 9px,transparent 9px 17px) bottom/100% 1.6px no-repeat,
+    repeating-linear-gradient(0deg,#2a2018 0 9px,transparent 9px 17px) left/1.6px 100% no-repeat,
+    repeating-linear-gradient(0deg,#2a2018 0 9px,transparent 9px 17px) right/1.6px 100% no-repeat;
+  opacity:.6}
+.p1{background:#e8dcc4;transform:rotate(-.5deg)}
+.p2{background:#dfcfae;transform:rotate(.6deg)}
+.p3{background:#e4d3b4;transform:rotate(-.3deg)}
+.p4{background:#dccdb0;transform:rotate(.4deg)}
+.patch q{display:block;font-family:var(--ser);font-size:1.12rem;line-height:1.55;margin:0 0 1rem;
+  position:relative;z-index:1}
+.patch .m{font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:#7a6855;
+  display:flex;justify-content:space-between;gap:.7rem;position:relative;z-index:1;
+  border-top:1.5px dashed #b9a98f;padding-top:.6rem}
+.patch .m b{color:#9e2a2b;font-weight:400}
+.mend{margin-top:3rem;padding:2rem;background:#efe4cd;border-radius:2px;position:relative;
+  box-shadow:0 5px 16px rgba(60,40,20,.14)}
+.mend::before{content:'';position:absolute;inset:8px;pointer-events:none;
+  background:
+    repeating-linear-gradient(90deg,#9e2a2b 0 9px,transparent 9px 17px) top/100% 1.6px no-repeat,
+    repeating-linear-gradient(90deg,#9e2a2b 0 9px,transparent 9px 17px) bottom/100% 1.6px no-repeat;
+  opacity:.75}
+.mend p{font-family:var(--fat);font-weight:700;font-size:clamp(1.2rem,2.8vw,1.8rem);line-height:1.3;
+  margin:0;max-width:30ch;position:relative;z-index:1}
+.mend small{display:block;margin-top:.9rem;color:#6b5a48;font-family:var(--sans);
+  font-size:13.5px;font-weight:400;max-width:48ch;position:relative;z-index:1}
+</style></head><body>
+
+<header class="top">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<main class="quilt">
+  <section class="lede">
+    <div class="kick">এক সেলাই, এক কথা</div>
+    <h1>ছেঁড়া কাপড়ও <em>গল্প রাখে।</em></h1>
+    <p>কাঁথা সেলাই করে আমাদের নানি-দাদিরা পুরনো কাপড়ে সংসারের গল্প তুলে রাখতেন। এখানেও তাই — এক একটা কথা, এক একটা তালি।</p>
+    <form class="f" onsubmit="return false">
+      <input placeholder="নাম বা প্রোফাইল লিংক"><button>যাচাই করুন</button>
+    </form>
+  </section>
+
+  <div class="seam"></div>
+
+  <div class="patches">
+    <article class="patch p1">
+      <q>মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q>
+      <div class="m"><b>DG-2026-8351</b><span>ঢাকা · ১৩.১০.২৬</span></div>
+    </article>
+    <article class="patch p2">
+      <q>এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।</q>
+      <div class="m"><b>DG-2026-4959</b><span>চট্টগ্রাম · ১২.১০.২৬</span></div>
+    </article>
+    <article class="patch p3">
+      <q>এসব মেয়ের জন্য এটাই উপযুক্ত শাস্তি।</q>
+      <div class="m"><b>DG-2026-2699</b><span>খুলনা · ০৯.১০.২৬</span></div>
+    </article>
+    <article class="patch p4">
+      <q>মেয়েমানুষ সাংবাদিকতা করতে এসেছে, ঘরে বসে থাক।</q>
+      <div class="m"><b>DG-2026-3963</b><span>সিলেট · ০৭.১০.২৬</span></div>
+    </article>
+  </div>
+
+  <section class="mend">
+    <p>কাঁথা ছেঁড়া কাপড় জোড়া দেয়। আমরা ছেঁড়া কথাগুলো জোড়া দিই।</p>
+    <small>২৫টি এন্ট্রি · ১২ জন চিহ্নিত · প্রতিটি সেলাই একজন মানুষ যাচাই করে বসিয়েছেন। জরুরি হেল্পলাইন ৯৯৯ · নারী ও শিশু ১০৯।</small>
+  </section>
+</main>
+
+<div class="flip"><b>v3</b><a href="01-stain.html">01 দাগ</a><a href="02-indelible.html">02 মোছা যায় না</a><a href="03-redacted.html">03 কালো কালি</a><a href="04-thread.html">04 থ্রেড</a><a href="05-receipt.html">05 রসিদ</a><a href="06-board.html">06 তদন্ত বোর্ড</a><a href="07-hand.html">07 হাতের লেখা</a><a href="08-mirror.html">08 আয়না</a><a class="on" href="09-kantha.html">09 কাঁথা</a><a href="10-wall.html">10 দেয়াল</a><a href="11-pressure.html">11 চাপ</a><a href="12-exhibit.html">12 প্রমাণ</a></div>
+</body></html>

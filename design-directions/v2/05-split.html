@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>05 Split — দাগ</title><link rel="stylesheet" href="_base.css">
+<style>
+/* ARCHITECTURE: a permanent 50/50 diptych. Left is the public face someone
+   presents; right is what they wrote underneath. The page never leaves that
+   confrontation — the pairs advance in place instead of scrolling away. */
+.dip{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 100px)}
+.face,.said{padding:clamp(1.8rem,4vw,3.4rem);display:flex;flex-direction:column;justify-content:center}
+.face{background:var(--pg1);border-right:1px solid var(--line)}
+.said{background:#121214;color:#eceaea}
+.side-l{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:1.6rem}
+.face .side-l{color:var(--ink3)}
+.said .side-l{color:#f2596b}
+.prof{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem}
+.prof .av{width:62px;height:62px;border-radius:50%;background:var(--pg2);display:grid;place-items:center;
+  font-family:var(--disp);font-weight:700;font-size:26px;color:var(--ink3)}
+.prof .nm{font-family:var(--disp);font-weight:700;font-size:1.35rem;line-height:1.2}
+.prof .sub{font-family:var(--mono);font-size:11px;color:var(--ink3);margin-top:.2rem}
+.bio{font-size:14px;color:var(--ink2);border-left:2px solid var(--line2);padding-left:1rem;margin-bottom:1.4rem;line-height:1.7}
+.meta-g{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;font-size:12.5px}
+.meta-g div{border-top:1px solid var(--line);padding-top:.5rem}
+.meta-g dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.meta-g dd{margin:.2rem 0 0}
+.said q{display:block;font-family:var(--disp);font-weight:600;font-size:clamp(1.3rem,2.9vw,2.1rem);
+  line-height:1.4;margin:0 0 1.5rem;letter-spacing:-.01em}
+.said .ctx{font-size:13.5px;color:#a2a0a4;border-left:2px solid #f2596b;padding-left:1rem;margin-bottom:1.5rem}
+.said .f{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.said .f span{font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.22);padding:.18rem .55rem}
+.said .f span.r{border-color:#f2596b;color:#f2596b}
+.nav-p{display:flex;align-items:center;gap:1rem;margin-top:auto;padding-top:1.5rem;
+  border-top:1px solid rgba(255,255,255,.12)}
+.nav-p button{background:transparent;border:1px solid rgba(255,255,255,.25);color:#eceaea;
+  width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:15px}
+.nav-p button:hover{border-color:#f2596b;color:#f2596b}
+.nav-p .pos{font-family:var(--mono);font-size:11px;color:#8d8b90;letter-spacing:.08em}
+.strap{background:var(--red);color:#fff;padding:1.1rem 2rem;display:flex;justify-content:space-between;
+  gap:1.5rem;flex-wrap:wrap;align-items:center}
+.strap p{margin:0;font-size:14.5px;font-weight:500}
+.strap form{display:flex;background:#fff;border-radius:999px;overflow:hidden;min-width:300px}
+.strap input{flex:1;border:0;outline:none;padding:.6rem 1.1rem;font-size:13.5px;color:var(--ink)}
+.strap button{border:0;background:var(--ink);color:#fff;font-weight:600;font-size:13px;padding:0 1.2rem;cursor:pointer}
+@media(max-width:900px){.dip{grid-template-columns:1fr}.face{border-right:0;border-bottom:1px solid var(--line)}}
+</style></head><body>
+
+<header class="bar">
+  <a class="lg" href="#">দা<i>গ</i></a>
+  <nav><a href="#">আর্কাইভ</a><a href="#">মানচিত্র</a><a href="#">আপিল</a><a href="#">হেল্পলাইন</a></nav>
+  <a class="go" href="#">প্রমাণ জমা দিন</a>
+</header>
+
+<main class="dip">
+  <section class="face">
+    <div class="side-l">যা সে দেখায়</div>
+    <div class="prof">
+      <div class="av" id="av">র</div>
+      <div><div class="nm" id="nm">রাকিব হাসান</div><div class="sub" id="hd">পাবলিক প্রোফাইল · ফেসবুক</div></div>
+    </div>
+    <p class="bio" id="bio">"পরিবারই সব। মানুষকে সম্মান করুন।"</p>
+    <dl class="meta-g">
+      <div><dt>জেলা</dt><dd id="dist">ঢাকা</dd></div>
+      <div><dt>নথিভুক্ত এন্ট্রি</dt><dd id="cnt">৩টি</dd></div>
+      <div><dt>প্রথম এন্ট্রি</dt><dd id="first">০৮ অক্টোবর ২০২৬</dd></div>
+      <div><dt>অবস্থা</dt><dd id="stat">যাচাইকৃত</dd></div>
+    </dl>
+  </section>
+
+  <section class="said">
+    <div class="side-l">যা সে লিখেছে</div>
+    <q id="quote">মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।</q>
+    <p class="ctx" id="ctx">একটি ধর্ষণের সংবাদ প্রতিবেদনের কমেন্টে। পোস্টটি তখনও পাবলিক ছিল।</p>
+    <div class="f" id="tags"></div>
+    <div class="nav-p">
+      <button onclick="go(-1)" aria-label="আগের">←</button>
+      <button onclick="go(1)" aria-label="পরের">→</button>
+      <span class="pos" id="pos">০১ / ০৪</span>
+    </div>
+  </section>
+</main>
+
+<div class="strap">
+  <p>কাউকে বিশ্বাস করার আগে দেখে নিন, সে আগে কী লিখেছে।</p>
+  <form onsubmit="return false"><input placeholder="নাম বা প্রোফাইল লিংক"><button>যাচাই</button></form>
+</div>
+
+<script>
+var P=[
+ {i:'র',n:'রাকিব হাসান',h:'পাবলিক প্রোফাইল · ফেসবুক',b:'"পরিবারই সব। মানুষকে সম্মান করুন।"',
+  d:'ঢাকা',c:'৩টি',f:'০৮ অক্টোবর ২০২৬',s:'যাচাইকৃত',
+  q:'মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।',
+  x:'একটি ধর্ষণের সংবাদ প্রতিবেদনের কমেন্টে। পোস্টটি তখনও পাবলিক ছিল।',
+  t:['ভিকটিমকে দোষারোপ','ফেসবুক','অতি গুরুতর']},
+ {i:'শ',n:'শাহরিয়ার মনির',h:'পাবলিক প্রোফাইল · ফেসবুক',b:'"সত্যের পক্ষে। অন্যায়ের বিরুদ্ধে।"',
+  d:'চট্টগ্রাম',c:'২টি',f:'০৬ অক্টোবর ২০২৬',s:'আপিল চলছে',
+  q:'এদের নাম ঠিকানা বের করে ছাড়ব, দেখে নেবেন।',
+  x:'নির্যাতনের শিকার একজনের পরিচয় প্রকাশের হুমকি দিয়ে লেখা।',
+  t:['হুমকি','ফেসবুক','অতি গুরুতর']},
+ {i:'ত',n:'তানভীর আলম',h:'পাবলিক চ্যানেল · ইউটিউব',b:'"সমাজ নিয়ে ভাবি।"',
+  d:'খুলনা',c:'১টি',f:'০৯ অক্টোবর ২০২৬',s:'যাচাইকৃত',
+  q:'এসব মেয়ের জন্য এটাই উপযুক্ত শাস্তি।',
+  x:'একটি অ্যাসিড সহিংসতার ভিডিওর নিচে লেখা হয়েছিল।',
+  t:['অমানবিক ভাষা','ইউটিউব','অতি গুরুতর']},
+ {i:'ম',n:'মাহফুজ রহমান',h:'পাবলিক প্রোফাইল · ফেসবুক',b:'"শিক্ষকতা করি। বইপ্রেমী।"',
+  d:'সিলেট',c:'১টি',f:'০৭ অক্টোবর ২০২৬',s:'যাচাইকৃত',
+  q:'মেয়েমানুষ সাংবাদিকতা করতে এসেছে, ঘরে বসে থাক।',
+  x:'একজন নারী সাংবাদিকের প্রতিবেদনের নিচে লেখা।',
+  t:['নারীবিদ্বেষ','ফেসবুক','গুরুতর']}
+];
+var BN=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function bn(n){return String(n).replace(/[0-9]/g,function(d){return BN[+d]})}
+var k=0;
+function render(){
+  var p=P[k];
+  ['av:i','nm:n','hd:h','bio:b','dist:d','cnt:c','first:f','stat:s','quote:q','ctx:x'].forEach(function(pair){
+    var a=pair.split(':');document.getElementById(a[0]).textContent=p[a[1]];
+  });
+  document.getElementById('tags').innerHTML=p.t.map(function(t,i){
+    return '<span'+(i===2?' class="r"':'')+'>'+t+'</span>';
+  }).join('');
+  document.getElementById('pos').textContent=bn(String(k+1).padStart(2,'0'))+' / '+bn('0'+P.length);
+}
+function go(d){k=(k+d+P.length)%P.length;render()}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight')go(1); if(e.key==='ArrowLeft')go(-1);
+});
+render();
+</script>
+
+<div class="flip"><b>v2 · ১০টি কাঠামো</b>
+<a href="01-lookup.html">01 Lookup</a><a href="02-atlas.html">02 Atlas</a><a href="03-scrollytale.html">03 Scrollytale</a>
+<a href="04-wall.html">04 Wall</a><a class="on" href="05-split.html">05 Split</a><a href="06-timeline.html">06 Timeline</a>
+<a href="07-stack.html">07 Stack</a><a href="08-index.html">08 Index</a><a href="09-counter.html">09 Counter</a>
+<a href="10-terminal.html">10 Terminal</a></div>
+</body></html>

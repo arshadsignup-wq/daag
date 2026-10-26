@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="bn" data-dir="c">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Direction C — Signal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090e;--bg1:#0e1218;--bg2:#141a23;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.14);
+  --tx:#eef1f6;--tx2:#9aa4b4;--tx3:#5d6675;
+  --sig:#ff3d57;--sig2:#ff7a45;--ok:#2fd98a;--amber:#ffb224;
+  --mono:'DM Mono',monospace;--sans:'Hind Siliguri',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 500px at 50% -8%,rgba(255,61,87,.11),transparent 70%)}
+.wrap{max-width:1320px;margin:0 auto;padding:0 2rem}
+
+nav{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(7,9,14,.86);backdrop-filter:blur(14px);z-index:20}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:2rem;padding:.85rem 0}
+.lg{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--tx);font-weight:700;font-size:19px}
+.lg i{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--sig),var(--sig2));display:grid;place-items:center;font-style:normal;font-size:13px;color:#fff}
+.nv{display:flex;gap:.3rem}
+.nv a{color:var(--tx2);text-decoration:none;font-size:13.5px;padding:.4rem .85rem;border-radius:999px}
+.nv a.on,.nv a:hover{color:var(--tx);background:var(--bg2)}
+.cta{background:linear-gradient(135deg,var(--sig),var(--sig2));color:#fff;text-decoration:none;font-size:13.5px;font-weight:600;padding:.55rem 1.2rem;border-radius:999px}
+
+/* live bar */
+.live{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:11px;color:var(--tx3);padding:.7rem 0;border-bottom:1px solid var(--line)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(47,217,138,.6);animation:pulse 2.1s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(47,217,138,0)}100%{box-shadow:0 0 0 0 rgba(47,217,138,0)}}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center;padding:3rem 0 2.5rem}
+.kick{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sig);border:1px solid rgba(255,61,87,.3);background:rgba(255,61,87,.08);padding:.4rem .9rem;border-radius:999px;margin-bottom:1.3rem}
+h1{font-size:clamp(2.2rem,4.6vw,3.6rem);line-height:1.15;font-weight:700;margin:0 0 1rem;letter-spacing:-.01em}
+h1 span{background:linear-gradient(135deg,var(--sig),var(--sig2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--tx2);font-size:15.5px;max-width:54ch;margin:0 0 1.7rem}
+.find{display:flex;background:var(--bg1);border:1px solid var(--line2);border-radius:999px;padding:.35rem .35rem .35rem 1.3rem;max-width:560px}
+.find input{flex:1;background:transparent;border:0;outline:none;color:var(--tx);font-family:var(--sans);font-size:14.5px}
+.find button{border:0;border-radius:999px;background:linear-gradient(135deg,var(--sig),var(--sig2));color:#fff;font-weight:600;font-size:13.5px;padding:.6rem 1.4rem;cursor:pointer;font-family:var(--sans)}
+
+/* map panel */
+.panel{background:var(--bg1);border:1px solid var(--line);border-radius:18px;padding:1.2rem}
+.panel-h{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:.9rem}
+.mapbox{position:relative;aspect-ratio:1/1.1;border-radius:12px;background:var(--bg2);overflow:hidden;display:grid;place-items:center}
+.mapbox svg{width:100%;height:min(46vh,430px);opacity:.95}
+.bd{fill:#1d2634;stroke:var(--bg1);stroke-width:1.2}
+.bd.h1{fill:rgba(255,61,87,.35)}
+.bd.h2{fill:rgba(255,61,87,.7)}
+.bd.h3{fill:var(--sig)}
+.hot{animation:blip 2.6s ease-in-out infinite}
+@keyframes blip{0%,100%{opacity:.55}50%{opacity:1}}
+.leg{display:flex;gap:1rem;font-family:var(--mono);font-size:10px;color:var(--tx3);margin-top:.8rem}
+.leg i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:.3rem;vertical-align:-1px}
+
+/* counters */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:1rem 0 3rem}
+.kpi{background:var(--bg1);border:1px solid var(--line);border-radius:16px;padding:1.2rem 1.3rem;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,var(--sig),transparent)}
+.kpi b{display:block;font-family:var(--mono);font-size:2.1rem;font-weight:500;line-height:1}
+.kpi span{font-size:11.5px;color:var(--tx3);display:block;margin-top:.4rem}
+.kpi .spark{display:flex;gap:2px;align-items:flex-end;height:22px;margin-top:.7rem}
+.kpi .spark i{flex:1;background:rgba(255,61,87,.35);border-radius:1px}
+
+/* feed */
+.sec{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);margin:0 0 1rem}
+.feed{display:grid;gap:.7rem;padding-bottom:3rem}
+.item{display:grid;grid-template-columns:86px 1fr auto;gap:1.2rem;align-items:center;background:var(--bg1);border:1px solid var(--line);border-radius:14px;padding:1rem 1.2rem;transition:border-color .2s,transform .2s}
+.item:hover{border-color:var(--line2);transform:translateX(3px)}
+.item .id{font-family:var(--mono);font-size:10.5px;color:var(--sig)}
+.item h3{font-size:14.5px;font-weight:600;margin:0 0 .35rem;line-height:1.45}
+.item .m{font-family:var(--mono);font-size:10.5px;color:var(--tx3)}
+.sev{font-family:var(--mono);font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;padding:.25rem .7rem;border-radius:999px;background:rgba(255,61,87,.14);color:var(--sig);border:1px solid rgba(255,61,87,.3);white-space:nowrap}
+footer{border-top:1px solid var(--line);padding:2rem 0 3rem;font-family:var(--mono);font-size:10.5px;color:var(--tx3);letter-spacing:.05em}
+@media(max-width:980px){.hero{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.item{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap nav-in">
+  <a class="lg" href="#"><i>দ</i>দাগ</a>
+  <div class="nv"><a href="#" class="on">ড্যাশবোর্ড</a><a href="#">রেকর্ড</a><a href="#">মানচিত্র</a><a href="#">বিশ্লেষণ</a><a href="#">আপিল</a></div>
+  <a class="cta" href="#">প্রমাণ জমা দিন</a>
+</div></nav>
+
+<div class="wrap">
+  <div class="live"><span class="dot"></span> সর্বশেষ যাচাই ২ ঘণ্টা আগে · ৬৪ জেলার মধ্যে ৩টিতে রেকর্ড আছে · এই সপ্তাহে ৪টি নতুন এন্ট্রি</div>
+
+  <section class="hero">
+    <div>
+      <span class="kick">পরিচয় গোপন রেখে হয়রানির বিরুদ্ধে দাঁড়ান</span>
+      <h1>কে বলেছে,<br><span>জেনে নিন।</span></h1>
+      <p class="sub">ধর্ষণ বা নির্যাতনের খবর এলে কেউ লেখে "মেয়েটারই দোষ", কেউ গালি দেয়, কেউ হুমকি পাঠায়। দাগ সেই মন্তব্যগুলো প্রমাণসহ জমা রাখে। কাউকে বিশ্বাস করার আগে দেখে নিন, সে আগে কী লিখেছে।</p>
+      <form class="find" onsubmit="return false">
+        <input placeholder="নাম, ফেসবুক লিংক বা ইউজারনেম…">
+        <button>যাচাই করুন</button>
+      </form>
+    </div>
+
+    <div class="panel">
+      <div class="panel-h"><span>জেলাভিত্তিক ঘনত্ব</span><span>৩ / ৬৪</span></div>
+      <div class="mapbox">
+        <svg id="bdmap" viewBox="0 0 1000 1180" aria-label="Bangladesh district density"></svg>
+      </div>
+      <div class="leg">
+        <span><i style="background:#1d2634"></i>নেই</span>
+        <span><i style="background:rgba(255,61,87,.35)"></i>১-২</span>
+        <span><i style="background:rgba(255,61,87,.7)"></i>৩-৫</span>
+        <span><i style="background:#ff3d57"></i>৬+</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="kpis">
+    <div class="kpi"><b>২৫</b><span>নথিভুক্ত এন্ট্রি</span><div class="spark"><i style="height:30%"></i><i style="height:45%"></i><i style="height:25%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:100%"></i></div></div>
+    <div class="kpi"><b>১২</b><span>চিহ্নিত ব্যক্তি</span><div class="spark"><i style="height:20%"></i><i style="height:35%"></i><i style="height:50%"></i><i style="height:40%"></i><i style="height:65%"></i><i style="height:60%"></i><i style="height:85%"></i></div></div>
+    <div class="kpi"><b>২</b><span>যাচাই চলছে</span><div class="spark"><i style="height:60%"></i><i style="height:30%"></i><i style="height:45%"></i><i style="height:20%"></i><i style="height:35%"></i><i style="height:25%"></i><i style="height:40%"></i></div></div>
+    <div class="kpi"><b>৯৩%</b><span>যাচাইয়ে টিকেছে</span><div class="spark"><i style="height:80%"></i><i style="height:85%"></i><i style="height:75%"></i><i style="height:90%"></i><i style="height:88%"></i><i style="height:92%"></i><i style="height:93%"></i></div></div>
+  </section>
+
+  <h2 class="sec">সাম্প্রতিক যাচাই</h2>
+  <div class="feed">
+    <article class="item">
+      <div class="id">DG-2026<br>8351</div>
+      <div><h3>ধর্ষণের খবরে ভিকটিমকে দোষারোপ করে প্রকাশ্য মন্তব্য</h3><div class="m">ঢাকা · ফেসবুক · ১৩ অক্টোবর ২০২৬</div></div>
+      <span class="sev">অতি গুরুতর</span>
+    </article>
+    <article class="item">
+      <div class="id">DG-2026<br>4959</div>
+      <div><h3>নির্যাতনের সংবাদের নিচে হুমকিমূলক মন্তব্য</h3><div class="m">চট্টগ্রাম · ফেসবুক · ১২ অক্টোবর ২০২৬</div></div>
+      <span class="sev">অতি গুরুতর</span>
+    </article>
+    <article class="item">
+      <div class="id">DG-2026<br>2699</div>
+      <div><h3>অ্যাসিড সহিংসতার খবরে অবমাননাকর ভাষা</h3><div class="m">খুলনা · ইউটিউব · ০৯ অক্টোবর ২০২৬</div></div>
+      <span class="sev">অতি গুরুতর</span>
+    </article>
+  </div>
+</div>
+
+<footer><div class="wrap">দাগ · প্রতিটি শব্দ দাগ রেখে যায় · রেকর্ড, অস্ত্র নয় · জরুরি হেল্পলাইন ৯৯৯ / ১০৯</div></footer>
+
+<script src="/map-data.js"></script>
+<script>
+// Uses the same simplified ADM2 outlines as the live site, so this preview
+// shows the real country rather than a placeholder.
+(function(){
+  var HOT={'Dhaka':3,'Chittagong':2,'Khulna':2,'Sylhet':1,'Rajshahi':1,'Gazipur':1};
+  var svg=document.getElementById('bdmap');
+  if(!svg||!window.DAAG_DISTRICTS)return;
+  svg.innerHTML=window.DAAG_DISTRICTS.map(function(d){
+    var lvl=HOT[d.n]||0;
+    var cls='bd'+(lvl?' h'+lvl:'')+(lvl>=3?' hot':'');
+    return '<path class="'+cls+'" d="'+d.d+'"><title>'+d.bn+'</title></path>';
+  }).join('');
+})();
+</script>
+</body>
+</html>
