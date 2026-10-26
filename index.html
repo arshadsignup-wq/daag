@@ -431,7 +431,6 @@ h1.hero-h{font-family:var(--font-serif);font-size:clamp(2.3rem,5vw,3.8rem);line-
 .arch-grid{border:1px solid var(--border);border-radius:8px;overflow:hidden}
 .arch-entry{background:var(--bg1);padding:1.5rem 1.75rem;display:grid;grid-template-columns:1fr 168px;gap:1.5rem;align-items:start;transition:background .2s;border-bottom:1px solid var(--border)}
 .entry-main{min-width:0}
-.entry-byline{font-size:11.5px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.55rem;letter-spacing:.02em}
 .entry-who{color:var(--text2);text-decoration:none;border-bottom:1px solid var(--border3)}
 a.entry-who:hover{color:var(--accent);border-bottom-color:var(--accent)}
 /* The archived sentence. Everything else on the card is apparatus around it. */
@@ -1738,7 +1737,7 @@ function animateNum(el,target,suffix){
 var BN={
   'nav.archive':'আর্কাইভ',
   'arch.advFilter':'বিস্তারিত ছাঁকনি',
-  'arch.writtenBy':'লিখেছেন',
+  'arch.perpProfile':'অভিযুক্তের প্রোফাইল',
   'arch.unnamed':'নাম পাওয়া যায়নি',
   'arch.sourcePost':'যে পোস্টের নিচে',
   'arch.dispute':'এই নথিতে আপত্তি জানান',
@@ -1746,7 +1745,7 @@ var BN={
   'arch.viewEvidence':'পুরো স্ক্রিনশট খুলুন',
   'arch.evidenceAlt':'নথিভুক্ত মন্তব্যের স্ক্রিনশট',
   'arch.noShot':'স্ক্রিনশট নেই',
-  'up.ready':'পাঠানোর জন্য প্রস্তুত',
+  'up.ready':'পাঠানোর জন্য প্রস্তুত',
   'an.rejected':'{n}% বাতিল বা একই জিনিস',
   'an.thisMonth':'এই মাসে {n}টি',
 
@@ -2639,10 +2638,10 @@ var HERO_EN={
   'hero.shot':'Screenshot \u00b7 blurred'
 };
 var HERO_BN={
-  'hero.q1':'মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।',
-  'hero.q2':'ওর পোশাক দেখলেই তো বোঝা যায়।',
-  'hero.q3':'মেয়েটার চরিত্র নিয়ে আগে খোঁজ নিন।',
-  'hero.q4':'এসব খবর সাজানো, বিশ্বাস করবেন না।',
+  'hero.q1':'মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।',
+  'hero.q2':'ওর পোশাক দেখলেই তো বোঝা যায়।',
+  'hero.q3':'মেয়েটার চরিত্র নিয়ে আগে খোঁজ নিন।',
+  'hero.q4':'এসব খবর সাজানো, বিশ্বাস করবেন না।',
   'hero.d1':'১৩.০৩.২৩',
   'hero.d2':'০৮.০৭.২৪',
   'hero.d3':'০৫.১১.২৫',
@@ -2959,11 +2958,6 @@ function renderArchive(){
         ? '<button type="button" class="thumb thumb-wrap" onclick="event.stopPropagation();openScreenshot(\''+escHtml(e.screenshot)+'\')" aria-label="'+escHtml(t('arch.viewEvidence','Open the full screenshot'))+'"><img src="'+escHtml(e.screenshot)+'" alt="'+escHtml(t('arch.evidenceAlt','Screenshot of the archived comment')+': '+tv(e.cat)+', '+tv(e.inc)+', '+(e.profileName?prettyProfileName(e.profileName):t('arch.unnamed','profile not named')))+'" loading="lazy"><span class="thumb-label">'+escHtml(t('arch.view','View'))+'</span></button>'
         : '<div class="thumb">'+escHtml(t('arch.noShot','No screenshot'))+'</div>';
 
-      var who=e.profileName?prettyProfileName(e.profileName):t('arch.unnamed','Profile not named');
-      var whoHtml=e.profileUrl
-        ? '<a class="entry-who" href="'+escHtml(safeUrl(e.profileUrl))+'" target="_blank" rel="noopener noreferrer nofollow" onclick="event.stopPropagation()">'+escHtml(who)+'</a>'
-        : '<span class="entry-who">'+escHtml(who)+'</span>';
-
       // The quote, verbatim. Falls back to the context note for rows archived
       // before comment_text existed.
       // Entries archived before comment_text existed hold the comment only as
@@ -2982,6 +2976,11 @@ function renderArchive(){
       var ctx=(e.quote&&e.note)?'<div class="entry-ctx">'+escHtml(e.note)+'</div>':'';
 
       var linkBits=[];
+      // "Perpetrator" is the correct spelling of the word. The Bengali is
+      // অভিযুক্ত, the accused, not দোষী, the guilty: the archive's own rule is
+      // that nothing here states an author's guilt as fact, and a label
+      // repeated on every card is an easy place to break that by accident.
+      if(e.profileUrl) linkBits.push('<a class="entry-link" href="'+escHtml(safeUrl(e.profileUrl))+'" target="_blank" rel="noopener noreferrer nofollow" onclick="event.stopPropagation()">'+escHtml(t('arch.perpProfile','Perpetrator profile'))+' &rarr;</a>');
       if(e.sourceUrl) linkBits.push('<a class="entry-link" href="'+escHtml(safeUrl(e.sourceUrl))+'" target="_blank" rel="noopener noreferrer nofollow" onclick="event.stopPropagation()">'+escHtml(t('arch.sourcePost','Source post'))+' &rarr;</a>');
       linkBits.push('<a class="entry-link" href="/appeals" onclick="event.stopPropagation();event.preventDefault();startAppeal(\''+escHtml(e.id)+'\')">'+escHtml(t('arch.dispute','Dispute this entry'))+'</a>');
       var linksHtml='<div class="entry-links">'+linkBits.join('')+'</div>';
@@ -2993,7 +2992,6 @@ function renderArchive(){
             +'<span class="badge b-nv">'+escHtml(tv(e.inc))+'</span>'
             +'<span class="badge b-gr" style="color:'+sc+'">'+escHtml(tv(e.sev))+'</span>'
           +'</div>'
-          +'<div class="entry-byline">'+escHtml(t('arch.writtenBy','Written by'))+' '+whoHtml+'</div>'
           +quote+trans+ctx+linksHtml
           +'<div class="entry-s">'+escHtml(e.id)+' &nbsp;&middot;&nbsp; '+tv('Archived')+' '+fmtDate(e.date)+' &nbsp;&middot;&nbsp; <span class="status s-ok">'+tv('Verified')+'</span> &nbsp;&middot;&nbsp; v'+bnNum(e.ver)+(e.lastEdit?' &nbsp;&middot;&nbsp; <span class="status s-wait">'+tv('Edited')+' '+fmtDate(e.lastEdit)+'</span>':'')+'</div>'
         +'</div>'+thumbHtml+'</article>';
@@ -3033,7 +3031,7 @@ async function buildArchive(append){
 
 // ===== ANALYTICS =====
 var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-var monthsBN=['জানু','ফেব','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্ট','অক্টো','নভে','ডিসে'];
+var monthsBN=['জানু','ফেব','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্ট','অক্টো','নভে','ডিসে'];
 function monthName(i){return currentLang()==='bn'?monthsBN[i]:months[i]}
 var catColors={'Victim Blaming':'#c8231a','Misogyny':'#d8452c','Violent Rhetoric':'#e0633c','Dehumanizing Language':'#a8381f','Threats':'#8c2d18','Appearance Humiliation':'#c9743a','Sexual Harassment':'#9c4a2a','Hate Speech':'#6f2a14'};
 var incColors={'Rape / Sexual Violence':'#c8231a','Cyber Harassment':'#d8452c','Domestic Violence':'#e0633c','Public Harassment':'#a8381f','Acid Violence':'#8c2d18','Gender-Based Violence':'#c9743a','Gender Violence':'#c9743a','Rape':'#c8231a','Acid':'#8c2d18'};
