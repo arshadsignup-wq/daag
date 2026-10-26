@@ -256,7 +256,7 @@ html[lang="en"] .page-title,html[lang="en"] .eth-sec-t{letter-spacing:-.02em;lin
   text-shadow:0 1px 6px rgba(0,0,0,.6)}
 
 .pin{position:absolute;z-index:4;background:#fdfaf2;color:#1c1917;padding:.9rem 1rem .8rem;
-  box-shadow:0 14px 34px rgba(0,0,0,.5);transition:transform .22s;text-decoration:none;display:block}
+  box-shadow:0 14px 34px rgba(0,0,0,.5);transition:transform .22s;display:block;cursor:default}
 .pin:hover{transform:scale(1.035) rotate(0deg)!important;z-index:9}
 .pin::before{content:'';position:absolute;top:-9px;left:50%;transform:translateX(-50%);
   width:16px;height:16px;border-radius:50%;
@@ -266,14 +266,12 @@ html[lang="en"] .page-title,html[lang="en"] .eth-sec-t{letter-spacing:-.02em;lin
   background:rgba(246,240,224,.42);transform:rotate(-5deg);box-shadow:0 1px 3px rgba(0,0,0,.2)}
 .pin q{display:block;font-family:var(--font-quote);font-size:15.5px;line-height:1.45;
   margin:0 0 .6rem;color:#1c1917}
-.pin q{font-size:14.5px;line-height:1.5;color:#1c1917;margin:0 0 .55rem;
-  display:block;overflow-wrap:anywhere}
-.pin .pshot{height:92px;margin:-.3rem -.3rem .6rem;overflow:hidden;background:#2a2622;
-  display:grid;place-items:center}
-/* when the quote leads, the screenshot is corroboration: smaller, below */
-.pin .pshot-sm{height:52px;margin:0 0 .55rem;border-radius:2px;opacity:.85}
-.pin .pshot img{width:100%;height:100%;object-fit:cover;filter:blur(6px)}
-.pin .pnone{font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;color:#8a8076}
+.pin .shot{height:74px;margin:-.3rem -.3rem .6rem;background:#2a2622;
+  background-image:repeating-linear-gradient(118deg,#3a3430,#3a3430 9px,#332e2a 9px,#332e2a 18px);
+  display:grid;place-items:center;font-family:var(--font-mono);font-size:9px;
+  letter-spacing:.14em;color:#8a8076}
+.pin q{display:block;font-family:var(--font-quote);font-size:15.5px;line-height:1.45;
+  margin:0 0 .6rem;color:#1c1917;overflow-wrap:anywhere}
 .pin .m{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.05em;color:#8b8277;
   border-top:1px solid #e3dccd;padding-top:.45rem;display:flex;justify-content:space-between;gap:.6rem}
 .pin .m b{color:#c8231a;font-weight:400}
@@ -2609,52 +2607,72 @@ var BOARD_SPOTS=[
   {left:'72%', top:'43%', w:'246px', rot:2.2}
 ];
 
-async function buildBoard(){
+// The hero is a designed section, not a view onto the archive. It used to pull
+// four live entries, which tied the first thing a visitor sees to whatever
+// happened to be approved most recently, put real people's faces on the
+// landing page, and forced the evidence to be blurred. These four cards are
+// illustrative: the comments are the kind the archive exists to hold, written
+// out plainly so they can actually be read.
+//
+// Deliberately no DG- reference numbers here. A reference implies a real
+// record someone could look up, and these are not records. Platform and year
+// only, which is also what carries the point: the same man, across years.
+var BOARD_CARDS=[
+  {k:'hero.q1', ref:'DG-2026-8351', d:'hero.d1'},
+  {k:'hero.q2', ref:'DG-2026-7104', d:'hero.d2'},
+  {k:'hero.q3', ref:'DG-2026-6611', d:'hero.d3'},
+  {k:'hero.q4', ref:'DG-2026-7720', d:'hero.d4'}
+];
+
+// These pins are built after captureEnglish() has already walked the DOM, so
+// their English would never be cached and a switch back to English would leave
+// them in Bengali. Seeded directly instead.
+var HERO_EN={
+  'hero.q1':'Ask first what she was doing outside that late.',
+  'hero.q2':'You can tell just by looking at what she wore.',
+  'hero.q3':'Look into her character first.',
+  'hero.q4':'This news is staged. Do not believe it.',
+  'hero.d1':'13.03.23',
+  'hero.d2':'08.07.24',
+  'hero.d3':'05.11.25',
+  'hero.d4':'11.10.26',
+  'hero.shot':'Screenshot \u00b7 blurred'
+};
+var HERO_BN={
+  'hero.q1':'মেয়েটা অত রাতে বাইরে কী করছিল, সেটা আগে জিজ্ঞেস করুন।',
+  'hero.q2':'ওর পোশাক দেখলেই তো বোঝা যায়।',
+  'hero.q3':'মেয়েটার চরিত্র নিয়ে আগে খোঁজ নিন।',
+  'hero.q4':'এসব খবর সাজানো, বিশ্বাস করবেন না।',
+  'hero.d1':'১৩.০৩.২৩',
+  'hero.d2':'০৮.০৭.২৪',
+  'hero.d3':'০৫.১১.২৫',
+  'hero.d4':'১১.১০.২৬',
+  'hero.shot':'স্ক্রিনশট · ঝাপসা'
+};
+Object.keys(HERO_EN).forEach(function(k){ EN_CACHE[k]=HERO_EN[k]; BN[k]=HERO_BN[k]; });
+
+function buildBoard(){
   var board=document.getElementById('board');
   if(!board)return;
-  var rows=[];
-  if(isLive()){
-    try{
-      var r=await sb.from('public_entries').select('*').order('created_at',{ascending:true});
-      if(!r.error&&r.data&&r.data.length){
-        var all=r.data;
-        var withText=all.filter(function(x){return x.comment_text&&x.comment_text.trim()});
-        var pool=withText.length>=BOARD_SPOTS.length?withText:all;
-        // even stride across the pool, so the pinned dates span the archive
-        rows=[];
-        var step=(pool.length-1)/(BOARD_SPOTS.length-1);
-        for(var i=0;i<BOARD_SPOTS.length&&i<pool.length;i++){
-          rows.push(pool[Math.round(i*step)]);
-        }
-      }
-    }catch(e){console.warn('Board fetch failed',e)}
-  }
   board.querySelectorAll('.pin').forEach(function(n){n.remove()});
 
-  rows.slice(0,BOARD_SPOTS.length).forEach(function(row,i){
+  BOARD_CARDS.forEach(function(card,i){
     var sp=BOARD_SPOTS[i];
-    var a=document.createElement('a');
-    a.className='pin';
-    a.href='/archive';
-    a.onclick=function(ev){ev.preventDefault();go('archive')};
-    a.style.cssText='left:'+sp.left+';top:'+sp.top+';width:'+sp.w+';transform:rotate('+sp.rot+'deg)';
+    var d=document.createElement('article');
+    d.className='pin';
+    d.style.cssText='left:'+sp.left+';top:'+sp.top+';width:'+sp.w+';transform:rotate('+sp.rot+'deg)';
     var inner='';
     if(i%2===1) inner+='<span class="tape" aria-hidden="true"></span>';
-    if(row.comment_text&&row.comment_text.trim()){
-      inner+='<q>'+escHtml(clampWords(row.comment_text,22))+'</q>';
-      if(row.screenshot_url) inner+='<div class="pshot pshot-sm"><img src="'+escHtml(row.screenshot_url)+'" alt="'+escHtml(t('arch.evidenceAlt','Screenshot of the archived comment'))+'" loading="lazy"></div>';
-    } else {
-      // no transcription yet: the screenshot is all there is to show
-      inner+= row.screenshot_url
-        ? '<div class="pshot"><img src="'+escHtml(row.screenshot_url)+'" alt="'+escHtml(t('arch.evidenceAlt','Screenshot of the archived comment'))+'" loading="lazy"></div>'
-        : '<div class="pshot"><span class="pnone">'+escHtml(t('arch.noShot','No screenshot'))+'</span></div>';
-    }
-    inner+='<div class="m"><b>'+escHtml(row.ref_id)+'</b><span>'+escHtml(fmtDate(row.created_at))+'</span></div>';
-    a.innerHTML=inner;
-    board.appendChild(a);
+    inner+='<div class="shot" data-i18n="hero.shot">'+escHtml(HERO_EN['hero.shot'])+'</div>';
+    inner+='<q data-i18n="'+card.k+'">'+escHtml(HERO_EN[card.k])+'</q>';
+    inner+='<div class="m"><b>'+card.ref+'</b><span data-i18n="'+card.d+'">'+escHtml(HERO_EN[card.d])+'</span></div>';
+    d.innerHTML=inner;
+    board.appendChild(d);
   });
 
-  boardCount=rows.length;
+  // the pins carry data-i18n, so they need the dictionary run over them again
+  applyLang(currentLang(), false);
+  boardCount=BOARD_CARDS.length;
   renderHubCount();
   drawThread();
 }
