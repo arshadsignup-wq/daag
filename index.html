@@ -60,28 +60,33 @@
 
 <script>(function(){try{var l=localStorage.getItem('daag_lang')||'bn';document.documentElement.setAttribute('data-lang',l);document.documentElement.lang=l}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&family=Tiro+Bangla:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 .skip-link{position:absolute;top:-100%;left:1rem;background:var(--ink2);color:#fff;padding:.5rem 1.2rem;border-radius:4px;z-index:200;font-size:13px;text-decoration:none}
 .skip-link:focus{top:1rem}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#ffffff;--bg1:#f8f8fa;--bg2:#f1f1f3;--bg3:#e8e8ec;
-  --border:rgba(0,0,0,.06);--border2:rgba(0,0,0,.09);--border3:rgba(0,0,0,.14);
-  --text:#1a1a2e;--text2:#4a4a5c;--text3:#7a7a8c;
-  --ink:#7a1520;--ink2:#9e1c2c;--ink-glow:#9e1c2c10;
-  --accent:#b52030;--warm:#1a1a2e;
+  /* The corkboard palette, from design-directions/v3/06-board.html.
+     Paper and cork rather than white and grey: #e9e0cc is the filed sheet,
+     #fdfaf2 the card pinned to it, #c8231a the red that runs through both. */
+  --bg:#e9e0cc;--bg1:#fdfaf2;--bg2:#f3ecdb;--bg3:#e3dccd;
+  --border:rgba(60,40,20,.12);--border2:rgba(60,40,20,.18);--border3:rgba(60,40,20,.28);
+  --text:#1c1917;--text2:#5a5248;--text3:#8b8277;
+  --ink:#c8231a;--ink2:#a81c14;--ink-glow:rgba(200,35,26,.08);
+  --accent:#c8231a;--warm:#1c1917;
   --umber:#8c6a3f;--umber-light:#b08a5a;
-  --nav-bg:rgba(255,255,255,.94);--nav-bg2:rgba(255,255,255,.97);
-  --ok-bg:#e8f5e9;--ok-fg:#2e7d32;--ok-br:#a5d6a7;
-  --info-bg:#e3f2fd;--info-fg:#1565c0;--info-br:#90caf9;
-  --warn-bg:#fff8e1;--warn-fg:#bf6d00;--warn-br:#ffe082;--cr-br:rgba(158,28,44,.22);
-  --grid-line:rgba(0,0,0,.04);--glow:rgba(122,21,32,.08);--watermark:rgba(122,21,32,.04);
-  --shot-shade:rgba(0,0,0,.55);--shot-shade2:rgba(0,0,0,.85);
-  --hero-wash:rgba(181,32,48,.055);--hero-shadow:rgba(0,0,0,.06);
-  --d0:#d3d4de;--d1:#e08391;--d2:#b52030;--dstroke:#ffffff;
-  --font-serif:'Poppins',system-ui,sans-serif;
-  --font-sans:'Inter',system-ui,sans-serif;
+  --nav-bg:rgba(38,34,30,.9);--nav-bg2:rgba(38,34,30,.97);
+  --ok-bg:#e4ecd9;--ok-fg:#3f6b2a;--ok-br:#bcd0a6;
+  --info-bg:#dfe7ef;--info-fg:#355b7f;--info-br:#aec3d6;
+  --warn-bg:#f7e9c9;--warn-fg:#8a6212;--warn-br:#dcc389;--cr-br:rgba(200,35,26,.28);
+  --grid-line:rgba(60,40,20,.05);--glow:rgba(200,35,26,.09);--watermark:rgba(200,35,26,.05);
+  --shot-shade:rgba(26,22,18,.6);--shot-shade2:rgba(26,22,18,.88);
+  --hero-wash:rgba(200,35,26,.06);--hero-shadow:rgba(60,40,20,.14);
+  --d0:#d6cbb3;--d1:#e08391;--d2:#c8231a;--dstroke:#e9e0cc;
+  --font-serif:'Baloo Da 2','Hind Siliguri',system-ui,sans-serif;   /* headings */
+  --font-display:'Baloo Da 2','Hind Siliguri',system-ui,sans-serif;
+  --font-quote:'Tiro Bangla',Georgia,serif;                        /* archived comments */
+  --font-sans:'Hind Siliguri',system-ui,sans-serif;
   --font-mono:'DM Mono',monospace;
 }
 
@@ -89,20 +94,22 @@
    keeps its hue but is lifted in lightness; everything else is token swaps. */
 html[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#0b0f17;--bg1:#121825;--bg2:#171f2e;--bg3:#1e2838;
-  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.11);--border3:rgba(255,255,255,.18);
-  --text:#e9ecf3;--text2:#a7b0c0;--text3:#737d90;
-  --ink:#e8495c;--ink2:#e8495c;--ink-glow:rgba(232,73,92,.12);
-  --accent:#f2596b;--warm:#f2f4f8;
+  /* Night on the same board: the cork and the dark chrome of the header and
+     footer, with the paper reduced to the cards that sit on it. */
+  --bg:#262220;--bg1:#302a25;--bg2:#3a332c;--bg3:#453c33;
+  --border:rgba(255,255,255,.09);--border2:rgba(255,255,255,.14);--border3:rgba(255,255,255,.22);
+  --text:#f6f1e8;--text2:#cdc2b1;--text3:#8d8276;
+  --ink:#ff5340;--ink2:#e0362f;--ink-glow:rgba(255,83,64,.13);
+  --accent:#ff5340;--warm:#f6f1e8;
   --umber:#c9a06a;--umber-light:#dcb882;
-  --nav-bg:rgba(11,15,23,.88);--nav-bg2:rgba(11,15,23,.97);
-  --ok-bg:#12301c;--ok-fg:#6ee7a0;--ok-br:#1f5235;
-  --info-bg:#11263d;--info-fg:#7cc4f8;--info-br:#1d4a72;
-  --warn-bg:#3a2a08;--warn-fg:#f5c661;--warn-br:#6b4e12;--cr-br:rgba(242,89,107,.3);
-  --grid-line:rgba(255,255,255,.035);--glow:rgba(232,73,92,.13);--watermark:rgba(242,89,107,.045);
+  --nav-bg:rgba(23,20,15,.9);--nav-bg2:rgba(23,20,15,.97);
+  --ok-bg:#1f2c18;--ok-fg:#9ccb7a;--ok-br:#3c5230;
+  --info-bg:#1a2630;--info-fg:#8fb8d6;--info-br:#33505f;
+  --warn-bg:#3a2d12;--warn-fg:#e0bb62;--warn-br:#6b5520;--cr-br:rgba(255,83,64,.32);
+  --grid-line:rgba(255,255,255,.04);--glow:rgba(255,83,64,.14);--watermark:rgba(255,83,64,.05);
   --shot-shade:rgba(0,0,0,.7);--shot-shade2:rgba(0,0,0,.9);
-  --hero-wash:rgba(242,89,107,.07);--hero-shadow:rgba(0,0,0,.4);
-  --d0:#2b3650;--d1:#9c3344;--d2:#f2596b;--dstroke:#0b0f17;
+  --hero-wash:rgba(255,83,64,.08);--hero-shadow:rgba(0,0,0,.45);
+  --d0:#453c33;--d1:#9d3a30;--d2:#ff5340;--dstroke:#262220;
 }
 html[data-theme="dark"] .feat-icon,html[data-theme="dark"] .nav-cta,html[data-theme="dark"] .btn-p{color:#fff}
 html[data-theme="dark"] img,html[data-theme="dark"] .thumb img{filter:brightness(.92)}
@@ -114,12 +121,17 @@ html{scroll-behavior:smooth}
 /* Bengali is the default reading language. Hind Siliguri carries the whole UI in
    bn; Latin faces stay for en. Bengali conjuncts need more leading than Latin,
    so line-height is raised rather than left at the Latin value. */
-html[data-lang="bn"] body{font-family:'Hind Siliguri','Inter',system-ui,sans-serif;line-height:1.8}
-html[data-lang="bn"] h1.hero-h,html[data-lang="bn"] .section-title,html[data-lang="bn"] .hero-motto,html[data-lang="bn"] .form-h,html[data-lang="bn"] .foot-brand{font-family:'Hind Siliguri','Poppins',system-ui,sans-serif;line-height:1.35}
+html[data-lang="bn"] body{font-family:'Hind Siliguri',system-ui,sans-serif;line-height:1.8}
+html[data-lang="bn"] h1,html[data-lang="bn"] h2,html[data-lang="bn"] h3,
+html[data-lang="bn"] .section-title,html[data-lang="bn"] .page-title,
+html[data-lang="bn"] .eth-sec-t,html[data-lang="bn"] .form-h,
+html[data-lang="bn"] .foot-brand,html[data-lang="bn"] .lede h1{
+  font-family:'Baloo Da 2','Hind Siliguri',system-ui,sans-serif;
+  font-weight:700;line-height:1.35;letter-spacing:0}
 html[data-lang="bn"] h1.hero-h{font-size:clamp(2rem,4.4vw,3.2rem);letter-spacing:0}
 html[data-lang="bn"] .section-title{letter-spacing:0}
 html[data-lang="bn"] .hero-motto{font-style:normal}
-html[data-lang="bn"] .nav-link,html[data-lang="bn"] .nav-cta,html[data-lang="bn"] .btn-p,html[data-lang="bn"] .btn-g,html[data-lang="bn"] .f-label,html[data-lang="bn"] .hero-search-btn{font-family:'Hind Siliguri','Inter',system-ui,sans-serif}
+html[data-lang="bn"] .nav-link,html[data-lang="bn"] .nav-cta,html[data-lang="bn"] .btn-p,html[data-lang="bn"] .btn-g,html[data-lang="bn"] .f-label,html[data-lang="bn"] .boardf button{font-family:'Hind Siliguri',system-ui,sans-serif}
 /* Mono is a Latin face: keep eyebrow/label text legible in Bengali by swapping it. */
 html[data-lang="bn"] .hero-eyebrow,html[data-lang="bn"] .section-tag,html[data-lang="bn"] .stat-l,html[data-lang="bn"] .hero-search-meta,html[data-lang="bn"] .plat-strip-t,html[data-lang="bn"] .notice-t,html[data-lang="bn"] .foot-col-t,html[data-lang="bn"] .foot-bottom{font-family:'Hind Siliguri',system-ui,sans-serif;letter-spacing:.02em;text-transform:none}
 html[data-lang="bn"] .notice-t{font-size:12px}
@@ -196,6 +208,14 @@ html[data-lang="bn"] .logo-tag{font-family:'Hind Siliguri',system-ui,sans-serif;
 .arch-more button:hover{border-color:var(--accent)}
 .arch-more button[disabled]{opacity:.5;cursor:default}
 
+/* The board's display face carries every heading. Bengali needs 1.3+ leading
+   and zero tracking: the matra sits on top of the line and conjuncts drop below
+   the baseline, so tight display settings jam them together. */
+h1,h2,h3,.section-title,.page-title,.eth-sec-t,.hero-h{letter-spacing:0;line-height:1.34}
+html[lang="en"] h1,html[lang="en"] h2,html[lang="en"] .section-title,
+html[lang="en"] .page-title,html[lang="en"] .eth-sec-t{letter-spacing:-.02em;line-height:1.14}
+.section-title em,.page-title em,h2 em{font-style:normal;color:var(--accent)}
+
 /* ===== THE BOARD (homepage hero) =====
    Ported from design-directions/v3/06-board.html. Everything is scoped under
    .board so the rest of the site keeps its own skin; the cork and vignette are
@@ -239,7 +259,7 @@ html[data-lang="bn"] .logo-tag{font-family:'Hind Siliguri',system-ui,sans-serif;
   box-shadow:0 3px 7px rgba(0,0,0,.55)}
 .pin .tape{position:absolute;top:-13px;left:14%;width:70px;height:24px;
   background:rgba(246,240,224,.42);transform:rotate(-5deg);box-shadow:0 1px 3px rgba(0,0,0,.2)}
-.pin q{display:block;font-family:var(--font-serif);font-size:15.5px;line-height:1.45;
+.pin q{display:block;font-family:var(--font-quote);font-size:15.5px;line-height:1.45;
   margin:0 0 .6rem;color:#1c1917}
 .pin .pshot{height:92px;margin:-.3rem -.3rem .6rem;overflow:hidden;background:#2a2622;
   display:grid;place-items:center}
@@ -409,7 +429,7 @@ h1.hero-h{font-family:var(--font-serif);font-size:clamp(2.3rem,5vw,3.8rem);line-
 a.entry-who:hover{color:var(--accent);border-bottom-color:var(--accent)}
 /* The archived sentence. Everything else on the card is apparatus around it. */
 .entry-q{margin:0 0 .6rem;padding:0 0 0 1rem;border-left:3px solid var(--accent);
-  font-family:var(--font-serif);font-size:1.0625rem;line-height:1.65;color:var(--text);
+  font-family:var(--font-quote);font-size:1.0625rem;line-height:1.65;color:var(--text);
   overflow-wrap:anywhere}
 .entry-tr{font-size:12.5px;color:var(--text3);line-height:1.6;margin:0 0 .55rem;padding-left:1rem;font-style:italic}
 .entry-ctx{font-size:12.5px;color:var(--text2);line-height:1.7;margin:0 0 .3rem}
@@ -707,6 +727,70 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
 .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
 .faq-item.open .faq-a{max-height:300px}
 .faq-a-inner{padding:0 0 1.25rem;font-size:13.5px;color:var(--text2);line-height:1.8}
+
+/* ===== BOARD SKIN =====
+   Carries the corkboard's physicality past the hero and across the whole site:
+   paper grain on the ground, card stock for anything raised off it, and the
+   dark chrome of the board's own header and footer. */
+
+/* Paper, not white. The noise is the same fractal turbulence the board uses. */
+body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23p)' opacity='.055'/%3E%3C/svg%3E")}
+html[data-theme="dark"] body{background-image:
+  radial-gradient(rgba(0,0,0,.18) 1px,transparent 1.4px),
+  radial-gradient(rgba(255,255,255,.04) 1px,transparent 1.4px);
+  background-size:7px 7px,11px 11px}
+
+/* The header is the board's dark strip in both themes: it sits above the cork,
+   so it cannot be paper-coloured. */
+nav{background:var(--nav-bg);border-bottom:1px solid rgba(255,255,255,.09)}
+.nav-link{color:#cdc2b1}
+.nav-link:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav-link.active{color:#fff;background:rgba(255,255,255,.14)}
+.nav-link.active::after{display:none}
+.logo-name{color:#f6f1e8}
+.logo-tag{color:#9b9183}
+.theme-toggle,.lang-toggle{background:transparent;border:1px solid rgba(255,255,255,.26);color:#cdc2b1}
+.theme-toggle:hover,.lang-toggle:hover{background:#efe9e0;color:#1c1917;border-color:#efe9e0}
+.nav-cta{background:#c8231a;color:#fff;font-weight:700;border-radius:4px;
+  box-shadow:0 5px 18px rgba(200,35,26,.4)}
+.nav-cta:hover{background:#e0362f;transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,35,26,.5)}
+
+/* Anything raised off the board is card stock with a real shadow. */
+.feat-card,.arch-entry,.form-wrap,.notice,.profile-card,.b-card,.dist-card,
+.faq-item,.use-case-box,.eth-sec,.tracker-box{
+  background:var(--bg1);border-color:var(--border2)}
+.form-wrap,.profile-card,.use-case-box,.tracker-box{
+  box-shadow:0 10px 28px var(--hero-shadow)}
+.arch-entry{box-shadow:none}
+.arch-entry:hover{background:var(--bg2)}
+
+/* The red the whole board runs on. */
+.btn-p,.f-btn,.btn-primary{background:#c8231a;color:#fff;border-color:#c8231a;font-weight:700;
+  box-shadow:0 5px 18px rgba(200,35,26,.35)}
+.btn-p:hover,.f-btn:hover,.btn-primary:hover{background:#e0362f;box-shadow:0 8px 24px rgba(200,35,26,.45)}
+
+/* Section eyebrows read as the board's filed-document labels. */
+.section-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent)}
+
+/* The helpline band is the board's one solid-red stop. */
+.help-band{background:#c8231a;color:#fff;border-top:0}
+.help-eyebrow{color:#ffd9d4}
+.help-h,.help-sub{color:#fff}
+.help-sub{opacity:.88}
+.help-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.26);color:#fff}
+.help-card:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4);transform:translateY(-2px)}
+.help-num{color:#fff}
+.help-name,.help-note{color:#ffe9e6}
+
+/* Footer is the board's dark base in both themes. */
+footer{background:#17140f;color:#8d8276;border-top:0;margin-top:0}
+footer .foot-brand,footer .foot-link:hover{color:#f6f1e8}
+footer .foot-col-t{color:#6e655a}
+footer .foot-link{color:#9b9183}
+footer .foot-bottom{border-top:1px solid #2a251e;color:#6e655a}
+
+
 </style>
 </head>
 <body>
