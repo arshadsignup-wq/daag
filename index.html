@@ -196,6 +196,89 @@ html[data-lang="bn"] .logo-tag{font-family:'Hind Siliguri',system-ui,sans-serif;
 .arch-more button:hover{border-color:var(--accent)}
 .arch-more button[disabled]{opacity:.5;cursor:default}
 
+/* ===== THE BOARD (homepage hero) =====
+   Ported from design-directions/v3/06-board.html. Everything is scoped under
+   .board so the rest of the site keeps its own skin; the cork and vignette are
+   absolute inside the board rather than fixed to the viewport, so they end
+   where the board ends. */
+.board{position:relative;min-height:min(100vh,860px);max-width:1280px;margin:0 auto;
+  padding:1.5rem 2rem 2rem;overflow:hidden}
+.board .cork{position:absolute;inset:0;z-index:0;
+  background:#6b543c;
+  background-image:
+    radial-gradient(rgba(0,0,0,.22) 1px,transparent 1.4px),
+    radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.4px),
+    linear-gradient(145deg,#73593f,#5b4733);
+  background-size:7px 7px,11px 11px,100% 100%}
+.board .vig{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 70% 62% at 50% 44%,transparent 30%,rgba(20,15,10,.55) 100%)}
+#thread{position:absolute;inset:0;z-index:2;pointer-events:none}
+
+.lede{position:absolute;z-index:5;left:2rem;top:2rem;max-width:520px}
+.lede h1{font-family:'Baloo Da 2',var(--font-sans);font-weight:700;
+  font-size:clamp(1.85rem,3.5vw,2.85rem);line-height:1.34;text-wrap:balance;
+  margin:0 0 1.15rem;letter-spacing:0;color:#fdfaf2;text-shadow:0 3px 16px rgba(0,0,0,.7)}
+.lede h1 em{font-style:normal;color:#ff5340}
+.lede p{color:#d4c9b8;font-size:15px;margin:0 0 1.5rem;max-width:34ch;
+  text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.boardf{display:flex;max-width:380px;background:#fdfaf2;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.boardf input{flex:1;min-width:0;border:0;outline:none;padding:.7rem 1rem;font-size:14px;
+  color:#1c1917;background:transparent;font-family:var(--font-sans)}
+.boardf button{border:0;background:#c8231a;color:#fff;font-weight:700;padding:0 1.2rem;
+  cursor:pointer;font-size:13.5px;font-family:var(--font-sans)}
+.boardf button:hover{background:#a81c14}
+.boardmeta{font-family:var(--font-mono);font-size:10.5px;color:#b5a894;margin-top:.7rem;
+  text-shadow:0 1px 6px rgba(0,0,0,.6)}
+
+.pin{position:absolute;z-index:4;background:#fdfaf2;color:#1c1917;padding:.9rem 1rem .8rem;
+  box-shadow:0 14px 34px rgba(0,0,0,.5);transition:transform .22s;text-decoration:none;display:block}
+.pin:hover{transform:scale(1.035) rotate(0deg)!important;z-index:9}
+.pin::before{content:'';position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  width:16px;height:16px;border-radius:50%;
+  background:radial-gradient(circle at 34% 32%,#ff6a57,#9d1a10);
+  box-shadow:0 3px 7px rgba(0,0,0,.55)}
+.pin .tape{position:absolute;top:-13px;left:14%;width:70px;height:24px;
+  background:rgba(246,240,224,.42);transform:rotate(-5deg);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.pin q{display:block;font-family:var(--font-serif);font-size:15.5px;line-height:1.45;
+  margin:0 0 .6rem;color:#1c1917}
+.pin .pshot{height:92px;margin:-.3rem -.3rem .6rem;overflow:hidden;background:#2a2622;
+  display:grid;place-items:center}
+.pin .pshot img{width:100%;height:100%;object-fit:cover;filter:blur(6px)}
+.pin .pnone{font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;color:#8a8076}
+.pin .m{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.05em;color:#8b8277;
+  border-top:1px solid #e3dccd;padding-top:.45rem;display:flex;justify-content:space-between;gap:.6rem}
+.pin .m b{color:#c8231a;font-weight:400}
+
+.who{position:absolute;z-index:5;background:#fdfaf2;padding:.7rem;width:188px;text-align:center;
+  box-shadow:0 18px 44px rgba(0,0,0,.6);left:58%;top:6%}
+.who::before{content:'';position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  width:18px;height:18px;border-radius:50%;
+  background:radial-gradient(circle at 34% 32%,#ffe066,#b58900);box-shadow:0 3px 8px rgba(0,0,0,.6)}
+.who .face{height:122px;background:linear-gradient(160deg,#cfc6b6,#a8a093);display:grid;
+  place-items:center;font-family:'Baloo Da 2',var(--font-sans);font-weight:800;font-size:3rem;
+  color:#fdfaf2;margin-bottom:.55rem}
+.who .face.anon{background:linear-gradient(160deg,#b9b0a1,#8e8679);color:#efe9dd}
+.who .nm.stamp{display:inline-block;border:2px solid #c8231a;color:#c8231a;
+  font-family:'Baloo Da 2',var(--font-sans);font-weight:700;letter-spacing:0;font-size:1.02rem;
+  line-height:1.45;padding:.1rem .8rem .22rem;transform:rotate(-2.5deg);margin:.25rem 0 .5rem}
+/* Latin takes the tracking that would jam Bengali conjuncts. */
+html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height:1.3;
+  padding:.16rem .75rem;text-transform:uppercase}
+.who .sub{font-family:var(--font-mono);font-size:9.5px;color:#8b8277;margin-top:.2rem}
+.who .cnt{margin-top:.5rem;background:#c8231a;color:#fff;font-family:var(--font-mono);
+  font-size:10px;letter-spacing:.08em;padding:.25rem 0}
+
+/* Below 1000px the absolute layout stops making sense: the board becomes a
+   simple stack and the thread is dropped rather than drawn to nothing. */
+@media(max-width:1000px){
+  .board{min-height:auto;padding:1.5rem 1.25rem 2rem}
+  .lede{position:static;max-width:none;margin-bottom:2rem}
+  .pin,.who{position:relative!important;left:auto!important;top:auto!important;
+    width:auto!important;transform:none!important;margin:0 auto 1.6rem;max-width:420px}
+  #thread{display:none}
+}
+@media(prefers-reduced-motion:reduce){.pin{transition:none}}
+
 /* EMERGENCY HELPLINE */
 .help-band{border-top:1px solid var(--border);background:var(--bg1)}
 .help-inner{max-width:1200px;margin:0 auto;padding:2.75rem 2rem}
@@ -652,36 +735,39 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
 <main id="main-content">
 <!-- HOME -->
 <section id="pg-home" class="page active">
-  <div class="hero">
-    <div class="hero-grid-bg"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-vignette"></div>
-    <div class="hero-bangla-watermark">দাগ</div>
-    <div class="hero-content">
-      <div class="hero-eyebrow"><span class="eyebrow-dot"></span><span data-i18n="hero.eyebrow">Stand up to harassment, anonymously</span></div>
-      <h1 class="hero-h" data-i18n="hero.h1">Find out<br><span class="hl">who said it.</span></h1>
-      <div class="hero-motto" data-i18n="hero.motto">Every word leaves a mark.</div>
-      <p class="hero-sub" data-i18n="hero.sub">When a rape or an assault makes the news, someone blames the victim, someone hurls abuse, someone sends threats. Daag keeps those comments on record, with proof and a link to whoever wrote them. Before you trust someone, see what they have already written.</p>
-      <form class="hero-search" onsubmit="event.preventDefault();heroSearch()" role="search">
-        <svg class="hero-search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="12.8" y1="12.8" x2="17.5" y2="17.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        <input class="hero-search-input" id="heroSearchInput" type="search" autocomplete="off"
-               data-i18n-aria="Search the archive by name or profile link" aria-label="Search the archive by name or profile link"
-               data-i18n-ph="hero.searchPh" placeholder="Search by name, profile link or username...">
-        <button class="hero-search-btn" type="submit"><span data-i18n="hero.searchBtn">Check</span><span class="btn-arrow" aria-hidden="true">→</span></button>
+  <!-- ===== THE BOARD =====
+       The homepage is an investigation corkboard: the accused pinned at the
+       centre, what they wrote pinned around them, red thread between. Replaces
+       the centred hero, which stacked four competing calls to action above the
+       fold and said nothing about what the archive actually holds. -->
+  <div class="board" id="board">
+    <div class="cork" aria-hidden="true"></div>
+    <div class="vig" aria-hidden="true"></div>
+    <svg id="thread" aria-hidden="true"></svg>
+
+    <div class="lede">
+      <h1 data-i18n="hero.h1">Behind the polite face,<br><em>read what he wrote.</em></h1>
+      <p data-i18n="hero.sub">One comment on its own might mean nothing. A few of them side by side, and you know the man.</p>
+      <form class="boardf" onsubmit="event.preventDefault();heroSearch()" role="search">
+        <input id="heroSearchInput" type="search" autocomplete="off"
+               data-i18n-ph="hero.searchPh" placeholder="Name or profile link"
+               data-i18n-aria="Search the archive by name or profile link"
+               aria-label="Search the archive by name or profile link">
+        <button type="submit" data-i18n="hero.searchBtn">Check</button>
       </form>
-      <div class="hero-search-meta" data-i18n="hero.searchMeta">Only checked entries &middot; we don’t save your search</div>
-      <div class="cta-row">
-        <a class="btn-p" href="/submit" data-i18n="cta.submit">Submit Evidence</a>
-        <a class="btn-g" href="/archive" data-i18n="cta.browse">See every entry</a>
-      </div>
-      <div class="hero-stats-row">
-        <div class="stat stat-ok"><div class="stat-n loading-pulse" id="heroStatArchived">--</div><div class="stat-l"><span class="stat-i" aria-hidden="true">✓</span><span data-i18n="stat.archived">Entries saved</span></div></div>
-        <div class="stat stat-wait"><div class="stat-n loading-pulse" id="heroStatReview">--</div><div class="stat-l"><span class="stat-i" aria-hidden="true">◴</span><span data-i18n="stat.review">Being checked</span></div></div>
-        <div class="stat stat-info"><div class="stat-n loading-pulse" id="heroStatAppeals">--</div><div class="stat-l"><span class="stat-i" aria-hidden="true">⊕</span><span data-i18n="stat.appeals">Appeals filed</span></div></div>
-        <div class="stat stat-rate"><div class="stat-n loading-pulse" id="heroStatRate">--</div><div class="stat-l"><span class="stat-i" aria-hidden="true">◎</span><span data-i18n="stat.rate">Passed review</span></div></div>
-      </div>
+      <div class="boardmeta" data-i18n="hero.searchMeta">Only checked entries &middot; we do not save your search</div>
     </div>
+
+    <div class="who" id="hub">
+      <div class="face anon" aria-hidden="true">?</div>
+      <div class="nm stamp" data-i18n="hub.label">The Gentleman</div>
+      <div class="sub" data-i18n="hub.sub">public profile</div>
+      <div class="cnt" id="hubCnt">&nbsp;</div>
+    </div>
+
+    <!-- Pins are built from the live archive by buildBoard(). -->
   </div>
+
   <hr class="divider">
   <div class="section">
     <div class="section-tag rv" data-i18n="home.tag">How it works</div>
@@ -1366,6 +1452,10 @@ var BN={
   'arch.viewEvidence':'পুরো স্ক্রিনশট খুলুন',
   'arch.evidenceAlt':'নথিভুক্ত মন্তব্যের স্ক্রিনশট',
   'arch.noShot':'স্ক্রিনশট নেই',
+  'hub.label':'ভদ্রলোক',
+  'hub.sub':'পাবলিক প্রোফাইল',
+  'hub.cnt':'{n}টি নথিভুক্ত এন্ট্রি',
+  'hub.none':'এখনো কিছু আটকানো হয়নি',
   'arch.inShotOnly':'এই মন্তব্যটি কেবল স্ক্রিনশটে রাখা আছে। পড়তে হলে ছবিটি খুলুন।',
   'arch.moreShown':'যতগুলো আনা হয়েছে, সব দেখানো হচ্ছে।',
   'arch.moreLoaded':'আরও নথি আনা হয়েছে।',
@@ -1645,10 +1735,10 @@ var BN={
   'nav.appeals':'আপিল',
   'nav.submit':'প্রমাণ জমা দিন',
   'hero.eyebrow':'পরিচয় গোপন রেখে হয়রানির বিরুদ্ধে দাঁড়ান',
-  'hero.h1':'কে বলেছে,<br><span class=\'hl\'>জেনে নিন।</span>',
+  'hero.h1':'ভদ্র মুখের আড়ালে<br><em>কে কী লিখেছে, দেখে নিন।</em>',
   'hero.motto':'প্রতিটি শব্দ দাগ রেখে যায়।',
-  'hero.sub':'ধর্ষণ বা নির্যাতনের খবর এলে কেউ লেখে "মেয়েটারই দোষ", কেউ গালি দেয়, কেউ হুমকি পাঠায়। দাগ সেই মন্তব্যগুলো প্রমাণসহ জমা রাখে, সঙ্গে থাকে যিনি লিখেছেন তাঁর প্রোফাইলের লিংক। কাউকে বিশ্বাস করার আগে দেখে নিন, সে আগে কী লিখেছে।',
-  'ph:hero.searchPh':'নাম, ফেসবুক লিংক বা ইউজারনেম দিয়ে খুঁজুন...',
+  'hero.sub':'একটা মন্তব্য আলাদা করে দেখলে হয়তো কিছুই মনে হয় না। পাশাপাশি কয়েকটা রাখলে মানুষটাকে চেনা যায়।',
+  'ph:hero.searchPh':'নাম বা প্রোফাইল লিংক',
   'hero.searchBtn':'যাচাই করুন',
   'hero.searchMeta':'শুধু যাচাই করা এন্ট্রি · আপনার সার্চ আমরা রাখি না',
   'cta.submit':'প্রমাণ জমা দিন',
@@ -1891,6 +1981,7 @@ function applyLang(lang,rerender){
     var an=document.getElementById('pg-analytics');
     if(an&&an.classList.contains('active'))buildAnalytics();
     updateHeroStats();
+    setTimeout(drawThread,60);
   }
   var lbl=document.getElementById('langToggleLabel');
   if(lbl)lbl.textContent=lang==='bn'?'EN':'বাংলা';
@@ -1990,6 +2081,84 @@ function revealIn(el){
   if(el&&window.daagReveal)window.daagReveal(el);
 }
 
+// ===== THE BOARD =====
+// Pins four real approved entries around the anonymised subject and runs red
+// thread between them. Reads the same public_entries view as the archive, so
+// the homepage can never show something the archive would not.
+// Kept below 48% so nothing rides up under the headline and search form,
+// and above 66% so no card is clipped by the board's own bottom edge.
+var BOARD_SPOTS=[
+  {left:'2%',  top:'52%', w:'258px', rot:-2.4},
+  {left:'25%', top:'64%', w:'238px', rot:1.6},
+  {left:'47%', top:'56%', w:'248px', rot:-1.2},
+  {left:'72%', top:'43%', w:'246px', rot:2.2}
+];
+
+async function buildBoard(){
+  var board=document.getElementById('board');
+  if(!board)return;
+  var rows=[];
+  if(isLive()){
+    try{
+      var r=await sb.from('public_entries').select('*').order('created_at',{ascending:false}).limit(4);
+      if(!r.error&&r.data)rows=r.data;
+    }catch(e){console.warn('Board fetch failed',e)}
+  }
+  board.querySelectorAll('.pin').forEach(function(n){n.remove()});
+
+  rows.slice(0,BOARD_SPOTS.length).forEach(function(row,i){
+    var sp=BOARD_SPOTS[i];
+    var a=document.createElement('a');
+    a.className='pin';
+    a.href='/archive';
+    a.onclick=function(ev){ev.preventDefault();go('archive')};
+    a.style.cssText='left:'+sp.left+';top:'+sp.top+';width:'+sp.w+';transform:rotate('+sp.rot+'deg)';
+    var inner='';
+    if(i%2===1) inner+='<span class="tape" aria-hidden="true"></span>';
+    // Entries predating comment_text have only the screenshot, so the pin shows
+    // the evidence itself rather than an empty card.
+    inner+= row.screenshot_url
+      ? '<div class="pshot"><img src="'+escHtml(row.screenshot_url)+'" alt="'+escHtml(t('arch.evidenceAlt','Screenshot of the archived comment'))+'" loading="lazy"></div>'
+      : '<div class="pshot"><span class="pnone">'+escHtml(t('arch.noShot','No screenshot'))+'</span></div>';
+    if(row.comment_text) inner+='<q>'+escHtml(row.comment_text)+'</q>';
+    inner+='<div class="m"><b>'+escHtml(row.ref_id)+'</b><span>'+escHtml(fmtDate(row.created_at))+'</span></div>';
+    a.innerHTML=inner;
+    board.appendChild(a);
+  });
+
+  var cnt=document.getElementById('hubCnt');
+  if(cnt) cnt.textContent=rows.length
+    ? t('hub.cnt','{n} entries on record',{n:bnNum(rows.length)})
+    : t('hub.none','Nothing pinned yet');
+  drawThread();
+}
+
+// A slack catenary rather than a straight connector, so it reads as string.
+function drawThread(){
+  var svg=document.getElementById('thread'),board=document.getElementById('board'),
+      hub=document.getElementById('hub');
+  if(!svg||!board||!hub)return;
+  if(innerWidth<1000){svg.innerHTML='';return}
+  var b=board.getBoundingClientRect(),h=hub.getBoundingClientRect();
+  svg.setAttribute('viewBox','0 0 '+b.width+' '+b.height);
+  var hx=h.left-b.left+h.width/2, hy=h.top-b.top+h.height;
+  var d='';
+  board.querySelectorAll('.pin').forEach(function(pin){
+    var r=pin.getBoundingClientRect();
+    var px=r.left-b.left+r.width/2, py=r.top-b.top;
+    var mx=(hx+px)/2, my=(hy+py)/2+Math.abs(px-hx)*0.12+18;
+    d+='<path d="M'+hx+','+hy+' Q'+mx+','+my+' '+px+','+py+'" fill="none" '
+      +'stroke="rgba(200,35,26,.72)" stroke-width="1.6" stroke-linecap="round"/>';
+  });
+  svg.innerHTML=d;
+}
+
+var _threadTimer=null;
+window.addEventListener('resize',function(){
+  clearTimeout(_threadTimer);
+  _threadTimer=setTimeout(drawThread,120);
+});
+
 // ===== HERO SEARCH =====
 // The hero field is a shortcut into the profile search page, not a second
 // search implementation - it hands the query to the one that already exists.
@@ -2064,6 +2233,7 @@ function showPage(id){
     announce(t('a11y.pageChanged','Page changed: ')+((h&&h.textContent.trim())||id));
   }
 
+  if(id==='home')drawThread();   // geometry is wrong while the board is display:none
   if(id==='archive')buildArchive();
   if(id==='analytics')buildAnalytics();
 }
@@ -3210,6 +3380,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeScreens
 
 // ===== INIT =====
 updateHeroStats();
+buildBoard();
 buildArchive();
 buildAnalytics();
 </script>
