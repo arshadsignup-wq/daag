@@ -19,3 +19,7 @@ content social media/
 # The schema lives in the repo as the source of truth for the database.
 # It is applied in the Supabase SQL editor, never served to a browser.
 migrations/
+
+# Build scripts. Not secret, but a .py file has no business being served
+# from the document root.
+tools/
