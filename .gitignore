@@ -28,3 +28,6 @@ motion/src/stills.generated.ts
 motion/
 content social media/
 Essentials/
+
+# sed/editor crash debris (e.g. .!29240!index.html)
+.!*

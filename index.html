@@ -39,7 +39,9 @@
 <link rel="canonical" href="https://www.daag-bd.com">
 
 <!-- Favicon (SVG inline) -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23c8231a'/><text x='50' y='72' font-size='60' font-weight='700' fill='white' text-anchor='middle' font-family='sans-serif'>D</text></svg>" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
 <!-- Structured Data -->
 <script type="application/ld+json">
@@ -77,6 +79,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible,
   --border:rgba(60,40,20,.12);--border2:rgba(60,40,20,.18);--border3:rgba(60,40,20,.28);
   --text:#1c1917;--text2:#5a5248;--text3:#655e53;
   --ink:#c8231a;--ink2:#a81c14;--ink-glow:rgba(200,35,26,.08);--focus-ring:rgba(200,35,26,.32);
+  --accent-text:#a81c14;--accent-badge:#a81c14;--accent-on-glow:#9a1810;
   --accent:#c8231a;--warm:#1c1917;
   --umber:#6f5531;--umber-light:#b08a5a;
   --nav-bg:rgba(38,34,30,.9);--nav-bg2:rgba(38,34,30,.97);
@@ -104,6 +107,7 @@ html[data-theme="dark"]{
   --border:rgba(255,255,255,.09);--border2:rgba(255,255,255,.14);--border3:rgba(255,255,255,.22);
   --text:#f6f1e8;--text2:#cdc2b1;--text3:#b3a99a;
   --ink:#ff6050;--ink2:#e0362f;--ink-glow:rgba(255,96,80,.13);--focus-ring:rgba(255,96,80,.45);
+  --accent-text:#ff6050;--accent-badge:#ff8575;--accent-on-glow:#ffa192;
   --accent:#ff6050;--warm:#f6f1e8;
   --umber:#c9a06a;--umber-light:#dcb882;
   --nav-bg:rgba(23,20,15,.9);--nav-bg2:rgba(23,20,15,.97);
@@ -376,7 +380,7 @@ h1.hero-h{font-family:var(--font-serif);font-size:clamp(2.3rem,5vw,3.8rem);line-
 /* LAYOUT */
 .section{max-width:1200px;margin:0 auto;padding:5rem 2rem}
 .section-sm{max-width:800px;margin:0 auto;padding:4rem 2rem}
-.section-tag{font-size:10px;font-family:var(--font-mono);letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem}
+.section-tag{font-size:10px;font-family:var(--font-mono);letter-spacing:.15em;text-transform:uppercase;color:var(--accent-text);margin-bottom:.9rem}
 .section-title{font-family:var(--font-serif);font-size:clamp(2rem,4vw,3.2rem);color:var(--warm);line-height:1.15;margin-bottom:1rem;font-weight:600}
 .divider{border:none;border-top:1px solid var(--border)}
 
@@ -431,7 +435,7 @@ h1.hero-h{font-family:var(--font-serif);font-size:clamp(2.3rem,5vw,3.8rem);line-
 /* ARCHIVE */
 .arch-filter-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.75rem;align-items:center}
 .f-pill{font-size:11.5px;font-family:var(--font-mono);padding:.45rem .85rem;border-radius:3px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
-.f-pill:hover,.f-pill.on{border-color:var(--accent);color:var(--accent)}
+.f-pill:hover,.f-pill.on{border-color:var(--accent);color:var(--accent-text)}
 .search-i{background:var(--bg2);border:1px solid var(--border2);border-radius:5px;padding:.55rem 1rem;font-family:var(--font-sans);font-size:14px;color:var(--text);max-width:380px;width:100%;transition:border-color .2s}
 .search-i:focus{outline:none;border-color:var(--ink2);box-shadow:0 0 0 3px var(--focus-ring)}
 .arch-grid{border:1px solid var(--border);border-radius:8px;overflow:hidden}
@@ -454,10 +458,10 @@ a.entry-who:hover{color:var(--accent);border-bottom-color:var(--accent)}
 .arch-entry:hover{background:var(--bg2)}
 .entry-meta{display:flex;align-items:center;gap:.6rem;margin-bottom:.65rem;flex-wrap:wrap}
 .badge{font-size:10px;font-family:var(--font-mono);letter-spacing:.07em;text-transform:uppercase;padding:.22rem .6rem;border-radius:2px;white-space:nowrap}
-.b-cr{background:var(--ink-glow);color:var(--accent);border:1px solid var(--cr-br)}
+.b-cr{background:var(--ink-glow);color:var(--accent-badge);border:1px solid var(--cr-br)}
 .b-gr{background:var(--bg3);color:var(--text2);border:1px solid var(--border2)}
 .b-sev{border-width:1px;border-style:solid;font-weight:600}
-.b-sev-severe{background:var(--ink-glow);color:var(--accent);border-color:var(--cr-br)}
+.b-sev-severe{background:var(--ink-glow);color:var(--accent-badge);border-color:var(--cr-br)}
 .b-sev-high{background:var(--warn-bg);color:var(--warn-fg);border-color:var(--warn-br)}
 .b-sev-mod{background:var(--bg3);color:var(--text2);border-color:var(--border3)}
 .b-nv{background:var(--info-bg);color:var(--info-fg);border:1px solid var(--info-br)}
@@ -524,7 +528,9 @@ html[data-theme="dark"] .thumb-wrap:hover img{filter:blur(4px) brightness(.92)}
 .cat-pct{font-size:11.5px;font-family:var(--font-mono);color:var(--text3)}
 
 /* TERMS / CONTENT SECTIONS */
-.eth-sec{margin-bottom:3rem}
+.eth-sec{margin-bottom:1.5rem;border:1px solid var(--border2);border-radius:6px;
+  padding:1.8rem 1.9rem}
+.eth-sec:last-child{margin-bottom:0}
 .eth-sec-t{font-family:var(--font-serif);font-size:1.45rem;color:var(--warm);font-weight:600;margin-bottom:1rem}
 .eth-body{color:var(--text2);line-height:1.85;font-size:13.5px}
 .eth-body p{margin-bottom:1rem}
@@ -698,6 +704,7 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
   .entry-meta{gap:.4rem}
   .about-hero-sec{padding:2.5rem 1rem}
   .eth-sec-t{font-size:1.25rem}
+  .eth-sec{padding:1.3rem 1.25rem}
   .team-grid{grid-template-columns:1fr}
   .badge{font-size:11px;padding:.3rem .65rem}
   .status{font-size:10.5px;padding:.25rem .6rem}
@@ -787,7 +794,7 @@ nav{background:var(--nav-bg);border-bottom:1px solid rgba(255,255,255,.09)}
 
 /* Section eyebrows read as the board's filed-document labels. */
 .section-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--accent)}
+  text-transform:uppercase;color:var(--accent-text)}
 
 /* The helpline band is the board's one solid-red stop. */
 .help-band{background:#c8231a;color:#fff;border-top:0}
@@ -857,6 +864,7 @@ html[data-theme="dark"] .viz .post .pf,
 html[data-theme="dark"] .memo .mh,
 html[data-theme="dark"] .pct,
 html[data-theme="dark"] .sitem h3{color:#b3a99a}
+html[data-theme="dark"] .sitem p{color:#c3b8a8}
 /* The helpline band is red in both themes, so the dark rules above must not
    reach it -- a lighter red on that red is 2.22:1. */
 html[data-theme="dark"] .helpbg .eyebrow{color:#ffe3df}
@@ -961,7 +969,8 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
   border-left:2px solid #d6cbb3;cursor:pointer;transition:border-color .25s,background .25s}
 .sitem:hover{background:rgba(255,255,255,.4)}
 .sitem.on{border-left-color:#c8231a;background:rgba(255,255,255,.55)}
-.sitem .sno{font-family:var(--font-mono);font-size:11px;color:#b3a894;letter-spacing:.1em;padding-top:.3rem;transition:color .25s}
+.sitem .sno{font-family:var(--font-mono);font-size:11px;color:#605646;letter-spacing:.1em;padding-top:.3rem;transition:color .25s}
+html[data-theme="dark"] .sitem .sno{color:#b3a894}
 .sitem.on .sno{color:#c8231a}
 .sitem h3{font-family:var(--font-display);font-weight:700;font-size:1.08rem;line-height:1.4;letter-spacing:0;
   margin:0;color:#6b6459;transition:color .25s}
@@ -1013,12 +1022,12 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 .helpbg .h2 em{color:#ffd9d4}
 .helpbg .sub2{color:#ffe0dc}
 .hgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(218px,1fr));gap:.9rem}
-.hcard{display:block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.26);
+.hcard{display:block;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.3);
   padding:1rem 1.1rem;text-decoration:none;color:#fff;transition:background .2s,transform .2s}
 .hcard:hover{background:rgba(255,255,255,.2);transform:translateY(-2px)}
 .hcard b{display:block;font-family:var(--font-mono);font-size:1.22rem;letter-spacing:.02em;line-height:1.2}
 .hcard span{display:block;font-size:12.5px;margin-top:.4rem;line-height:1.55}
-.hcard small{display:block;font-size:11px;color:#ffc9c2;margin-top:.25rem;line-height:1.5}
+.hcard small{display:block;font-size:11px;color:#ffe9e6;margin-top:.25rem;line-height:1.5}
 /* footer */
 .footx{position:relative;z-index:3;background:#17140f;color:#8d8276;padding:2.6rem 0 3rem}
 .footx .wrapx{padding-top:0;padding-bottom:0}
@@ -1056,10 +1065,10 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
     </a>
     <button class="nav-hamburger" onclick="toggleMobileNav()" data-i18n-aria="Toggle navigation menu" aria-label="Toggle navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
-      <a class="nav-link" data-page="archive" href="/archive" data-i18n="nav.archive"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="12" height="3.2" rx="1"/><path d="M3.2 6.2V13h9.6V6.2M6.5 9h3"/></svg><span>Archive</span></a>
-      <a class="nav-link" data-page="search" href="/search" data-i18n="nav.search"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="4.3"/><path d="M10.2 10.2 13.6 13.6"/></svg><span>Profile Search</span></a>
-      <a class="nav-link" data-page="analytics" href="/analytics" data-i18n="nav.analytics"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.6 13.4h10.8M4.8 11V7.2M8 11V3.4M11.2 11V8.6"/></svg><span>Analytics</span></a>
-      <a class="nav-link" data-page="appeals" href="/appeals" data-i18n="nav.appeals"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="5.6"/><path d="M8 5.2v3.4M8 10.6v.1"/></svg><span>Appeals</span></a>
+      <a class="nav-link" data-page="archive" href="/archive"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="12" height="3.2" rx="1"/><path d="M3.2 6.2V13h9.6V6.2M6.5 9h3"/></svg><span data-i18n="nav.archive">Archive</span></a>
+      <a class="nav-link" data-page="search" href="/search"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="4.3"/><path d="M10.2 10.2 13.6 13.6"/></svg><span data-i18n="nav.search">Profile Search</span></a>
+      <a class="nav-link" data-page="analytics" href="/analytics"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.6 13.4h10.8M4.8 11V7.2M8 11V3.4M11.2 11V8.6"/></svg><span data-i18n="nav.analytics">Analytics</span></a>
+      <a class="nav-link" data-page="appeals" href="/appeals"><svg class="nav-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="5.6"/><path d="M8 5.2v3.4M8 10.6v.1"/></svg><span data-i18n="nav.appeals">Appeals</span></a>
     </div>
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" type="button"><span class="tt-icon" id="themeToggleIcon" aria-hidden="true">◐</span><span id="themeToggleLabel">Dark</span></button><button class="lang-toggle" id="langToggle" onclick="toggleLang()" type="button"><span class="lt-globe" aria-hidden="true">&#127760;</span><span id="langToggleLabel">EN</span></button>
     <a class="nav-cta" href="/submit" data-i18n="nav.submit">Submit Evidence</a>
@@ -1122,19 +1131,19 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
       </div>
 
       <ol class="slist" id="slist">
-        <li class="sitem on" data-s="1"><span class="sno">০১</span><div>
+        <li class="sitem on" data-s="1"><span class="sno" data-i18n="step.n1">01</span><div>
           <h3 data-i18n="st1.h">The story breaks</h3>
           <p data-i18n="st1.p">A woman has been attacked. The press reports it. The post is public. Anyone can read it.</p></div></li>
-        <li class="sitem" data-s="2"><span class="sno">০২</span><div>
+        <li class="sitem" data-s="2"><span class="sno" data-i18n="step.n2">02</span><div>
           <h3 data-i18n="st2.h">The comments fill up</h3>
           <p data-i18n="st2.p">Four hundred within hours. Most are sympathetic. Some are not: blame, abuse, threats.</p></div></li>
-        <li class="sitem" data-s="3"><span class="sno">০৩</span><div>
+        <li class="sitem" data-s="3"><span class="sno" data-i18n="step.n3">03</span><div>
           <h3 data-i18n="st3.h">Someone notices</h3>
           <p data-i18n="st3.p">Anyone can send the link and a screenshot without giving their name. It takes two minutes.</p></div></li>
-        <li class="sitem" data-s="4"><span class="sno">০৪</span><div>
+        <li class="sitem" data-s="4"><span class="sno" data-i18n="step.n4">04</span><div>
           <h3 data-i18n="st4.h">A person checks it</h3>
           <p data-i18n="st4.p">The link is opened and matched by hand, the screenshot checked for edits. Most submissions are rejected right here.</p></div></li>
-        <li class="sitem" data-s="5"><span class="sno">০৫</span><div>
+        <li class="sitem" data-s="5"><span class="sno" data-i18n="step.n5">05</span><div>
           <h3 data-i18n="st5.h">Three are kept</h3>
           <p data-i18n="st5.p">The post may be deleted later. The account may change. But what was written stays on record.</p></div></li>
       </ol>
@@ -1232,11 +1241,11 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
           <div data-i18n="submit.x13" style="font-size:10px;font-family:var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--umber);margin-bottom:.75rem">Two URLs Required</div>
           <div class="url-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
             <div style="display:flex;align-items:flex-start;gap:.6rem">
-              <div style="width:22px;height:22px;border-radius:50%;background:var(--ink-glow);border:1px solid rgba(200,35,26,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);color:var(--accent);flex-shrink:0;margin-top:.1rem" data-i18n="submit.num1">1</div>
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--ink-glow);border:1px solid rgba(200,35,26,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);color:var(--accent-on-glow);flex-shrink:0;margin-top:.1rem" data-i18n="submit.num1">1</div>
               <div><div data-i18n="submit.x14" style="font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:.2rem">Perpetrator's Profile URL</div><div data-i18n="submit.x15" style="font-size:12px;color:var(--text3);line-height:1.6">The profile page of the person who made the abusive comment, on whichever platform it happened</div></div>
             </div>
             <div style="display:flex;align-items:flex-start;gap:.6rem">
-              <div style="width:22px;height:22px;border-radius:50%;background:var(--ink-glow);border:1px solid rgba(200,35,26,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);color:var(--accent);flex-shrink:0;margin-top:.1rem" data-i18n="submit.num2">2</div>
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--ink-glow);border:1px solid rgba(200,35,26,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);color:var(--accent-on-glow);flex-shrink:0;margin-top:.1rem" data-i18n="submit.num2">2</div>
               <div><div data-i18n="submit.x16" style="font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:.2rem">Source Post URL</div><div data-i18n="submit.x17" style="font-size:12px;color:var(--text3);line-height:1.6">The public post, video, thread or article where you found and identified the comment</div></div>
             </div>
           </div>
@@ -1338,7 +1347,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
       <span class="f-pill" data-vocab="This Week" onclick="filt(this)">This Week</span>
     </div>
     <div class="arch-grid" id="archGrid"></div>
-    <div id="archFooter" style="text-align:center;padding:2rem 0;color:var(--text3);font-size:12px;font-family:var(--font-mono)"><span id="archCount">Showing 0 of 0 verified entries</span> &middot; <span id="archLoadMore" style="color:var(--accent);cursor:pointer" onclick="loadMoreArchive()" data-i18n="dyn.loadMoreEl">Load more &rarr;</span></div>
+    <div id="archFooter" style="text-align:center;padding:2rem 0;color:var(--text3);font-size:12px;font-family:var(--font-mono)"><span id="archCount">Showing 0 of 0 verified entries</span> &middot; <span id="archLoadMore" style="color:var(--accent-text);cursor:pointer" onclick="loadMoreArchive()" data-i18n="dyn.loadMoreEl">Load more &rarr;</span></div>
     <div class="disclaimer" data-i18n="archive.m1"><strong style="color:var(--text2)">Archive Use Notice:</strong> This archive is intended for research, advocacy, journalism, and public awareness. Redistribution of individual entries for purposes of harassment, pile-ons, or vigilante action is a violation of our Terms of Use and may count as online abuse under the law.</div>
   </div>
 </section>
@@ -1501,8 +1510,8 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 
 <!-- TERMS OF USE -->
 <section id="pg-terms" class="page">
-  <div style="background:var(--bg1);border-bottom:1px solid var(--border);padding:3.5rem 2rem">
-    <div style="max-width:800px;margin:0 auto">
+  <div style="background:var(--bg1);border-bottom:1px solid var(--border)">
+    <div class="section-sm" style="padding-top:3.5rem;padding-bottom:3.5rem">
       <div data-i18n="terms.x1" class="section-tag">Legal</div>
       <h2 data-i18n="terms.x2" class="section-title">Terms of Use</h2>
       <p data-i18n="terms.x3" style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14px;margin-top:.5rem">By accessing or using the Daag platform, you agree to the following terms. Please read them carefully.</p>
@@ -1539,8 +1548,8 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 
 <!-- PRIVACY POLICY -->
 <section id="pg-privacy" class="page">
-  <div style="background:var(--bg1);border-bottom:1px solid var(--border);padding:3.5rem 2rem">
-    <div style="max-width:800px;margin:0 auto">
+  <div style="background:var(--bg1);border-bottom:1px solid var(--border)">
+    <div class="section-sm" style="padding-top:3.5rem;padding-bottom:3.5rem">
       <div data-i18n="privacy.x1" class="section-tag">Legal</div>
       <h2 data-i18n="privacy.x2" class="section-title">Privacy Policy</h2>
       <p data-i18n="privacy.x3" style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14px;margin-top:.5rem">This policy explains what data we collect, how we use it, and your rights regarding your information on the Daag platform.</p>
@@ -1593,8 +1602,8 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 
 <!-- CONTACT -->
 <section id="pg-contact" class="page">
-  <div style="background:var(--bg1);border-bottom:1px solid var(--border);padding:3.5rem 2rem">
-    <div style="max-width:800px;margin:0 auto">
+  <div style="background:var(--bg1);border-bottom:1px solid var(--border)">
+    <div class="section-sm" style="padding-top:3.5rem;padding-bottom:3.5rem">
       <div data-i18n="contact.x1" class="section-tag">Get in Touch</div>
       <h2 data-i18n="contact.x2" class="section-title">Contact Us</h2>
       <p data-i18n="contact.x3" style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14px;margin-top:.5rem">Have a question, concern, or suggestion? Use the form below to reach the Daag team. We review all messages and will respond where appropriate.</p>
@@ -1822,6 +1831,11 @@ var BN={
   's3.h2':'মুছে ফেললেই <em>মুছে যায় না।</em>',
   's3.sub':'পাশের লেখাটা মাউস চেপে ঘষে মুছে ফেলার চেষ্টা করুন। যতই ঘষুন, দাগটা থেকে যাবে। ইন্টারনেটেও তাই হয়।',
   'slab.st':'যাচাইকৃত · সংস্করণ ২',
+  'step.n1':'০১',
+  'step.n2':'০২',
+  'step.n3':'০৩',
+  'step.n4':'০৪',
+  'step.n5':'০৫',
   'slab.meta':'ফেসবুক · ঢাকা · ১৩ অক্টোবর ২০২৬',
   'slab.stay':'তবু রয়ে গেল',
   'memo.k':'দাগ · নীতিমালা',
