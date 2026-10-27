@@ -1038,53 +1038,6 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
   color:#9d9385;margin:0 0 .7rem}
 .fcol a{display:block;color:#bdb3a5;text-decoration:none;font-size:13.5px;line-height:2}
 .fcol a:hover{color:#fff}
-/* The press page: one block per theme, Daag's framing then the headlines. */
-.nw-asof{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;color:var(--text3);margin-top:1.1rem}
-.nw-sec{margin-bottom:2.6rem}
-.nw-h{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--warm);margin:0 0 .6rem;line-height:1.35}
-.nw-b{color:var(--text2);font-size:13.5px;line-height:1.95;margin:0 0 1.2rem;max-width:68ch}
-.nw-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--border)}
-.nw-item{border-bottom:1px solid var(--border)}
-.nw-item a{display:grid;grid-template-columns:auto 1fr auto;gap:.3rem 1.1rem;align-items:baseline;
-  padding:.8rem .5rem;text-decoration:none;color:var(--text);transition:background .18s}
-.nw-item a:hover{background:var(--bg2)}
-.nw-meta{display:flex;flex-direction:column;gap:.15rem;min-width:7.4em}
-.nw-d{font-family:var(--font-mono);font-size:10.5px;color:var(--text3);white-space:nowrap}
-.nw-s{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;color:var(--accent-text);white-space:nowrap}
-.nw-t{font-size:14px;line-height:1.62}
-.nw-item a:hover .nw-t{text-decoration:underline;text-underline-offset:3px}
-.nw-go{font-size:12px;color:var(--text3);align-self:center}
-.nw-item a:hover .nw-go{color:var(--accent-text)}
-.nw-foot{color:var(--text3);font-size:12px;line-height:1.8;border-top:1px solid var(--border);
-  padding-top:1.1rem;margin-top:.5rem;max-width:68ch}
-@media(max-width:620px){
-  .nw-item a{grid-template-columns:1fr auto;padding:.75rem .25rem}
-  .nw-meta{flex-direction:row;gap:.6rem;min-width:0;grid-column:1/-1}
-  .nw-t{grid-column:1/2}
-}
-.fnews{border-top:1px solid #2a251e;margin-top:2.4rem;padding-top:1.6rem}
-.fnews-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1.2rem;flex-wrap:wrap;margin-bottom:1.1rem}
-.fnews h4{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-  color:#9d9385;margin:0 0 .35rem}
-.fnews-head p{font-size:12.5px;color:#9d9385;margin:0;max-width:62ch;line-height:1.7}
-.fnews-as{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:#8d8375;white-space:nowrap}
-.fnews-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
-  gap:.1rem 2rem}
-.fnews-list li{border-bottom:1px solid #221e18}
-.fnews-list li[hidden]{display:none}
-.fnews-list a{display:flex;gap:.7rem;align-items:baseline;padding:.6rem 0;text-decoration:none;color:#cdc2b1;
-  font-size:13px;line-height:1.6;min-height:24px}
-.fnews-list a:hover{color:#fff}
-.fnews-list a:hover .fn-t{border-bottom-color:#6b6054}
-.fn-d{font-family:var(--font-mono);font-size:10px;color:#9d9385;white-space:nowrap;flex-shrink:0;min-width:5.2em}
-.fn-s{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:#c47a66;white-space:nowrap;flex-shrink:0}
-.fn-t{border-bottom:1px solid transparent}
-.fnews-all{font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;color:#cdc2b1;text-decoration:none;
-  border:1px solid #3a342c;border-radius:3px;padding:.5rem .9rem;white-space:nowrap;display:inline-flex;align-items:center;min-height:32px}
-.fnews-all:hover{border-color:#5c5346;color:#fff}
-@media(max-width:560px){.fnews-list{grid-template-columns:1fr}
-  .fnews-list a{flex-wrap:wrap;gap:.3rem .6rem}
-  .fn-d{min-width:0}}
 .flegal{display:flex;gap:1.2rem}
 .flegal a{color:#8d8276;text-decoration:none;border-bottom:1px solid transparent}
 .flegal a:hover{color:#e8dfd2;border-bottom-color:#4a4238}
@@ -1251,22 +1204,10 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
       <div class="fcol"><h4 data-i18n="f.c1">The board</h4>
         <a href="/archive" data-i18n="nav.arch">Archive</a><a href="/search" data-i18n="nav.search">Profile Search</a><a href="/analytics" data-i18n="f.ana">Analytics</a><a href="/submit" data-i18n="nav.cta">Submit evidence</a></div>
       <div class="fcol"><h4 data-i18n="f.c2">About</h4>
-        <a href="/about" data-i18n="f.about">About Daag</a><a href="/news" data-i18n="nav.news">In the news</a><a href="/appeals" data-i18n="nav.app">Appeals</a><a href="/contact" data-i18n="f.contact">Contact</a></div>
+        <a href="/about" data-i18n="f.about">About Daag</a><a href="/appeals" data-i18n="nav.app">Appeals</a><a href="/contact" data-i18n="f.contact">Contact</a></div>
       <div class="fcol"><h4 data-i18n="f.c3">Help</h4>
         <a href="tel:999" data-i18n="f.e1">Emergency 999</a><a href="tel:109" data-i18n="f.e2">Women & children 109</a><a href="tel:01320000888" data-i18n="f.e3">Cyber support</a></div>
     </div>
-    <!-- The press list lives on /news now; the footer just points at it. -->
-    <section class="fnews" aria-labelledby="fnewsH">
-      <div class="fnews-head">
-        <div>
-          <h4 id="fnewsH" data-i18n="news.t">In the news</h4>
-          <p data-i18n="news.s">Reporting on gender violence in Bangladesh from Prothom Alo and The Daily Star.</p>
-        </div>
-        <a class="fnews-all" href="/news" data-i18n="news.all">All 50 reports &rarr;</a>
-      </div>
-      <ol class="fnews-list" id="fnewsList"></ol>
-    </section>
-
     <div class="fbot">
       <span data-i18n="f.cr">© 2026 Daag · All rights reserved</span>
       <span class="flegal"><a href="/terms" data-i18n="f.terms">Terms of Use</a><a href="/privacy" data-i18n="f.priv">Privacy Policy</a></span>
@@ -1659,119 +1600,6 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
   </div>
 </section>
 
-<!-- NEWS -->
-<!--
-  Coverage from Prothom Alo and The Daily Star, grouped by theme.
-
-  Each entry is a headline, a paper, a date and a link out. The articles are
-  not reproduced or rewritten here: the archive records what commenters wrote,
-  it does not republish other people's journalism. The framing above each list
-  is Daag's own, and every figure in it names the report it came from.
-
-  Every URL was fetched and its headline and date read off the publisher's own
-  page. Re-check the whole list with tools/refresh-news.py.
--->
-<section id="pg-news" class="page">
-  <div style="background:var(--bg1);border-bottom:1px solid var(--border)">
-    <div class="section-sm" style="padding-top:3.5rem;padding-bottom:3.5rem">
-      <div data-i18n="nw.tag" class="section-tag">Press coverage</div>
-      <h2 data-i18n="nw.title" class="section-title">In the news</h2>
-      <p data-i18n="nw.intro" style="color:var(--text2);max-width:62ch;line-height:1.8;font-size:14px;margin-top:.5rem">Reporting on gender violence in Bangladesh from Prothom Alo and The Daily Star. Fifty pieces, grouped by what they are about. Every headline links to the paper that published it.</p>
-      <p data-i18n="nw.note" style="color:var(--text3);max-width:62ch;line-height:1.8;font-size:12.5px;margin-top:.9rem">We do not reproduce their articles. What you read here is a headline, a date and a link; the writing between the lists is ours, and every figure in it names the report it came from.</p>
-      <p class="nw-asof" data-i18n="nw.asof">Every link checked on 27 October 2026</p>
-    </div>
-  </div>
-  <div class="section-sm" style="padding-top:2.6rem">
-  <section class="nw-sec" id="nw-online">
-    <h2 class="nw-h" data-i18n="nw.online.t">What gets written underneath</h2>
-    <p class="nw-b" data-i18n="nw.online.b">This is the archive&#x27;s own subject. A report of an assault appears, and within hours the comment section fills with people asking what she was wearing, what she was doing out, why she waited to speak. The reporting below traces the same pattern at national scale. ActionAid found about 64 percent of women online had faced violence there, up 14 percentage points on the year before, and that 85 percent of them never complained to anyone (Prothom Alo, 27 November 2022). Of everyone recorded as a victim of cyber violence in the first half of 2025, 97 percent were women and children, and 41.3 percent were students (Prothom Alo, 9 July 2025).</p>
-    <ol class="nw-list">
-      <li class="nw-item"><a href="https://www.thedailystar.net/supplements/international-womens-day-2026/news/online-abuse-now-national-crisis-time-act-4122986" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-03-08</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Online abuse is now a national crisis: Time to act</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/news/gaps-laws-enforcement-fuel-cyber-violence-against-women-4061176" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2025-12-17</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Gaps in laws, enforcement fuel cyber violence against women</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/opinion/column/uzweu6xhco" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2025-11-30</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">অনলাইনে জেন্ডার সহিংসতার সংস্কৃতি, প্রতিকার ছাড়া পথ নেই</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/opinion/column/sscf7zy1ld" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2025-11-27</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">নারীর প্রতি ডিজিটাল সহিংসতা নিরসনে উপায় কী</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/bangladesh/7gdiyso4ho" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2025-07-09</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">সাইবার সহিংসতার শিকার ৯৭ শতাংশই নারী ও শিশু</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/bangladesh/e7g134e29k" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2025-01-29</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">সাইবার-জগতেও নারী ‘সহজ লক্ষ্য’</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/opinion/16-days-activism/news/when-digital-space-becomes-paradise-harassers-3764211" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2024-11-29</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">When digital space becomes a paradise for harassers</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/bangladesh/9jb3rq7v01" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2023-06-12</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">সাইবারক্রাইম এবং অনলাইনে নারীর নিরাপত্তা</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/bangladesh/crime/ru0cynodo1" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2023-05-08</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">সাইবার জগতে নতুন নতুন ফাঁদ</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/bangladesh/p5uqt9qjl3" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2022-11-27</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">অনলাইনে অশ্লীল বার্তা ও ছবি, ৬৪% নারী সহিংসতার শিকার</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-    </ol>
-  </section>
-  <section class="nw-sec" id="nw-scale">
-    <h2 class="nw-h" data-i18n="nw.scale.t">How much of it there is</h2>
-    <p class="nw-b" data-i18n="nw.scale.b">Counting is hard, because most of it is never reported. What can be counted is cases filed. Police Headquarters recorded a 25 percent rise in a single year in cases under the Women and Children Repression Prevention Act (Prothom Alo, 8 March 2026). In February 2025 an average of twelve rape cases were filed every day, and 17,571 cases were filed under the Act across that year (Prothom Alo, 10 March 2025). In the first seven months of 2022, of 7,350 cases filed under the Act, 3,523 were rape (Prothom Alo, 24 August 2022).</p>
-    <ol class="nw-list">
-      <li class="nw-item"><a href="https://en.prothomalo.com/bangladesh/52anz02zej" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-06-10</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="en">273 convicted prisoners in condemned cells for crimes against women and children</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/bangladesh/wi6lnck7mi" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-06-10</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">নারী ও শিশু নির্যাতনে ফাঁসির ২৭৩ আসামি কনডেমড সেলে</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://en.prothomalo.com/bangladesh/zcblw1sizn" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-03-08</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="en">Rape cases rise 27pc in one year</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/bangladesh/crime/tzbe7gf31u" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2025-03-10</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">ধর্ষণ থামছে না, ফেব্রুয়ারিতে দিনে গড়ে ১২টি মামলা</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/news/distressing-year-women-and-children-3508556" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2024-01-01</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">A distressing year for women and children</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://en.prothomalo.com/bangladesh/j0kdzdgno5" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2023-09-03</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="en">Rape, domestic violence dominate in violence against women</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://en.prothomalo.com/bangladesh/0pbu68bbhc" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2022-12-27</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="en">Violence against women on rise but less govt action</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://en.prothomalo.com/bangladesh/dbfibivu3h" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2022-08-24</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="en">Nearly 50pc cases related to rape</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-    </ol>
-  </section>
-  <section class="nw-sec" id="nw-system">
-    <h2 class="nw-h" data-i18n="nw.system.t">What happens after a case is filed</h2>
-    <p class="nw-b" data-i18n="nw.system.b">Filing is the beginning of a long wait. Research presented in Dhaka found a conviction rate of 3 percent in cases under the Act, with roughly 70 percent of defendants acquitted. The law requires a case to be finished within 180 working days; in practice one takes an average of three years and seven months, across an average of twenty-two hearing dates (Prothom Alo, 2 May 2026). That gap between the written rule and the lived one is why so many women are told, by people around them, that there is no point starting.</p>
-    <ol class="nw-list">
-      <li class="nw-item"><a href="https://www.prothomalo.com/bangladesh/7ilfivbbpy" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-09-23</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">নারী ও শিশু নির্যাতন দমন আইনের মামলার বিচার ১৮০ দিনে শেষের বিধান বাধ্যতামূলক নয়, নির্দেশনামূলক</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/bangladesh/ebsz0axkin" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-05-02</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">নারী ও শিশু নির্যাতন মামলায় সাজার হার ৩ শতাংশ, খালাস ৭০ শতাংশ</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/slow-reads/big-picture/news/why-sexual-harassment-survivors-still-struggle-be-heard-bangladesh-4153986" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-04-17</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Why sexual harassment survivors still struggle to be heard in Bangladesh</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/supplements/international-womens-day-2026/news/why-sexual-harassment-laws-fail-practice-4122976" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-03-08</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Why sexual harassment laws fail in practice</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/crime-justice/news/two-ordinances-protect-women-kids-all-spaces-4094071" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-01-30</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Two ordinances to protect women, kids in all spaces</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/news/justice-eludes-women-children-trials-drag-3995001" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2025-09-25</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Justice eludes women, children as trials drag on</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-    </ol>
-  </section>
-  <section class="nw-sec" id="nw-courts">
-    <h2 class="nw-h" data-i18n="nw.courts.t">The verdicts</h2>
-    <p class="nw-b" data-i18n="nw.courts.b">Convictions do come, and they matter. These are the case outcomes reported by both papers, from the Subarnachar and MC College trials to sentences handed down this year. They are listed here without commentary: each links to the paper that covered it.</p>
-    <ol class="nw-list">
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/crime-justice/news/3-get-life-gang-raping-woman-moving-bus-tangail-4307206" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-10-25</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">3 get life for gang-raping woman on moving bus in Tangail</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/bangladesh/district/vda9kiabbr" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-10-14</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">নেত্রকোনায় ধর্ষণের অভিযোগে মিথ্যা মামলা করায় নারীর কারাদণ্ড</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/crime-justice/news/netrokona-woman-jailed-filing-false-rape-case-4297881" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-10-13</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Netrokona woman jailed for filing false rape case</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://en.prothomalo.com/bangladesh/local-news/6q5rm3d3oh" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-10-11</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="en">Cumilla schoolgirl rape-murder: CNG driver confesses in court</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://en.prothomalo.com/bangladesh/local-news/bjrcmxeycx" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-10-10</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="en">Driver lured schoolgirl with promise of a shortcut, then raped and killed her: Police</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/crime-justice/news/one-sentenced-death-three-life-term-impsonement-gang-rape-mc-college-4223566" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-07-14</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">MC College gang rape: One sentenced to death, three jailed for life</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/crime-justice/news/2-men-sentenced-life-imprisonment-raping-woman-her-mother-feni-4216571" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-07-05</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">2 men sentenced to life imprisonment for raping woman, her mother in Feni</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/crime-justice/news/ramisa-rape-murder-sohel-swapna-sentenced-death-4193266" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-06-08</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Ramisa rape, murder: Sohel, Swapna sentenced to death</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://en.prothomalo.com/bangladesh/crime-and-law/95j0esfh8s" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-06-07</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="en">Two sentenced to death 19 days after incident, what the court said</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/crime-justice/news/ramisa-rape-murder-verdict-due-june-7-4190471" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-06-04</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Ramisa rape, murder verdict due June 7</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://en.prothomalo.com/bangladesh/crime-and-law/y0t2s6ltgl" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2025-07-15</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="en">Newly-wed woman gang raped in Patuakhali</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://en.prothomalo.com/bangladesh/crime-and-law/5ui76edsva" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2025-03-17</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="en">Women ‘gang raped’ while returning home with husband, 5 arrested</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/opinion/column/fjr0l9i9di" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2025-03-08</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">নারীকে দমন–পীড়নের নতুন পন্থা, কোনো সমাধান নেই?</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/crime-justice/news/noakhali-rape-case-jubo-league-leader-acquitted-3743806" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2024-11-03</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Noakhali Rape Case: Jubo League leader acquitted</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://en.prothomalo.com/bangladesh/crime-and-law/9ajakirb2v" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2024-04-13</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="en">Woman gang -raped on way home from wedding; 5 arrested</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/crime-justice/news/subarnachar-rape-10-get-death-6-life-imprisonment-3536701" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2024-02-05</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Subarnachar rape: 10 get death, 6 life imprisonment</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.prothomalo.com/bangladesh/3ad7r32rw8" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2023-09-03</span><span class="nw-s">Prothom Alo</span></span><span class="nw-t" lang="bn">সবচেয়ে বেশি ধর্ষণ ও পারিবারিক নির্যাতন</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/crime-justice/news/6-get-death-khulna-rape-case-3163686" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2022-11-08</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">6 get death in Khulna rape case</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-    </ol>
-  </section>
-  <section class="nw-sec" id="nw-home">
-    <h2 class="nw-h" data-i18n="nw.home.t">Dowry, acid, and the man she married</h2>
-    <p class="nw-b" data-i18n="nw.home.b">A recurring shape in the reporting below: the accused is the husband, or the man she left. Dowry killings and acid attacks by former partners have their own long history in Bangladeshi courts, and they are the part of this violence least likely to be treated as a crime by the people nearest to it.</p>
-    <ol class="nw-list">
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/crime-justice/news/woman-sustains-burns-acid-attack-ex-husband-habiganj-4191226" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-06-05</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Woman sustains burns in acid attack by ex-husband in Habiganj</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/news/man-die-killing-wife-3790511" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2025-01-02</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Man to die for killing wife</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/crime-justice/news/wife-beaten-death-husband-dowry-3758586" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2024-11-21</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Wife beaten to death by husband for dowry</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/crime-justice/news/acid-attack-ex-husband-burns-woman-3499281" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2023-12-20</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Acid attack by ex-husband burns woman</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/accidents-fires/news/man-die-killing-wife-satkhira-3282421" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2023-03-27</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Man to die for killing wife in Satkhira</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/bangladesh/crime-justice/news/man-sentenced-death-killing-wife-over-dowry-satkhira-2915711" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2021-12-12</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">Man sentenced to death for killing wife over dowry in Satkhira</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-    </ol>
-  </section>
-  <section class="nw-sec" id="nw-work">
-    <h2 class="nw-h" data-i18n="nw.work.t">At work</h2>
-    <p class="nw-b" data-i18n="nw.work.b">A survey of media professionals across 21 countries found that in Bangladesh 60 percent of women reported verbal harassment at work against 9 percent of men, and 48 percent reported online harassment against 15 percent. Of the women who were harassed, 52 percent said nothing; where a complaint was made, employers failed to act in 43 percent of cases (The Daily Star, 21 May 2026).</p>
-    <ol class="nw-list">
-      <li class="nw-item"><a href="https://www.thedailystar.net/ds/law-our-rights/news/law-practice-building-workplaces-free-sexual-harassment-4304236" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-10-21</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">From Law to Practice: Building Workplaces Free from Sexual Harassment</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-      <li class="nw-item"><a href="https://www.thedailystar.net/news/news/60-women-reported-verbal-harassment-bangladeshi-media-workplaces-wan-ifra-study-4181401" target="_blank" rel="noopener noreferrer nofollow"><span class="nw-meta"><span class="nw-d">2026-05-21</span><span class="nw-s">The Daily Star</span></span><span class="nw-t" lang="en">60% of women reported verbal harassment in Bangladeshi media workplaces: WAN-IFRA study</span><span class="nw-go" aria-hidden="true">↗</span></a></li>
-    </ol>
-  </section>
-    <p class="nw-foot" data-i18n="nw.foot">Headlines are quoted as published, in the language they were published in. Daag is not affiliated with either newspaper.</p>
-  </div>
-</section>
-
 <!-- CONTACT -->
 <section id="pg-contact" class="page">
   <div style="background:var(--bg1);border-bottom:1px solid var(--border)">
@@ -1923,7 +1751,7 @@ const sb = SUPABASE_URL && SUPABASE_ANON_KEY
 function isLive() { return !!sb; }
 // ==================================
 
-const pages=['home','submit','archive','analytics','appeals','about','search','news','terms','privacy','contact'];
+const pages=['home','submit','archive','analytics','appeals','about','search','terms','privacy','contact'];
 
 // NAV PAGE MAP (for active states)
 const navPageMap={archive:'archive',search:'search',analytics:'analytics',appeals:'appeals',about:'about'};
@@ -2040,30 +1868,6 @@ var BN={
   'nav.cta':'প্রমাণ জমা দিন',
   'f.c2':'পরিচিতি',
   'f.about':'দাগ সম্পর্কে',
-  'news.t':'খবরে',
-  'nw.online.t':'যা লেখা হয় নিচে',
-  'nw.online.b':'এই আর্কাইভের বিষয়টাই এটি। নির্যাতনের একটি খবর আসে, আর কয়েক ঘণ্টার মধ্যে মন্তব্যের ঘর ভরে যায় এই প্রশ্নে— মেয়েটির পরনে কী ছিল, সে বাইরে কী করছিল, এত দিন চুপ ছিল কেন। নিচের খবরগুলো সারা দেশে একই ছবি দেখায়। একশনএইডের গবেষণায় দেখা গেছে, অনলাইনে প্রায় ৬৪ শতাংশ নারী সহিংসতার শিকার হয়েছেন, আগের বছরের তুলনায় ১৪ শতাংশীয় বিন্দু বেশি, আর তাঁদের ৮৫ শতাংশই কোথাও কোনো অভিযোগ করেননি (প্রথম আলো, ২৭ নভেম্বর ২০২২)। ২০২৫ সালের প্রথম ছয় মাসে সাইবার সহিংসতার শিকারদের ৯৭ শতাংশই নারী ও শিশু, আর ৪১ দশমিক ৩ শতাংশ শিক্ষার্থী (প্রথম আলো, ৯ জুলাই ২০২৫)।',
-  'nw.scale.t':'কতটা ঘটে',
-  'nw.scale.b':'হিসাব করা কঠিন, কারণ বেশির ভাগই কখনো জানানো হয় না। যা গোনা যায়, তা হলো দায়ের হওয়া মামলা। পুলিশ সদর দপ্তরের হিসাবে, নারী ও শিশু নির্যাতন দমন আইনে মামলা এক বছরে ২৫ শতাংশ বেড়েছে (প্রথম আলো, ৮ মার্চ ২০২৬)। ২০২৫ সালের ফেব্রুয়ারিতে ধর্ষণের অভিযোগে দিনে গড়ে ১২টি মামলা হয়েছে, আর ওই বছর এই আইনে মোট মামলা হয়েছে ১৭ হাজার ৫৭১টি (প্রথম আলো, ১০ মার্চ ২০২৫)। ২০২২ সালের প্রথম সাত মাসে এই আইনে হওয়া ৭ হাজার ৩৫০টি মামলার মধ্যে ৩ হাজার ৫২৩টিই ছিল ধর্ষণের (প্রথম আলো, ২৪ আগস্ট ২০২২)।',
-  'nw.system.t':'মামলা হওয়ার পর কী হয়',
-  'nw.system.b':'মামলা করা মানে দীর্ঘ অপেক্ষার শুরু। ঢাকায় উপস্থাপিত এক গবেষণায় দেখা গেছে, এই আইনের মামলায় সাজার হার মাত্র ৩ শতাংশ, আর প্রায় ৭০ শতাংশ আসামি খালাস পাচ্ছেন। আইনে ১৮০ কার্যদিবসে মামলা নিষ্পত্তির কথা থাকলেও বাস্তবে একটি মামলা শেষ হতে গড়ে লাগছে ৩ বছর ৭ মাস, আর প্রতিটি মামলায় গড়ে ২২ বার শুনানির তারিখ পড়ছে (প্রথম আলো, ২ মে ২০২৬)। লেখা নিয়ম আর বাস্তবের এই ফারাকের কারণেই চারপাশের মানুষ অনেক নারীকে বলে, শুরু করে লাভ নেই।',
-  'nw.courts.t':'রায়',
-  'nw.courts.b':'সাজা হয়, আর তা গুরুত্বপূর্ণ। দুই পত্রিকার খবরে আসা মামলার ফলাফল এখানে— সুবর্ণচর ও এমসি কলেজের বিচার থেকে শুরু করে এ বছরের রায় পর্যন্ত। কোনো মন্তব্য ছাড়াই দেওয়া হলো: প্রতিটি খবর যে পত্রিকায় ছাপা হয়েছে, সেখানেই যাবে।',
-  'nw.home.t':'যৌতুক, এসিড, আর যাকে বিয়ে করেছিলেন',
-  'nw.home.b':'নিচের খবরগুলোয় একটি চেনা ছক আছে: অভিযুক্ত স্বামী, কিংবা যাকে ছেড়ে এসেছেন সেই মানুষটি। যৌতুকের জন্য হত্যা আর সাবেক সঙ্গীর এসিড নিক্ষেপের দীর্ঘ ইতিহাস বাংলাদেশের আদালতে আছে, আর এই সহিংসতার এই অংশটিকেই আশপাশের মানুষ সবচেয়ে কম অপরাধ বলে মনে করেন।',
-  'nw.work.t':'কর্মক্ষেত্রে',
-  'nw.work.b':'২১টি দেশের গণমাধ্যমকর্মীদের নিয়ে করা এক জরিপে দেখা গেছে, বাংলাদেশে ৬০ শতাংশ নারী কর্মক্ষেত্রে মৌখিক হয়রানির কথা জানিয়েছেন, পুরুষদের ক্ষেত্রে যা ৯ শতাংশ; অনলাইনে হয়রানির কথা জানিয়েছেন ৪৮ শতাংশ নারী, পুরুষ ১৫ শতাংশ। হয়রানির শিকার নারীদের ৫২ শতাংশ কিছুই বলেননি; আর যেখানে অভিযোগ হয়েছে, তার ৪৩ শতাংশেই প্রতিষ্ঠান কোনো ব্যবস্থা নেয়নি (ডেইলি স্টার, ২১ মে ২০২৬)।',
-  'nw.tag':'সংবাদমাধ্যমে',
-  'nw.title':'খবরে',
-  'nw.intro':'বাংলাদেশে নারীর প্রতি সহিংসতা নিয়ে প্রথম আলো ও ডেইলি স্টারের খবর। বিষয় অনুযায়ী সাজানো পঞ্চাশটি লেখা। প্রতিটি শিরোনাম থেকে যাবে সেই পত্রিকার পাতায়, যেখানে এটি ছাপা হয়েছিল।',
-  'nw.note':'আমরা তাঁদের লেখা এখানে তুলে দিই না। এখানে আছে শিরোনাম, তারিখ আর লিংক; তালিকার ফাঁকে যা লেখা, তা আমাদের নিজের, আর তাতে দেওয়া প্রতিটি সংখ্যার সঙ্গে উৎস প্রতিবেদনের নাম আছে।',
-  'nw.asof':'প্রতিটি লিংক যাচাই করা হয়েছে ২৭ অক্টোবর ২০২৬ তারিখে',
-  'nw.foot':'শিরোনামগুলো যেভাবে ছাপা হয়েছে, সেভাবেই, যে ভাষায় ছাপা হয়েছে সেই ভাষাতেই রাখা হয়েছে। কোনো পত্রিকার সঙ্গে দাগের সম্পৃক্ততা নেই।',
-  'news.all':'৫০টি খবরই →',
-  'news.s':'বাংলাদেশে নারীর প্রতি সহিংসতা নিয়ে প্রথম আলো ও ডেইলি স্টারের খবর।',
-  'nav.news':'খবরে',
-  'news.s':'বাংলাদেশে নারীর প্রতি সহিংসতা নিয়ে প্রথম আলো ও ডেইলি স্টারের খবর। লিংকগুলো তাদের সাইটে খুলবে।',
-  'news.asof':'২৭ অক্টোবর ২০২৬ পর্যন্ত যাচাই করা',
   'f.terms':'ব্যবহারের শর্তাবলি',
   'f.priv':'গোপনীয়তার নীতি',
   'nav.app':'আপিল',
@@ -2644,7 +2448,6 @@ function applyLang(lang,rerender){
     var an=document.getElementById('pg-analytics');
     if(an&&an.classList.contains('active'))buildAnalytics();
     renderHubCount();
-    renderNews();
     syncBoardSections(lang);
     setTimeout(drawThread,60);
   }
@@ -3066,8 +2869,7 @@ var PAGE_META={
   about:    {t:'About Daag | Daag',                               d:'Why this archive exists, what it does and does not record, and the rules it holds itself to.'},
   terms:    {t:'Terms of Use | Daag',                             d:'The terms that govern use of the Daag archive.'},
   privacy:  {t:'Privacy Policy | Daag',                           d:'What Daag collects, what it never collects, and how long anything is kept.'},
-  contact:  {t:'Contact | Daag',                                  d:'Get in touch with the Daag team.'},
-  news:     {t:'In the News | Daag',                              d:'Reporting on gender violence in Bangladesh from Prothom Alo and The Daily Star, grouped by theme. Fifty pieces, each linking to the paper that published it.'}
+  contact:  {t:'Contact | Daag',                                  d:'Get in touch with the Daag team.'}
 };
 
 function setPageMeta(id){
@@ -4340,98 +4142,6 @@ function closeScreenshot(){
   if(ov){ov.classList.remove('open');document.body.style.overflow='';}
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeScreenshot();});
-
-var NEWS=[
-{d:"2026-10-25",s:"TDS",l:"en",t:"3 get life for gang-raping woman on moving bus in Tangail",u:"https://www.thedailystar.net/news/crime-justice/news/3-get-life-gang-raping-woman-moving-bus-tangail-4307206"},
-{d:"2026-10-21",s:"TDS",l:"en",t:"From Law to Practice: Building Workplaces Free from Sexual Harassment",u:"https://www.thedailystar.net/ds/law-our-rights/news/law-practice-building-workplaces-free-sexual-harassment-4304236"},
-{d:"2026-10-14",s:"PA",l:"bn",t:"নেত্রকোনায় ধর্ষণের অভিযোগে মিথ্যা মামলা করায় নারীর কারাদণ্ড",u:"https://www.prothomalo.com/bangladesh/district/vda9kiabbr"},
-{d:"2026-10-13",s:"TDS",l:"en",t:"Netrokona woman jailed for filing false rape case",u:"https://www.thedailystar.net/news/crime-justice/news/netrokona-woman-jailed-filing-false-rape-case-4297881"},
-{d:"2026-10-11",s:"PA",l:"en",t:"Cumilla schoolgirl rape-murder: CNG driver confesses in court",u:"https://en.prothomalo.com/bangladesh/local-news/6q5rm3d3oh"},
-{d:"2026-10-10",s:"PA",l:"en",t:"Driver lured schoolgirl with promise of a shortcut, then raped and killed her: Police",u:"https://en.prothomalo.com/bangladesh/local-news/bjrcmxeycx"},
-{d:"2026-09-23",s:"PA",l:"bn",t:"নারী ও শিশু নির্যাতন দমন আইনের মামলার বিচার ১৮০ দিনে শেষের বিধান বাধ্যতামূলক নয়, নির্দেশনামূলক",u:"https://www.prothomalo.com/bangladesh/7ilfivbbpy"},
-{d:"2026-07-14",s:"TDS",l:"en",t:"MC College gang rape: One sentenced to death, three jailed for life",u:"https://www.thedailystar.net/news/crime-justice/news/one-sentenced-death-three-life-term-impsonement-gang-rape-mc-college-4223566"},
-{d:"2026-07-05",s:"TDS",l:"en",t:"2 men sentenced to life imprisonment for raping woman, her mother in Feni",u:"https://www.thedailystar.net/news/crime-justice/news/2-men-sentenced-life-imprisonment-raping-woman-her-mother-feni-4216571"},
-{d:"2026-06-10",s:"PA",l:"en",t:"273 convicted prisoners in condemned cells for crimes against women and children",u:"https://en.prothomalo.com/bangladesh/52anz02zej"},
-{d:"2026-06-10",s:"PA",l:"bn",t:"নারী ও শিশু নির্যাতনে ফাঁসির ২৭৩ আসামি কনডেমড সেলে",u:"https://www.prothomalo.com/bangladesh/wi6lnck7mi"},
-{d:"2026-06-08",s:"TDS",l:"en",t:"Ramisa rape, murder: Sohel, Swapna sentenced to death",u:"https://www.thedailystar.net/news/crime-justice/news/ramisa-rape-murder-sohel-swapna-sentenced-death-4193266"},
-{d:"2026-06-07",s:"PA",l:"en",t:"Two sentenced to death 19 days after incident, what the court said",u:"https://en.prothomalo.com/bangladesh/crime-and-law/95j0esfh8s"},
-{d:"2026-06-05",s:"TDS",l:"en",t:"Woman sustains burns in acid attack by ex-husband in Habiganj",u:"https://www.thedailystar.net/news/crime-justice/news/woman-sustains-burns-acid-attack-ex-husband-habiganj-4191226"},
-{d:"2026-06-04",s:"TDS",l:"en",t:"Ramisa rape, murder verdict due June 7",u:"https://www.thedailystar.net/news/crime-justice/news/ramisa-rape-murder-verdict-due-june-7-4190471"},
-{d:"2026-05-21",s:"TDS",l:"en",t:"60% of women reported verbal harassment in Bangladeshi media workplaces: WAN-IFRA study",u:"https://www.thedailystar.net/news/news/60-women-reported-verbal-harassment-bangladeshi-media-workplaces-wan-ifra-study-4181401"},
-{d:"2026-05-02",s:"PA",l:"bn",t:"নারী ও শিশু নির্যাতন মামলায় সাজার হার ৩ শতাংশ, খালাস ৭০ শতাংশ",u:"https://www.prothomalo.com/bangladesh/ebsz0axkin"},
-{d:"2026-04-17",s:"TDS",l:"en",t:"Why sexual harassment survivors still struggle to be heard in Bangladesh",u:"https://www.thedailystar.net/slow-reads/big-picture/news/why-sexual-harassment-survivors-still-struggle-be-heard-bangladesh-4153986"},
-{d:"2026-03-08",s:"TDS",l:"en",t:"Why sexual harassment laws fail in practice",u:"https://www.thedailystar.net/supplements/international-womens-day-2026/news/why-sexual-harassment-laws-fail-practice-4122976"},
-{d:"2026-03-08",s:"TDS",l:"en",t:"Online abuse is now a national crisis: Time to act",u:"https://www.thedailystar.net/supplements/international-womens-day-2026/news/online-abuse-now-national-crisis-time-act-4122986"},
-{d:"2026-03-08",s:"PA",l:"en",t:"Rape cases rise 27pc in one year",u:"https://en.prothomalo.com/bangladesh/zcblw1sizn"},
-{d:"2026-01-30",s:"TDS",l:"en",t:"Two ordinances to protect women, kids in all spaces",u:"https://www.thedailystar.net/news/bangladesh/crime-justice/news/two-ordinances-protect-women-kids-all-spaces-4094071"},
-{d:"2025-12-17",s:"TDS",l:"en",t:"Gaps in laws, enforcement fuel cyber violence against women",u:"https://www.thedailystar.net/news/bangladesh/news/gaps-laws-enforcement-fuel-cyber-violence-against-women-4061176"},
-{d:"2025-11-30",s:"PA",l:"bn",t:"অনলাইনে জেন্ডার সহিংসতার সংস্কৃতি, প্রতিকার ছাড়া পথ নেই",u:"https://www.prothomalo.com/opinion/column/uzweu6xhco"},
-{d:"2025-11-27",s:"PA",l:"bn",t:"নারীর প্রতি ডিজিটাল সহিংসতা নিরসনে উপায় কী",u:"https://www.prothomalo.com/opinion/column/sscf7zy1ld"},
-{d:"2025-09-25",s:"TDS",l:"en",t:"Justice eludes women, children as trials drag on",u:"https://www.thedailystar.net/news/bangladesh/news/justice-eludes-women-children-trials-drag-3995001"},
-{d:"2025-07-15",s:"PA",l:"en",t:"Newly-wed woman gang raped in Patuakhali",u:"https://en.prothomalo.com/bangladesh/crime-and-law/y0t2s6ltgl"},
-{d:"2025-07-09",s:"PA",l:"bn",t:"সাইবার সহিংসতার শিকার ৯৭ শতাংশই নারী ও শিশু",u:"https://www.prothomalo.com/bangladesh/7gdiyso4ho"},
-{d:"2025-03-17",s:"PA",l:"en",t:"Women ‘gang raped’ while returning home with husband, 5 arrested",u:"https://en.prothomalo.com/bangladesh/crime-and-law/5ui76edsva"},
-{d:"2025-03-10",s:"PA",l:"bn",t:"ধর্ষণ থামছে না, ফেব্রুয়ারিতে দিনে গড়ে ১২টি মামলা",u:"https://www.prothomalo.com/bangladesh/crime/tzbe7gf31u"},
-{d:"2025-03-08",s:"PA",l:"bn",t:"নারীকে দমন–পীড়নের নতুন পন্থা, কোনো সমাধান নেই?",u:"https://www.prothomalo.com/opinion/column/fjr0l9i9di"},
-{d:"2025-01-29",s:"PA",l:"bn",t:"সাইবার-জগতেও নারী ‘সহজ লক্ষ্য’",u:"https://www.prothomalo.com/bangladesh/e7g134e29k"},
-{d:"2025-01-02",s:"TDS",l:"en",t:"Man to die for killing wife",u:"https://www.thedailystar.net/news/bangladesh/news/man-die-killing-wife-3790511"},
-{d:"2024-11-29",s:"TDS",l:"en",t:"When digital space becomes a paradise for harassers",u:"https://www.thedailystar.net/opinion/16-days-activism/news/when-digital-space-becomes-paradise-harassers-3764211"},
-{d:"2024-11-21",s:"TDS",l:"en",t:"Wife beaten to death by husband for dowry",u:"https://www.thedailystar.net/news/bangladesh/crime-justice/news/wife-beaten-death-husband-dowry-3758586"},
-{d:"2024-11-03",s:"TDS",l:"en",t:"Noakhali Rape Case: Jubo League leader acquitted",u:"https://www.thedailystar.net/news/bangladesh/crime-justice/news/noakhali-rape-case-jubo-league-leader-acquitted-3743806"},
-{d:"2024-04-13",s:"PA",l:"en",t:"Woman gang -raped on way home from wedding; 5 arrested",u:"https://en.prothomalo.com/bangladesh/crime-and-law/9ajakirb2v"},
-{d:"2024-02-05",s:"TDS",l:"en",t:"Subarnachar rape: 10 get death, 6 life imprisonment",u:"https://www.thedailystar.net/news/bangladesh/crime-justice/news/subarnachar-rape-10-get-death-6-life-imprisonment-3536701"},
-{d:"2024-01-01",s:"TDS",l:"en",t:"A distressing year for women and children",u:"https://www.thedailystar.net/news/bangladesh/news/distressing-year-women-and-children-3508556"},
-{d:"2023-12-20",s:"TDS",l:"en",t:"Acid attack by ex-husband burns woman",u:"https://www.thedailystar.net/news/bangladesh/crime-justice/news/acid-attack-ex-husband-burns-woman-3499281"},
-{d:"2023-09-03",s:"PA",l:"en",t:"Rape, domestic violence dominate in violence against women",u:"https://en.prothomalo.com/bangladesh/j0kdzdgno5"},
-{d:"2023-09-03",s:"PA",l:"bn",t:"সবচেয়ে বেশি ধর্ষণ ও পারিবারিক নির্যাতন",u:"https://www.prothomalo.com/bangladesh/3ad7r32rw8"},
-{d:"2023-06-12",s:"PA",l:"bn",t:"সাইবারক্রাইম এবং অনলাইনে নারীর নিরাপত্তা",u:"https://www.prothomalo.com/bangladesh/9jb3rq7v01"},
-{d:"2023-05-08",s:"PA",l:"bn",t:"সাইবার জগতে নতুন নতুন ফাঁদ",u:"https://www.prothomalo.com/bangladesh/crime/ru0cynodo1"},
-{d:"2023-03-27",s:"TDS",l:"en",t:"Man to die for killing wife in Satkhira",u:"https://www.thedailystar.net/news/bangladesh/accidents-fires/news/man-die-killing-wife-satkhira-3282421"},
-{d:"2022-12-27",s:"PA",l:"en",t:"Violence against women on rise but less govt action",u:"https://en.prothomalo.com/bangladesh/0pbu68bbhc"},
-{d:"2022-11-27",s:"PA",l:"bn",t:"অনলাইনে অশ্লীল বার্তা ও ছবি, ৬৪% নারী সহিংসতার শিকার",u:"https://www.prothomalo.com/bangladesh/p5uqt9qjl3"},
-{d:"2022-11-08",s:"TDS",l:"en",t:"6 get death in Khulna rape case",u:"https://www.thedailystar.net/news/bangladesh/crime-justice/news/6-get-death-khulna-rape-case-3163686"},
-{d:"2022-08-24",s:"PA",l:"en",t:"Nearly 50pc cases related to rape",u:"https://en.prothomalo.com/bangladesh/dbfibivu3h"},
-{d:"2021-12-12",s:"TDS",l:"en",t:"Man sentenced to death for killing wife over dowry in Satkhira",u:"https://www.thedailystar.net/news/bangladesh/crime-justice/news/man-sentenced-death-killing-wife-over-dowry-satkhira-2915711"}
-];
-
-// The footer list. Headline, paper and date only, each one a link out: the
-// archive records comments, it does not reproduce anyone else's reporting.
-var NEWS_SHOWN=6;
-var NEWS_SRC={TDS:'The Daily Star', PA:'Prothom Alo'};
-var NEWS_SRC_BN={TDS:'\u09a1\u09c7\u0987\u09b2\u09bf \u09b8\u09cd\u099f\u09be\u09b0', PA:'\u09aa\u09cd\u09b0\u09a5\u09ae \u0986\u09b2\u09cb'};
-
-function newsDate(iso){
-  var p=String(iso).split('-');
-  if(p.length!==3)return iso;
-  var d=new Date(Date.UTC(+p[0],+p[1]-1,+p[2]));
-  return isNaN(d)?iso:fmtDate(d.toISOString());
-}
-
-// The footer carries the six most recent; /news carries all fifty.
-// The press page's dates are baked into the markup as ISO so the HTML stays
-// readable; they get formatted here, and again on a language switch.
-function renderNewsDates(){
-  document.querySelectorAll('.nw-d').forEach(function(el){
-    var iso=el.getAttribute('data-d')||el.textContent.trim();
-    el.setAttribute('data-d',iso);
-    el.textContent=newsDate(iso);
-  });
-}
-
-function renderNews(){
-  renderNewsDates();
-  var el=document.getElementById('fnewsList');
-  if(!el)return;
-  var bn=currentLang()==='bn';
-  el.innerHTML=NEWS.slice(0,NEWS_SHOWN).map(function(n){
-    return '<li><a href="'+escHtml(n.u)+'" target="_blank" rel="noopener noreferrer nofollow">'
-      +'<span class="fn-d">'+escHtml(newsDate(n.d))+'</span>'
-      +'<span class="fn-s">'+escHtml(bn?NEWS_SRC_BN[n.s]:NEWS_SRC[n.s])+'</span>'
-      +'<span class="fn-t" lang="'+n.l+'">'+escHtml(n.t)+'</span>'
-      +'</a></li>';
-  }).join('');
-}
-renderNews();
 
 // ===== INIT =====
 syncBoardSections(currentLang());
