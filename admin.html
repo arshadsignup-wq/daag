@@ -1784,7 +1784,9 @@ function buildTraffic(){
 
   fetch('/api/analytics')
     .then(function(res){
-      if(!res.ok) return res.json().then(function(e){throw new Error(e.error||'API error')});
+      if(!res.ok) return res.json().catch(function(){return {}}).then(function(e){
+        var err=new Error(e.error||'API error');err.status=res.status;throw err;
+      });
       return res.json();
     })
     .then(function(data){
@@ -1794,7 +1796,14 @@ function buildTraffic(){
     })
     .catch(function(err){
       var container=document.getElementById('trafficContent');
-      if(container) container.innerHTML='<div class="traffic-err">Could not load traffic data: '+escHtml(err.message)+'</div>';
+      // The endpoint no longer echoes Google's error body to the public, so
+      // point whoever is reading this at where the real reason is.
+      var hint=err.status===502
+        ? 'The GA4 API rejected the request. Most often the service account in GOOGLE_CLIENT_EMAIL has not been granted Viewer access on the GA4 property in Admin \u2192 Property access management. The exact error is in the Vercel function logs for /api/analytics.'
+        : err.status===500
+          ? 'Check that GA_PROPERTY_ID, GOOGLE_CLIENT_EMAIL and GOOGLE_PRIVATE_KEY are set on the project in Vercel. Details are in the function logs.'
+          : 'Details are in the Vercel function logs for /api/analytics.';
+      if(container) container.innerHTML='<div class="traffic-err"><strong>'+escHtml(err.message)+'</strong><br><span style="opacity:.85">'+escHtml(hint)+'</span></div>';
     });
 }
 

@@ -64,6 +64,10 @@
 <style>
 .skip-link{position:absolute;top:-100%;left:1rem;background:var(--ink2);color:#fff;padding:.5rem 1.2rem;border-radius:4px;z-index:200;font-size:13px;text-decoration:none}
 .skip-link:focus{top:1rem}
+/* Keyboard users need to see where they are. :focus-visible keeps this off
+   mouse clicks, so it costs the pointer experience nothing. */
+a:focus-visible,button:focus-visible,summary:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   /* The corkboard palette, from design-directions/v3/06-board.html.
@@ -71,10 +75,10 @@
      #fdfaf2 the card pinned to it, #c8231a the red that runs through both. */
   --bg:#e9e0cc;--bg1:#fdfaf2;--bg2:#f3ecdb;--bg3:#e3dccd;
   --border:rgba(60,40,20,.12);--border2:rgba(60,40,20,.18);--border3:rgba(60,40,20,.28);
-  --text:#1c1917;--text2:#5a5248;--text3:#8b8277;
-  --ink:#c8231a;--ink2:#a81c14;--ink-glow:rgba(200,35,26,.08);
+  --text:#1c1917;--text2:#5a5248;--text3:#655e53;
+  --ink:#c8231a;--ink2:#a81c14;--ink-glow:rgba(200,35,26,.08);--focus-ring:rgba(200,35,26,.32);
   --accent:#c8231a;--warm:#1c1917;
-  --umber:#8c6a3f;--umber-light:#b08a5a;
+  --umber:#6f5531;--umber-light:#b08a5a;
   --nav-bg:rgba(38,34,30,.9);--nav-bg2:rgba(38,34,30,.97);
   --ok-bg:#e4ecd9;--ok-fg:#3f6b2a;--ok-br:#bcd0a6;
   --info-bg:#dfe7ef;--info-fg:#355b7f;--info-br:#aec3d6;
@@ -98,9 +102,9 @@ html[data-theme="dark"]{
      footer, with the paper reduced to the cards that sit on it. */
   --bg:#262220;--bg1:#302a25;--bg2:#3a332c;--bg3:#453c33;
   --border:rgba(255,255,255,.09);--border2:rgba(255,255,255,.14);--border3:rgba(255,255,255,.22);
-  --text:#f6f1e8;--text2:#cdc2b1;--text3:#8d8276;
-  --ink:#ff5340;--ink2:#e0362f;--ink-glow:rgba(255,83,64,.13);
-  --accent:#ff5340;--warm:#f6f1e8;
+  --text:#f6f1e8;--text2:#cdc2b1;--text3:#b3a99a;
+  --ink:#ff6050;--ink2:#e0362f;--ink-glow:rgba(255,96,80,.13);--focus-ring:rgba(255,96,80,.45);
+  --accent:#ff6050;--warm:#f6f1e8;
   --umber:#c9a06a;--umber-light:#dcb882;
   --nav-bg:rgba(23,20,15,.9);--nav-bg2:rgba(23,20,15,.97);
   --ok-bg:#1f2c18;--ok-fg:#9ccb7a;--ok-br:#3c5230;
@@ -272,7 +276,7 @@ html[lang="en"] .page-title,html[lang="en"] .eth-sec-t{letter-spacing:-.02em;lin
   letter-spacing:.14em;color:#8a8076}
 .pin q{display:block;font-family:var(--font-quote);font-size:15.5px;line-height:1.45;
   margin:0 0 .6rem;color:#1c1917;overflow-wrap:anywhere}
-.pin .m{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.05em;color:#8b8277;
+.pin .m{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.05em;color:#655e53;
   border-top:1px solid #e3dccd;padding-top:.45rem;display:flex;justify-content:space-between;gap:.6rem}
 .pin .m b{color:#c8231a;font-weight:400}
 
@@ -291,7 +295,7 @@ html[lang="en"] .page-title,html[lang="en"] .eth-sec-t{letter-spacing:-.02em;lin
 /* Latin takes the tracking that would jam Bengali conjuncts. */
 html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height:1.3;
   padding:.16rem .75rem;text-transform:uppercase}
-.who .sub{font-family:var(--font-mono);font-size:9.5px;color:#8b8277;margin-top:.2rem}
+.who .sub{font-family:var(--font-mono);font-size:9.5px;color:#655e53;margin-top:.2rem}
 .who .cnt{margin-top:.5rem;background:#c8231a;color:#fff;font-family:var(--font-mono);
   font-size:10px;letter-spacing:.08em;padding:.25rem 0}
 
@@ -343,7 +347,7 @@ h1.hero-h{font-family:var(--font-serif);font-size:clamp(2.3rem,5vw,3.8rem);line-
 
 /* Hero search - the archive's primary action lives above the fold. */
 .hero-search{max-width:600px;margin:0 auto .6rem;display:flex;align-items:stretch;gap:.5rem;background:var(--bg);border:1px solid var(--border3);border-radius:999px;padding:.4rem .4rem .4rem 1.3rem;box-shadow:0 4px 24px var(--hero-shadow);transition:border-color .2s,box-shadow .2s}
-.hero-search:focus-within{border-color:var(--ink2);box-shadow:0 3px 20px rgba(200,35,26,.12)}
+.hero-search:focus-within{border-color:var(--ink2);box-shadow:0 0 0 3px var(--focus-ring),0 3px 20px rgba(200,35,26,.12)}
 .hero-search-icon{width:18px;height:18px;align-self:center;color:var(--accent);flex-shrink:0}
 .hero-search-input{flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:var(--font-sans);font-size:14.5px;color:var(--text);padding:.65rem .3rem}
 .hero-search-input::placeholder{color:var(--text3)}
@@ -409,7 +413,7 @@ h1.hero-h{font-family:var(--font-serif);font-size:clamp(2.3rem,5vw,3.8rem);line-
 .f-label{font-size:10.5px;font-family:var(--font-mono);letter-spacing:.11em;text-transform:uppercase;color:var(--text3)}
 .f-label span{color:var(--accent)}
 .f-input,.f-sel,.f-ta{background:var(--bg2);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-family:var(--font-sans);font-size:14px;padding:.75rem 1rem;transition:border-color .2s,background .2s;width:100%}
-.f-input:focus,.f-sel:focus,.f-ta:focus{outline:none;border-color:var(--ink2);background:var(--bg3)}
+.f-input:focus,.f-sel:focus,.f-ta:focus{outline:none;border-color:var(--ink2);background:var(--bg3);box-shadow:0 0 0 3px var(--focus-ring)}
 .f-ta{resize:vertical;min-height:95px;line-height:1.65}
 .f-sel option{background:var(--bg2)}
 .f-hint{font-size:11px;color:var(--text3);margin-top:.2rem}
@@ -429,7 +433,7 @@ h1.hero-h{font-family:var(--font-serif);font-size:clamp(2.3rem,5vw,3.8rem);line-
 .f-pill{font-size:11.5px;font-family:var(--font-mono);padding:.45rem .85rem;border-radius:3px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
 .f-pill:hover,.f-pill.on{border-color:var(--accent);color:var(--accent)}
 .search-i{background:var(--bg2);border:1px solid var(--border2);border-radius:5px;padding:.55rem 1rem;font-family:var(--font-sans);font-size:14px;color:var(--text);max-width:380px;width:100%;transition:border-color .2s}
-.search-i:focus{outline:none;border-color:var(--ink2)}
+.search-i:focus{outline:none;border-color:var(--ink2);box-shadow:0 0 0 3px var(--focus-ring)}
 .arch-grid{border:1px solid var(--border);border-radius:8px;overflow:hidden}
 .arch-entry{background:var(--bg1);padding:1.5rem 1.75rem;display:grid;grid-template-columns:1fr 168px;gap:1.5rem;align-items:start;transition:background .2s;border-bottom:1px solid var(--border)}
 .entry-main{min-width:0}
@@ -465,8 +469,8 @@ a.entry-who:hover{color:var(--accent);border-bottom-color:var(--accent)}
 .plat-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .entry-t{font-size:13.5px;color:var(--text);margin-bottom:.35rem;line-height:1.55}
 .entry-s{font-size:11.5px;color:var(--text3);font-family:var(--font-mono)}
-.entry-links{display:flex;gap:1rem;flex-wrap:wrap;margin:.5rem 0 .55rem}
-.entry-link{font-size:11.5px;font-family:var(--font-mono);color:var(--accent);text-decoration:none;letter-spacing:.03em}
+.entry-links{display:flex;gap:1rem;flex-wrap:wrap;margin:.4rem 0 .5rem;align-items:center}
+.entry-link{font-size:11.5px;font-family:var(--font-mono);color:var(--accent);text-decoration:none;letter-spacing:.03em;display:inline-flex;align-items:center;min-height:24px}
 .entry-link:hover{text-decoration:underline}
 .thumb{width:168px;height:120px;border:0;cursor:pointer;background:var(--bg3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-family:var(--font-mono);color:var(--text3);text-transform:uppercase;letter-spacing:.08em;text-align:center;padding:.4rem;flex-shrink:0}
 
@@ -798,9 +802,9 @@ nav{background:var(--nav-bg);border-bottom:1px solid rgba(255,255,255,.09)}
 /* Footer is the board's dark base in both themes. */
 footer{background:#17140f;color:#8d8276;border-top:0;margin-top:0}
 footer .foot-brand,footer .foot-link:hover{color:#f6f1e8}
-footer .foot-col-t{color:#6e655a}
+footer .foot-col-t{color:#9d9385}
 footer .foot-link{color:#9b9183}
-footer .foot-bottom{border-top:1px solid #2a251e;color:#6e655a}
+footer .foot-bottom{border-top:1px solid #2a251e;color:#9d9385}
 
 
 
@@ -811,6 +815,9 @@ footer .foot-bottom{border-top:1px solid #2a251e;color:#6e655a}
 .sheetbg.band-1{background:#efe7d6}
 .sheetbg.band-2{background:#ddd0b4}
 .sheetbg.band-3{background:#e7dcc4}
+/* band-2's paper is the darkest of the three, where #c8231a reads 3.71:1 at
+   10px. #a81c14 is the palette's darker red and clears 4.5:1. */
+.sheetbg.band-2 .eyebrow{color:#a81c14}
 html[data-theme="dark"] .sheetbg.band-1{background:#2e2823;color:#f1ebe1}
 html[data-theme="dark"] .sheetbg.band-2{background:#241f1b;color:#f1ebe1}
 html[data-theme="dark"] .sheetbg.band-3{background:#2a2420;color:#f1ebe1}
@@ -824,6 +831,37 @@ html[data-theme="dark"] .viz .post{background:#38302a;border-color:#4a4038}
 html[data-theme="dark"] #post .hd{color:#f6f1e8}
 html[data-theme="dark"] .sitem.on{background:rgba(255,255,255,.06)}
 html[data-theme="dark"] .bub{background:#38302a;border-color:#52463c;color:#eadfd2}
+/* The board's red (#c8231a) is sized for cream paper. On the panels that go
+   dark it lands at 2.28:1, so reference numbers, the VERIFIED stamp and the
+   emphasised half of each band heading were the hardest things to read.
+
+   Scope matters here. .pin and .who are photographs of pinned paper: they stay
+   #fdfaf2 in dark mode on purpose, so they must keep the dark red and the dark
+   muted tone. .helpbg stays its own red. Only the panels that actually darken
+   get the lighter ink. */
+html[data-theme="dark"] .sheetbg:not(.helpbg) .eyebrow,
+html[data-theme="dark"] .sheetbg:not(.helpbg) .h2 em,
+html[data-theme="dark"] .memo h3 em,
+html[data-theme="dark"] .slab .slabhead b,
+html[data-theme="dark"] .slip .cid,
+html[data-theme="dark"] .sitem.on .sno,
+html[data-theme="dark"] .more-l a{color:#ff7a6b}
+html[data-theme="dark"] .memo .stampbig{border-color:#ff7a6b;color:#ff7a6b}
+html[data-theme="dark"] .sitem.on{border-left-color:#ff7a6b}
+html[data-theme="dark"] .slab .slabhead,
+html[data-theme="dark"] .slab .slabhead span,
+html[data-theme="dark"] .slab .slabfoot,
+html[data-theme="dark"] .slab .slabfoot span,
+html[data-theme="dark"] .slip .sm,
+html[data-theme="dark"] .viz .post .pf,
+html[data-theme="dark"] .memo .mh,
+html[data-theme="dark"] .pct,
+html[data-theme="dark"] .sitem h3{color:#b3a99a}
+/* The helpline band is red in both themes, so the dark rules above must not
+   reach it -- a lighter red on that red is 2.22:1. */
+html[data-theme="dark"] .helpbg .eyebrow{color:#ffe3df}
+html[data-theme="dark"] .helpbg .h2 em{color:#ffd9d4}
+html[data-theme="dark"] .helpbg .sub2{color:#ffe0dc}
 html[data-theme="dark"] .bub.red{background:#4a2420;border-color:#7a3a30;color:#ffb3a7}
 
 /* Severity donut, carried over from the admin dashboard. A conic-gradient
@@ -879,7 +917,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 .file::before{content:'';position:absolute;top:-15px;left:1.2rem;width:94px;height:16px;
   background:#fdfaf2;border-radius:3px 3px 0 0;box-shadow:0 -3px 8px rgba(60,40,20,.12)}
 .file .no{position:absolute;top:-13px;left:1.6rem;font-family:var(--font-mono);font-size:9.5px;
-  letter-spacing:.12em;color:#8b8277;z-index:2}
+  letter-spacing:.12em;color:#655e53;z-index:2}
 .file h3{font-family:var(--font-display);font-weight:700;font-size:1.12rem;line-height:1.42;letter-spacing:0;
   margin:.2rem 0 .55rem}
 .file p{margin:0;font-size:14px;line-height:1.8;color:#5a5248}
@@ -892,9 +930,9 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 .slip:hover{background:rgba(255,255,255,.5)}
 .slip .cid{font-family:var(--font-mono);font-size:11px;color:#c8231a;letter-spacing:.04em}
 .slip q{display:block;font-family:var(--font-quote);font-size:15.5px;line-height:1.65;margin:0}
-.slip .sm{font-family:var(--font-mono);font-size:10px;color:#8b8277;letter-spacing:.05em;white-space:nowrap}
+.slip .sm{font-family:var(--font-mono);font-size:10px;color:#655e53;letter-spacing:.05em;white-space:nowrap}
 .more-l{margin-top:1.6rem;font-family:var(--font-mono);font-size:11px;letter-spacing:.09em;
-  text-transform:uppercase;color:#8b8277}
+  text-transform:uppercase;color:#655e53}
 .more-l a{color:#c8231a;border-bottom:1px solid currentColor}
 /* steps: one screen, no scroll hijack. The whole sequence is visible at
    once, so the section has an obvious end instead of reading as infinite. */
@@ -907,7 +945,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 .post .hd{font-family:var(--font-display);font-weight:700;font-size:15px;line-height:1.5;margin-bottom:.3rem}
 .post .ph{height:8px;background:#e6ddc8;border-radius:3px}
 .post .ph.w85{width:85%}
-.post .pf{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;color:#9b9388}
+.post .pf{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;color:#655e53}
 #post .hd,#post .pf{position:relative;z-index:3}
 .bub{z-index:2;position:absolute;background:#fdfaf2;border:1px solid #d6cbb3;border-radius:10px;
   padding:.35rem .6rem;font-size:11px;line-height:1.45;max-width:140px;opacity:0;
@@ -917,7 +955,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 .dots{display:flex;gap:5px}
 .dots i{width:24px;height:3px;border-radius:2px;background:#cfc4ae;transition:background .3s}
 .dots i.on{background:#c8231a}
-.pct{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:#9b9388;white-space:nowrap}
+.pct{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;color:#655e53;white-space:nowrap}
 .slist{list-style:none;margin:0;padding:0;counter-reset:none}
 .sitem{display:grid;grid-template-columns:44px 1fr;gap:1rem;padding:.85rem 1rem .85rem .5rem;
   border-left:2px solid #d6cbb3;cursor:pointer;transition:border-color .25s,background .25s}
@@ -926,7 +964,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 .sitem .sno{font-family:var(--font-mono);font-size:11px;color:#b3a894;letter-spacing:.1em;padding-top:.3rem;transition:color .25s}
 .sitem.on .sno{color:#c8231a}
 .sitem h3{font-family:var(--font-display);font-weight:700;font-size:1.08rem;line-height:1.4;letter-spacing:0;
-  margin:0;color:#6e6559;transition:color .25s}
+  margin:0;color:#6b6459;transition:color .25s}
 .sitem.on h3{color:#1c1917}
 .sitem p{margin:0;font-size:14.5px;line-height:1.8;color:#5a5248;max-width:46ch;
   max-height:0;opacity:0;overflow:hidden;transition:max-height .4s ease,opacity .35s,margin .4s}
@@ -936,11 +974,11 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 .slab{position:relative;background:#fdfaf2;border:1px solid #d6cbb3;padding:2rem 1.9rem;
   box-shadow:0 16px 42px rgba(60,40,20,.2);touch-action:none;cursor:none}
 .slabhead{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
-  color:#9b9388;display:flex;justify-content:space-between;gap:1rem;margin-bottom:1.1rem}
+  color:#655e53;display:flex;justify-content:space-between;gap:1rem;margin-bottom:1.1rem}
 .slabhead b{color:#c8231a;font-weight:400}
 .slab q{display:block;font-family:var(--font-quote);font-size:clamp(1.15rem,2.3vw,1.6rem);line-height:1.6;
   margin:0 0 1.2rem;position:relative;z-index:1;transition:opacity .12s,filter .12s}
-.slabfoot{font-family:var(--font-mono);font-size:10px;color:#9b9388;border-top:1px solid #e3dccd;
+.slabfoot{font-family:var(--font-mono);font-size:10px;color:#655e53;border-top:1px solid #e3dccd;
   padding-top:.8rem;position:relative;z-index:1}
 #rub{position:absolute;inset:0;z-index:2;border-radius:2px}
 .stayed{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;opacity:0;
@@ -957,7 +995,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 .memo::after{content:'';position:absolute;top:-14px;left:50%;transform:translateX(-50%) rotate(-3deg);
   width:120px;height:26px;background:rgba(246,240,224,.55);box-shadow:0 1px 4px rgba(0,0,0,.14)}
 .memo .mh{font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
-  color:#8b8277;border-bottom:1px solid #e3dccd;padding-bottom:.7rem;margin-bottom:1.3rem;
+  color:#655e53;border-bottom:1px solid #e3dccd;padding-bottom:.7rem;margin-bottom:1.3rem;
   display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .memo h3{font-family:var(--font-display);font-weight:700;font-size:clamp(1.3rem,2.6vw,1.9rem);line-height:1.34;
   letter-spacing:0;margin:0 0 1rem}
@@ -968,9 +1006,12 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
   opacity:.9;margin-top:.6rem}
 /* helpline */
 .helpbg{position:relative;z-index:3;background:#c8231a;color:#fff}
-.helpbg .eyebrow{color:#ffd9d4}
+.helpbg .eyebrow{color:#ffe3df}
 .helpbg .h2{color:#fff}
-.helpbg .sub2{color:#ffcdc7}
+/* Without this the .h2 em rule paints the emphasised half of the heading in
+   #c8231a -- the band's own background colour. It was invisible. */
+.helpbg .h2 em{color:#ffd9d4}
+.helpbg .sub2{color:#ffe0dc}
 .hgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(218px,1fr));gap:.9rem}
 .hcard{display:block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.26);
   padding:1rem 1.1rem;text-decoration:none;color:#fff;transition:background .2s,transform .2s}
@@ -985,12 +1026,15 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 .fbrand{font-family:var(--font-display);font-weight:700;font-size:1.3rem;color:#f3ede2;line-height:1.3}
 .fbrand span{display:block;font-family:var(--font-sans);font-weight:400;font-size:12.5px;color:#8d8276;margin-top:.3rem}
 .fcol h4{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-  color:#6e655a;margin:0 0 .7rem}
+  color:#9d9385;margin:0 0 .7rem}
 .fcol a{display:block;color:#bdb3a5;text-decoration:none;font-size:13.5px;line-height:2}
 .fcol a:hover{color:#fff}
+.flegal{display:flex;gap:1.2rem}
+.flegal a{color:#8d8276;text-decoration:none;border-bottom:1px solid transparent}
+.flegal a:hover{color:#e8dfd2;border-bottom-color:#4a4238}
 .fbot{border-top:1px solid #2a251e;margin-top:2.2rem;padding-top:1.2rem;display:flex;
   justify-content:space-between;gap:1.5rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:10.5px;
-  letter-spacing:.05em;color:#6e655a}
+  letter-spacing:.05em;color:#9d9385}
 @media(max-width:900px){.sgrid{grid-template-columns:1fr;gap:2rem}.vizwrap{position:static;max-width:330px}}
 @media(max-width:900px){.sgrid,.rubgrid{grid-template-columns:1fr;gap:2rem}
   .spin{position:static;height:auto}.sstep{min-height:auto;padding:1.2rem 0}
@@ -1149,14 +1193,15 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
     <div class="frow">
       <div class="fbrand">দাগ<span data-i18n="f.tag">A public record of online abuse</span></div>
       <div class="fcol"><h4 data-i18n="f.c1">The board</h4>
-        <a href="#" data-i18n="nav.arch">Archive</a><a href="#" data-i18n="f.ana">Analytics</a><a href="#" data-i18n="nav.cta">Submit evidence</a></div>
+        <a href="/archive" data-i18n="nav.arch">Archive</a><a href="/search" data-i18n="nav.search">Profile Search</a><a href="/analytics" data-i18n="f.ana">Analytics</a><a href="/submit" data-i18n="nav.cta">Submit evidence</a></div>
       <div class="fcol"><h4 data-i18n="f.c2">About</h4>
-        <a href="#" data-i18n="f.about">About Daag</a><a href="#" data-i18n="f.pol">Policy</a><a href="#" data-i18n="nav.app">Appeals</a><a href="#" data-i18n="f.contact">Contact</a></div>
+        <a href="/about" data-i18n="f.about">About Daag</a><a href="/appeals" data-i18n="nav.app">Appeals</a><a href="/contact" data-i18n="f.contact">Contact</a></div>
       <div class="fcol"><h4 data-i18n="f.c3">Help</h4>
         <a href="tel:999" data-i18n="f.e1">Emergency 999</a><a href="tel:109" data-i18n="f.e2">Women & children 109</a><a href="tel:01320000888" data-i18n="f.e3">Cyber support</a></div>
     </div>
     <div class="fbot">
       <span data-i18n="f.cr">© 2026 Daag · All rights reserved</span>
+      <span class="flegal"><a href="/terms" data-i18n="f.terms">Terms of Use</a><a href="/privacy" data-i18n="f.priv">Privacy Policy</a></span>
       <span data-i18n="f.mot">Every word leaves a mark · a record, not a weapon</span>
     </div>
   </div></footer>
@@ -1182,16 +1227,16 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
     <div class="form-wrap">
       <div class="form-head"><div data-i18n="submit.x10" class="form-h">Evidence Submission Form</div><div data-i18n="submit.x11" class="form-sh">All fields marked * are required. Your submission enters a moderation queue immediately and will not become public until reviewed.</div></div>
       <div class="form-body" id="submitFormBody">
-        <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden" aria-hidden="true"><label data-i18n="submit.x12" for="website_url">Leave this empty</label><input type="text" id="honeypotField" name="website_url" tabindex="-1" autocomplete="off"></div>
+        <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden" aria-hidden="true"><label data-i18n="submit.x12" for="honeypotField">Leave this empty</label><input type="text" id="honeypotField" name="website_url" tabindex="-1" autocomplete="off"></div>
         <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:7px;padding:1.25rem 1.4rem;margin-bottom:.5rem">
           <div data-i18n="submit.x13" style="font-size:10px;font-family:var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--umber);margin-bottom:.75rem">Two URLs Required</div>
           <div class="url-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
             <div style="display:flex;align-items:flex-start;gap:.6rem">
-              <div style="width:22px;height:22px;border-radius:50%;background:var(--ink-glow);border:1px solid rgba(200,35,26,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);color:var(--accent);flex-shrink:0;margin-top:.1rem">1</div>
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--ink-glow);border:1px solid rgba(200,35,26,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);color:var(--accent);flex-shrink:0;margin-top:.1rem" data-i18n="submit.num1">1</div>
               <div><div data-i18n="submit.x14" style="font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:.2rem">Perpetrator's Profile URL</div><div data-i18n="submit.x15" style="font-size:12px;color:var(--text3);line-height:1.6">The profile page of the person who made the abusive comment, on whichever platform it happened</div></div>
             </div>
             <div style="display:flex;align-items:flex-start;gap:.6rem">
-              <div style="width:22px;height:22px;border-radius:50%;background:var(--ink-glow);border:1px solid rgba(200,35,26,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);color:var(--accent);flex-shrink:0;margin-top:.1rem">2</div>
+              <div style="width:22px;height:22px;border-radius:50%;background:var(--ink-glow);border:1px solid rgba(200,35,26,.3);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--font-mono);color:var(--accent);flex-shrink:0;margin-top:.1rem" data-i18n="submit.num2">2</div>
               <div><div data-i18n="submit.x16" style="font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:.2rem">Source Post URL</div><div data-i18n="submit.x17" style="font-size:12px;color:var(--text3);line-height:1.6">The public post, video, thread or article where you found and identified the comment</div></div>
             </div>
           </div>
@@ -1202,11 +1247,11 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
           <div data-i18n="submit.x18" class="plat-strip-note">Abuse is not confined to one app. Submit evidence from any platform with a public profile and a public post. Anything not listed is still accepted - choose a link that a moderator can open without logging in.</div>
         </div>
         <div class="f-row">
-          <div class="f-group"><label class="f-label" data-i18n="submit.m6">Perpetrator's Profile URL <span>*</span></label><input id="fieldUrl" class="f-input" type="url" placeholder="https://www.instagram.com/username"><div data-i18n="submit.x19" class="f-hint" id="errUrl" style="color:var(--accent);display:none">Please enter a valid profile URL (it must start with http:// or https://)</div><div class="f-hint" id="platDetect" style="color:var(--text3)" data-i18n="submit.hintProfile">Direct link to the commenter's profile on any public platform</div></div>
-          <div class="f-group"><label class="f-label" data-i18n="submit.m7">Source Post URL <span>*</span></label><input id="fieldPostUrl" class="f-input" type="url" placeholder="https://www.instagram.com/p/..."><div data-i18n="submit.x20" class="f-hint" id="errPostUrl" style="color:var(--accent);display:none">Please enter a valid source post URL</div><div class="f-hint" id="srcDetect" style="color:var(--text3)" data-i18n="submit.hintSource">The public post, video or thread where you found the comment</div></div>
+          <div class="f-group"><label class="f-label" data-i18n="submit.m6" for="fieldUrl">Perpetrator's Profile URL <span>*</span></label><input id="fieldUrl" class="f-input" type="url" placeholder="https://www.instagram.com/username"><div data-i18n="submit.x19" class="f-hint" id="errUrl" style="color:var(--accent);display:none">Please enter a valid profile URL (it must start with http:// or https://)</div><div class="f-hint" id="platDetect" style="color:var(--text3)" data-i18n="submit.hintProfile">Direct link to the commenter's profile on any public platform</div></div>
+          <div class="f-group"><label class="f-label" data-i18n="submit.m7" for="fieldPostUrl">Source Post URL <span>*</span></label><input id="fieldPostUrl" class="f-input" type="url" placeholder="https://www.instagram.com/p/..."><div data-i18n="submit.x20" class="f-hint" id="errPostUrl" style="color:var(--accent);display:none">Please enter a valid source post URL</div><div class="f-hint" id="srcDetect" style="color:var(--text3)" data-i18n="submit.hintSource">The public post, video or thread where you found the comment</div></div>
         </div>
         <div class="f-group">
-          <label class="f-label" data-i18n="submit.m8">Screenshot Upload <span>*</span></label>
+          <label class="f-label" data-i18n="submit.m8" for="screenshotInput">Screenshot Upload <span>*</span></label>
           <input type="file" id="screenshotInput" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="handleFileSelect(this,'screenshotPreview','screenshotZone')">
           <div class="upload-z" id="screenshotZone" onclick="document.getElementById('screenshotInput').click()" ondragover="event.preventDefault();this.style.borderColor='var(--ink2)'" ondragleave="this.style.borderColor=''" ondrop="handleDrop(event,'screenshotInput','screenshotPreview','screenshotZone')">
             <div class="upload-i" id="screenshotIcon">&#11014;</div>
@@ -1217,10 +1262,10 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
           <div data-i18n="submit.x23" id="errScreenshot" style="font-size:11px;color:var(--accent);display:none;margin-top:.3rem">Please upload a screenshot</div>
         </div>
         <div class="f-row">
-          <div class="f-group"><label class="f-label" data-i18n="submit.m9">Abuse Category <span>*</span></label><select id="fieldCat" class="f-sel"><option value="" data-vocab="Select category">Select category</option><option value="Victim Blaming" data-vocab="Victim Blaming">Victim Blaming</option><option value="Misogyny" data-vocab="Misogyny">Misogyny</option><option value="Appearance Humiliation" data-vocab="Appearance Humiliation">Appearance Humiliation</option><option value="Violent Rhetoric" data-vocab="Violent Rhetoric">Violent Rhetoric</option><option value="Sexual Harassment" data-vocab="Sexual Harassment">Sexual Harassment</option><option value="Dehumanizing Language" data-vocab="Dehumanizing Language">Dehumanizing Language</option><option value="Threats" data-vocab="Threats">Threats</option><option value="Hate Speech" data-vocab="Hate Speech">Hate Speech</option></select><div data-i18n="submit.x24" id="errCat" style="font-size:11px;color:var(--accent);display:none;margin-top:.3rem">Please select a category</div></div>
-          <div class="f-group"><label class="f-label" data-i18n="submit.m10">Incident Type <span>*</span></label><select id="fieldInc" class="f-sel"><option value="" data-vocab="Select type">Select type</option><option value="Rape / Sexual Violence" data-vocab="Rape / Sexual Violence">Rape / Sexual Violence</option><option value="Domestic Violence" data-vocab="Domestic Violence">Domestic Violence</option><option value="Acid Violence" data-vocab="Acid Violence">Acid Violence</option><option value="Cyber Harassment" data-vocab="Cyber Harassment">Cyber Harassment</option><option value="Gender-Based Violence" data-vocab="Gender-Based Violence">Gender-Based Violence</option><option value="Public Harassment" data-vocab="Public Harassment">Public Harassment</option></select><div data-i18n="submit.x25" id="errInc" style="font-size:11px;color:var(--accent);display:none;margin-top:.3rem">Please select an incident type</div></div>
+          <div class="f-group"><label class="f-label" data-i18n="submit.m9" for="fieldCat">Abuse Category <span>*</span></label><select id="fieldCat" class="f-sel"><option value="" data-vocab="Select category">Select category</option><option value="Victim Blaming" data-vocab="Victim Blaming">Victim Blaming</option><option value="Misogyny" data-vocab="Misogyny">Misogyny</option><option value="Appearance Humiliation" data-vocab="Appearance Humiliation">Appearance Humiliation</option><option value="Violent Rhetoric" data-vocab="Violent Rhetoric">Violent Rhetoric</option><option value="Sexual Harassment" data-vocab="Sexual Harassment">Sexual Harassment</option><option value="Dehumanizing Language" data-vocab="Dehumanizing Language">Dehumanizing Language</option><option value="Threats" data-vocab="Threats">Threats</option><option value="Hate Speech" data-vocab="Hate Speech">Hate Speech</option></select><div data-i18n="submit.x24" id="errCat" style="font-size:11px;color:var(--accent);display:none;margin-top:.3rem">Please select a category</div></div>
+          <div class="f-group"><label class="f-label" data-i18n="submit.m10" for="fieldInc">Incident Type <span>*</span></label><select id="fieldInc" class="f-sel"><option value="" data-vocab="Select type">Select type</option><option value="Rape / Sexual Violence" data-vocab="Rape / Sexual Violence">Rape / Sexual Violence</option><option value="Domestic Violence" data-vocab="Domestic Violence">Domestic Violence</option><option value="Acid Violence" data-vocab="Acid Violence">Acid Violence</option><option value="Cyber Harassment" data-vocab="Cyber Harassment">Cyber Harassment</option><option value="Gender-Based Violence" data-vocab="Gender-Based Violence">Gender-Based Violence</option><option value="Public Harassment" data-vocab="Public Harassment">Public Harassment</option></select><div data-i18n="submit.x25" id="errInc" style="font-size:11px;color:var(--accent);display:none;margin-top:.3rem">Please select an incident type</div></div>
         </div>
-        <div class="f-group"><label data-i18n="submit.x26" class="f-label">Additional Tags</label><div class="tags-wrap" id="tagWrap"><button class="tag-btn" data-val="Rape Joke" data-vocab="Rape Joke" onclick="toggleTag(this)">Rape Joke</button><button class="tag-btn" data-val="Slut-Shaming" data-vocab="Slut-Shaming" onclick="toggleTag(this)">Slut-Shaming</button><button class="tag-btn" data-val="&quot;She Deserved It&quot;" data-vocab="&quot;She Deserved It&quot;" onclick="toggleTag(this)">"She Deserved It"</button><button class="tag-btn" data-val="Provocative Dress" data-vocab="Provocative Dress" onclick="toggleTag(this)">Provocative Dress</button><button class="tag-btn" data-val="Character Attack" data-vocab="Character Attack" onclick="toggleTag(this)">Character Attack</button><button class="tag-btn" data-val="Coordinated Mob" data-vocab="Coordinated Mob" onclick="toggleTag(this)">Coordinated Mob</button><button class="tag-btn" data-val="Doxxing Threat" data-vocab="Doxxing Threat" onclick="toggleTag(this)">Doxxing Threat</button><button class="tag-btn" data-val="Religious Framing" data-vocab="Religious Framing" onclick="toggleTag(this)">Religious Framing</button></div></div>
+        <div class="f-group"><span data-i18n="submit.x26" class="f-label" id="tagWrapLabel">Additional Tags</span><div class="tags-wrap" id="tagWrap" role="group" aria-labelledby="tagWrapLabel"><button class="tag-btn" data-val="Rape Joke" data-vocab="Rape Joke" onclick="toggleTag(this)">Rape Joke</button><button class="tag-btn" data-val="Slut-Shaming" data-vocab="Slut-Shaming" onclick="toggleTag(this)">Slut-Shaming</button><button class="tag-btn" data-val="&quot;She Deserved It&quot;" data-vocab="&quot;She Deserved It&quot;" onclick="toggleTag(this)">"She Deserved It"</button><button class="tag-btn" data-val="Provocative Dress" data-vocab="Provocative Dress" onclick="toggleTag(this)">Provocative Dress</button><button class="tag-btn" data-val="Character Attack" data-vocab="Character Attack" onclick="toggleTag(this)">Character Attack</button><button class="tag-btn" data-val="Coordinated Mob" data-vocab="Coordinated Mob" onclick="toggleTag(this)">Coordinated Mob</button><button class="tag-btn" data-val="Doxxing Threat" data-vocab="Doxxing Threat" onclick="toggleTag(this)">Doxxing Threat</button><button class="tag-btn" data-val="Religious Framing" data-vocab="Religious Framing" onclick="toggleTag(this)">Religious Framing</button></div></div>
         <div class="f-group"><label class="f-label" for="fieldComment" data-i18n="submit.m11">The Comment <span>*</span></label><textarea id="fieldComment" class="f-ta" data-i18n-ph="ph.fieldComment" placeholder="Copy the comment exactly as it was written, in the original language. Do not clean it up, correct the spelling, or summarise it."></textarea><div data-i18n="submit.x27" id="errComment" style="font-size:11px;color:var(--accent);display:none;margin-top:.3rem">Please paste the comment exactly as it was written</div><div data-i18n="submit.x28" class="f-hint">Type it out word for word. The screenshot proves it was said; this is what makes it searchable.</div></div>
         <div class="f-group"><label data-i18n="submit.x29" class="f-label" for="fieldContext">Contextual Notes (optional)</label><textarea id="fieldContext" class="f-ta" data-i18n-ph="ph.fieldContext" placeholder="Describe any relevant context: the incident being discussed, the post it appeared under, coordinated patterns you observed, or why this comment is significant..."></textarea></div>
         <div class="f-row">
@@ -1259,7 +1304,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
     <h2 class="section-title" style="margin-bottom:.75rem" data-i18n="arch.title">The Record</h2>
     <p style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.75" data-i18n="arch.intro">All entries have passed editorial moderation. Screenshots are blurred by default. This archive is a public record, not a tool for harassment or pile-ons.</p>
     <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem">
-      <input class="search-i" id="archSearch" data-i18n-ph="arch.searchPh" placeholder="Search keywords, categories, incident types..." oninput="debounceArchSearch()">
+      <input class="search-i" id="archSearch" data-i18n-aria="Search the archive" aria-label="Search the archive" data-i18n-ph="arch.searchPh" placeholder="Search keywords, categories, incident types..." oninput="debounceArchSearch()">
       <div class="adv-filter-wrap">
         <button class="btn-g" style="font-size:12.5px;padding:.48rem 1.1rem" onclick="toggleAdvFilter()" data-i18n="arch.advFilter">Advanced Filter</button>
         <div class="adv-filter-drop" id="advFilterDrop">
@@ -1331,11 +1376,11 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
     <div class="appeal-form" id="appealFormWrap">
       <div class="form-head"><div data-i18n="appeals.x4" class="form-h">Dispute Submission</div><div data-i18n="appeals.x5" class="form-sh">All appeals are treated confidentially. Review typically completed within 14 working days.</div></div>
       <div class="form-body" id="appealFormBody">
-        <div class="f-group"><label class="f-label" data-i18n="appeals.m1">Archive Entry ID <span>*</span></label><input id="appealEntryId" class="f-input" data-i18n-ph="ph.appealEntryId" placeholder="DG-2025-XXXX"><div data-i18n="appeals.x6" class="f-err" id="errAppealEntry">Please enter a valid archive entry ID</div><div data-i18n="appeals.x7" class="f-hint">Found in the URL or bottom of any archive entry</div></div>
-        <div class="f-group"><label class="f-label" data-i18n="appeals.m2">Grounds for Appeal <span>*</span></label><select id="appealGrounds" class="f-sel"><option value="" data-vocab="Select grounds">Select grounds</option><option value="Screenshot is fabricated or manipulated" data-vocab="Screenshot is fabricated or manipulated">Screenshot is fabricated or manipulated</option><option value="Critical context is missing" data-vocab="Critical context is missing">Critical context is missing</option><option value="Comment was taken out of context" data-vocab="Comment was taken out of context">Comment was taken out of context</option><option value="Submission was made in bad faith" data-vocab="Submission was made in bad faith">Submission was made in bad faith</option><option value="Category assignment is incorrect" data-vocab="Category assignment is incorrect">Category assignment is incorrect</option><option value="Other" data-vocab="Other">Other</option></select><div data-i18n="appeals.x8" class="f-err" id="errAppealGrounds">Please select the grounds for your appeal</div></div>
-        <div class="f-group"><label class="f-label" data-i18n="appeals.m3">Supporting Statement <span>*</span></label><textarea id="appealStatement" class="f-ta" style="min-height:130px" data-i18n-ph="ph.appealStatement" placeholder="Explain your grounds for appeal clearly and specifically. Include any evidence or context that supports your claim. Vague appeals cannot be reviewed."></textarea><div data-i18n="appeals.x9" class="f-err" id="errAppealStatement">Please provide a supporting statement</div></div>
+        <div class="f-group"><label class="f-label" data-i18n="appeals.m1" for="appealEntryId">Archive Entry ID <span>*</span></label><input id="appealEntryId" class="f-input" data-i18n-ph="ph.appealEntryId" placeholder="DG-2025-XXXX"><div data-i18n="appeals.x6" class="f-err" id="errAppealEntry">Please enter a valid archive entry ID</div><div data-i18n="appeals.x7" class="f-hint">Found in the URL or bottom of any archive entry</div></div>
+        <div class="f-group"><label class="f-label" data-i18n="appeals.m2" for="appealGrounds">Grounds for Appeal <span>*</span></label><select id="appealGrounds" class="f-sel"><option value="" data-vocab="Select grounds">Select grounds</option><option value="Screenshot is fabricated or manipulated" data-vocab="Screenshot is fabricated or manipulated">Screenshot is fabricated or manipulated</option><option value="Critical context is missing" data-vocab="Critical context is missing">Critical context is missing</option><option value="Comment was taken out of context" data-vocab="Comment was taken out of context">Comment was taken out of context</option><option value="Submission was made in bad faith" data-vocab="Submission was made in bad faith">Submission was made in bad faith</option><option value="Category assignment is incorrect" data-vocab="Category assignment is incorrect">Category assignment is incorrect</option><option value="Other" data-vocab="Other">Other</option></select><div data-i18n="appeals.x8" class="f-err" id="errAppealGrounds">Please select the grounds for your appeal</div></div>
+        <div class="f-group"><label class="f-label" data-i18n="appeals.m3" for="appealStatement">Supporting Statement <span>*</span></label><textarea id="appealStatement" class="f-ta" style="min-height:130px" data-i18n-ph="ph.appealStatement" placeholder="Explain your grounds for appeal clearly and specifically. Include any evidence or context that supports your claim. Vague appeals cannot be reviewed."></textarea><div data-i18n="appeals.x9" class="f-err" id="errAppealStatement">Please provide a supporting statement</div></div>
         <div class="f-group">
-          <label data-i18n="appeals.x10" class="f-label">Supporting Evidence (optional)</label>
+          <label data-i18n="appeals.x10" class="f-label" for="appealInput">Supporting Evidence (optional)</label>
           <input type="file" id="appealInput" accept="image/png,image/jpeg,application/pdf" style="display:none" onchange="handleFileSelect(this,'appealPreview','appealZone')">
           <div class="upload-z" id="appealZone" style="padding:1.5rem" onclick="document.getElementById('appealInput').click()" ondragover="event.preventDefault();this.style.borderColor='var(--ink2)'" ondragleave="this.style.borderColor=''" ondrop="handleDrop(event,'appealInput','appealPreview','appealZone')">
             <div data-i18n="appeals.x11" class="upload-t" id="appealText">Upload supporting screenshots, links, or documents</div>
@@ -1343,7 +1388,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
             <div id="appealPreview" style="display:none;margin-top:.75rem"></div>
           </div>
         </div>
-        <div class="f-group"><label data-i18n="appeals.x13" class="f-label">Contact Email (for decision notification)</label><input id="appealEmail" class="f-input" type="email" data-i18n-ph="ph.appealEmail" placeholder="Your email address"></div>
+        <div class="f-group"><label data-i18n="appeals.x13" class="f-label" for="appealEmail">Contact Email (for decision notification)</label><input id="appealEmail" class="f-input" type="email" data-i18n-ph="ph.appealEmail" placeholder="Your email address"></div>
       </div>
       <div id="appealSuccess" class="appeal-success">
         <div class="success-icon">&#10003;</div>
@@ -1424,7 +1469,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
       <p data-i18n="search.x1" style="color:var(--text2);font-size:14px;line-height:1.8;max-width:580px">Search the Daag archive by Facebook profile name or URL. See if a person has verified entries with documented comments linked to gender violence incidents.</p>
       <div class="big-search-wrap">
         <span class="big-search-icon">&#9109;</span>
-        <input class="big-search-input" id="profileSearchInput" type="text" data-i18n-ph="ph.profileSearchInput" placeholder="Enter a Facebook profile name or URL..." onkeydown="if(event.key==='Enter') runProfileSearch()">
+        <input class="big-search-input" id="profileSearchInput" type="text" data-i18n-aria="Search for a profile by name or link" aria-label="Search for a profile by name or link" data-i18n-ph="ph.profileSearchInput" placeholder="Enter a Facebook profile name or URL..." onkeydown="if(event.key==='Enter') runProfileSearch()">
         <button data-i18n="search.x2" class="btn-p big-search-btn" onclick="runProfileSearch()">Search Archive</button>
       </div>
       <div class="search-tips">
@@ -1580,16 +1625,16 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
         <div class="form-body" id="contactForm">
           <div class="f-row">
             <div class="f-group">
-              <label class="f-label" data-i18n="contact.m1">Name <span>*</span></label>
+              <label class="f-label" data-i18n="contact.m1" for="contactName">Name <span>*</span></label>
               <input class="f-input" type="text" id="contactName" data-i18n-ph="ph.contactName" placeholder="Your name" maxlength="100" required>
             </div>
             <div class="f-group">
-              <label class="f-label" data-i18n="contact.m2">Email <span>*</span></label>
+              <label class="f-label" data-i18n="contact.m2" for="contactEmail">Email <span>*</span></label>
               <input class="f-input" type="email" id="contactEmail" placeholder="your@email.com" maxlength="200" required>
             </div>
           </div>
           <div class="f-group">
-            <label class="f-label" data-i18n="contact.m3">Subject <span>*</span></label>
+            <label class="f-label" data-i18n="contact.m3" for="contactSubject">Subject <span>*</span></label>
             <select class="f-sel" id="contactSubject">
               <option value="" data-vocab="Select a subject...">Select a subject...</option>
               <option value="General Inquiry" data-vocab="General Inquiry">General Inquiry</option>
@@ -1601,7 +1646,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
             </select>
           </div>
           <div class="f-group">
-            <label class="f-label" data-i18n="contact.m4">Message <span>*</span></label>
+            <label class="f-label" data-i18n="contact.m4" for="contactMessage">Message <span>*</span></label>
             <textarea class="f-ta" id="contactMessage" data-i18n-ph="ph.contactMessage" placeholder="Write your message here..." maxlength="5000" rows="6"></textarea>
             <div data-i18n="contact.x6" class="f-hint">Maximum 5,000 characters</div>
           </div>
@@ -1732,20 +1777,6 @@ function safeUrl(u){
 }
 
 // ===== ANIMATED COUNT-UP =====
-function animateNum(el,target,suffix){
-  if(!el)return;
-  el.classList.remove('loading-pulse');
-  var dur=600;var start=performance.now();
-  function step(now){
-    var t=Math.min((now-start)/dur,1);
-    var ease=1-Math.pow(1-t,3);
-    var val=Math.round(ease*target);
-    el.textContent=bnNum(val.toLocaleString())+(suffix||'');
-    if(t<1)requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
-
 
 // ===== LANGUAGE =====
 // Bengali is the default reading language: most of the audience, and most of the
@@ -1787,7 +1818,7 @@ var BN={
   's3.eyebrow':'মুছে দেখুন',
   's3.h2':'মুছে ফেললেই <em>মুছে যায় না।</em>',
   's3.sub':'পাশের লেখাটা মাউস চেপে ঘষে মুছে ফেলার চেষ্টা করুন। যতই ঘষুন, দাগটা থেকে যাবে। ইন্টারনেটেও তাই হয়।',
-  'slab.st':'যাচাইকৃত · v2',
+  'slab.st':'যাচাইকৃত · সংস্করণ ২',
   'slab.meta':'ফেসবুক · ঢাকা · ১৩ অক্টোবর ২০২৬',
   'slab.stay':'তবু রয়ে গেল',
   'memo.k':'দাগ · নীতিমালা',
@@ -1820,7 +1851,8 @@ var BN={
   'nav.cta':'প্রমাণ জমা দিন',
   'f.c2':'পরিচিতি',
   'f.about':'দাগ সম্পর্কে',
-  'f.pol':'নীতিমালা',
+  'f.terms':'ব্যবহারের শর্তাবলি',
+  'f.priv':'গোপনীয়তার নীতি',
   'nav.app':'আপিল',
   'f.contact':'যোগাযোগ',
   'f.c3':'সাহায্য',
@@ -1865,6 +1897,16 @@ var BN={
   'track.nRejected':'প্রমাণ যথেষ্ট না হওয়ায় এটি প্রকাশ করা হয়নি। এর কিছুই প্রকাশ্যে নেই।',
   'track.sHold':'স্থগিত',
   'track.nHold':'আরও তথ্যের অপেক্ষায় একজন মডারেটর এটি আটকে রেখেছেন।',
+  'track.noAppeal':'এই রেফারেন্সে কোনো আপিল পাওয়া যায়নি। নম্বরটি মিলিয়ে দেখুন, ভুল মনে হলে আমাদের জানান।',
+  'track.forEntry':'যে নথির বিরুদ্ধে',
+  'track.aReview':'পুনর্বিবেচনা চলছে',
+  'track.aReviewN':'নথিটি যিনি অনুমোদন করেছিলেন, তিনি ছাড়া আলাদা একটি প্যানেল এটি দেখছে। ১৪ কর্মদিবসের মধ্যে আপিলের সিদ্ধান্ত হয়।',
+  'track.aUpheld':'আপিল মঞ্জুর, নথি সরানো হয়েছে',
+  'track.aUpheldN':'আপিলটি গৃহীত হয়েছে। নথিটি আর্কাইভ থেকে সরিয়ে নেওয়া হয়েছে।',
+  'track.aDismissed':'খারিজ',
+  'track.aDismissedN':'প্যানেল আপিলটি দেখেছে এবং নথিটি আর্কাইভে থাকছে।',
+  'track.aWithdrawn':'প্রত্যাহার করা হয়েছে',
+  'track.aWithdrawnN':'এই আপিলটি প্রত্যাহার করা হয়েছে, আর পুনর্বিবেচনা করা হচ্ছে না।',
   'a11y.pageChanged':'পাতা বদলেছে: ',
 
   // Labels, hint blocks and legal paragraphs that mix text with inline markup.
@@ -1939,6 +1981,8 @@ var BN={
   'submit.x11':'তারকা চিহ্ন দেওয়া ঘরগুলো অবশ্যই পূরণ করতে হবে। জমা দেওয়ার সঙ্গে সঙ্গে এটি যাচাইয়ের তালিকায় যায়, দেখা না হওয়া পর্যন্ত প্রকাশ্যে আসে না।',
   'submit.x12':'এই ঘরটি ফাঁকা রাখুন',
   'submit.x13':'দুটি লিংক লাগবে',
+  'submit.num1':'১',
+  'submit.num2':'২',
   'submit.x14':'যিনি লিখেছেন, তাঁর প্রোফাইলের লিংক',
   'submit.x15':'যে মানুষটি মন্তব্যটি করেছেন, যে প্ল্যাটফর্মেই হোক, তাঁর প্রোফাইলের ঠিকানা',
   'submit.x16':'যে পোস্টের নিচে লেখা, তার লিংক',
@@ -2107,6 +2151,19 @@ var BN={
   'contact.x9':'বার্তা পৌঁছেছে',
   'contact.x10':'আপনার বার্তা পৌঁছেছে। উত্তর দেওয়ার মতো কিছু থাকলে আপনার দেওয়া ইমেইলে আমরা জানাব।',
   'contact.x11':'আরেকটি বার্তা পাঠান',
+  'contact.errWait':'আরেকটি বার্তা পাঠানোর আগে {n} সেকেন্ড অপেক্ষা করুন।',
+  'contact.errRequired':'তারকা দেওয়া ঘরগুলো পূরণ করুন।',
+  'contact.errEmail':'ইমেইল ঠিকানাটি ঠিকভাবে লিখুন।',
+  'contact.errShort':'একটু বিস্তারিত লিখুন, অন্তত ১০ অক্ষর।',
+  'contact.errGeneric':'বার্তাটি পাঠানো যায়নি, কিছুই জমা হয়নি। কয়েক মিনিট পরে আবার চেষ্টা করুন।',
+  'contact.errOffline':'এই মুহূর্তে আমাদের ইনবক্সে পৌঁছানো যাচ্ছে না, তাই আপনার বার্তা পাঠানো হয়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন, বা উপরের হেল্পলাইনে ফোন করুন।',
+  'contact.sending':'পাঠানো হচ্ছে...',
+  'contact.send':'বার্তা পাঠান',
+  'submit.errOffline':'এই মুহূর্তে আর্কাইভে পৌঁছানো যাচ্ছে না, তাই কিছুই জমা হয়নি। কয়েক মিনিট পরে আবার চেষ্টা করুন।',
+  'submit.errMaxSession':'এই সেশনে সর্বোচ্চ যতগুলো রিপোর্ট পাঠানো যায়, তা হয়ে গেছে। পরে আবার আসুন।',
+  'submit.errWait':'আরেকটি রিপোর্ট পাঠানোর আগে {n} সেকেন্ড অপেক্ষা করুন।',
+  'appeal.errOffline':'এই মুহূর্তে আর্কাইভে পৌঁছানো যাচ্ছে না, তাই আপনার আপিল জমা হয়নি। কয়েক মিনিট পরে আবার চেষ্টা করুন।',
+  'appeal.errWait':'আরেকটি আপিল করার আগে {n} সেকেন্ড অপেক্ষা করুন।',
   'nav.search':'প্রোফাইল খুঁজুন',
   'nav.analytics':'বিশ্লেষণ',
   'nav.appeals':'আপিল',
@@ -2161,6 +2218,7 @@ var BN={
   'dyn.pArchived':'আর্কাইভ করা হয়েছে',
   'dyn.pVerifiedTag':'যাচাইকৃত',
   'dyn.searchingNow':'যাচাইকৃত আর্কাইভে খোঁজা হচ্ছে...',
+  'dyn.searchIdle':'একটি নাম, ইউজারনেম বা প্রোফাইল লিংক লিখুন।',
   'dyn.enterQuery':'খুঁজতে একটি নাম বা প্রোফাইল লিংক লিখুন।',
   'foot.tag':'প্রতিটি শব্দ দাগ রেখে যায়।<br>বাংলাদেশের জন্য একটি পাবলিক রেকর্ড।',
   'home.intro':'কেউ একটি কমেন্ট পাঠান। আমরা যাচাই করি সেটি আসল কি না। তারপর সেটি আর্কাইভে যায়, যেখানে যে কেউ খুঁজে দেখতে পারেন।',
@@ -2244,6 +2302,8 @@ var ARIA_BN={
   'Search the archive by name or profile link':'নাম বা প্রোফাইলের লিংক দিয়ে আর্কাইভ খুঁজুন',
   'Platform links':'প্ল্যাটফর্মের লিংক',
   'About links':'পরিচিতির লিংক',
+  'Search the archive':'আর্কাইভে খুঁজুন',
+  'Search for a profile by name or link':'নাম বা প্রোফাইলের লিংক দিয়ে খুঁজুন',
   'Reference number':'রেফারেন্স নম্বর',
 };
 
@@ -2327,8 +2387,13 @@ function captureEnglish(){
   langCaptured=true;
 }
 
+// Read the live DOM attribute, not localStorage. applyLang() sets the attribute
+// and the boot script at the top of <head> seeds it from localStorage, so the
+// attribute is always current -- whereas localStorage lags any applyLang() call
+// that has not written it yet, which made t() hand back Bengali strings for a
+// page the markup had already switched to English.
 function currentLang(){
-  try{return localStorage.getItem('daag_lang')==='en'?'en':'bn'}catch(e){return 'bn'}
+  return document.documentElement.getAttribute('data-lang')==='en'?'en':'bn';
 }
 
 // A key with no Bengali entry falls back to English rather than rendering blank,
@@ -2362,7 +2427,6 @@ function applyLang(lang,rerender){
     // built in, so a language switch has to rebuild them too.
     var an=document.getElementById('pg-analytics');
     if(an&&an.classList.contains('active'))buildAnalytics();
-    updateHeroStats();
     renderHubCount();
     syncBoardSections(lang);
     setTimeout(drawThread,60);
@@ -2388,7 +2452,7 @@ function announce(msg){
 
 // The archive used to fetch a flat 50 and stop. Paged now, so it still works
 // when the archive is not 25 rows.
-var ARCHIVE_PAGE=24, archiveOffset=0, archiveHasMore=false;
+var ARCHIVE_PAGE=24, archiveOffset=0, archiveHasMore=false, archiveTotal=0, archiveLoadingAll=false;
 
 function t(key,en,vars){
   var l=currentLang();
@@ -2848,13 +2912,9 @@ document.addEventListener('click',function(e){
 });
 // On page load, route to path if present
 (function(){
-  // Handle GitHub Pages SPA redirect
-  var redirect=sessionStorage.redirect;
-  delete sessionStorage.redirect;
-  if(redirect&&redirect!=='/'){
-    var rPage=redirect.replace(/^\//,'').replace(/\/$/,'');
-    if(pages.indexOf(rPage)!==-1){history.replaceState(null,'',redirect);showPage(rPage);return}
-  }
+  // Routes are served by vercel.json rewrites now, so location.pathname is the
+  // real route on a cold visit. The sessionStorage.redirect dance that used to
+  // sit here belonged to 404.html bouncing every URL through the homepage.
   var path=location.pathname.replace(/^\//,'').replace(/\/$/,'');
   if(path&&path!=='index.html'&&pages.indexOf(path)!==-1) showPage(path);
 })();
@@ -2887,6 +2947,18 @@ document.addEventListener('keydown',function(e){
 
 function toggleTag(btn){btn.classList.toggle('on')}
 
+// The filter pills and the search box narrow archiveData in the browser, so
+// they can only be honest once every published entry is in archiveData. On a
+// 27-entry archive that is one extra request.
+async function ensureFullArchive(){
+  if(!isLive()||archiveLoadingAll)return;
+  archiveLoadingAll=true;
+  try{
+    var guard=0;
+    while(archiveHasMore&&guard++<50) await buildArchive(true);
+  }finally{archiveLoadingAll=false}
+}
+
 // ===== ARCHIVE FILTER PILLS =====
 function filt(el){
   document.querySelectorAll('.arch-filter-row .f-pill').forEach(function(p){p.classList.remove('on')});
@@ -2895,6 +2967,7 @@ function filt(el){
   archiveCatFilter=el.getAttribute('data-vocab')||el.textContent.trim();
   archiveShowCount=4;
   renderArchive();
+  ensureFullArchive().then(renderArchive);
 }
 
 // ===== ARCHIVE SEARCH =====
@@ -2904,6 +2977,7 @@ function debounceArchSearch(){
     archiveSearchQuery=(document.getElementById('archSearch').value||'').trim().toLowerCase();
     archiveShowCount=4;
     renderArchive();
+    ensureFullArchive().then(renderArchive);
   },300);
 }
 
@@ -2920,6 +2994,7 @@ function advFiltInc(el){
   archiveIncFilter=el.getAttribute('data-vocab')||el.textContent.trim();
   archiveShowCount=4;
   renderArchive();
+  ensureFullArchive().then(renderArchive);
 }
 function advFiltSev(el){
   var parent=el.parentElement;
@@ -2929,6 +3004,7 @@ function advFiltSev(el){
   archiveSevFilter=el.getAttribute('data-vocab')||el.textContent.trim();
   archiveShowCount=4;
   renderArchive();
+  ensureFullArchive().then(renderArchive);
 }
 // Close adv filter on outside click
 document.addEventListener('click',function(e){
@@ -3050,7 +3126,11 @@ function renderArchive(){
   // Update count
   var countEl=document.getElementById('archCount');
   var loadMoreEl=document.getElementById('archLoadMore');
-  if(countEl) countEl.textContent=t('dyn.showing','Showing {n} of {total} verified entries',{n:bnNum(Math.min(archiveShowCount,archiveFiltered.length)),total:bnNum(archiveFiltered.length)});
+  var anyFilter=archiveCatFilter!=='All Entries'||archiveIncFilter!=='All'||archiveSevFilter!=='All'||archiveSearchQuery;
+  // Unfiltered, "of" means the whole published archive, not the page we happen
+  // to have fetched. Filtered, it means how many of those matched.
+  var denom=anyFilter?archiveFiltered.length:(archiveTotal||archiveFiltered.length);
+  if(countEl) countEl.textContent=t('dyn.showing','Showing {n} of {total} verified entries',{n:bnNum(Math.min(archiveShowCount,archiveFiltered.length)),total:bnNum(denom)});
   if(loadMoreEl) loadMoreEl.style.display=(archiveShowCount>=archiveFiltered.length&&!archiveHasMore)?'none':'';
 }
 
@@ -3063,10 +3143,13 @@ async function buildArchive(append){
       // Paged. A flat limit(50) is fine at 25 entries and silently truncates
       // the archive at 51.
       var from=archiveOffset, to=archiveOffset+ARCHIVE_PAGE-1;
-      var {data,error}=await sb.from('public_entries').select('*').order('created_at',{ascending:false}).range(from,to);
+      // count:'exact' so the footer can say how many entries actually exist
+      // rather than how many have been fetched so far.
+      var {data,error,count}=await sb.from('public_entries').select('*',{count:'exact'}).order('created_at',{ascending:false}).range(from,to);
       if(!error&&data){
-        archiveHasMore=data.length===ARCHIVE_PAGE;
+        if(typeof count==='number')archiveTotal=count;
         archiveOffset+=data.length;
+        archiveHasMore=archiveTotal?archiveOffset<archiveTotal:data.length===ARCHIVE_PAGE;
         var mapped=data.map(function(r){return{id:r.ref_id,quote:r.comment_text||null,cat:r.category,inc:r.incident_type,date:r.created_at,lang:r.language||'Bangla',sev:r.severity||'Moderate',ver:r.version||1,lastEdit:r.last_edit||null,note:r.context_note||'',translation:r.translation||'',screenshot:r.screenshot_url||null,profileUrl:r.perpetrator_url||null,sourceUrl:r.source_post_url||null,profileName:r.profile_name||null,platform:platformFromUrl(r.perpetrator_url)}});
         archiveData=append?archiveData.concat(mapped):mapped;
       }
@@ -3104,21 +3187,15 @@ async function buildAnalytics(){
       var rate=totalCount>0?Math.round((totalCount/(totalCount+(pendingCount||0)))*100):0;
       var rejCount=(pendingCount||0)>0?100-rate:0;
       var el;
-      if(el=document.getElementById('analyticsTotal'))el.textContent=totalCount.toLocaleString();
-      if(el=document.getElementById('analyticsPending'))el.textContent=(pendingCount||0).toLocaleString();
-      if(el=document.getElementById('analyticsRate'))el.textContent=rate+'%';
-      if(el=document.getElementById('analyticsAppeals'))el.textContent=(appealCount||0).toLocaleString();
+      if(el=document.getElementById('analyticsTotal'))el.textContent=bnNum(totalCount.toLocaleString());
+      if(el=document.getElementById('analyticsPending'))el.textContent=bnNum((pendingCount||0).toLocaleString());
+      if(el=document.getElementById('analyticsRate'))el.textContent=bnNum(rate)+'%';
+      if(el=document.getElementById('analyticsAppeals'))el.textContent=bnNum((appealCount||0).toLocaleString());
       if(el=document.getElementById('analyticsRejected'))el.textContent=rejCount?t('an.rejected','{n}% rejected or duplicates',{n:bnNum(rejCount)}):'';
       // Count this month
       var now=new Date();var thisMonthCount=0;
       if(allData)allData.forEach(function(r){var d=new Date(r.created_at);if(d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear())thisMonthCount++});
       if(el=document.getElementById('analyticsThisMonth'))el.textContent=thisMonthCount?'\u2191 '+t('an.thisMonth','{n} this month',{n:bnNum(thisMonthCount)}):'';
-
-      // Update hero stats too
-      if(el=document.getElementById('heroStatArchived'))el.textContent=totalCount.toLocaleString();
-      if(el=document.getElementById('heroStatReview'))el.textContent=(pendingCount||0).toLocaleString();
-      if(el=document.getElementById('heroStatAppeals'))el.textContent=(appealCount||0).toLocaleString();
-      if(el=document.getElementById('heroStatRate'))el.textContent=rate+'%';
 
       if(!error&&allData){
         var currentYear=new Date().getFullYear();
@@ -3168,7 +3245,7 @@ async function buildAnalytics(){
     var el=document.getElementById(id);
     if(!el)return;
     if(!items.length){el.innerHTML='<div style="text-align:center;padding:1.5rem 0;color:var(--text3);font-size:13px">'+escHtml(t('analytics.noDist','Nothing to break down yet.'))+'</div>';return}
-    el.innerHTML=items.map(function(i){return'<div class="cat-row"><span class="cat-dot" style="background:'+i.c+'"></span><span class="cat-name">'+escHtml(tv(i.n))+'</span><div class="cat-track"><div class="cat-fill" style="width:'+i.p+'%;background:'+i.c+'"></div></div><span class="cat-pct">'+i.p+'%</span></div>'}).join('');
+    el.innerHTML=items.map(function(i){return'<div class="cat-row"><span class="cat-dot" style="background:'+i.c+'"></span><span class="cat-name">'+escHtml(tv(i.n))+'</span><div class="cat-track"><div class="cat-fill" style="width:'+i.p+'%;background:'+i.c+'"></div></div><span class="cat-pct">'+bnNum(i.p)+'%</span></div>'}).join('');
   }
   buildList('catL',cats);
   buildList('incL',incs);
@@ -3193,7 +3270,7 @@ async function runProfileSearch(){
   }
   var resultsEl=document.getElementById('searchResults');
   if(!query){
-    resultsEl.innerHTML='<div class="search-state-idle"><div class="search-state-icon">&#9678;</div><div class="search-state-t">Please enter a profile name or URL to search.</div></div>';
+    resultsEl.innerHTML='<div class="search-state-idle"><div class="search-state-icon">&#9678;</div><div class="search-state-t">'+escHtml(t('dyn.searchIdle','Please enter a profile name or URL to search.'))+'</div></div>';
     return;
   }
   resultsEl.innerHTML='<div class="search-state-idle"><div class="loading-block"><div class="loading-spinner"></div></div><div class="search-state-t" style="color:var(--text3)">'+t('dyn.searchingNow','Searching verified archive...')+'</div></div>';
@@ -3450,9 +3527,9 @@ async function submitEv(){
     document.getElementById('submitSuccess').style.display='block';
     return;
   }
-  if(sessionSubmitCount>=maxSessionSubmits){alert('You have reached the maximum number of submissions for this session. Please try again later.');return}
+  if(sessionSubmitCount>=maxSessionSubmits){showSubmitError(t('submit.errMaxSession','You have reached the maximum number of reports for this session. Please come back later.'));return}
   var now=Date.now();
-  if(lastSubmitTime&&(now-lastSubmitTime)<cooldownMs){var remaining=Math.ceil((cooldownMs-(now-lastSubmitTime))/1000);alert('Please wait '+remaining+' seconds before submitting again.');return}
+  if(lastSubmitTime&&(now-lastSubmitTime)<cooldownMs){var remaining=Math.ceil((cooldownMs-(now-lastSubmitTime))/1000);showSubmitError(t('submit.errWait','Please wait {n} seconds before sending another report.',{n:bnNum(remaining)}));return}
   var url=document.getElementById('fieldUrl');
   var postUrl=document.getElementById('fieldPostUrl');
   var cat=document.getElementById('fieldCat');
@@ -3540,7 +3617,12 @@ async function submitEv(){
       return;
     }
   } else {
-    ref='DEMO-'+(Math.floor(Math.random()*9000)+1000);
+    // No database, no submission. This used to mint 'DEMO-4821' and show the
+    // success screen, so a reader whose connection to Supabase never came up
+    // was handed a reference number for a report that was never filed.
+    if(submitBtn){submitBtn.disabled=false;submitBtn.textContent=submitBtn.dataset.label||t('submit.btn','Submit Evidence')}
+    showSubmitError(t('submit.errOffline','We cannot reach the archive right now, so nothing has been recorded. Please try again in a few minutes.'));
+    return;
   }
 
   // Only now has anything actually been recorded.
@@ -3700,7 +3782,13 @@ async function submitAppeal(){
   var now=Date.now();
   if(lastAppealTime&&(now-lastAppealTime)<appealCooldownMs){
     var remaining=Math.ceil((appealCooldownMs-(now-lastAppealTime))/1000);
-    alert('Please wait '+remaining+' seconds before submitting another appeal.');
+    var waitFail=document.getElementById('appealFailure');
+    if(waitFail){
+      waitFail.textContent=t('appeal.errWait','Please wait {n} seconds before filing another appeal.',{n:bnNum(remaining)});
+      waitFail.style.display='block';
+      waitFail.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+    announce(t('appeal.errWait','Please wait {n} seconds before filing another appeal.',{n:bnNum(remaining)}));
     return;
   }
 
@@ -3736,7 +3824,16 @@ async function submitAppeal(){
       return;
     }
   } else {
-    ref='DEMO-'+(Math.floor(Math.random()*9000)+1000);
+    // Same reason as the submit form. Someone disputing an entry about
+    // themselves must never be shown a reference for an appeal that does not
+    // exist -- the tracker would then tell them it was never filed.
+    if(fail){
+      fail.textContent=t('appeal.errOffline','We cannot reach the archive right now, so your appeal has not been filed. Please try again in a few minutes.');
+      fail.style.display='block';
+      fail.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+    announce(t('appeal.errOffline','We cannot reach the archive right now, so your appeal has not been filed.'));
+    return;
   }
   lastAppealTime=Date.now();
 
@@ -3847,41 +3944,50 @@ async function trackAppeal(){
   }
 
   emptyEl.style.display='none';
-
-  if(isLive()){
-    try{
-      var {data,error}=await sb.from('public_appeals').select('*').eq('ref_id',val).single();
-      if(!error&&data){
-        var statusLabels={under_review:'Under Review',upheld:'Appeal Upheld  - Entry Removed',dismissed:'Appeal Dismissed',pending:'Received  - Awaiting Assignment'};
-        var statusColors={under_review:'var(--info-fg)',upheld:'var(--ok-fg)',dismissed:'var(--accent)',pending:'var(--text2)'};
-        resultEl.style.display='block';
-        resultEl.innerHTML='<div class="tr-status-bar"><span style="font-family:var(--font-mono);font-size:12px;color:var(--text3)">'+escHtml(val)+'</span><span class="status" style="background:rgba(90,138,196,.12);color:'+statusColors[data.status]+';border:1px solid '+(statusColors[data.status])+'40">'+statusLabels[data.status]+'</span></div><div style="font-size:13px;color:var(--text2);line-height:1.7">Filed on '+new Date(data.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' for entry <strong>'+escHtml(data.entry_id)+'</strong>.</div>';
-        return;
-      }
-    }catch(e){console.warn('Supabase tracker failed, using demo',e)}
-  }
-
-  // Demo mode: show a plausible status
   resultEl.style.display='block';
-  resultEl.innerHTML='<div class="tr-status-bar"><span style="font-family:var(--font-mono);font-size:12px;color:var(--text3)">'+escHtml(val)+'</span><span class="status s-rev">Under Review</span></div><div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:1rem">Your appeal is currently under review by an independent moderation panel. Estimated completion: <strong style="color:var(--text)">14 working days</strong> from submission.</div><div class="tr-timeline"><div class="tr-step"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 1  - Received</div><div style="font-size:12.5px;color:var(--text2)">Appeal acknowledged and assigned to review queue</div></div><div class="tr-step"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 2  - Panel Review</div><div style="font-size:12.5px;color:var(--text2)">Independent panel reviewing evidence and grounds</div></div><div class="tr-step pending"><div style="font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:.2rem">Step 3  - Decision</div><div style="font-size:12.5px;color:var(--text3)">Pending  - awaiting panel decision</div></div></div>';
-}
+  resultEl.innerHTML='<div class="loading-block"><div class="loading-spinner"></div></div>';
 
-// ===== HERO STATS =====
-async function updateHeroStats(){
   if(!isLive()){
-    ['heroStatArchived','heroStatReview','heroStatAppeals'].forEach(function(id){var el=document.getElementById(id);if(el){el.textContent='0';el.classList.remove('loading-pulse')}});
-    var rateEl=document.getElementById('heroStatRate');if(rateEl){rateEl.textContent='0%';rateEl.classList.remove('loading-pulse')}
+    resultEl.innerHTML='<div style="font-size:13px;color:var(--text3)">'+escHtml(t('track.offline','Reference lookup is unavailable right now.'))+'</div>';
     return;
   }
+
+  var row=null;
   try{
-    var {data:st}=await sb.from('public_stats').select('*').single();
-    var total=st?st.approved:0;var pend=st?st.pending:0;var ap=st?st.open_appeals:0;
-    var rate=total>0?Math.round((total/(total+pend))*100):0;
-    animateNum(document.getElementById('heroStatArchived'),total);
-    animateNum(document.getElementById('heroStatReview'),pend);
-    animateNum(document.getElementById('heroStatAppeals'),ap);
-    animateNum(document.getElementById('heroStatRate'),rate,'%');
-  }catch(e){console.warn('Hero stats fetch failed',e)}
+    var r=await sb.from('public_appeals').select('*').eq('ref_id',val.toUpperCase()).maybeSingle();
+    if(r.error) throw r.error;
+    row=r.data;
+  }catch(e){
+    console.warn('Appeal lookup failed',e);
+    resultEl.innerHTML='<div style="font-size:13px;color:var(--accent)">'+escHtml(t('track.err','We could not look that up right now. Please try again.'))+'</div>';
+    return;
+  }
+
+  // No invented status. The old code fell through to a hardcoded "Under
+  // Review" panel for any well-formed reference, so typing a made-up number
+  // told you an independent panel was reviewing an appeal that did not exist.
+  if(!row){
+    resultEl.innerHTML='<div style="font-size:13px;color:var(--text2);line-height:1.8">'+escHtml(t('track.noAppeal','We have no appeal under that reference. Check the number, or contact us if you believe this is wrong.'))+'</div>';
+    announce(t('track.noAppeal','No appeal found under that reference.'));
+    return;
+  }
+
+  var map={
+    under_review:{label:t('track.aReview','Under review'),cls:'s-wait',note:t('track.aReviewN','A panel separate from the moderator who approved the entry is reviewing it. Appeals are decided within 14 working days.')},
+    upheld:{label:t('track.aUpheld','Upheld, entry removed'),cls:'s-ok',note:t('track.aUpheldN','The appeal succeeded. The entry has been taken out of the archive.')},
+    dismissed:{label:t('track.aDismissed','Dismissed'),cls:'s-no',note:t('track.aDismissedN','The panel reviewed the appeal and the entry stands.')},
+    withdrawn:{label:t('track.aWithdrawn','Withdrawn'),cls:'s-no',note:t('track.aWithdrawnN','This appeal was withdrawn and is no longer being reviewed.')}
+  };
+  var st=map[row.status]||map.under_review;
+  resultEl.innerHTML='<div style="font-size:13px;line-height:1.9">'
+    +'<div style="font-family:var(--font-mono);color:var(--text3);font-size:11.5px;margin-bottom:.5rem">'+escHtml(row.ref_id)+'</div>'
+    +'<div style="margin-bottom:.45rem"><span class="status '+st.cls+'">'+escHtml(st.label)+'</span></div>'
+    +'<div style="color:var(--text2)">'+escHtml(st.note)+'</div>'
+    +'<div style="font-family:var(--font-mono);color:var(--text3);font-size:11.5px;margin-top:.6rem">'
+      +escHtml(t('track.filed','Filed'))+' '+escHtml(fmtDate(row.created_at))
+      +(row.entry_id?' \u00b7 '+escHtml(t('track.forEntry','for entry'))+' '+escHtml(row.entry_id):'')
+    +'</div></div>';
+  announce(st.label+'. '+st.note);
 }
 
 // ===== CONTACT FORM =====
@@ -3893,12 +3999,20 @@ async function submitContactForm(){
   var errEl=document.getElementById('contactError');
   errEl.style.display='none';
 
+  // Every message on this form spoke English regardless of the reader's
+  // language. They all go through t() now.
+  function fail(msg){
+    errEl.textContent=msg;
+    errEl.style.display='block';
+    errEl.scrollIntoView({behavior:'smooth',block:'center'});
+    announce(msg);
+  }
+
   // Rate limit
   var now=Date.now();
   if(now-lastContactTime<contactCooldownMs){
     var wait=Math.ceil((contactCooldownMs-(now-lastContactTime))/1000);
-    errEl.textContent='Please wait '+wait+' seconds before sending another message.';
-    errEl.style.display='block';
+    fail(t('contact.errWait','Please wait {n} seconds before sending another message.',{n:bnNum(wait)}));
     return;
   }
 
@@ -3909,23 +4023,23 @@ async function submitContactForm(){
 
   // Validation
   if(!name||!email||!subject||!message){
-    errEl.textContent='Please fill in all required fields.';
-    errEl.style.display='block';
+    fail(t('contact.errRequired','Please fill in all the required fields.'));
     return;
   }
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    errEl.textContent='Please enter a valid email address.';
-    errEl.style.display='block';
+    fail(t('contact.errEmail','Please enter a valid email address.'));
     return;
   }
   if(message.length<10){
-    errEl.textContent='Please write a more detailed message (at least 10 characters).';
-    errEl.style.display='block';
+    fail(t('contact.errShort','Please write a little more, at least 10 characters.'));
     return;
   }
 
   btn.disabled=true;
-  btn.textContent='Sending...';
+  // Keep the button's own translated label so restoring it does not reset the
+  // page to English.
+  if(!btn.dataset.label)btn.dataset.label=btn.textContent;
+  btn.textContent=t('contact.sending','Sending...');
 
   if(isLive()){
     try{
@@ -3936,19 +4050,17 @@ async function submitContactForm(){
       document.getElementById('contactSuccess').style.display='block';
     }catch(e){
       console.error('Contact form error:',e);
-      errEl.textContent='Something went wrong. Please try again later.';
-      errEl.style.display='block';
+      fail(t('contact.errGeneric','We could not send your message, and nothing has been recorded. Please try again in a few minutes.'));
     }
   }else{
-    // Demo mode - simulate success
-    await new Promise(function(r){setTimeout(r,800)});
-    lastContactTime=Date.now();
-    document.getElementById('contactFormWrap').style.display='none';
-    document.getElementById('contactSuccess').style.display='block';
+    // This branch used to wait 800ms and then show the success screen, so a
+    // reader with no connection to the database was told their message had
+    // been sent when it had gone nowhere.
+    fail(t('contact.errOffline','We cannot reach our inbox right now, so your message has not been sent. Please try again in a few minutes, or call one of the helplines above.'));
   }
 
   btn.disabled=false;
-  btn.textContent='Send Message';
+  btn.textContent=btn.dataset.label||t('contact.send','Send Message');
 }
 
 function resetContactForm(){
@@ -3974,7 +4086,6 @@ function closeScreenshot(){
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeScreenshot();});
 
 // ===== INIT =====
-updateHeroStats();
 syncBoardSections(currentLang());
 buildBoard();
 buildArchive();

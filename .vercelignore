@@ -23,3 +23,14 @@ migrations/
 # Build scripts. Not secret, but a .py file has no business being served
 # from the document root.
 tools/
+
+# Internal planning documents. All three were serving at 200 on daag-bd.com:
+#   /persona.md  /daag-project-documentation.md  /user-journey.md
+*.md
+
+# Google Cloud service-account private key for the GA4 reporting function.
+# .gitignore already keeps it out of the repo, so a Git deploy never sees it.
+# This is here so a `vercel deploy` from a developer's machine cannot upload it
+# either -- the CLI packs the working directory, not the commit.
+daag-bd-*.json
+*-service-account*.json

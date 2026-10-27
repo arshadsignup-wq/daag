@@ -193,9 +193,8 @@ module.exports = async function handler(req, res) {
   privateKey = privateKey.replace(/\\n/g, '\n');
 
   if (!propertyId || !clientEmail || !privateKey) {
-    return res.status(500).json({
-      error: 'Missing environment variables. Set GA_PROPERTY_ID, GOOGLE_CLIENT_EMAIL, and GOOGLE_PRIVATE_KEY.'
-    });
+    console.error('Analytics API: missing GA_PROPERTY_ID, GOOGLE_CLIENT_EMAIL or GOOGLE_PRIVATE_KEY');
+    return res.status(500).json({ error: 'Traffic data is not configured.' });
   }
 
   try {
@@ -216,8 +215,11 @@ module.exports = async function handler(req, res) {
 
     if (!gaRes.ok) {
       const errText = await gaRes.text();
-      console.error('GA API error:', errText);
-      return res.status(502).json({ error: 'Google Analytics API error', details: errText });
+      // Logged for the operator, not returned to the caller. This endpoint is
+      // unauthenticated, and Google's error body names the GA4 property and the
+      // service account that failed on it.
+      console.error('GA API error:', gaRes.status, errText);
+      return res.status(502).json({ error: 'Traffic data is unavailable.' });
     }
 
     const batchData = await gaRes.json();
@@ -227,6 +229,6 @@ module.exports = async function handler(req, res) {
     return res.status(200).json(result);
   } catch (err) {
     console.error('Analytics API error:', err);
-    return res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: 'Traffic data is unavailable.' });
   }
 };
