@@ -302,6 +302,8 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
   .lede{position:static;max-width:none;margin-bottom:2rem}
   .pin,.who{position:relative!important;left:auto!important;top:auto!important;
     width:auto!important;transform:none!important;margin:0 auto 1.6rem;max-width:420px}
+  /* the pins are stacked below this width, so there is nothing for the thread
+     to connect; drawThread() also bails out, this is the belt to its braces */
   #thread{display:none}
 }
 @media(prefers-reduced-motion:reduce){.pin{transition:none}}
@@ -949,8 +951,6 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 #rubcur{position:fixed;width:50px;height:50px;border:2px solid #c8231a;border-radius:5px;
   pointer-events:none;z-index:999;transform:translate(-50%,-50%) rotate(-8deg);display:none;
   background:rgba(200,35,26,.08)}
-  .spin{position:static;height:auto}
-  .slab{cursor:auto}
 /* stamped memo */
 .memo{background:#fdfaf2;max-width:760px;margin:0 auto;padding:2.4rem 2.4rem 2rem;position:relative;
   box-shadow:0 14px 36px rgba(60,40,20,.2)}
@@ -991,8 +991,6 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
 .fbot{border-top:1px solid #2a251e;margin-top:2.2rem;padding-top:1.2rem;display:flex;
   justify-content:space-between;gap:1.5rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:10.5px;
   letter-spacing:.05em;color:#6e655a}
-  .slip .sm{white-space:normal}
-  #thread{display:none}
 @media(max-width:900px){.sgrid{grid-template-columns:1fr;gap:2rem}.vizwrap{position:static;max-width:330px}}
 @media(max-width:900px){.sgrid,.rubgrid{grid-template-columns:1fr;gap:2rem}
   .spin{position:static;height:auto}.sstep{min-height:auto;padding:1.2rem 0}
