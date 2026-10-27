@@ -1561,7 +1561,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
     </div>
     <div class="eth-sec">
       <h3 data-i18n="privacy.x18" class="eth-sec-t">4. Data Sharing</h3>
-      <div class="eth-body"><p data-i18n="privacy.m4">Your personal information is accessible only to authorised Daag moderators who need it to perform their moderation duties. We do <strong>not</strong> sell, rent, or share your personal data with any third party.</p><p data-i18n="privacy.x19">Approved archive entries (which contain public Facebook comments, not private data) are visible to all platform users by design. Submitter contact information is never displayed publicly. We may disclose information if required by law or to protect the safety of individuals, but we will resist overbroad requests and notify affected users where legally permitted.</p></div>
+      <div class="eth-body"><p data-i18n="privacy.m4">Your personal information is accessible only to authorised Daag moderators who need it to perform their moderation duties. We do <strong>not</strong> sell, rent, or share your personal data with any third party.</p><p data-i18n="privacy.x19">Approved archive entries (which contain public Facebook comments, not private data) are visible to all platform users by design. Submitter contact information is never displayed publicly. We may disclose information if required by law or to protect the safety of individuals, but we will resist overbroad requests and notify affected users where legally permitted.</p><p data-i18n="privacy.proc">To run the platform we rely on a small number of service providers who process data on our behalf and under our instructions: <strong>Supabase</strong> hosts the database and the evidence files, <strong>Vercel</strong> serves the website, and <strong>Formspree</strong> delivers messages sent through the contact form to our mailbox. Using the contact form means your name, email address and message pass through Formspree. If you would rather not, write to us directly at <a href="mailto:daagarchive@gmail.com" style="color:var(--accent)">daagarchive@gmail.com</a>.</p></div>
     </div>
     <div class="eth-sec">
       <h3 data-i18n="privacy.x20" class="eth-sec-t">5. Screenshots &amp; Evidence</h3>
@@ -1598,6 +1598,8 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
       <div data-i18n="contact.x1" class="section-tag">Get in Touch</div>
       <h2 data-i18n="contact.x2" class="section-title">Contact Us</h2>
       <p data-i18n="contact.x3" style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14px;margin-top:.5rem">Have a question, concern, or suggestion? Use the form below to reach the Daag team. We review all messages and will respond where appropriate.</p>
+      <p style="margin-top:.9rem;font-size:13.5px;color:var(--text2)"><span data-i18n="contact.direct">Or write to us directly:</span>
+        <a href="mailto:daagarchive@gmail.com" style="color:var(--accent);font-family:var(--font-mono);text-decoration:none;border-bottom:1px solid currentColor">daagarchive@gmail.com</a></p>
     </div>
   </div>
   <div class="section-sm" style="padding-top:3rem">
@@ -1623,6 +1625,7 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
           <div data-i18n="contact.x5" class="form-sh">All fields are required. We do not publish your email or personal details.</div>
         </div>
         <div class="form-body" id="contactForm">
+          <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden" aria-hidden="true"><label for="contactGotcha">Leave this empty</label><input type="text" id="contactGotcha" name="_gotcha" tabindex="-1" autocomplete="off"></div>
           <div class="f-row">
             <div class="f-group">
               <label class="f-label" data-i18n="contact.m1" for="contactName">Name <span>*</span></label>
@@ -1940,6 +1943,7 @@ var BN={
   'privacy.m2':'বিজ্ঞাপন, তৃতীয় পক্ষের বিপণন কিংবা এই প্ল্যাটফর্মের নাগরিক জবাবদিহির উদ্দেশ্যের বাইরে কোনো কাজে আপনার তথ্য আমরা ব্যবহার <strong>করি না</strong>।',
   'privacy.m3':'<strong>যোগাযোগের ইমেইল:</strong> যোগাযোগের ফরমে আসা বার্তা ১৮০ দিন রাখা হয়, এরপর স্থায়ীভাবে মুছে ফেলা হয়, যদি না তা চলমান কোনো বিষয়ের সঙ্গে জড়িত থাকে। <strong>জমা দেওয়া নথি:</strong> অনুমোদিত নথি যতদিন প্রকাশিত থাকে ততদিন আর্কাইভের অংশ হিসেবে থেকে যায়। বাতিল বা প্রত্যাহার করা জমা ৯০ দিনের মধ্যে মুছে ফেলা হয়। <strong>আপিল:</strong> আপিলের নথি, সহায়ক প্রমাণ আর পর্যালোচকের মন্তব্যসহ, নিষ্পত্তির দিন থেকে ২ বছর রাখা হয়। <strong>কারিগরি লগ:</strong> সার্ভারের লগ ৩০ দিন পর আপনাআপনি মুছে যায়।',
   'privacy.m4':'আপনার ব্যক্তিগত তথ্য কেবল সেই মডারেটররাই দেখতে পান, যাঁদের কাজের জন্য তা দরকার। আপনার ব্যক্তিগত তথ্য আমরা কারও কাছে বিক্রি, ভাড়া বা হস্তান্তর <strong>করি না</strong>।',
+  'privacy.proc':'প্ল্যাটফর্মটি চালাতে অল্প কয়েকটি সেবাদাতার ওপর আমরা নির্ভর করি, যারা আমাদের নির্দেশে আমাদের হয়ে তথ্য প্রক্রিয়া করে: <strong>সুপাবেস</strong> তথ্যভান্ডার ও প্রমাণের ফাইল রাখে, <strong>ভার্সেল</strong> ওয়েবসাইটটি পরিবেশন করে, আর <strong>ফর্মস্প্রি</strong> যোগাযোগ ফর্মের বার্তা আমাদের মেইলবক্সে পৌঁছে দেয়। যোগাযোগ ফর্ম ব্যবহার করলে আপনার নাম, ইমেইল ঠিকানা আর বার্তা ফর্মস্প্রির মধ্য দিয়ে যায়। না চাইলে সরাসরি <a href="mailto:daagarchive@gmail.com" style="color:var(--accent)">daagarchive@gmail.com</a> ঠিকানায় লিখুন।',
   'privacy.m5':'দাগের ব্যাকএন্ডের কাজ চলে সুপাবেসে, যা প্ল্যাটফর্ম চালু রাখার জন্য দরকারি কিছু কুকি রাখতে পারে, যেমন সেশন সামলানোর জন্য। সেই সঙ্গে আমরা <strong>Google Analytics (GA4)</strong> ব্যবহার করি, যা নাম-পরিচয় ছাড়া সামগ্রিক কিছু তথ্য জোগাড় করে, যেমন কত পাতা দেখা হলো, কতক্ষণ থাকা হলো আর মোটামুটি কোন অঞ্চল থেকে। এতে বোঝা যায় মানুষ প্ল্যাটফর্মটি কীভাবে ব্যবহার করছেন, আর সেই অনুযায়ী আমরা এটি উন্নত করতে পারি।',
   'privacy.m6':'আলাদা আলাদা ব্যবহারকারী আর সেশন চিনতে গুগল অ্যানালিটিকস কুকি রাখতে পারে। এর মাধ্যমে পরিচয় শনাক্ত করা যায় এমন কোনো তথ্য নেওয়া বা ভাগ করা হয় না। তৃতীয় পক্ষের বিজ্ঞাপনী ট্র্যাকার বা সোশ্যাল মিডিয়া পিক্সেল আমরা ব্যবহার <strong>করি না</strong>। প্ল্যাটফর্মে যে হিসাবগুলো দেখানো হয়, তার পুরোটাই আমাদের নিজের তথ্যভান্ডার থেকে হিসাব করা। গুগল তথ্য কীভাবে ব্যবহার করে জানতে দেখুন <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">গুগলের গোপনীয়তার নীতি</a>।',
   'privacy.m7':'আপনার অধিকার আছে: আমাদের কাছে থাকা আপনার যেকোনো ব্যক্তিগত তথ্য <strong>দেখার</strong>; ভুল তথ্য <strong>সংশোধন</strong> করানোর; আপনার ব্যক্তিগত তথ্য <strong>মুছে ফেলার</strong>, যেমন যোগাযোগের বার্তা বা জমাদাতার ইমেইল; আর নির্দিষ্ট কিছু ক্ষেত্রে তথ্য ব্যবহারে <strong>আপত্তি</strong> জানানোর।',
@@ -2153,9 +2157,11 @@ var BN={
   'contact.x11':'আরেকটি বার্তা পাঠান',
   'contact.errWait':'আরেকটি বার্তা পাঠানোর আগে {n} সেকেন্ড অপেক্ষা করুন।',
   'contact.errRequired':'তারকা দেওয়া ঘরগুলো পূরণ করুন।',
+  'contact.direct':'অথবা সরাসরি আমাদের লিখুন:',
+  'contact.okA11y':'আপনার বার্তা পাঠানো হয়েছে।',
   'contact.errEmail':'ইমেইল ঠিকানাটি ঠিকভাবে লিখুন।',
   'contact.errShort':'একটু বিস্তারিত লিখুন, অন্তত ১০ অক্ষর।',
-  'contact.errGeneric':'বার্তাটি পাঠানো যায়নি, কিছুই জমা হয়নি। কয়েক মিনিট পরে আবার চেষ্টা করুন।',
+  'contact.errGeneric':'বার্তাটি পাঠানো যায়নি, কিছুই জমা হয়নি। কয়েক মিনিট পরে আবার চেষ্টা করুন, কিংবা সরাসরি daagarchive@gmail.com ঠিকানায় লিখুন।',
   'contact.errOffline':'এই মুহূর্তে আমাদের ইনবক্সে পৌঁছানো যাচ্ছে না, তাই আপনার বার্তা পাঠানো হয়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন, বা উপরের হেল্পলাইনে ফোন করুন।',
   'contact.sending':'পাঠানো হচ্ছে...',
   'contact.send':'বার্তা পাঠান',
@@ -3991,6 +3997,11 @@ async function trackAppeal(){
 }
 
 // ===== CONTACT FORM =====
+// Formspree delivers the contact form to daagarchive@gmail.com. A Formspree
+// form id is designed to live in public page source -- it only accepts posts,
+// it cannot be used to read anything, and the inbox address is never exposed
+// by it.
+const CONTACT_ENDPOINT='https://formspree.io/f/xnppprkr';
 let lastContactTime=0;
 const contactCooldownMs=60000;
 
@@ -4041,23 +4052,56 @@ async function submitContactForm(){
   if(!btn.dataset.label)btn.dataset.label=btn.textContent;
   btn.textContent=t('contact.sending','Sending...');
 
+  // Formspree is what actually delivers the message to daagarchive@gmail.com,
+  // so it is what decides whether the message was sent. The Supabase row below
+  // is the team's own copy for the admin inbox: useful, but it is not the thing
+  // the person writing to us cares about.
+  var bot=document.getElementById('contactGotcha');
+  if(bot&&bot.value){ // a human never sees this field
+    document.getElementById('contactFormWrap').style.display='none';
+    document.getElementById('contactSuccess').style.display='block';
+    btn.disabled=false;btn.textContent=btn.dataset.label||t('contact.send','Send Message');
+    return;
+  }
+
+  try{
+    var res=await fetch(CONTACT_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        name:name, email:email, subject:subject, message:message,
+        _subject:'Daag contact \u00b7 '+subject+' \u00b7 '+name
+      })
+    });
+    if(!res.ok){
+      var detail='';
+      try{ var body=await res.json(); detail=(body.errors||[]).map(function(x){return x.message}).join('; ') }catch(e){}
+      throw new Error('formspree '+res.status+(detail?': '+detail:''));
+    }
+  }catch(e){
+    console.error('Contact form delivery failed:',e);
+    fail(t('contact.errGeneric','We could not send your message, and nothing has been recorded. Please try again in a few minutes, or email us directly at daagarchive@gmail.com.'));
+    btn.disabled=false;
+    btn.textContent=btn.dataset.label||t('contact.send','Send Message');
+    return;
+  }
+
+  // Delivered. Keep a copy for the moderation inbox, but never fail the
+  // submission over it -- the message has already reached the team by email,
+  // so telling the sender it failed would be a lie.
   if(isLive()){
     try{
-      var{error}=await sb.from('contact_messages').insert([{name:name,email:email,subject:subject,message:message}]);
-      if(error) throw error;
-      lastContactTime=Date.now();
-      document.getElementById('contactFormWrap').style.display='none';
-      document.getElementById('contactSuccess').style.display='block';
+      var ins=await sb.from('contact_messages').insert([{name:name,email:email,subject:subject,message:message}]);
+      if(ins.error) throw ins.error;
     }catch(e){
-      console.error('Contact form error:',e);
-      fail(t('contact.errGeneric','We could not send your message, and nothing has been recorded. Please try again in a few minutes.'));
+      console.warn('Contact message delivered by email but not recorded in the admin inbox:',e);
     }
-  }else{
-    // This branch used to wait 800ms and then show the success screen, so a
-    // reader with no connection to the database was told their message had
-    // been sent when it had gone nowhere.
-    fail(t('contact.errOffline','We cannot reach our inbox right now, so your message has not been sent. Please try again in a few minutes, or call one of the helplines above.'));
   }
+
+  lastContactTime=Date.now();
+  document.getElementById('contactFormWrap').style.display='none';
+  document.getElementById('contactSuccess').style.display='block';
+  announce(t('contact.okA11y','Your message has been sent.'));
 
   btn.disabled=false;
   btn.textContent=btn.dataset.label||t('contact.send','Send Message');
