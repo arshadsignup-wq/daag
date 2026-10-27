@@ -5,6 +5,8 @@
 # SPA route rewrites. Without this exception the blanket *.json above keeps it
 # out of the repo, Vercel never sees it, and every route but / serves a 404.
 !vercel.json
+# The verified press list behind /news. tools/refresh-news.py re-checks it.
+!tools/news-sources.json
 
 # Remotion motion graphics project
 motion/node_modules
