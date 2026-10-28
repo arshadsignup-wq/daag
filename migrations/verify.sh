@@ -67,6 +67,28 @@ echo "$body" | grep -q "NoSuchBucket" && bad "screenshots bucket missing" || ok 
 echo "$body" | grep -q '"name"' && ok "bucket already holds evidence files" || ok "bucket is empty (fine on a fresh project)"
 
 echo
+echo "7. anon may insert, but only within the policy"
+# These are the probes whose absence let a self-publishing hole sit open while
+# the other 16 reported a clean bill of health. Everything above tests a GRANT.
+# Nothing tested whether the inserts anon IS allowed to make are constrained.
+#
+# Each of these writes a row if it WRONGLY succeeds, so they are tagged
+# VERIFY-PROBE and the failure message tells you to delete them.
+probe_insert(){ # $1 = label, $2 = json body
+  code=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/submissions" "${H[@]}" \
+         -H "Content-Type: application/json" -d "$2")
+  if [ "$code" = "201" ]; then
+    bad "$1 ACCEPTED ($code) - a row was created, delete rows where profile_name like 'VERIFY-PROBE%'"
+  else
+    ok "$1 refused ($code)"
+  fi
+}
+BASE='"perpetrator_url":"https://example.com/v","source_post_url":"https://example.com/v","screenshot_url":"https://example.com/v.png","category":"Victim Blaming","incident_type":"Cyber Harassment"'
+probe_insert "self-publish (status=approved)" "{$BASE,\"profile_name\":\"VERIFY-PROBE-approved\",\"status\":\"approved\"}"
+probe_insert "chosen ref_id"                  "{$BASE,\"profile_name\":\"VERIFY-PROBE-refid\",\"ref_id\":\"DG-1999-9999\",\"status\":\"pending\"}"
+probe_insert "no screenshot"                  '{"perpetrator_url":"https://example.com/v","source_post_url":"https://example.com/v","profile_name":"VERIFY-PROBE-noshot","category":"Victim Blaming","incident_type":"Cyber Harassment","status":"pending"}'
+
+echo
 printf 'passed %d, failed %d\n' "$pass" "$fail"
 [ "$fail" -eq 0 ] && echo "Lockdown verified." || echo "Lockdown NOT complete. Re-run migrations/001-lockdown.sql and check for errors."
 exit "$fail"

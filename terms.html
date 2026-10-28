@@ -1279,7 +1279,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
           <div class="f-group"><label class="f-label" data-i18n="submit.m10" for="fieldInc">Incident Type <span>*</span></label><select id="fieldInc" class="f-sel"><option value="" data-vocab="Select type">Select type</option><option value="Rape / Sexual Violence" data-vocab="Rape / Sexual Violence">Rape / Sexual Violence</option><option value="Domestic Violence" data-vocab="Domestic Violence">Domestic Violence</option><option value="Acid Violence" data-vocab="Acid Violence">Acid Violence</option><option value="Cyber Harassment" data-vocab="Cyber Harassment">Cyber Harassment</option><option value="Gender-Based Violence" data-vocab="Gender-Based Violence">Gender-Based Violence</option><option value="Public Harassment" data-vocab="Public Harassment">Public Harassment</option></select><div data-i18n="submit.x25" id="errInc" style="font-size:11px;color:var(--accent);display:none;margin-top:.3rem">Please select an incident type</div></div>
         </div>
         <div class="f-group"><span data-i18n="submit.x26" class="f-label" id="tagWrapLabel">Additional Tags</span><div class="tags-wrap" id="tagWrap" role="group" aria-labelledby="tagWrapLabel"><button class="tag-btn" data-val="Rape Joke" data-vocab="Rape Joke" onclick="toggleTag(this)">Rape Joke</button><button class="tag-btn" data-val="Slut-Shaming" data-vocab="Slut-Shaming" onclick="toggleTag(this)">Slut-Shaming</button><button class="tag-btn" data-val="&quot;She Deserved It&quot;" data-vocab="&quot;She Deserved It&quot;" onclick="toggleTag(this)">"She Deserved It"</button><button class="tag-btn" data-val="Provocative Dress" data-vocab="Provocative Dress" onclick="toggleTag(this)">Provocative Dress</button><button class="tag-btn" data-val="Character Attack" data-vocab="Character Attack" onclick="toggleTag(this)">Character Attack</button><button class="tag-btn" data-val="Coordinated Mob" data-vocab="Coordinated Mob" onclick="toggleTag(this)">Coordinated Mob</button><button class="tag-btn" data-val="Doxxing Threat" data-vocab="Doxxing Threat" onclick="toggleTag(this)">Doxxing Threat</button><button class="tag-btn" data-val="Religious Framing" data-vocab="Religious Framing" onclick="toggleTag(this)">Religious Framing</button></div></div>
-        <div class="f-group"><label class="f-label" for="fieldComment" data-i18n="submit.m11">The Comment <span>*</span></label><textarea id="fieldComment" class="f-ta" data-i18n-ph="ph.fieldComment" placeholder="Copy the comment exactly as it was written, in the original language. Do not clean it up, correct the spelling, or summarise it."></textarea><div data-i18n="submit.x27" id="errComment" style="font-size:11px;color:var(--accent);display:none;margin-top:.3rem">Please paste the comment exactly as it was written</div><div data-i18n="submit.x28" class="f-hint">Type it out word for word. The screenshot proves it was said; this is what makes it searchable.</div></div>
+        <div class="f-group"><label class="f-label" for="fieldComment" data-i18n="submit.m11">The Comment (optional)</label><textarea id="fieldComment" class="f-ta" data-i18n-ph="ph.fieldComment" placeholder="Copy the comment exactly as it was written, in the original language. Do not clean it up, correct the spelling, or summarise it."></textarea><div data-i18n="submit.x28" class="f-hint">Worth typing out word for word if you can. The screenshot is the proof; this is what makes the entry findable in a search. Leave it blank and the entry will say the comment is in the screenshot only.</div></div>
         <div class="f-group"><label data-i18n="submit.x29" class="f-label" for="fieldContext">Contextual Notes (optional)</label><textarea id="fieldContext" class="f-ta" data-i18n-ph="ph.fieldContext" placeholder="Describe any relevant context: the incident being discussed, the post it appeared under, coordinated patterns you observed, or why this comment is significant..."></textarea></div>
         <div class="f-row">
           <div class="f-group"><label data-i18n="submit.x30" class="f-label" for="fieldLang">Language of Comment</label><select id="fieldLang" class="f-sel"><option value="Bangla" data-vocab="Bangla">Bangla</option><option value="English" data-vocab="English">English</option><option value="Mixed / Banglish" data-vocab="Mixed / Banglish">Mixed / Banglish</option><option value="Other" data-vocab="Other">Other</option></select></div>
@@ -1972,7 +1972,7 @@ var BN={
   'submit.m8':'স্ক্রিনশট <span>*</span>',
   'submit.m9':'হয়রানির শ্রেণি <span>*</span>',
   'submit.m10':'ঘটনার ধরন <span>*</span>',
-  'submit.m11':'মন্তব্যটি <span>*</span>',
+  'submit.m11':'মন্তব্যটি (ইচ্ছে হলে)',
   'archive.m1':'<strong style="color:var(--text2)">আর্কাইভ ব্যবহারের নিয়ম:</strong> এই আর্কাইভ গবেষণা, অধিকার আদায়, সাংবাদিকতা আর জনসচেতনতার জন্য। কাউকে হয়রানি করতে, দল বেঁধে চড়াও হতে কিংবা নিজের হাতে শাস্তি দিতে এখানকার কোনো নথি ছড়ানো আমাদের ব্যবহারের শর্তের লঙ্ঘন, আর আইনের চোখে তা অনলাইন হয়রানিও হতে পারে।',
   'appeals.m1':'নথি নম্বর <span>*</span>',
   'appeals.m2':'আপত্তির কারণ <span>*</span>',
@@ -2048,8 +2048,7 @@ var BN={
   'submit.x24':'শ্রেণি বেছে নিন',
   'submit.x25':'ঘটনার ধরন বেছে নিন',
   'submit.x26':'বাড়তি ট্যাগ',
-  'submit.x27':'মন্তব্যটি যেভাবে লেখা হয়েছিল, হুবহু সেভাবে লিখুন',
-  'submit.x28':'শব্দ ধরে ধরে লিখুন। স্ক্রিনশট প্রমাণ করে কথাটা বলা হয়েছিল, আর এই লেখাটুকু থাকলে পরে কেউ খুঁজে পাবে।',
+  'submit.x28':'পারলে শব্দ ধরে ধরে লিখে দিন। স্ক্রিনশটই প্রমাণ; আর এই লেখাটুকু থাকলে পরে কেউ খুঁজে পাবে। ফাঁকা রাখলে এন্ট্রিতে লেখা থাকবে, মন্তব্যটি শুধু স্ক্রিনশটে আছে।',
   'submit.x29':'প্রসঙ্গ (ইচ্ছে হলে)',
   'submit.x30':'মন্তব্যটি কোন ভাষায়',
   'submit.x31':'অনুবাদ (ইংরেজি না হলে)',
@@ -3608,9 +3607,11 @@ async function submitEv(){
   if(!cat.value){errCat.style.display='block';cat.style.borderColor='var(--ink2)';valid=false}else{errCat.style.display='none';cat.style.borderColor=''}
   var errInc=document.getElementById('errInc');
   if(!inc.value){errInc.style.display='block';inc.style.borderColor='var(--ink2)';valid=false}else{errInc.style.display='none';inc.style.borderColor=''}
+  // The comment is optional. A screenshot on its own is still a usable record,
+  // and 20 of the entries already published have no transcription either. The
+  // archive renders those honestly as "this comment is in the screenshot only"
+  // rather than pretending there is text.
   var comment=document.getElementById('fieldComment');
-  var errComment=document.getElementById('errComment');
-  if(!comment.value.trim()){errComment.style.display='block';comment.style.borderColor='var(--ink2)';valid=false}else{errComment.style.display='none';comment.style.borderColor=''}
   if(!valid){var firstErr=document.querySelector('[id^="err"]:not([style*="display:none"]):not([style*="display: none"])');if(firstErr)firstErr.scrollIntoView({behavior:'smooth',block:'center'});return}
   // Nothing is "submitted" until the database says so. The previous version
   // wrapped the insert in a catch that only logged, then showed the success
@@ -3754,7 +3755,7 @@ function resetSubmitForm(){
   document.getElementById('submitFooter').style.display='';
   document.getElementById('submitSuccess').style.display='none';
   ['fieldUrl','fieldPostUrl','fieldCat','fieldInc','fieldComment','fieldContext','fieldLang','fieldTranslation','fieldEmail','fieldRelationship'].forEach(function(id){var el=document.getElementById(id);if(el){el.value='';el.style.borderColor=''}});
-  ['errUrl','errPostUrl','errCat','errInc','errScreenshot','errComment'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none'});
+  ['errUrl','errPostUrl','errCat','errInc','errScreenshot'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none'});
   showSubmitError('');
   clearUpload('screenshotPreview','screenshotZone');
   document.querySelectorAll('.tag-btn').forEach(function(b){b.classList.remove('on')});

@@ -1,6 +1,95 @@
 -- ============================================================================
---  Daag · 004 · Give the submit and appeal forms their reference number back
+--  Daag · 004 · URGENT: row level security is not being enforced
 -- ============================================================================
+--  RUN THIS. Until you do, anyone holding the public anon key, which is in the
+--  page source of daag-bd.com because it is designed to be, can publish
+--  straight into the archive with no human review.
+--
+--  Verified on 28 October 2026 with nothing but the anon key and curl:
+--
+--      POST /rest/v1/submissions  {"status":"approved", ...}   ->  201
+--      GET  /public_entries?profile_name=ilike.*PROBE*         ->  the row
+--
+--  The row appeared in the live public archive immediately. Two test rows got
+--  in this way during diagnosis and have been set to rejected, so the public
+--  count is back to 27.
+--
+--  Also possible as anon today: setting your own ref_id, so a fabricated entry
+--  can be given a reference number that looks like a real one.
+--
+--  What is NOT exposed: anon still cannot read the raw tables. Submitter
+--  emails and pending reports are safe (401 on select, confirmed). The
+--  privilege half of 001 applied correctly. It is the RLS half that did not.
+--
+--  Cause: 001 contains all of
+--
+--      alter table public.submissions enable row level security;
+--      alter table public.submissions force  row level security;
+--      create policy submissions_anon_insert ... with check (status = 'pending' ...)
+--
+--  but the live database behaves as though none of it ran, while the grants
+--  and views from the same file did. 001 was applied partially. The statements
+--  below are written to be safe to run whether or not any of it took.
+--
+--  Why migrations/verify.sh reported "passed 16, failed 0" through all of
+--  this: every one of its 16 probes tests a GRANT, never a POLICY. It checked
+--  that anon cannot update, delete or select. It never checked that an insert
+--  anon IS allowed to make is constrained. New probes are added at the bottom
+--  of verify.sh to close that gap.
+-- ============================================================================
+
+begin;
+
+-- ---------------------------------------------------------------------------
+--  1. Turn RLS on and put the policies back, idempotently
+-- ---------------------------------------------------------------------------
+alter table public.submissions      enable row level security;
+alter table public.submissions      force  row level security;
+alter table public.appeals          enable row level security;
+alter table public.appeals          force  row level security;
+alter table public.contact_messages enable row level security;
+alter table public.contact_messages force  row level security;
+
+-- A submission from the public is always pending and always carries evidence.
+-- ref_id is omitted from the allowed shape on purpose: it comes from the
+-- sequence, so the policy refuses any insert that tries to choose one.
+drop policy if exists submissions_anon_insert on public.submissions;
+create policy submissions_anon_insert on public.submissions
+  for insert to anon, authenticated
+  with check (
+    coalesce(status, 'pending') = 'pending'
+    and screenshot_url is not null
+    and length(trim(screenshot_url)) > 0
+    and perpetrator_url is not null
+    and source_post_url is not null
+  );
+
+drop policy if exists appeals_anon_insert on public.appeals;
+create policy appeals_anon_insert on public.appeals
+  for insert to anon, authenticated
+  with check (
+    coalesce(status, 'under_review') = 'under_review'
+    and entry_id is not null
+    and statement is not null
+    and length(trim(statement)) > 0
+  );
+
+drop policy if exists contact_anon_insert on public.contact_messages;
+create policy contact_anon_insert on public.contact_messages
+  for insert to anon, authenticated
+  with check (
+    coalesce(status, 'unread') = 'unread'
+    and name is not null and email is not null and message is not null
+  );
+
+-- The sequence owns ref_id. Nobody gets to pick their own.
+alter table public.submissions alter column ref_id set default public.next_submission_ref();
+
+commit;
+
+-- ---------------------------------------------------------------------------
+--  2. Give the submit and appeal forms their reference number back
+-- ---------------------------------------------------------------------------
 --  Bug introduced by 001, found on 28 October 2026 by trying to submit.
 --
 --  001 did the right thing:
@@ -37,6 +126,9 @@
 --  the reference number. They run as their owner, so they can read back
 --  ref_id, and the caller gets a single text value and nothing else. Same
 --  pattern as submission_status() in 001.
+--
+--  This migration also makes comment_text optional, which is a separate
+--  decision and is explained where it happens, further down.
 -- ============================================================================
 
 begin;
@@ -73,9 +165,6 @@ begin
   if p_screenshot_url is null or length(trim(p_screenshot_url)) = 0 then
     raise exception 'A screenshot is required.' using errcode = '23514';
   end if;
-  if p_comment_text is null or length(trim(p_comment_text)) = 0 then
-    raise exception 'The comment text is required.' using errcode = '23514';
-  end if;
   if p_perpetrator_url is null or length(trim(p_perpetrator_url)) = 0
      or p_source_post_url is null or length(trim(p_source_post_url)) = 0 then
     raise exception 'Both links are required.' using errcode = '23514';
@@ -87,7 +176,7 @@ begin
     translation, tags, submitter_email, submitter_relationship, status
   ) values (
     p_perpetrator_url, p_source_post_url, p_screenshot_url, p_profile_name,
-    p_comment_text, p_category, p_incident_type,
+    nullif(trim(coalesce(p_comment_text, '')), ''), p_category, p_incident_type,
     nullif(trim(coalesce(p_context_note, '')), ''),
     coalesce(nullif(trim(p_language), ''), 'Bangla'),
     nullif(trim(coalesce(p_translation, '')), ''),
@@ -153,6 +242,35 @@ comment on function public.file_appeal is
 revoke all on function public.file_appeal(text,text,text,text) from public;
 grant execute on function public.file_appeal(text,text,text,text) to anon, authenticated;
 
+-- ---------------------------------------------------------------------------
+--  The comment is no longer required
+-- ---------------------------------------------------------------------------
+--  001 made comment_text mandatory on new submissions. Dropping that:
+--  a screenshot on its own is still a usable record, which is already true of
+--  20 of the 27 entries published today. They predate the column, and the
+--  archive renders them honestly as "this comment is in the screenshot only"
+--  rather than pretending there is text to read.
+--
+--  The screenshot stays mandatory. That rule is the one that matters: nothing
+--  is published without evidence, enforced here on insert and again by
+--  submissions_approved_needs_evidence on approval (003).
+--
+--  The cost is searchability. An entry with no transcription cannot be found
+--  by searching its words, only by profile and category. Worth typing when the
+--  submitter can, which is what the form now says.
+drop policy if exists submissions_anon_insert on public.submissions;
+create policy submissions_anon_insert on public.submissions
+  for insert to anon, authenticated
+  with check (
+    coalesce(status, 'pending') = 'pending'
+    and screenshot_url is not null
+    and perpetrator_url is not null
+    and source_post_url is not null
+  );
+
+comment on column public.submissions.comment_text is
+  'The archived comment, verbatim, when the submitter transcribed it. Optional: an entry backed by a screenshot alone is valid, and the public archive shows those as screenshot-only.';
+
 commit;
 
 -- ---------------------------------------------------------------------------
@@ -161,5 +279,44 @@ commit;
 -- ---------------------------------------------------------------------------
 -- select public.submit_report(
 --   'https://example.com/p','https://example.com/s','https://example.com/x.png',
---   'test.profile','test comment','Victim Blaming','Cyber Harassment');
+--   'test.profile',null,'Victim Blaming','Cyber Harassment');  -- no comment: allowed
 -- select public.file_appeal('DG-2025-0001','Other','test statement');
+
+-- ---------------------------------------------------------------------------
+--  3. Remove the rows that diagnosing this created
+-- ---------------------------------------------------------------------------
+--  Finding the hole meant writing rows through it. All of them are tagged, and
+--  none name a real person. Two reached the live public archive and have
+--  already been set to rejected, so the published count is back to 27.
+--
+--  Look before you delete. This counts first:
+--
+--      select status, profile_name, ref_id, created_at
+--      from public.submissions
+--      where profile_name like 'PROBE%' or profile_name like 'ANON-PROBE%'
+--         or profile_name like 'VERIFY-PROBE%' or profile_name like 'DAAG-TEST%'
+--      order by created_at;
+--
+--  Then, once the list looks like only test rows, delete them:
+
+delete from public.submissions
+ where profile_name like 'PROBE%'
+    or profile_name like 'ANON-PROBE%'
+    or profile_name like 'VERIFY-PROBE%'
+    or profile_name like 'DAAG-TEST%';
+
+delete from public.appeals
+ where statement like '%PROBE%'
+    or statement like '%Automated probe%'
+    or entry_id = 'DG-0000-0000';
+
+delete from public.contact_messages
+ where email = 'probe@example.com'
+    or message like '%Automated probe%';
+
+-- The screenshots bucket also holds two throwaway uploads named probe-*.png.
+-- Storage is not reachable from SQL; delete those in the Supabase dashboard
+-- under Storage > screenshots, or leave them, they are 68-byte 1x1 images.
+
+-- Expect approved = 27 afterwards.
+-- select * from public.public_stats;
