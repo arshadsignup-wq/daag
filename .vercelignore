@@ -34,3 +34,6 @@ tools/
 # either -- the CLI packs the working directory, not the commit.
 daag-bd-*.json
 *-service-account*.json
+
+# Working notes from the SEO audit. Not part of the site.
+critique/
