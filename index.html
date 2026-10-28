@@ -2211,6 +2211,10 @@ var BN={
   'contact.errOffline':'এই মুহূর্তে আমাদের ইনবক্সে পৌঁছানো যাচ্ছে না, তাই আপনার বার্তা পাঠানো হয়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন, বা উপরের হেল্পলাইনে ফোন করুন।',
   'contact.sending':'পাঠানো হচ্ছে...',
   'contact.send':'বার্তা পাঠান',
+  'submit.noRef':'জমা হয়েছে। রেফারেন্স নম্বর দেওয়া যায়নি, তাই তারিখটি মনে রাখুন।',
+  'submit.okNoRef':'আপনার রিপোর্ট জমা হয়েছে।',
+  'appeal.noRef':'আপিল জমা হয়েছে। রেফারেন্স নম্বর দেওয়া যায়নি, তাই তারিখটি মনে রাখুন।',
+  'appeal.okNoRef':'আপনার আপিল জমা হয়েছে।',
   'submit.errOffline':'এই মুহূর্তে আর্কাইভে পৌঁছানো যাচ্ছে না, তাই কিছুই জমা হয়নি। কয়েক মিনিট পরে আবার চেষ্টা করুন।',
   'submit.errMaxSession':'এই সেশনে সর্বোচ্চ যতগুলো রিপোর্ট পাঠানো যায়, তা হয়ে গেছে। পরে আবার আসুন।',
   'submit.errWait':'আরেকটি রিপোর্ট পাঠানোর আগে {n} সেকেন্ড অপেক্ষা করুন।',
@@ -3642,26 +3646,52 @@ async function submitEv(){
       // (see migrations/001-lockdown.sql). The client used to roll a random
       // 4-digit number against a UNIQUE column, which collided a few percent of
       // the time and threw an error this function used to swallow.
-      var ins=await sb.from('submissions').insert({
-        perpetrator_url:safeUrl(url.value),
-        source_post_url:safeUrl(postUrl.value),
-        screenshot_url:screenshotUrl,
-        profile_name:derivedProfileName(url.value),
-        comment_text:val('fieldComment'),
-        category:cat.value,
-        incident_type:inc.value,
-        context_note:val('fieldContext'),
-        language:val('fieldLang')||'Bangla',
-        translation:val('fieldTranslation'),
-        tags:tags,
-        submitter_email:val('fieldEmail')||null,
-        submitter_relationship:val('fieldRelationship')||null,
-        status:'pending'
-      }).select('ref_id').single();
+      // Filed through submit_report(), a SECURITY DEFINER function that inserts
+      // and returns the reference number. The obvious .insert().select('ref_id')
+      // cannot work: PostgREST turns .select() into RETURNING, RETURNING needs
+      // SELECT on the table, and anon deliberately does not have it. Every
+      // submission failed with 42501 until migration 004.
+      var ins=await sb.rpc('submit_report',{
+        p_perpetrator_url:safeUrl(url.value),
+        p_source_post_url:safeUrl(postUrl.value),
+        p_screenshot_url:screenshotUrl,
+        p_profile_name:derivedProfileName(url.value),
+        p_comment_text:val('fieldComment'),
+        p_category:cat.value,
+        p_incident_type:inc.value,
+        p_context_note:val('fieldContext'),
+        p_language:val('fieldLang')||'Bangla',
+        p_translation:val('fieldTranslation'),
+        p_tags:tags,
+        p_submitter_email:val('fieldEmail')||null,
+        p_submitter_relationship:val('fieldRelationship')||null
+      });
 
-      if(ins.error) throw ins.error;
-      ref=ins.data&&ins.data.ref_id;
-      if(!ref) throw new Error('no-ref');
+      if(ins.error&&missingFn(ins.error)){
+        // 004 has not been applied to this database yet. A bare insert still
+        // works, so save the report rather than lose it, and say honestly that
+        // no reference number could be issued.
+        var bare=await sb.from('submissions').insert({
+          perpetrator_url:safeUrl(url.value),
+          source_post_url:safeUrl(postUrl.value),
+          screenshot_url:screenshotUrl,
+          profile_name:derivedProfileName(url.value),
+          comment_text:val('fieldComment'),
+          category:cat.value,
+          incident_type:inc.value,
+          context_note:val('fieldContext'),
+          language:val('fieldLang')||'Bangla',
+          translation:val('fieldTranslation'),
+          tags:tags,
+          submitter_email:val('fieldEmail')||null,
+          submitter_relationship:val('fieldRelationship')||null,
+          status:'pending'
+        });
+        if(bare.error) throw bare.error;
+        ins={data:null,error:null};
+        console.warn('submit_report() missing, filed without a reference. Apply migrations/004-submit-and-appeal-rpc.sql');
+      }else if(ins.error) throw ins.error;
+      ref=ins.data||null;
     }catch(e){
       console.warn('Submission failed',e);
       if(submitBtn){submitBtn.disabled=false;submitBtn.textContent=submitBtn.dataset.label||t('submit.btn','Submit Evidence')}
@@ -3686,14 +3716,27 @@ async function submitEv(){
   lastSubmitTime=Date.now();
   document.getElementById('submitFormBody').style.display='none';
   document.getElementById('submitFooter').style.display='none';
-  document.getElementById('submitRef').textContent=t('submit.refLabel','Reference')+': '+ref+'  \u00b7  '+t('submit.refWait','Review within 3\u20135 working days');
+  // ref can be null if the database has not had migration 004 applied: the
+  // report is saved, there is simply no number to quote. Say that rather than
+  // printing "Reference: null".
+  document.getElementById('submitRef').textContent = ref
+    ? t('submit.refLabel','Reference')+': '+ref+'  \u00b7  '+t('submit.refWait','Review within 3 to 5 working days')
+    : t('submit.noRef','Saved. No reference number could be issued, so keep a note of the date.')+'  \u00b7  '+t('submit.refWait','Review within 3 to 5 working days');
   document.getElementById('submitSuccess').style.display='block';
-  announce(t('submit.okA11y','Your report was recorded. Reference ')+ref);
+  announce(ref?t('submit.okA11y','Your report was recorded. Reference ')+ref:t('submit.okNoRef','Your report was recorded.'));
   document.getElementById('pg-submit').scrollIntoView({behavior:'smooth',block:'start'});
   if(submitBtn){submitBtn.textContent=submitBtn.dataset.label||t('submit.btn','Submit Evidence');submitBtn.style.opacity='.5';submitBtn.style.cursor='not-allowed';setTimeout(function(){submitBtn.disabled=false;submitBtn.style.opacity='';submitBtn.style.cursor=''},cooldownMs)}
 }
 
 // A visible, screen-reader-announced failure message on the submit form.
+// PostgREST reports a missing RPC as PGRST202; Postgres itself as 42883.
+// Either means migration 004 has not been applied to this database.
+function missingFn(e){
+  if(!e)return false;
+  var c=String(e.code||''), m=String(e.message||'');
+  return c==='PGRST202'||c==='42883'||/could not find the function|does not exist/i.test(m);
+}
+
 function showSubmitError(msg){
   var el=document.getElementById('submitFailure');
   if(!el)return;
@@ -3859,16 +3902,25 @@ async function submitAppeal(){
     try{
       var email=document.getElementById('appealEmail');
       // ref_id comes from the database sequence, not from Math.random.
-      var ins=await sb.from('appeals').insert({
-        entry_id:entryId.value.trim(),
-        grounds:grounds.value,
-        statement:statement.value.trim(),
-        contact_email:(email&&email.value.trim())||null,
-        status:'under_review'
-      }).select('ref_id').single();
-      if(ins.error) throw ins.error;
-      ref=ins.data&&ins.data.ref_id;
-      if(!ref) throw new Error('no-ref');
+      var ins=await sb.rpc('file_appeal',{
+        p_entry_id:entryId.value.trim(),
+        p_grounds:grounds.value,
+        p_statement:statement.value.trim(),
+        p_contact_email:(email&&email.value.trim())||null
+      });
+      if(ins.error&&missingFn(ins.error)){
+        var bare=await sb.from('appeals').insert({
+          entry_id:entryId.value.trim(),
+          grounds:grounds.value,
+          statement:statement.value.trim(),
+          contact_email:(email&&email.value.trim())||null,
+          status:'under_review'
+        });
+        if(bare.error) throw bare.error;
+        ins={data:null,error:null};
+        console.warn('file_appeal() missing, filed without a reference. Apply migrations/004-submit-and-appeal-rpc.sql');
+      }else if(ins.error) throw ins.error;
+      ref=ins.data||null;
     }catch(e){
       console.warn('Appeal failed',e);
       if(fail){
@@ -3895,9 +3947,11 @@ async function submitAppeal(){
 
   document.getElementById('appealFormBody').style.display='none';
   document.getElementById('appealFooter').style.display='none';
-  document.getElementById('appealRef').textContent=t('appeal.refLabel','Appeal Reference')+': '+ref+'  \u00b7  '+t('appeal.refWait','Review within 14 working days');
+  document.getElementById('appealRef').textContent = ref
+    ? t('appeal.refLabel','Appeal Reference')+': '+ref+'  \u00b7  '+t('appeal.refWait','Review within 14 working days')
+    : t('appeal.noRef','Filed. No reference number could be issued, so keep a note of the date.')+'  \u00b7  '+t('appeal.refWait','Review within 14 working days');
   document.getElementById('appealSuccess').style.display='block';
-  announce(t('appeal.okA11y','Your appeal was filed. Reference ')+ref);
+  announce(ref?t('appeal.okA11y','Your appeal was filed. Reference ')+ref:t('appeal.okNoRef','Your appeal was filed.'));
 }
 
 function resetAppealForm(){
