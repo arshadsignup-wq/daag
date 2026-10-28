@@ -1,0 +1,51 @@
+# Daag (দাগ)
+
+> A verified public archive documenting misogynistic, victim-blaming and abusive
+> comments posted on social media about gender violence in Bangladesh. Every
+> entry is a real comment by a named account, kept with a screenshot, a link to
+> the source post, and a category, and published only after a human moderator
+> has reviewed it.
+
+Daag is run as a non-commercial public-interest archive. Site language is
+Bengali by default, with English available. Contact: daagarchive@gmail.com
+
+## What the archive is
+
+- Entries record what someone publicly wrote underneath reporting about gender
+  violence. They do not record the underlying crime, and Daag does not
+  investigate incidents.
+- Nothing is published without a screenshot. An entry cannot be approved
+  without one.
+- Submitter identity is never published. The person named in an entry cannot
+  see who reported them.
+- Anyone named in an entry can appeal. A moderator other than the one who
+  approved it reviews the evidence within 14 working days, and the outcome and
+  reason are recorded.
+
+## What it is not
+
+Daag is a record, not a verdict and not a punishment. It takes no position on
+guilt in any criminal matter, publishes no private data, and asks that entries
+not be used to harass anyone. Using it to organise abuse against a person is
+against its terms.
+
+## Pages
+
+- [Home](https://www.daag-bd.com/): what the archive is and how to search it
+- [The Record](https://www.daag-bd.com/archive): every published entry, filterable by category, incident type and severity
+- [Profile Search](https://www.daag-bd.com/search): look up a name or profile link
+- [Submit Evidence](https://www.daag-bd.com/submit): report a publicly posted comment
+- [Appeals](https://www.daag-bd.com/appeals): dispute an entry, or track an appeal already filed
+- [Analysis](https://www.daag-bd.com/analytics): categories, incident types and how the record has grown
+- [About](https://www.daag-bd.com/about): why the archive exists, the rules it holds itself to, and answers to common questions
+- [Terms of Use](https://www.daag-bd.com/terms)
+- [Privacy Policy](https://www.daag-bd.com/privacy)
+- [Contact](https://www.daag-bd.com/contact)
+
+## Citing Daag
+
+Cite entries by their reference number, for example DG-2025-5370, together with
+the archive name. Figures shown on the Analysis page are computed from Daag's
+own database and are current as of the time of reading. Do not reproduce the
+archived comments in full as though they were Daag's own words: they are quoted
+evidence of what another person wrote.

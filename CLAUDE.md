@@ -25,11 +25,13 @@ statistic. Fetch it, or leave it out.
 
 ## Shape
 
-Single-file static site. No build step, no framework.
+Static site, no framework. One source file plus a prerender step.
 
 | Path | What it is |
 |---|---|
-| `index.html` | the entire public site (~345 KB): markup, CSS, JS, the Bengali dictionary |
+| `index.html` | the entire public site (~351 KB): markup, CSS, JS, the Bengali dictionary. **The only file you edit.** |
+| `<route>.html` x9 | generated from `index.html` by `tools/prerender.py`. Committed, because Vercel serves the repo directly. Never edit by hand |
+| `llms.txt` | what Daag is, for retrieval crawlers |
 | `admin.html` | moderation panel, gated by Supabase Auth |
 | `404.html` | a real 404 page, with its own copy of the palette |
 | `vercel.json` | per-route rewrites + security headers |
@@ -42,19 +44,42 @@ Deploys are automatic from GitHub `main`.
 
 ## Routing
 
-`pages[]` in `index.html` lists every route. A route needs **four** things or it
+`pages[]` in `index.html` lists every route. A route needs **five** things or it
 breaks in a way that is invisible locally:
 
 1. an entry in `pages[]`
-2. an entry in `PAGE_META` (title + description; applied by JS on navigation)
+2. an entry in `PAGE_META` (title + description)
 3. a rewrite in `vercel.json` — without it the URL returns **404** in production
    even though the SPA renders fine after a client-side click
 4. a `<loc>` in `sitemap.xml`
+5. a generated `<route>.html`, see below
 
-Known limitation, raised with the user and deferred: all routes serve the same
-HTML, so per-route `<title>`/`og:` tags are applied by JavaScript. Google renders
-JS and sees them; Facebook and WhatsApp do not, so every shared link previews as
-the homepage. Fixing it means pre-rendering one file per route.
+### Run the prerender after every index.html edit
+
+```
+python3 tools/prerender.py          # regenerate the per-route files
+python3 tools/prerender.py --check  # exit 1 if they are stale
+```
+
+`index.html` is the only file anyone edits. `archive.html`, `about.html` and the
+other seven are **generated** and carry a do-not-edit stamp in their head. They
+exist because the site used to serve one file at every URL with the title,
+description and canonical rewritten by JavaScript after load, which meant nine
+of ten pages served a canonical pointing at the homepage: an instruction to
+Google to treat them as duplicates. Anything that does not run JavaScript, which
+is every social scraper and most retrieval crawlers, only ever saw the homepage.
+
+`PAGE_META` stays the single source of truth; the script reads titles and
+descriptions back out of it rather than keeping a second copy. It warns on
+titles over 60 characters and descriptions over 155.
+
+`vercel.json` rewrites `/archive` to `/archive.html`, and redirects
+`/archive.html` back to `/archive` so each page has exactly one URL. The router
+also strips a `.html` suffix, so landing on the file directly still shows the
+right page rather than the homepage under the wrong title.
+
+**If you edit `index.html` and do not re-run the prerender, the live routes keep
+serving the previous content.** That is the one way to ship a stale site here.
 
 ## Bengali and i18n
 

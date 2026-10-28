@@ -45,3 +45,15 @@ Critical remaining: 0. Major remaining: 0. Deliver.
   contradicts itself two sections apart is worse than one that overclaims
   consistently. -> section 3 -> Fix: table row now matches the evidence.
   APPLIED.
+
+## Addendum 2, found during implementation (pass 3 in effect)
+- [C2] RC5 claimed "5 FAQ blocks with no FAQPage schema". I counted the string
+  `faq-item` in the fetched HTML without checking whether it was markup or CSS.
+  All five are CSS selectors; there is no FAQ on the site. Had this gone
+  unchecked I would have added FAQPage schema describing content that does not
+  exist, which is the exact practice the skill forbids in rule 3 and which
+  Google treats as structured data spam. -> RC5 and the Week 1 table -> Fix:
+  correction written into RC5, roadmap row changed to restore the FAQ first.
+  APPLIED.
+- Lesson for the remaining work: grep counts are not evidence of markup. Strip
+  <style> and <script> before counting anything that is supposed to be content.

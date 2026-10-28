@@ -130,9 +130,18 @@ are they accountable" and right now the site does not say.
 
 ### RC5. No schema for the content types the site actually has
 
-**Evidence [V]:** only `WebSite`. The site has 5 FAQ blocks with no `FAQPage`,
-a genuine structured dataset with no `Dataset`, no `BreadcrumbList`, and no
-`Organization` detail beyond a name and URL.
+**Evidence [V]:** only `WebSite`. A genuine structured dataset with no
+`Dataset`, no `BreadcrumbList`, and no `Organization` detail beyond a name and
+a URL.
+
+**Correction, found during implementation.** This section originally said the
+site has 5 FAQ blocks with no `FAQPage` schema. That was wrong. All five
+`faq-item` matches are CSS selectors inside `<style>`; there is no FAQ markup on
+any page. What does exist is six complete Bengali question and answer pairs in
+the dictionary (`faq.1q` through `faq.6a`), a `toggleFaq` handler and about 839
+bytes of CSS, none of it referenced by anything. The FAQ was built, translated,
+then lost when a section was replaced. So the finding is better than it looked:
+the content is already written and simply is not on the page. **[V]**
 
 **Share of the gap: small on its own, but it is cheap and it compounds RC4.**
 
@@ -213,7 +222,7 @@ Impact and effort are H/M/L. Nothing here has been implemented.
 |---|---|---|
 | Serve per-route `<title>`, meta description and canonical in the HTML, not via JavaScript | H | M |
 | Add `Organization` schema: logo, `sameAs`, `contactPoint` with daagarchive@gmail.com, founding date, language | H | L |
-| Add `FAQPage` schema to the 5 FAQ blocks that already exist | M | L |
+| Restore the orphaned FAQ to the About page, then add `FAQPage` schema over it | M | M |
 | Add `BreadcrumbList` to the non-home routes | L | L |
 | Publish `/llms.txt` describing what Daag is, what it records and what it does not | M | L |
 | Shorten the title to under 60 characters and the description to under 155 | L | L |
