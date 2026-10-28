@@ -34,6 +34,7 @@ import json
 import os
 import re
 import sys
+from html.parser import HTMLParser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, 'index.html')
@@ -107,6 +108,67 @@ def build(html, route, meta):
     return out.replace('</head>', STAMP + '\n</head>', 1)
 
 
+class HeadCheck(HTMLParser):
+    """Parse like a browser and record which tags really landed in <head>."""
+
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.in_head = False
+        self.head_done = False
+        self.found = set()
+        self.stray_text = None
+        self.raw_depth = 0   # inside <script>/<style>/<title>, where text is normal
+
+    def handle_starttag(self, tag, attrs):
+        if tag in ('script', 'style', 'title'):
+            self.raw_depth += 1
+        if tag == 'head':
+            self.in_head = True
+            return
+        if tag == 'body':
+            self.in_head, self.head_done = False, True
+            return
+        if self.in_head:
+            a = dict(attrs)
+            key = a.get('rel') or a.get('property') or a.get('name')
+            self.found.add('%s:%s' % (tag, key) if key else tag)
+
+    def handle_endtag(self, tag):
+        if tag in ('script', 'style', 'title') and self.raw_depth:
+            self.raw_depth -= 1
+        if tag == 'head':
+            self.in_head, self.head_done = False, True
+
+    def handle_data(self, data):
+        # Text directly inside <head>, but outside <script>/<style>, is what a
+        # stray '>' looks like to a parser, and it is what silently ends the
+        # head.
+        if self.in_head and not self.raw_depth and data.strip() \
+                and self.stray_text is None:
+            self.stray_text = data.strip()[:40]
+
+
+def verify_head(html, label):
+    """Refuse to ship a file whose head a browser would not parse as intended.
+
+    A single doubled bracket in a meta tag once pushed the canonical, every
+    og: and twitter: tag, the favicons and all the JSON-LD into <body>. It
+    rendered as a 27px cream strip above the nav, which is the only reason it
+    was noticed. Everything an SEO fix is for had quietly stopped working.
+    """
+    p = HeadCheck()
+    p.feed(html)
+    required = ['link:canonical', 'meta:og:title', 'meta:og:url',
+                'meta:description', 'title', 'meta:twitter:card']
+    missing = [r for r in required if r not in p.found]
+    if p.stray_text:
+        sys.exit('prerender: %s has stray text in <head> (%r). A tag is '
+                 'malformed and the head ends early.' % (label, p.stray_text))
+    if missing:
+        sys.exit('prerender: %s is missing from <head> in %s. A tag above them '
+                 'is probably malformed.' % (', '.join(missing), label))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--check', action='store_true',
@@ -114,6 +176,7 @@ def main():
     args = ap.parse_args()
 
     html = io.open(SRC, encoding='utf-8').read()
+    verify_head(html, 'index.html')
     meta = page_meta(html)
     stale, wrote = [], []
 
@@ -123,6 +186,7 @@ def main():
         if route not in meta:
             sys.exit('prerender: %s is in pages[] but not in PAGE_META' % route)
         built = build(html, route, meta[route])
+        verify_head(built, route + '.html')
         path = os.path.join(ROOT, route + '.html')
         old = io.open(path, encoding='utf-8').read() if os.path.exists(path) else None
         if old == built:
