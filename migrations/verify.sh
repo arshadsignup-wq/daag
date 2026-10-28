@@ -84,8 +84,16 @@ probe_insert(){ # $1 = label, $2 = json body
   fi
 }
 BASE='"perpetrator_url":"https://example.com/v","source_post_url":"https://example.com/v","screenshot_url":"https://example.com/v.png","category":"Victim Blaming","incident_type":"Cyber Harassment"'
-probe_insert "self-publish (status=approved)" "{$BASE,\"profile_name\":\"VERIFY-PROBE-approved\",\"status\":\"approved\"}"
-probe_insert "chosen ref_id"                  "{$BASE,\"profile_name\":\"VERIFY-PROBE-refid\",\"ref_id\":\"DG-1999-9999\",\"status\":\"pending\"}"
+# status='rejected' rather than 'approved' on purpose. The policy pins status to
+# 'pending', so a working policy refuses this exactly as it refuses 'approved',
+# but if the policy is NOT working the row that leaks through is invisible to
+# the public instead of being published into the live archive. The first draft
+# of this probe used 'approved' and published a row every time it ran.
+probe_insert "chosen status (rejected)"        "{$BASE,\"profile_name\":\"VERIFY-PROBE-status\",\"status\":\"rejected\"}"
+# A fixed ref_id would come back 409 on the second run, which reads as a PASS
+# while proving nothing. Randomised so a refusal is always the policy refusing.
+PROBE_REF="DG-1999-$(printf '%04d' $((RANDOM % 10000)))"
+probe_insert "chosen ref_id ($PROBE_REF)"      "{$BASE,\"profile_name\":\"VERIFY-PROBE-refid\",\"ref_id\":\"$PROBE_REF\",\"status\":\"pending\"}"
 probe_insert "no screenshot"                  '{"perpetrator_url":"https://example.com/v","source_post_url":"https://example.com/v","profile_name":"VERIFY-PROBE-noshot","category":"Victim Blaming","incident_type":"Cyber Harassment","status":"pending"}'
 
 echo
