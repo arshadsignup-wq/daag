@@ -1,9 +1,10 @@
 -- ============================================================================
---  Daag · 004 · URGENT: row level security is not being enforced
+--  Daag · 004 · URGENT: legacy policies were overriding the lockdown
 -- ============================================================================
---  RUN THIS. Until you do, anyone holding the public anon key, which is in the
---  page source of daag-bd.com because it is designed to be, can publish
---  straight into the archive with no human review.
+--  APPLIED to the live database on 28 October 2026. Kept here as the record
+--  of what the schema is. Until it ran, anyone holding the public anon key,
+--  which is in the page source of daag-bd.com because it is designed to be,
+--  could publish straight into the archive with no human review.
 --
 --  Verified on 28 October 2026 with nothing but the anon key and curl:
 --
@@ -21,15 +22,24 @@
 --  emails and pending reports are safe (401 on select, confirmed). The
 --  privilege half of 001 applied correctly. It is the RLS half that did not.
 --
---  Cause: 001 contains all of
+--  Cause, confirmed by reading pg_policy rather than guessing: RLS was already
+--  enabled and forced, and the correct policy from 001 was present. What 001
+--  never did was REMOVE the policies that predated it:
 --
---      alter table public.submissions enable row level security;
---      alter table public.submissions force  row level security;
---      create policy submissions_anon_insert ... with check (status = 'pending' ...)
+--      anon_insert_submissions   insert   PUBLIC   with check (true)
+--      anon_read_submissions     select   PUBLIC   using (true)
+--      anon_update_submissions   update   PUBLIC   using (true)
+--      anon_delete_submissions   delete   PUBLIC   using (true)
+--      ... and the same shape on appeals and contact_messages
 --
---  but the live database behaves as though none of it ran, while the grants
---  and views from the same file did. 001 was applied partially. The statements
---  below are written to be safe to run whether or not any of it took.
+--  Policies are OR'd. A permissive `with check (true)` next to a careful policy
+--  does not narrow anything, it simply wins. So every constraint 001 wrote was
+--  dead on arrival for inserts.
+--
+--  Reads, updates and deletes were never actually exposed, because the GRANTs
+--  were revoked and privileges are checked independently of policies. That is
+--  also why all 16 of the old verify.sh probes passed: every one of them tested
+--  a grant. The belt held while the braces were missing.
 --
 --  Why migrations/verify.sh reported "passed 16, failed 0" through all of
 --  this: every one of its 16 probes tests a GRANT, never a POLICY. It checked
@@ -41,8 +51,20 @@
 begin;
 
 -- ---------------------------------------------------------------------------
---  1. Turn RLS on and put the policies back, idempotently
+--  1. Remove the pre-lockdown policies, then put the right ones back
 -- ---------------------------------------------------------------------------
+-- These are the ones that were actually letting everything through.
+drop policy if exists anon_insert_submissions on public.submissions;
+drop policy if exists anon_read_submissions   on public.submissions;
+drop policy if exists anon_update_submissions on public.submissions;
+drop policy if exists anon_delete_submissions on public.submissions;
+drop policy if exists anon_insert_appeals     on public.appeals;
+drop policy if exists anon_read_appeals       on public.appeals;
+drop policy if exists anon_update_appeals     on public.appeals;
+drop policy if exists anon_delete_appeals     on public.appeals;
+drop policy if exists "Allow public inserts"  on public.contact_messages;
+drop policy if exists "Allow admin reads"     on public.contact_messages;
+
 alter table public.submissions      enable row level security;
 alter table public.submissions      force  row level security;
 alter table public.appeals          enable row level security;
@@ -82,8 +104,21 @@ create policy contact_anon_insert on public.contact_messages
     and name is not null and email is not null and message is not null
   );
 
--- The sequence owns ref_id. Nobody gets to pick their own.
+-- The sequence owns ref_id. A WITH CHECK cannot express "this column must take
+-- its default", so it is closed at the privilege level: anon may insert the
+-- columns a submitter legitimately fills in and nothing else. ai_score and
+-- severity are moderator fields the form never sends, so they are out too.
 alter table public.submissions alter column ref_id set default public.next_submission_ref();
+
+revoke insert on public.submissions from anon, authenticated;
+grant insert (perpetrator_url, source_post_url, screenshot_url, profile_name,
+              comment_text, category, incident_type, context_note, language,
+              translation, tags, submitter_email, submitter_relationship, status)
+  on public.submissions to anon, authenticated;
+
+revoke insert on public.appeals from anon, authenticated;
+grant insert (entry_id, grounds, statement, contact_email, status)
+  on public.appeals to anon, authenticated;
 
 commit;
 
@@ -264,6 +299,7 @@ create policy submissions_anon_insert on public.submissions
   with check (
     coalesce(status, 'pending') = 'pending'
     and screenshot_url is not null
+    and length(trim(screenshot_url)) > 0
     and perpetrator_url is not null
     and source_post_url is not null
   );
