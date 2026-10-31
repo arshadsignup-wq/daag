@@ -36,6 +36,18 @@
     {
       "source": "/contact",
       "destination": "/contact.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/blog/180-days-in-law-three-years-in-practice",
+      "destination": "/blog/180-days-in-law-three-years-in-practice.html"
+    },
+    {
+      "source": "/blog/what-the-comments-do-after-a-verdict",
+      "destination": "/blog/what-the-comments-do-after-a-verdict.html"
     }
   ],
   "headers": [
@@ -123,6 +135,21 @@
     {
       "source": "/index.html",
       "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/180-days-in-law-three-years-in-practice.html",
+      "destination": "/blog/180-days-in-law-three-years-in-practice",
+      "permanent": true
+    },
+    {
+      "source": "/blog/what-the-comments-do-after-a-verdict.html",
+      "destination": "/blog/what-the-comments-do-after-a-verdict",
+      "permanent": true
+    },
+    {
+      "source": "/blog.html",
+      "destination": "/blog",
       "permanent": true
     }
   ]

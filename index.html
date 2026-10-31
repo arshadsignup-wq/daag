@@ -1040,6 +1040,46 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
   color:#9d9385;margin:0 0 .7rem}
 .fcol a{display:block;color:#bdb3a5;text-decoration:none;font-size:13.5px;line-height:2}
 .fcol a:hover{color:#fff}
+/* blog index */
+.bl-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--border)}
+.bl-item{border-bottom:1px solid var(--border)}
+.bl-item a{display:block;padding:1.5rem .4rem;text-decoration:none;color:var(--text);transition:background .18s}
+.bl-item a:hover{background:var(--bg2)}
+.bl-date{display:block;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--accent-text);margin-bottom:.45rem}
+.bl-title{display:block;font-family:var(--font-serif);font-size:1.3rem;font-weight:600;
+  line-height:1.38;color:var(--warm);margin-bottom:.4rem}
+.bl-item a:hover .bl-title{text-decoration:underline;text-underline-offset:3px}
+.bl-desc{display:block;font-size:13.5px;line-height:1.75;color:var(--text2);max-width:70ch}
+/* blog post */
+.bp-back{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--accent-text);
+  text-decoration:none;display:inline-block;margin-bottom:1.4rem}
+.bp-back:hover{text-decoration:underline}
+.bp-title{font-family:var(--font-serif);font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:700;
+  line-height:1.26;color:var(--warm);margin:0 0 .8rem;max-width:24ch}
+.bp-meta{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;font-family:var(--font-mono);
+  font-size:11px;letter-spacing:.05em;color:var(--text3)}
+.bp-lede{margin:1.5rem 0 0;padding:1rem 1.2rem;background:var(--bg2);border-left:3px solid var(--accent);
+  border-radius:3px;font-size:14px;line-height:1.95;color:var(--text2);max-width:68ch}
+.bp-body{font-size:15px;line-height:1.95;color:var(--text2)}
+.bp-body>*{max-width:70ch;margin-right:auto}
+.bp-body p{margin:0 0 1.15rem}
+.bp-body strong{color:var(--text)}
+.bp-body a{color:var(--accent-text);text-decoration:none;border-bottom:1px solid var(--border3)}
+.bp-body a:hover{border-bottom-color:var(--accent)}
+.bp-h2{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--warm);
+  line-height:1.35;margin:2.4rem 0 .9rem;max-width:28ch}
+.bp-h3{font-family:var(--font-serif);font-size:1.12rem;font-weight:600;color:var(--warm);
+  margin:1.8rem 0 .7rem}
+.bp-list{margin:0 0 1.3rem;padding-left:1.15rem}
+.bp-list li{margin-bottom:.6rem;line-height:1.9}
+.bp-body hr{border:0;border-top:1px solid var(--border);margin:2.2rem 0 1.4rem}
+.bp-tablewrap{overflow-x:auto;margin:0 0 1.5rem}
+.bp-table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:30rem}
+.bp-table th{text-align:left;font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text3);padding:.6rem .7rem;border-bottom:1px solid var(--border3);font-weight:400}
+.bp-table td{padding:.7rem;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.7}
+@media(max-width:560px){.bp-title{font-size:1.55rem}.bp-body{font-size:14.5px}}
 .flegal{display:flex;gap:1.2rem}
 .flegal a{color:#8d8276;text-decoration:none;border-bottom:1px solid transparent}
 .flegal a:hover{color:#e8dfd2;border-bottom-color:#4a4238}
@@ -1206,7 +1246,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
       <div class="fcol"><h4 data-i18n="f.c1">The board</h4>
         <a href="/archive" data-i18n="nav.arch">Archive</a><a href="/search" data-i18n="nav.search">Profile Search</a><a href="/analytics" data-i18n="f.ana">Analytics</a><a href="/submit" data-i18n="nav.cta">Submit evidence</a></div>
       <div class="fcol"><h4 data-i18n="f.c2">About</h4>
-        <a href="/about" data-i18n="f.about">About Daag</a><a href="/appeals" data-i18n="nav.app">Appeals</a><a href="/contact" data-i18n="f.contact">Contact</a></div>
+        <a href="/about" data-i18n="f.about">About Daag</a><a href="/blog" data-i18n="nav.blog">Writing</a><a href="/appeals" data-i18n="nav.app">Appeals</a><a href="/contact" data-i18n="f.contact">Contact</a></div>
       <div class="fcol"><h4 data-i18n="f.c3">Help</h4>
         <a href="tel:999" data-i18n="f.e1">Emergency 999</a><a href="tel:109" data-i18n="f.e2">Women & children 109</a><a href="tel:01320000888" data-i18n="f.e3">Cyber support</a></div>
     </div>
@@ -1632,6 +1672,31 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
   </div>
 </section>
 
+<!-- BLOG -->
+<section id="pg-blog" class="page">
+  <div style="background:var(--bg1);border-bottom:1px solid var(--border)">
+    <div class="section-sm" style="padding-top:3.5rem;padding-bottom:3.5rem">
+      <div data-i18n="blog.tag" class="section-tag">Writing</div>
+      <h2 data-i18n="blog.title" class="section-title">From the archive</h2>
+      <p data-i18n="blog.intro" style="color:var(--text2);max-width:62ch;line-height:1.8;font-size:14px;margin-top:.5rem">What the record shows, what the courts decided, and how to document a comment so it holds up. Every figure links to the report it came from.</p>
+    </div>
+  </div>
+  <div class="section-sm" style="padding-top:2.4rem">
+    <ol class="bl-list">
+      <li class="bl-item"><a href="/blog/180-days-in-law-three-years-in-practice">
+        <span class="bl-date">31 October 2026</span>
+        <span class="bl-title">180 days in the law, three and a half years in practice</span>
+        <span class="bl-desc">Bangladesh&#x27;s Women and Children Repression Prevention Act gives tribunals 180 working days to finish a case. Research presented in Dhaka puts the real average at three years and seven months. Here is what October&#x27;s verdicts show.</span>
+      </a></li>
+      <li class="bl-item"><a href="/blog/what-the-comments-do-after-a-verdict">
+        <span class="bl-date">31 October 2026</span>
+        <span class="bl-title">What the comment section does after a verdict</span>
+        <span class="bl-desc">When a Bangladeshi court convicts someone of rape, a second, predictable event happens underneath the reporting. Here is the pattern, what the data says, and how to document it.</span>
+      </a></li>
+    </ol>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="pg-contact" class="page">
   <div style="background:var(--bg1);border-bottom:1px solid var(--border)">
@@ -1783,7 +1848,7 @@ const sb = SUPABASE_URL && SUPABASE_ANON_KEY
 function isLive() { return !!sb; }
 // ==================================
 
-const pages=['home','submit','archive','analytics','appeals','about','search','terms','privacy','contact'];
+const pages=['home','submit','archive','analytics','appeals','about','search','blog','terms','privacy','contact'];
 
 // NAV PAGE MAP (for active states)
 const navPageMap={archive:'archive',search:'search',analytics:'analytics',appeals:'appeals',about:'about'};
@@ -1900,6 +1965,11 @@ var BN={
   'nav.cta':'প্রমাণ জমা দিন',
   'f.c2':'পরিচিতি',
   'f.about':'দাগ সম্পর্কে',
+  'nav.blog':'লেখা',
+  'blog.tag':'লেখা',
+  'blog.title':'আর্কাইভ থেকে',
+  'blog.intro':'রেকর্ড যা দেখায়, আদালত যা বলেছে, আর একটি মন্তব্য কীভাবে নথিভুক্ত করলে তা টেকে। প্রতিটি সংখ্যার সঙ্গে উৎস প্রতিবেদনের লিংক আছে।',
+  'blog.all':'সব লেখা',
   'f.terms':'ব্যবহারের শর্তাবলি',
   'f.priv':'গোপনীয়তার নীতি',
   'nav.app':'আপিল',
@@ -2904,7 +2974,8 @@ var PAGE_META={
   about:    {t:'About Daag | Daag',                               d:'Why this archive exists, what it does and does not record, and the rules it holds itself to.'},
   terms:    {t:'Terms of Use | Daag',                             d:'The terms that govern use of the Daag archive.'},
   privacy:  {t:'Privacy Policy | Daag',                           d:'What Daag collects, what it never collects, and how long anything is kept.'},
-  contact:  {t:'Contact | Daag',                                  d:'Get in touch with the Daag team.'}
+  contact:  {t:'Contact | Daag',                                  d:'Get in touch with the Daag team.'},
+  blog:     {t:'Writing | Daag',                                  d:'What the record shows, what the courts decided, and how to document a comment so it holds up. Every figure links to the report it came from.'}
 };
 
 function setPageMeta(id){
@@ -2975,6 +3046,9 @@ document.addEventListener('click',function(e){
   // Strip a .html suffix anyway: landing on /about.html directly must not show
   // the homepage under the About title.
   var path=location.pathname.replace(/^\//,'').replace(/\/$/,'').replace(/\.html$/,'');
+  // A post lives at /blog/<slug> and its content is baked into #pg-blog by
+  // tools/build-blog.py, so any blog/* path activates the blog page.
+  if(path.indexOf('blog/')===0) path='blog';
   if(path&&path!=='index'&&pages.indexOf(path)!==-1) showPage(path);
 })();
 
