@@ -81,6 +81,36 @@ right page rather than the homepage under the wrong title.
 **If you edit `index.html` and do not re-run the prerender, the live routes keep
 serving the previous content.** That is the one way to ship a stale site here.
 
+The script also refuses to write a file whose `<head>` a browser would not
+parse as intended: any text directly in `<head>` outside script/style/title, or
+canonical, `og:title`, `og:url`, description, title or `twitter:card` not
+landing inside it. That guard exists because a single doubled bracket,
+
+    ...Bangladesh.">>
+
+made the parser treat `>` as text, which ends the head. `<body>` opened at byte
+678 and the canonical, every og: and twitter: tag, the favicons and all the
+JSON-LD fell into it. The only visible symptom was a 27px strip of page
+background above the nav. When replacing a tag by regex, match the whole tag
+including its closing bracket, or do not supply one.
+
+## SEO
+
+`seo-audit.md` is the standing diagnosis, with the self-critique in
+`critique/`. Both are excluded from the deploy. The state it describes is
+fixed except for one item, which is open on purpose: Bengali and English share
+one URL with no `hreflang`, so there is no way to rank a Bengali version. That
+is an architectural change to the i18n system, not a tag fix.
+
+Structured data shipped: `Organization` (with `correctionsPolicy` pointing at
+/appeals, which matters for a site publishing accusations), `FAQPage` over the
+six real questions on /about, `BreadcrumbList` per route, and `llms.txt`.
+
+Never add schema describing content that is not on the page. The audit nearly
+added `FAQPage` for an FAQ that did not exist, because `grep -c faq-item`
+counted CSS selectors. Strip `<style>` and `<script>` before counting anything
+that is supposed to be content.
+
 ## Bengali and i18n
 
 Bengali is the default and the primary audience. English is the fallback.
@@ -152,13 +182,65 @@ Invariants worth not breaking:
 
 - an entry cannot be `approved` without a screenshot (constraint + the view
   filters on it again);
-- `ref_id` comes from a database sequence, never `Math.random()`;
+- a public submission is always `pending`; `anon` cannot publish;
+- `ref_id` comes from a sequence, and `anon` has no privilege to write that
+  column at all, so it cannot choose one;
 - `moderation_log` records every status change.
 
+### The forms go through RPCs, not inserts
+
+`anon` can INSERT but has no SELECT. PostgREST turns `.select()` into
+`RETURNING`, and `RETURNING` needs SELECT, so
+`.insert({...}).select('ref_id')` fails with **42501 permission denied** — which
+is how every submission and appeal silently failed for a day.
+
+So `submitEv()` and `submitAppeal()` call `submit_report()` and `file_appeal()`
+(migration 004), `SECURITY DEFINER` functions that insert and return only the
+reference number. Both pin `status` themselves and restate the policy's
+requirements, because a definer function bypasses RLS. Do not "fix" a
+permission error here by granting `anon` SELECT, which is what the Postgres
+hint suggests: that exposes every pending report and submitter email.
+
+### Policies are OR'd, and that once cost a day
+
+For a while anyone with the public anon key could insert `status:'approved'`
+and appear in the live archive instantly. The cause was not missing RLS. RLS
+was enabled and forced, and 001's policy was present and correct. What 001
+never did was DROP the pre-lockdown policies:
+
+    anon_insert_submissions   insert   PUBLIC   with check (true)
+
+A permissive policy beside a careful one does not narrow anything, it wins.
+When auditing, read `pg_policy` and look at **every** policy on the table, not
+just the one you expect:
+
+```sql
+select c.relname, p.polname,
+       (select string_agg(rolname::text,',') from pg_roles where oid = any(p.polroles)) as roles,
+       pg_get_expr(p.polwithcheck, p.polrelid) as check_expr
+  from pg_policy p join pg_class c on c.oid = p.polrelid
+ where c.relname in ('submissions','appeals','contact_messages');
+```
+
+There should be exactly two per table: `*_anon_insert` and `*_admin_all`.
+
+### verify.sh
+
 Run `bash migrations/verify.sh` after any schema change. It reads the anon key
-out of `index.html` and tests what a stranger on the internet can actually do;
-its writes are filtered to a UUID that matches nothing, so a pass and a fail both
-touch zero rows. It should report **passed 16, failed 0**.
+out of `index.html` and tests what a stranger can actually do. **It should
+report `passed 19, failed 0`.**
+
+Its first 16 probes all test a GRANT. They reported a clean bill of health
+throughout the self-publishing hole above, because nothing tested a POLICY.
+Probes 17 to 19 close that: they try to insert with a chosen status, a chosen
+`ref_id`, and no screenshot, and all three must be refused.
+
+Two design rules for those probes, both learned by getting them wrong: never
+probe with `status:'approved'`, because a probe that succeeds then publishes a
+row into the live archive (use `'rejected'`, which the policy refuses
+identically and which is invisible if it leaks); and never use a fixed
+`ref_id`, because the second run returns 409 unique-violation and reads as a
+PASS while proving nothing.
 
 ## Gotchas that have already cost time
 
