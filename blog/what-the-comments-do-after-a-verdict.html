@@ -3002,6 +3002,12 @@ var PAGE_META={
 };
 
 function setPageMeta(id){
+  // A blog post's head tags are baked into its own file by tools/build-blog.py
+  // and are more specific than anything PAGE_META has: the post's title, its
+  // description, its own canonical. Overwriting them with the generic blog
+  // entry threw all of that away the moment the page finished loading, so the
+  // rendered DOM said "Writing | Daag" on all eight posts.
+  if(id==='blog'&&/^\/blog\/.+/.test(location.pathname)) return;
   var m=PAGE_META[id]||PAGE_META.home;
   var url='https://www.daag-bd.com'+(id==='home'?'/':'/'+id);
   document.title=m.t;

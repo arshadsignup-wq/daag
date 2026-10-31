@@ -48,6 +48,30 @@
     {
       "source": "/blog/what-the-comments-do-after-a-verdict",
       "destination": "/blog/what-the-comments-do-after-a-verdict.html"
+    },
+    {
+      "source": "/blog/nineteen-days-what-the-fastest-trial-required",
+      "destination": "/blog/nineteen-days-what-the-fastest-trial-required.html"
+    },
+    {
+      "source": "/blog/the-footpath-video-and-who-gets-detained",
+      "destination": "/blog/the-footpath-video-and-who-gets-detained.html"
+    },
+    {
+      "source": "/blog/the-vocabulary-of-blame",
+      "destination": "/blog/the-vocabulary-of-blame.html"
+    },
+    {
+      "source": "/blog/what-a-confession-does-not-settle",
+      "destination": "/blog/what-a-confession-does-not-settle.html"
+    },
+    {
+      "source": "/blog/where-to-report-online-abuse-in-bangladesh",
+      "destination": "/blog/where-to-report-online-abuse-in-bangladesh.html"
+    },
+    {
+      "source": "/blog/who-the-accused-usually-is",
+      "destination": "/blog/who-the-accused-usually-is.html"
     }
   ],
   "headers": [
@@ -150,6 +174,36 @@
     {
       "source": "/blog.html",
       "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/nineteen-days-what-the-fastest-trial-required.html",
+      "destination": "/blog/nineteen-days-what-the-fastest-trial-required",
+      "permanent": true
+    },
+    {
+      "source": "/blog/the-footpath-video-and-who-gets-detained.html",
+      "destination": "/blog/the-footpath-video-and-who-gets-detained",
+      "permanent": true
+    },
+    {
+      "source": "/blog/the-vocabulary-of-blame.html",
+      "destination": "/blog/the-vocabulary-of-blame",
+      "permanent": true
+    },
+    {
+      "source": "/blog/what-a-confession-does-not-settle.html",
+      "destination": "/blog/what-a-confession-does-not-settle",
+      "permanent": true
+    },
+    {
+      "source": "/blog/where-to-report-online-abuse-in-bangladesh.html",
+      "destination": "/blog/where-to-report-online-abuse-in-bangladesh",
+      "permanent": true
+    },
+    {
+      "source": "/blog/who-the-accused-usually-is.html",
+      "destination": "/blog/who-the-accused-usually-is",
       "permanent": true
     }
   ]

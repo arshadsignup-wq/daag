@@ -1693,6 +1693,36 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
         <span class="bl-title">What the comment section does after a verdict</span>
         <span class="bl-desc">When a Bangladeshi court convicts someone of rape, a second, predictable event happens underneath the reporting. Here is the pattern, what the data says, and how to document it.</span>
       </a></li>
+      <li class="bl-item"><a href="/blog/nineteen-days-what-the-fastest-trial-required">
+        <span class="bl-date">30 October 2026</span>
+        <span class="bl-title">Nineteen days: what Bangladesh&#x27;s fastest trial actually required</span>
+        <span class="bl-desc">A Dhaka tribunal convicted two people nineteen days after an eight-year-old was killed in Pallabi. Five hearings, sixteen witnesses. Here is what made it possible, and why the case is not over.</span>
+      </a></li>
+      <li class="bl-item"><a href="/blog/what-a-confession-does-not-settle">
+        <span class="bl-date">29 October 2026</span>
+        <span class="bl-title">What a confession in court does not settle</span>
+        <span class="bl-desc">A driver confessed to the rape and murder of a schoolgirl in Cumilla. Prothom Alo then listed the questions the confession leaves open. Here is what a section 164 statement is, and what it is not.</span>
+      </a></li>
+      <li class="bl-item"><a href="/blog/the-footpath-video-and-who-gets-detained">
+        <span class="bl-date">28 October 2026</span>
+        <span class="bl-title">A harassment video went viral. Then the question became who gets detained.</span>
+        <span class="bl-desc">A woman was assaulted on a Dhanmondi footpath in daylight with a police officer present. What happened next, and what the comment section did with it.</span>
+      </a></li>
+      <li class="bl-item"><a href="/blog/the-vocabulary-of-blame">
+        <span class="bl-date">27 October 2026</span>
+        <span class="bl-title">The vocabulary of blame: the phrases that come back every time</span>
+        <span class="bl-desc">Across the comments this archive records, the same small set of moves repeats. Naming them is the first step to recognising them, and to documenting them properly.</span>
+      </a></li>
+      <li class="bl-item"><a href="/blog/who-the-accused-usually-is">
+        <span class="bl-date">26 October 2026</span>
+        <span class="bl-title">Who the accused usually is, according to this year&#x27;s verdicts</span>
+        <span class="bl-desc">An imam, a stepfather, a neighbour, a teacher, a driver. Read the 2026 convictions together and the stranger is the exception, not the rule.</span>
+      </a></li>
+      <li class="bl-item"><a href="/blog/where-to-report-online-abuse-in-bangladesh">
+        <span class="bl-date">25 October 2026</span>
+        <span class="bl-title">Where to report online abuse in Bangladesh, and what happens next</span>
+        <span class="bl-desc">The numbers that work, what the 2026 ordinance changed, what each route can and cannot do, and how to keep evidence that survives a deleted post.</span>
+      </a></li>
     </ol>
   </div>
 </section>
@@ -2979,6 +3009,12 @@ var PAGE_META={
 };
 
 function setPageMeta(id){
+  // A blog post's head tags are baked into its own file by tools/build-blog.py
+  // and are more specific than anything PAGE_META has: the post's title, its
+  // description, its own canonical. Overwriting them with the generic blog
+  // entry threw all of that away the moment the page finished loading, so the
+  // rendered DOM said "Writing | Daag" on all eight posts.
+  if(id==='blog'&&/^\/blog\/.+/.test(location.pathname)) return;
   var m=PAGE_META[id]||PAGE_META.home;
   var url='https://www.daag-bd.com'+(id==='home'?'/':'/'+id);
   document.title=m.t;
