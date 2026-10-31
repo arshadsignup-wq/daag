@@ -29,15 +29,17 @@ Static site, no framework. One source file plus a prerender step.
 
 | Path | What it is |
 |---|---|
-| `index.html` | the entire public site (~351 KB): markup, CSS, JS, the Bengali dictionary. **The only file you edit.** |
-| `<route>.html` x9 | generated from `index.html` by `tools/prerender.py`. Committed, because Vercel serves the repo directly. Never edit by hand |
+| `index.html` | the entire public site (~355 KB): markup, CSS, JS, the Bengali dictionary. **The only file you edit.** |
+| `<route>.html` x10 | generated from `index.html` by `tools/prerender.py`. Committed, because Vercel serves the repo directly. Never edit by hand |
+| `content/blog/*.md` | the blog posts, front matter + Markdown. **Edit these, not the HTML.** |
+| `blog/<slug>.html` x8 | generated from the Markdown by `tools/build-blog.py`. Never edit by hand |
 | `llms.txt` | what Daag is, for retrieval crawlers |
 | `admin.html` | moderation panel, gated by Supabase Auth |
 | `404.html` | a real 404 page, with its own copy of the palette |
 | `vercel.json` | per-route rewrites + security headers |
 | `api/analytics.js` | Vercel function, GA4 reporting for the admin panel |
 | `migrations/*.sql` | the database schema, applied by hand in the Supabase SQL editor |
-| `migrations/verify.sh` | 16 probes against the live DB as an anonymous stranger |
+| `migrations/verify.sh` | 19 probes against the live DB as an anonymous stranger |
 | `tools/` | build scripts, never served (see `.vercelignore`) |
 
 Deploys are automatic from GitHub `main`.
@@ -94,6 +96,56 @@ JSON-LD fell into it. The only visible symptom was a 27px strip of page
 background above the nav. When replacing a tag by regex, match the whole tag
 including its closing bracket, or do not supply one.
 
+## The blog
+
+Eight posts live in `content/blog/*.md` as front matter plus Markdown.
+`tools/build-blog.py` renders them into `blog/<slug>.html` and rebuilds the
+listing on `/blog`, using `index.html` as the shell the same way the prerender
+does.
+
+```
+python3 tools/build-blog.py          # rebuild the posts and the index
+python3 tools/build-blog.py --check  # exit 1 if they are stale
+```
+
+**Edit the Markdown, never `blog/*.html`.** Those carry a do-not-edit stamp and
+are overwritten on the next build. A post needs a rewrite in `vercel.json` and a
+`<loc>` in `sitemap.xml` like any other route. There are currently **18
+rewrites** — nine routes, `/blog`, and the eight posts; `/` needs none — and
+**19 sitemap entries**, those eighteen plus the homepage.
+
+`/blog` is in `pages[]`, so the router has to recognise a post URL as the blog
+page without treating the slug as an unknown route:
+
+```js
+if (path.indexOf('blog/') === 0) path = 'blog';
+```
+
+And `setPageMeta()` has to leave a post's own head alone. It did not at first,
+which is why all eight posts briefly served the title "Writing | Daag" — the SPA
+boot overwrote the generated tags with the `/blog` entry from `PAGE_META`:
+
+```js
+if (id === 'blog' && /^\/blog\/.+/.test(location.pathname)) return;
+```
+
+Each post ships `Article` and `BreadcrumbList` JSON-LD built from its front
+matter. Same rule as everywhere else: the schema describes what is actually on
+the page, and the dates and sources in it are real or absent.
+
+The breadcrumb is in `build-blog.py`, separate from the one `prerender.py` emits
+for the other routes — so adding a schema type to one generator does not reach
+the other. The posts shipped without any `BreadcrumbList` for a day because of
+exactly that: `prerender.py` had covered "every route" and the posts are not
+routes. When touching schema, check both generators.
+
+Posts are grounded in reporting from Prothom Alo and The Daily Star. Two traps
+when dating a source: The Daily Star's `<time>` element belongs to a sidebar
+item, not the article — the article's date sits behind a `Published :` label;
+and Prothom Alo keeps the date in JSON-LD, not in a meta tag. A dead source is
+removed along with the claim it supported, never swapped for a substitute that
+happens to still resolve.
+
 ## SEO
 
 `seo-audit.md` is the standing diagnosis, with the self-critique in
@@ -104,12 +156,26 @@ is an architectural change to the i18n system, not a tag fix.
 
 Structured data shipped: `Organization` (with `correctionsPolicy` pointing at
 /appeals, which matters for a site publishing accusations), `FAQPage` over the
-six real questions on /about, `BreadcrumbList` per route, and `llms.txt`.
+six real questions on /about, `BreadcrumbList` per route and per post, and
+`llms.txt`.
+
+One known untidiness, open for a decision rather than a bug: because every
+generated file is a copy of the whole SPA, the `FAQPage` block appears in **19
+of the 21 served files**, not just /about. It is not a fabrication — it carries
+`"@id": ".../about#faq"`, and the questions really are on /about — but nineteen
+URLs each asserting the same FAQ entity is more than intended. Scoping it to
+/about means stripping it per-route in `prerender.py`.
 
 Never add schema describing content that is not on the page. The audit nearly
 added `FAQPage` for an FAQ that did not exist, because `grep -c faq-item`
 counted CSS selectors. Strip `<style>` and `<script>` before counting anything
 that is supposed to be content.
+
+That trap is general, not a one-off. Any tool pointed at a served page here is
+reading a single-file SPA: a content scorer run against `blog/<slug>.html`
+reported 36,401 tokens for an 1,100-word post and gave all eight posts the same
+flat grade, because it was measuring the inlined CSS and JS. Point content tools
+at `content/blog/*.md`.
 
 ## Bengali and i18n
 
@@ -257,3 +323,8 @@ PASS while proving nothing.
 - Verify claims about the live database empirically before stating them. An
   earlier "47 submitter emails exposed" was wrong — the column held empty
   strings, and nobody's email was ever leaked.
+- A shell check can pass because it never ran. Comparing repo files against
+  production with `curl | shasum` inside a zsh function reported all 22 files
+  identical: the function had lost `PATH`, neither binary was found, and two
+  empty strings compared equal. **A comparison of two empty results is not a
+  match.** Assert the inputs are non-empty, or do it in Python.

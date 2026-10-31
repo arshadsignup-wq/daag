@@ -155,6 +155,22 @@ def article_schema(post):
     }, ensure_ascii=False, separators=(',', ':'))
 
 
+def breadcrumb_schema(post):
+    """Home > Writing > the post. prerender.py emits a two-level trail for every
+    other route; without this the posts were the only pages on the site with no
+    BreadcrumbList, and they sit deepest."""
+    return json.dumps({
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Daag",
+             "item": ORIGIN + '/'},
+            {"@type": "ListItem", "position": 2, "name": "Writing",
+             "item": ORIGIN + '/blog'},
+            {"@type": "ListItem", "position": 3, "name": post['title'],
+             "item": '%s/blog/%s' % (ORIGIN, post['slug'])},
+        ]}, ensure_ascii=False, separators=(',', ':'))
+
+
 def set_tag(doc, pattern, replacement):
     new, n = re.subn(pattern, lambda _: replacement, doc, count=1)
     if n != 1:
@@ -205,8 +221,10 @@ def build_post_page(shell, post):
     doc = re.sub(r'(<section id="pg-blog" class="page">)(.*?)(</section>)',
                  lambda m: m.group(1) + '\n' + article + '\n' + m.group(3),
                  doc, count=1, flags=re.S)
-    doc = doc.replace('</head>', '<script type="application/ld+json">%s</script>\n%s\n</head>'
-                      % (article_schema(post), STAMP), 1)
+    doc = doc.replace('</head>',
+                      '<script type="application/ld+json">%s</script>\n'
+                      '<script type="application/ld+json">%s</script>\n%s\n</head>'
+                      % (article_schema(post), breadcrumb_schema(post), STAMP), 1)
     return doc
 
 
