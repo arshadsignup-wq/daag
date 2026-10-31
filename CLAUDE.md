@@ -105,8 +105,14 @@ does.
 
 ```
 python3 tools/build-blog.py          # rebuild the posts and the index
+python3 tools/prerender.py           # ALWAYS second -- see below
 python3 tools/build-blog.py --check  # exit 1 if they are stale
 ```
+
+**Order matters: build-blog first, prerender second.** `build-blog.py` rewrites
+the blog listing *inside `index.html`*, and `prerender.py` copies `index.html`
+out to the route files. Running prerender first ships a stale listing. Its own
+output says `now run: python3 tools/prerender.py` for this reason.
 
 **Edit the Markdown, never `blog/*.html`.** Those carry a do-not-edit stamp and
 are overwritten on the next build. A post needs a rewrite in `vercel.json` and a
@@ -223,6 +229,28 @@ corkboard, the helpline band, the footer — so a token change does not reach th
 Note `.pin` and `.who` keep a white paper background in dark mode **on purpose**
 (they are photographs of pinned paper). Dark-mode overrides must not touch them.
 
+### The stacking trap that hid the hero on every phone
+
+`.lede` carries `z-index:5`. The `@media(max-width:1000px)` block set
+`position:static`, and **`z-index` does nothing on a static element**, so
+`.cork` (z-index 0) and `.vig` (z-index 1) — both `position:absolute;inset:0`
+over the whole board — painted over the headline, the paragraph and the
+profile-search box. For months every phone showed an empty corkboard and a
+search field that could not even be tapped (`elementFromPoint` returned
+`DIV.cork`; a real `click()` timed out). `.pin,.who` in that same block already
+used `position:relative` for exactly this reason.
+
+Two things to carry from it:
+
+- **The DOM will tell you it is fine.** `visible: true`, `opacity: 1`, a 350x80
+  box, an opaque colour. Only the pixels disagreed. Screenshot the element and
+  count them.
+- **`position:relative` alone was not enough**, and briefly made it worse:
+  `.board>.lede{left:var(--inset)}` was inert while static and then applied,
+  shoving the hero 32px right and off-screen. `left`/`top` must be reset at
+  **matching specificity** — a one-class `.lede` rule cannot override a
+  two-class `.board>.lede`, media query or not.
+
 ### Auditing contrast
 
 The in-browser audit used throughout this project had two blind spots that each
@@ -237,7 +265,18 @@ hid a real failure for a whole pass:
 A correct audit composites translucent layers onto an opaque base, treats
 near-transparent SVG noise as see-through, counts short labels, and skips only
 the hero (which sits on a genuine dark wood texture). The site currently passes
-AA across every page × both themes × both languages.
+AA across every page × both themes × both languages — 0 failures over 3,348
+text elements.
+
+There is now a third way this audit has lied: it reported **0 failures across
+all 48 combinations** because it called `applyLang()` *after* setting
+`data-theme`, and `applyLang()` resets the attribute. Every run silently
+measured light mode. **Assert the theme attribute actually stuck before you
+measure anything.** With that assertion in place the same sweep found two real
+dark-mode failures.
+
+`.logo-mark` sits at 4.43:1 and is left alone on purpose: WCAG 1.4.3 exempts a
+logotype from contrast minimums. Do not "fix" it.
 
 ## Database
 
