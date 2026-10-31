@@ -83,6 +83,29 @@ def breadcrumb(route, title):
         ]}, ensure_ascii=False, separators=(',', ':'))
 
 
+def set_active_section(doc, route):
+    """Make the route's own <section> the visible one.
+
+    Without this every generated file shipped pg-home as the only section not
+    display:none, so anything that does not run JavaScript -- social scrapers,
+    most retrieval crawlers -- read the homepage at all ten route URLs. The
+    head tags were already per-route; the body was not, and ten of nineteen
+    URLs extracted byte-identical text.
+    """
+    want = 'pg-' + ('home' if route == 'home' else route)
+    if want == 'pg-home':
+        return doc                      # already the active one in index.html
+    out, n = re.subn(r'(<section id="pg-home" class="page) active(">)',
+                     r'\1\2', doc, count=1)
+    if n != 1:
+        sys.exit('prerender: could not deactivate pg-home for %s' % route)
+    out, n = re.subn(r'(<section id="%s" class="page)(">)' % re.escape(want),
+                     r'\1 active\2', out, count=1)
+    if n != 1:
+        sys.exit('prerender: could not activate %s' % want)
+    return out
+
+
 def build(html, route, meta):
     url = ORIGIN + ('/' if route == 'home' else '/' + route)
     title, desc = meta['t'], meta['d']
@@ -102,6 +125,7 @@ def build(html, route, meta):
                   '<meta name="twitter:title" content="%s">' % esc(title))
     out = set_tag(out, r'<meta name="twitter:description" content="[^"]*">',
                   '<meta name="twitter:description" content="%s">' % esc(desc))
+    out = set_active_section(out, route)
     if route != 'home':
         out = out.replace('</head>', '<script type="application/ld+json">%s</script>\n</head>'
                           % breadcrumb(route, title), 1)

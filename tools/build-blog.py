@@ -178,6 +178,23 @@ def set_tag(doc, pattern, replacement):
     return new
 
 
+def set_blog_active(doc):
+    """A post page must show the blog section, not the homepage.
+
+    index.html ships pg-home as the only section without display:none, so a
+    post page generated straight from the shell renders the homepage to
+    anything that does not run JavaScript. prerender.py does the same thing
+    for the ten routes.
+    """
+    out, n = re.subn(r'(<section id="pg-home" class="page) active(">)', r'\1\2', doc, count=1)
+    if n != 1:
+        sys.exit('build-blog: could not deactivate pg-home')
+    out, n = re.subn(r'(<section id="pg-blog" class="page)(">)', r'\1 active\2', out, count=1)
+    if n != 1:
+        sys.exit('build-blog: could not activate pg-blog')
+    return out
+
+
 def build_post_page(shell, post):
     url = '%s/blog/%s' % (ORIGIN, post['slug'])
     title = '%s | Daag' % post['title']
@@ -225,7 +242,7 @@ def build_post_page(shell, post):
                       '<script type="application/ld+json">%s</script>\n'
                       '<script type="application/ld+json">%s</script>\n%s\n</head>'
                       % (article_schema(post), breadcrumb_schema(post), STAMP), 1)
-    return doc
+    return set_blog_active(doc)
 
 
 def build_index_section(posts):
@@ -242,7 +259,7 @@ def build_index_section(posts):
         '  <div style="background:var(--bg1);border-bottom:1px solid var(--border)">\n'
         '    <div class="section-sm" style="padding-top:3.5rem;padding-bottom:3.5rem">\n'
         '      <div data-i18n="blog.tag" class="section-tag">Writing</div>\n'
-        '      <h2 data-i18n="blog.title" class="section-title">From the archive</h2>\n'
+        '      <h1 data-i18n="blog.title" class="section-title">From the archive</h1>\n'
         '      <p data-i18n="blog.intro" style="color:var(--text2);max-width:62ch;line-height:1.8;'
         'font-size:14px;margin-top:.5rem">What the record shows, what the courts decided, and how to '
         'document a comment so it holds up. Every figure links to the report it came from.</p>\n'

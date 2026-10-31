@@ -68,6 +68,12 @@
 <style>
 .skip-link{position:absolute;top:-100%;left:1rem;background:var(--ink2);color:#fff;padding:.5rem 1.2rem;border-radius:4px;z-index:200;font-size:13px;text-decoration:none}
 .skip-link:focus{top:1rem}
+/* In dark mode --ink2 is rgb(224,54,47); white on it is 4.43:1, just under the
+   4.5 AA needs for 13px text. The skip link is a real control, so it gets its
+   own slightly deeper red (4.72:1) rather than shifting the shared token. The
+   .logo-mark sits on the same red and is left alone: WCAG 1.4.3 exempts a
+   logotype from contrast minimums. */
+html[data-theme="dark"] .skip-link{background:#d8342d}
 /* Keyboard users need to see where they are. :focus-visible keeps this off
    mouse clicks, so it costs the pointer experience nothing. */
 a:focus-visible,button:focus-visible,summary:focus-visible,
@@ -111,7 +117,7 @@ html[data-theme="dark"]{
   --ink:#ff6050;--ink2:#e0362f;--ink-glow:rgba(255,96,80,.13);--focus-ring:rgba(255,96,80,.45);
   --accent-text:#ff6050;--accent-badge:#ff8575;--accent-on-glow:#ffa192;
   --accent:#ff6050;--warm:#f6f1e8;
-  --umber:#c9a06a;--umber-light:#dcb882;
+  --umber:#cba36e;--umber-light:#dcb882;
   --nav-bg:rgba(23,20,15,.9);--nav-bg2:rgba(23,20,15,.97);
   --ok-bg:#1f2c18;--ok-fg:#9ccb7a;--ok-br:#3c5230;
   --info-bg:#1a2630;--info-fg:#8fb8d6;--info-br:#33505f;
@@ -309,7 +315,19 @@ html[lang="en"] .who .nm.stamp{letter-spacing:.14em;font-size:.92rem;line-height
    simple stack and the thread is dropped rather than drawn to nothing. */
 @media(max-width:1000px){
   .board{min-height:auto;padding:1.5rem 1.25rem 2rem}
-  .lede{position:static;max-width:none;margin-bottom:2rem}
+  /* position:relative, not static: .lede carries z-index:5, and z-index is
+     ignored on a static element. As static it fell behind .cork (z-index:0)
+     and .vig (z-index:1), which cover the whole board -- so below 1000px the
+     hero headline, its paragraph and the profile-search box painted nothing
+     and the search input could not even be tapped. .pin and .who in this same
+     block already use relative for this reason. left/top are reset because the
+     base rules set left:2rem and .board>.lede sets left:var(--inset); both were
+     inert while .lede was static, and relative positioning would otherwise
+     apply them and push the hero 32px right, overhanging the screen. */
+  .lede{position:relative;max-width:none;margin-bottom:2rem}
+  /* .board>.lede is two classes; a one-class .lede rule here cannot override
+     its left, media query or not. Same selector, later in the sheet. */
+  .board>.lede{left:auto;top:auto}
   .pin,.who{position:relative!important;left:auto!important;top:auto!important;
     width:auto!important;transform:none!important;margin:0 auto 1.6rem;max-width:420px}
   /* the pins are stacked below this width, so there is nothing for the thread
@@ -649,7 +667,10 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
 .body-menu-open{overflow:hidden}
 
 /* RESPONSIVE */
-@media(max-width:720px){
+/* The full nav needs 882px. Below 900 it overflowed the viewport and the
+   whole page scrolled sideways -- 740px to 880px, which includes iPad
+   portrait at 768. The hamburger now covers everything under 900. */
+@media(max-width:900px){
   .f-row{grid-template-columns:1fr}
   .stats-grid{grid-template-columns:1fr 1fr}
   .two-col-about{grid-template-columns:1fr}
@@ -726,6 +747,12 @@ footer{border-top:1px solid var(--border);padding:3.5rem 2rem 2.5rem;margin-top:
   .nav-inner{gap:.35rem}
 }
 @media(max-width:360px){
+  /* Twelve month labels will not fit 320px at the normal padding: the last one
+     ("ডিসে") hung 11px past the edge and scrolled the whole page sideways. */
+  .chart-box{padding:.75rem}
+  .bar-chart{gap:.15rem}
+  .b-lbl{font-size:8.5px}
+
   .hero{padding:2.5rem .75rem 1.5rem}
   h1.hero-h{font-size:clamp(2.4rem,7vw,5.8rem)}
   .hero-sub{font-size:.95rem}
@@ -1122,7 +1149,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
 
 <main id="main-content">
 <!-- HOME -->
-<section id="pg-home" class="page active">
+<section id="pg-home" class="page">
   <!-- ===== THE BOARD =====
        The homepage is an investigation corkboard: the accused pinned at the
        centre, what they wrote pinned around them, red thread between. Replaces
@@ -1265,7 +1292,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
 <section id="pg-submit" class="page">
   <div class="section-sm" style="padding-top:3rem">
     <div class="section-tag" data-i18n="submit.tag">Evidence Submission Portal</div>
-    <h2 class="section-title" style="font-size:2.2rem;margin-bottom:.5rem" data-i18n="submit.title">Document a Comment</h2>
+    <h1 class="section-title" style="font-size:2.2rem;margin-bottom:.5rem" data-i18n="submit.title">Document a Comment</h1>
     <p data-i18n="submit.x1" style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.8">Seen a misogynistic, victim-blaming, or abusive comment on a public post about gender violence - on Facebook, Instagram, X, TikTok, YouTube, Reddit or anywhere else? Submit it here. All submissions stay private until reviewed by our editorial team.</p>
     <div class="notice" style="margin-bottom:2rem"><div data-i18n="submit.x2" class="notice-t">Submission Standards</div><div data-i18n="submit.x3" class="notice-b">Only submit publicly visible comments from public posts, pages or channels on any platform. Do not submit content from private groups, direct messages, or closed conversations. Fabricated or manipulated screenshots will lead to a permanent submission ban.</div></div>
     <div style="background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--umber);border-radius:5px;padding:1.4rem 1.5rem;margin-bottom:2rem">
@@ -1355,7 +1382,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
 <section id="pg-archive" class="page">
   <div class="section" style="padding-top:3rem">
     <div class="section-tag" data-i18n="arch.tag">Public Archive</div>
-    <h2 class="section-title" style="margin-bottom:.75rem" data-i18n="arch.title">The Record</h2>
+    <h1 class="section-title" style="margin-bottom:.75rem" data-i18n="arch.title">The Record</h1>
     <p style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.75" data-i18n="arch.intro">All entries have passed editorial moderation. Screenshots are blurred by default. This archive is a public record, not a tool for harassment or pile-ons.</p>
     <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem">
       <input class="search-i" id="archSearch" data-i18n-aria="Search the archive" aria-label="Search the archive" data-i18n-ph="arch.searchPh" placeholder="Search keywords, categories, incident types..." oninput="debounceArchSearch()">
@@ -1403,7 +1430,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
 <section id="pg-analytics" class="page">
   <div class="section" style="padding-top:3rem">
     <div data-i18n="analytics.x1" class="section-tag">Pattern Analytics</div>
-    <h2 data-i18n="analytics.x2" class="section-title" style="margin-bottom:.5rem">What the Data Shows</h2>
+    <h1 data-i18n="analytics.x2" class="section-title" style="margin-bottom:.5rem">What the Data Shows</h1>
     <p data-i18n="analytics.x3" style="color:var(--text2);font-size:14px;margin-bottom:2.5rem;line-height:1.75">All data comes from verified archive entries only. Updated weekly. Figures are shown at the aggregate level. No individual-level data is published here.</p>
     <div class="stats-grid">
       <div class="a-card"><div class="a-num" id="analyticsTotal">0</div><div data-i18n="analytics.x4" class="a-lbl">Total Archived</div><div class="a-delta" id="analyticsThisMonth"></div></div>
@@ -1425,7 +1452,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
 <section id="pg-appeals" class="page">
   <div class="section-sm" style="padding-top:3rem">
     <div data-i18n="appeals.x1" class="section-tag">Appeals &amp; Dispute System</div>
-    <h2 data-i18n="appeals.x2" class="section-title" style="font-size:2.2rem;margin-bottom:.5rem">File a Formal Dispute</h2>
+    <h1 data-i18n="appeals.x2" class="section-title" style="font-size:2.2rem;margin-bottom:.5rem">File a Formal Dispute</h1>
     <p data-i18n="appeals.x3" style="color:var(--text2);font-size:14px;margin-bottom:2rem;line-height:1.8">If you believe a submission involving you is inaccurate, missing critical context, or was submitted in bad faith, you can file a formal appeal. A panel separate from the original moderator reviews all appeals within 14 working days.</p>
     <div class="appeal-form" id="appealFormWrap">
       <div class="form-head"><div data-i18n="appeals.x4" class="form-h">Dispute Submission</div><div data-i18n="appeals.x5" class="form-sh">All appeals are treated confidentially. Review typically completed within 14 working days.</div></div>
@@ -1467,7 +1494,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
   <div class="about-hero-sec">
     <div style="max-width:1200px;margin:0 auto">
       <div data-i18n="about.x1" class="section-tag">About</div>
-      <h2 data-i18n="about.x2" class="section-title">Why Daag Exists</h2>
+      <h1 data-i18n="about.x2" class="section-title">Why Daag Exists</h1>
       <p style="color:var(--text2);max-width:640px;line-height:1.85;font-size:14px;margin-top:1rem" data-i18n="about.m1">In Bangla, <em style="color:var(--warm)">দাগ</em> means stain, the kind that does not wash off. The name is deliberate. When men post victim-blaming, misogynistic, or violent commentary on public Facebook posts about gender violence, that behavior should leave a record. This project was built in response to a pattern: when incidents of rape, acid violence, or domestic abuse happen in Bangladesh, the comment sections fill with cruelty and then disappear. Daag exists to make sure they do not.</p>
     </div>
   </div>
@@ -1549,7 +1576,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
   <div class="search-hero">
     <div class="search-hero-inner">
       <div class="section-tag" data-i18n="search.tag">Profile Search</div>
-      <h2 class="section-title" style="font-size:2.2rem;margin-bottom:.5rem" data-i18n="search.title">Look Someone Up</h2>
+      <h1 class="section-title" style="font-size:2.2rem;margin-bottom:.5rem" data-i18n="search.title">Look Someone Up</h1>
       <p data-i18n="search.x1" style="color:var(--text2);font-size:14px;line-height:1.8;max-width:580px">Search the Daag archive by Facebook profile name or URL. See if a person has verified entries with documented comments linked to gender violence incidents.</p>
       <div class="big-search-wrap">
         <span class="big-search-icon">&#9109;</span>
@@ -1588,7 +1615,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
   <div style="background:var(--bg1);border-bottom:1px solid var(--border)">
     <div class="section-sm" style="padding-top:3.5rem;padding-bottom:3.5rem">
       <div data-i18n="terms.x1" class="section-tag">Legal</div>
-      <h2 data-i18n="terms.x2" class="section-title">Terms of Use</h2>
+      <h1 data-i18n="terms.x2" class="section-title">Terms of Use</h1>
       <p data-i18n="terms.x3" style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14px;margin-top:.5rem">By accessing or using the Daag platform, you agree to the following terms. Please read them carefully.</p>
     </div>
   </div>
@@ -1626,7 +1653,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
   <div style="background:var(--bg1);border-bottom:1px solid var(--border)">
     <div class="section-sm" style="padding-top:3.5rem;padding-bottom:3.5rem">
       <div data-i18n="privacy.x1" class="section-tag">Legal</div>
-      <h2 data-i18n="privacy.x2" class="section-title">Privacy Policy</h2>
+      <h1 data-i18n="privacy.x2" class="section-title">Privacy Policy</h1>
       <p data-i18n="privacy.x3" style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14px;margin-top:.5rem">This policy explains what data we collect, how we use it, and your rights regarding your information on the Daag platform.</p>
     </div>
   </div>
@@ -1676,7 +1703,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
 </section>
 
 <!-- BLOG -->
-<section id="pg-blog" class="page">
+<section id="pg-blog" class="page active">
   <article class="bp" id="bp-who-the-accused-usually-is">
     <div class="section-sm" style="padding-top:3rem;padding-bottom:1rem">
       <a class="bp-back" href="/blog">&larr; <span data-i18n="blog.all">All posts</span></a>
@@ -1721,7 +1748,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
   <div style="background:var(--bg1);border-bottom:1px solid var(--border)">
     <div class="section-sm" style="padding-top:3.5rem;padding-bottom:3.5rem">
       <div data-i18n="contact.x1" class="section-tag">Get in Touch</div>
-      <h2 data-i18n="contact.x2" class="section-title">Contact Us</h2>
+      <h1 data-i18n="contact.x2" class="section-title">Contact Us</h1>
       <p data-i18n="contact.x3" style="color:var(--text2);max-width:560px;line-height:1.8;font-size:14px;margin-top:.5rem">Have a question, concern, or suggestion? Use the form below to reach the Daag team. We review all messages and will respond where appropriate.</p>
       <p style="margin-top:.9rem;font-size:13.5px;color:var(--text2)"><span data-i18n="contact.direct">Or write to us directly:</span>
         <a href="mailto:daagarchive@gmail.com" style="color:var(--accent);font-family:var(--font-mono);text-decoration:none;border-bottom:1px solid currentColor">daagarchive@gmail.com</a></p>
@@ -1800,7 +1827,7 @@ html[data-theme="dark"] .sitem .sno{color:#b3a894}
   <div style="max-width:600px;margin:4rem auto;padding:2rem;text-align:center;font-family:sans-serif">
     <h1>Daag - Online Gender Violence Documentation Archive</h1>
     <p>Daag is a verified public archive documenting misogynistic, victim-blaming, and abusive comments on social media about gender violence in Bangladesh.</p>
-    <p>This site requires JavaScript to be enabled. Please enable JavaScript in your browser settings to use Daag.</p>
+    <p>The archive, the appeals process and the written pieces all read without JavaScript. Submitting evidence, searching a profile and the live statistics need it enabled.</p>
   </div>
 </noscript>
 

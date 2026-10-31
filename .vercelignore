@@ -37,3 +37,7 @@ daag-bd-*.json
 
 # Working notes from the SEO audit. Not part of the site.
 critique/
+
+# SEO audit artifacts. *.md above already covers the reports; this covers the
+# screenshots and audit-data.json, which Vercel would otherwise serve.
+daag-bd.com-audit/
