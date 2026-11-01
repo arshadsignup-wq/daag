@@ -72,6 +72,82 @@
     {
       "source": "/blog/who-the-accused-usually-is",
       "destination": "/blog/who-the-accused-usually-is.html"
+    },
+    {
+      "source": "/archive.md",
+      "destination": "/md/archive.md"
+    },
+    {
+      "source": "/search.md",
+      "destination": "/md/search.md"
+    },
+    {
+      "source": "/submit.md",
+      "destination": "/md/submit.md"
+    },
+    {
+      "source": "/appeals.md",
+      "destination": "/md/appeals.md"
+    },
+    {
+      "source": "/analytics.md",
+      "destination": "/md/analytics.md"
+    },
+    {
+      "source": "/about.md",
+      "destination": "/md/about.md"
+    },
+    {
+      "source": "/terms.md",
+      "destination": "/md/terms.md"
+    },
+    {
+      "source": "/privacy.md",
+      "destination": "/md/privacy.md"
+    },
+    {
+      "source": "/contact.md",
+      "destination": "/md/contact.md"
+    },
+    {
+      "source": "/blog.md",
+      "destination": "/md/blog.md"
+    },
+    {
+      "source": "/index.md",
+      "destination": "/md/index.md"
+    },
+    {
+      "source": "/blog/180-days-in-law-three-years-in-practice.md",
+      "destination": "/md/blog/180-days-in-law-three-years-in-practice.md"
+    },
+    {
+      "source": "/blog/nineteen-days-what-the-fastest-trial-required.md",
+      "destination": "/md/blog/nineteen-days-what-the-fastest-trial-required.md"
+    },
+    {
+      "source": "/blog/the-footpath-video-and-who-gets-detained.md",
+      "destination": "/md/blog/the-footpath-video-and-who-gets-detained.md"
+    },
+    {
+      "source": "/blog/the-vocabulary-of-blame.md",
+      "destination": "/md/blog/the-vocabulary-of-blame.md"
+    },
+    {
+      "source": "/blog/what-a-confession-does-not-settle.md",
+      "destination": "/md/blog/what-a-confession-does-not-settle.md"
+    },
+    {
+      "source": "/blog/what-the-comments-do-after-a-verdict.md",
+      "destination": "/md/blog/what-the-comments-do-after-a-verdict.md"
+    },
+    {
+      "source": "/blog/where-to-report-online-abuse-in-bangladesh.md",
+      "destination": "/md/blog/where-to-report-online-abuse-in-bangladesh.md"
+    },
+    {
+      "source": "/blog/who-the-accused-usually-is.md",
+      "destination": "/md/blog/who-the-accused-usually-is.md"
     }
   ],
   "headers": [
@@ -93,6 +169,14 @@
         {
           "key": "Permissions-Policy",
           "value": "geolocation=(), microphone=(), camera=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://cangysctagsljckdepyc.supabase.co; connect-src 'self' https://cangysctagsljckdepyc.supabase.co wss://cangysctagsljckdepyc.supabase.co https://formspree.io https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://stats.g.doubleclick.net; form-action 'self' https://formspree.io; frame-ancestors 'self'; base-uri 'self'; object-src 'none'"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin-allow-popups"
         }
       ]
     },
@@ -106,6 +190,19 @@
         {
           "key": "Cache-Control",
           "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).md",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/markdown; charset=utf-8"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
         }
       ]
     }

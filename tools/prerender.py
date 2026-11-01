@@ -83,6 +83,43 @@ def breadcrumb(route, title):
         ]}, ensure_ascii=False, separators=(',', ':'))
 
 
+ABOUT_SEC_RE = re.compile(r'<section id="pg-about".*?(?=<section id="pg-)', re.S)
+FAQ_ITEM_RE = re.compile(
+    r'<div class="faq-item">\s*'
+    r'<button[^>]*>\s*<span[^>]*>(.*?)</span>.*?'
+    r'<div class="faq-a-inner"[^>]*>(.*?)</div>',
+    re.S)
+
+
+def strip_tags(frag):
+    return re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', frag)).strip()
+
+
+def faq_schema(html):
+    """Build FAQPage from the FAQ actually in #pg-about.
+
+    Derived from the markup rather than kept as a second copy, so the schema
+    cannot drift from the page. index.html no longer carries a FAQPage block at
+    all: it used to ride along into every generated file, so 19 of 21 served
+    files asserted the same entity, the homepage included.
+    """
+    sec = ABOUT_SEC_RE.search(html)
+    if not sec:
+        sys.exit('prerender: #pg-about section not found')
+    items = FAQ_ITEM_RE.findall(sec.group(0))
+    if len(items) < 2:
+        sys.exit('prerender: found %d FAQ items in #pg-about, refusing to ship'
+                 % len(items))
+    return json.dumps({
+        "@context": "https://schema.org", "@type": "FAQPage",
+        "@id": ORIGIN + "/about#faq",
+        "mainEntity": [
+            {"@type": "Question", "name": strip_tags(q),
+             "acceptedAnswer": {"@type": "Answer", "text": strip_tags(a)}}
+            for q, a in items],
+    }, ensure_ascii=False, separators=(',', ':'))
+
+
 def set_active_section(doc, route):
     """Make the route's own <section> the visible one.
 
@@ -115,6 +152,10 @@ def build(html, route, meta):
                   '<meta name="description" content="%s">' % esc(desc))
     out = set_tag(out, r'<link rel="canonical" href="[^"]*">',
                   '<link rel="canonical" href="%s">' % url)
+    # tools/build-md.py writes the sibling; this is how a crawler finds it
+    out = set_tag(out, r'<link rel="alternate" type="text/markdown" href="[^"]*">',
+                  '<link rel="alternate" type="text/markdown" href="%s.md">'
+                  % (ORIGIN + '/' + route))
     out = set_tag(out, r'<meta property="og:title" content="[^"]*">',
                   '<meta property="og:title" content="%s">' % esc(title))
     out = set_tag(out, r'<meta property="og:description" content="[^"]*">',
@@ -126,6 +167,10 @@ def build(html, route, meta):
     out = set_tag(out, r'<meta name="twitter:description" content="[^"]*">',
                   '<meta name="twitter:description" content="%s">' % esc(desc))
     out = set_active_section(out, route)
+    if route == 'about':
+        out = out.replace('</head>',
+                          '<script type="application/ld+json">%s</script>\n</head>'
+                          % faq_schema(html), 1)
     if route != 'home':
         out = out.replace('</head>', '<script type="application/ld+json">%s</script>\n</head>'
                           % breadcrumb(route, title), 1)

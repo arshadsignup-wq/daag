@@ -204,6 +204,8 @@ def build_post_page(shell, post):
                   '<meta name="description" content="%s">' % esc(post['description']))
     doc = set_tag(doc, r'<link rel="canonical" href="[^"]*">',
                   '<link rel="canonical" href="%s">' % url)
+    doc = set_tag(doc, r'<link rel="alternate" type="text/markdown" href="[^"]*">',
+                  '<link rel="alternate" type="text/markdown" href="%s.md">' % url)
     doc = set_tag(doc, r'<meta property="og:title" content="[^"]*">',
                   '<meta property="og:title" content="%s">' % esc(post['title']))
     doc = set_tag(doc, r'<meta property="og:description" content="[^"]*">',
