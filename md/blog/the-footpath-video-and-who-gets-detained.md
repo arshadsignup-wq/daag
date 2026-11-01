@@ -68,6 +68,10 @@ The full standard is on the [about page](/about), and you can [submit](/submit) 
 
 ---
 
+## How this piece was made
+
+The sequence of events is as reported by Prothom Alo and has not been independently verified by Daag. No conclusion is drawn about guilt in any matter described. Where the reporting itself was unclear about who was detained and on what basis, the piece says so rather than resolving it.
+
 **Sources.** Prothom Alo for the incident, the officer's withdrawal, the detention and the woman's statement; The Daily Star and Prothom Alo for the context on online abuse. Each figure links to the report it came from.
 
 *Daag is a public archive, not a law firm, and nothing here is legal advice. If you are in danger now, call 999. For the national women and children helpline, call 109. For online harassment and blackmail, Police Cyber Support for Women is on 01320-000888.*

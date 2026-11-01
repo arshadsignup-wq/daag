@@ -464,6 +464,10 @@ If an entry about you is wrong, [the appeals process](/appeals) is reviewed by a
 
 ---
 
+## How this piece was made
+
+Figures were taken from the published reports linked beside each one and not recalculated. Where a report gave a rounded figure, it is reproduced as the publisher gave it. The three October verdicts are individual cases, not a sample: they illustrate the gap between the statutory deadline and observed practice, and cannot measure it.
+
 **Sources.** Every figure above links to the report it came from. The three October verdicts are from The Daily Star's crime and justice desk; the conviction rate, the 180-day provision and the three-years-seven-months average are from Prothom Alo's report on research presented at the BRAC Centre on 2 May 2026. Dates are the publishers' own.
 
 *Daag is a public archive, not a law firm. Nothing here is legal advice. For urgent help call 999, or 109 for the national women and children helpline.*
@@ -528,7 +532,9 @@ This is the part Daag records.
 
 A case this fast, this public and this severe produces a very particular reaction underneath the reporting. Some of it is grief. A large share of it is something else: demands for extrajudicial punishment, arguments that trials are a waste of time, and, within a day, the familiar pivot to what the child's family should have done differently.
 
-That last move is the one worth noticing, because an eight-year-old leaves almost no room for it. The reasoning does not stop when the victim is a child; it relocates to the mother, to the neighbourhood, to the family's circumstances.
+That last move is the one worth noticing, because an eight-year-old leaves almost no room for it. The reasoning does not stop when the victim is a child; it relocates to the mother, to the neighbourhood, to the family's circumstances. It is the most common pattern Daag records — 15 of the 27 entries published as of 1 November 2026 — and it is catalogued in [the vocabulary of blame](/blog/the-vocabulary-of-blame).
+
+The demand for extrajudicial punishment is the other half, and it runs directly against what this case demonstrates: the courts moved in nineteen days. Where those comments cross from opinion into threats or locating a person, [there are routes that actually apply](/blog/where-to-report-online-abuse-in-bangladesh), and they are not the same as reporting everything to a cybercrime unit.
 
 [The archive](/archive) exists to keep that second record. Not the crime, which the courts and the press handle, but what named people wrote publicly underneath it, with a screenshot and a link to the source post, reviewed by a person before publication.
 
@@ -541,6 +547,10 @@ Everything that made this case fast was circumstantial: an immediate arrest, int
 The useful question after a verdict like this one is not whether justice is possible. It is why the conditions for it have to be exceptional.
 
 ---
+
+## How this piece was made
+
+This piece describes one exceptional case and says so throughout. Nineteen days is a record, not a typical duration, and nothing here should be read as what a complainant can expect. The contrast with the three-year-seven-month average is the point of the piece, not a claim that the average is improving.
 
 **Sources.** The Daily Star's crime and justice desk for the verdict, the five hearings and the death reference; Prothom Alo for the research on average case duration. Dates and figures are the publishers' own, and each links to the report it came from.
 
@@ -617,6 +627,10 @@ The full standard is on the [about page](/about), and you can [submit](/submit) 
 
 ---
 
+## How this piece was made
+
+The sequence of events is as reported by Prothom Alo and has not been independently verified by Daag. No conclusion is drawn about guilt in any matter described. Where the reporting itself was unclear about who was detained and on what basis, the piece says so rather than resolving it.
+
 **Sources.** Prothom Alo for the incident, the officer's withdrawal, the detention and the woman's statement; The Daily Star and Prothom Alo for the context on online abuse. Each figure links to the report it came from.
 
 *Daag is a public archive, not a law firm, and nothing here is legal advice. If you are in danger now, call 999. For the national women and children helpline, call 109. For online harassment and blackmail, Police Cyber Support for Women is on 01320-000888.*
@@ -637,29 +651,61 @@ That exchange, and what follows it in public, is the subject of this archive. No
 
 Across the entries Daag has published, the same small set of moves comes back. They are worth naming, because a pattern you can name is a pattern you can recognise in the first second rather than the tenth.
 
+## What the archive actually holds
+
+As of **1 November 2026** the archive had **27 published entries**, submitted between 4 June and 22 October 2026. Every one was reviewed by a moderator before publication, and none is currently under appeal.
+
+That is a small set, and the figures below should be read as a description of 27 comments rather than as a measurement of Bangladeshi social media. They are published here because they are the archive's own record, not an estimate.
+
+| Category | Entries | Share of 27 |
+|---|---|---|
+| Victim blaming | 15 | 56% |
+| Appearance humiliation | 5 | 19% |
+| Dehumanising language | 4 | 15% |
+| Sexual harassment | 2 | 7% |
+| Hate speech | 1 | 4% |
+
+Moderators also record a severity for each entry: **10 moderate, 10 high, 7 severe**. And the comments attach to a narrow band of incidents — 11 to rape or sexual violence, 8 to public harassment, 7 to cyber harassment, 1 to other gender-based violence.
+
+### The finding that matters for anyone building moderation tools
+
+The comments are mostly not in Bangla, and they are mostly not in English either.
+
+| Language of the comment | Entries | Share of 27 |
+|---|---|---|
+| Mixed Bangla-English ("Banglish") | 15 | 56% |
+| English | 9 | 33% |
+| Bangla | 3 | 11% |
+
+More than half are written in Romanised Bangla mixed with English. This is the ordinary register of Bangladeshi Facebook, and it is the single biggest practical obstacle to automated moderation: a classifier trained on Bangla script will not see a sentence typed in Latin characters, and an English classifier will not understand it. Fifteen of these 27 comments would be missed by both.
+
+It is also why Daag stores a transcription alongside every screenshot rather than relying on image text alone.
+
 ## The moves
 
 **Relocating the question.** The subject changes from what was done to what she should not have done. Why was she out, why that route, why that hour, why answer back. The grammar of the sentence stays about the incident while the subject quietly becomes the woman.
 
-This is the single most common move in the archive, and it is the reason the category exists at all.
+This is the single most common move in the archive by a wide margin: 15 of 27 published entries, more than the other four categories combined. It is the reason the category exists at all.
 
 **Attacking the delay.** Why did she wait, why speak now, why not go to the police that night. The question is never applied in reverse: nobody asks why an investigation took three years. The [average case under the Act takes three years and seven months](/blog/180-days-in-law-three-years-in-practice), which is a fact about the system that is routinely held against the person reporting.
 
 **Disputing the record.** The screenshot is edited, the video is staged, the press is selling something, the whole thing is a campaign. This one is notable because it survives evidence. It survives a conviction, a confession, and a police officer standing in the frame.
 
-**Appearance as explanation.** What she was wearing, offered as if it were an account of someone else's conduct.
+**Appearance as explanation.** What she was wearing, offered as if it were an account of someone else's conduct. Five of the 27 entries are categorised this way, making it the second most common move after relocating the question.
 
 **Generalising from a single case.** One false-case verdict becomes a statement about all complaints. We have written separately about [why an acquittal is not a finding that a complaint was false](/blog/what-the-comments-do-after-a-verdict), because that conflation does most of the work here.
 
 **Religious or moral framing.** The incident becomes an illustration of social decline, with the woman as the illustration.
 
-**Threats and address-hunting.** Rarer, and categorically different. At the point where a comment moves from opinion about a story to locating a person, it stops being speech about an event and becomes preparation for one.
+**Threats and address-hunting.** Rarer, and categorically different. At the point where a comment moves from opinion about a story to locating a person, it stops being speech about an event and becomes preparation for one. These are the entries moderators mark severe — 7 of 27 — and they are the ones where [the law has something to say](/blog/where-to-report-online-abuse-in-bangladesh) rather than merely something to disapprove of.
 
 ## Why naming them matters
 
 Two reasons, one practical and one not.
 
-The practical one: Daag categorises every published entry, and the categories are these moves. A submission arrives, a moderator reads it, and part of the review is deciding which of these it is. Knowing the vocabulary makes a submission easier to assess and faster to process. You can see the [distribution across the archive](/analytics).
+The practical one: Daag categorises every published entry, and the categories are these moves. A submission arrives, a moderator reads it, and part of the review is deciding which of these it is. Knowing the vocabulary makes a submission easier to assess and faster to process. The [live distribution](/analytics) updates as entries are added, so it will have moved past the figures above by the time you read this.
+
+The taxonomy is not finished. Two of the incident labels in use, "rape" and "rape / sexual violence", overlap and should be one; the archive is small enough that this is still cheap to fix, which is an argument for fixing it now rather than at 2,700 entries.
 
 The other reason is that these phrases are load-bearing. They are not decoration on top of the violence; they are part of the machinery that decides whether a woman reports at all. ActionAid found that **85 percent** of women who experienced online violence never complained to anyone ([Prothom Alo, 27 November 2022](https://www.prothomalo.com/bangladesh/p5uqt9qjl3)). A woman reading the comments under someone else's case is being told, in advance and at scale, what would be said about hers.
 
@@ -694,7 +740,13 @@ Anyone named in a published entry can [appeal](/appeals), and a different modera
 
 ---
 
-**Sources.** Prothom Alo for the Banasree account and the ActionAid research. The categories described here are Daag's own, derived from the entries in [the archive](/archive) and visible in the [analysis](/analytics).
+## How this piece was made
+
+The figures come from Daag's own database, read on 1 November 2026 through the same public endpoint the site uses, and they describe 27 published entries and nothing beyond them. Percentages are rounded to the nearest whole number and will not always sum to 100. No figure here is an estimate, a projection, or a national statistic.
+
+The reporting is Prothom Alo's: the Banasree account and the ActionAid research, both linked above. Where a source could not be verified it was removed along with the claim it supported rather than replaced.
+
+Daag's categories are its own, assigned by a moderator at review and visible in the [analysis](/analytics). The entries themselves are in [the archive](/archive), each with its screenshot and source link.
 
 *Daag is a record, not a verdict and not a punishment. If you are in danger now, call 999. For the national women and children helpline, call 109.*
 
@@ -777,6 +829,10 @@ If you have seen something of that kind, you can [submit it](/submit). If an ent
 
 ---
 
+## How this piece was made
+
+A confession recorded under section 164 is described here in general terms of Bangladeshi criminal procedure. Daag takes no position on the truth of any confession, or on guilt in this case or any other. The open questions listed are those the reporting itself identified as open.
+
 **Sources.** The Daily Star's crime and justice desk for the arrest and the confession; Prothom Alo for the open questions in the investigation. The description of section 164 is a general statement of Bangladeshi criminal procedure, not advice on this case or any other.
 
 *Daag is a public archive, not a law firm. For urgent help call 999, or 109 for the national women and children helpline.*
@@ -814,6 +870,14 @@ Separately, ActionAid found that about **64 percent** of women online had faced 
 That last number is the one that matters most for anyone deciding whether documentation is worth the trouble. The overwhelming majority of this is never reported to anyone at all, which means the official record of online abuse in Bangladesh is a small sample of a much larger thing.
 
 The Daily Star has called online abuse a national crisis and argued the legal framework has not kept up ([8 March 2026](https://www.thedailystar.net/supplements/international-womens-day-2026/news/online-abuse-now-national-crisis-time-act-4122986)), and documented the specific gaps in law and enforcement that let cyber violence against women continue ([17 December 2025](https://www.thedailystar.net/news/bangladesh/news/gaps-laws-enforcement-fuel-cyber-violence-against-women-4061176)).
+
+### What this archive's own entries show
+
+Daag is a small record and should be read as one. As of **1 November 2026** it held **27 published entries**, submitted between 4 June and 22 October 2026 and each reviewed by a moderator before publication.
+
+Of those 27, **15 are categorised victim blaming** — more than the other four categories put together. Five are appearance humiliation, four dehumanising language, two sexual harassment, one hate speech. Moderators marked **7 of the 27 severe**, 10 high and 10 moderate.
+
+The incidents they attach to are narrow: 11 to rape or sexual violence, 8 to public harassment, 7 to cyber harassment. These are 27 comments, not a survey, and the [live figures](/analytics) will have moved past these by the time you read this. The breakdown of the language they are written in, which has consequences for anyone trying to moderate them automatically, is in [the vocabulary of blame](/blog/the-vocabulary-of-blame).
 
 ## The one that needs care
 
@@ -862,6 +926,12 @@ A conviction takes [three and a half years on average](/blog/180-days-in-law-thr
 
 Daag is a record, not a verdict and not a punishment. It takes no position on guilt in any criminal matter, publishes no private data, and asks that entries not be used to harass anyone. You can [read the archive](/archive), [search a name or profile link](/search), or [submit something you have seen](/submit).
 
+## How this piece was made
+
+The comment patterns described are Daag's own categories, assigned by a moderator at review and visible in the [analysis](/analytics). They describe the entries in this archive, which is small, and are not a measurement of Bangladeshi social media.
+
+**Sources.** The Daily Star and Prothom Alo for the cases referred to, each linked where it appears.
+
 ---
 
 *Daag is a public archive, not a law firm, and nothing here is legal advice. If you are in danger now, call 999. For the national women and children helpline, call 109. For online harassment and blackmail, Police Cyber Support for Women is on 01320-000888.*
@@ -904,6 +974,12 @@ A deleted post is not recoverable by you, and usually not by the police either. 
 | Online complaint | [cybercrime.gov.bd](https://cybercrime.gov.bd) | Written report, if you would rather not call |
 
 If there is any threat to your physical safety, 999 comes first and everything else can wait.
+
+### Where the archive's own entries sit on that line
+
+Not every unpleasant comment is a reportable offence, and the gap between the two is where most of the confusion lives. Of the **27 entries Daag had published as of 1 November 2026**, moderators marked **7 severe** — the band that includes threats and attempts to locate a person, which is where the routes below actually apply. The remaining 20 were marked high or moderate: ugly, documented, and in most cases not a matter for the police.
+
+Daag categorising a comment is not a finding that an offence occurred, and the archive takes no position on that. The distinction matters because reporting everything to a cybercrime unit is how a real report gets lost in the queue.
 
 ## What changed in 2026
 
@@ -951,6 +1027,10 @@ The comment you are looking at now will probably be deleted. That is the ordinar
 Whether or not you report it anywhere, capture it now. Deciding later what to do with a screenshot is possible. Recovering a screenshot you never took is not.
 
 ---
+
+## How this piece was made
+
+Reporting routes were checked against the issuing bodies' own published contact details at the time of writing. They change. If a number or address here does not work, the failure is this page's, and the [contact form](/contact) is the fastest way to tell us. One route listed, the national cybercrime portal, could not be reached from outside Bangladesh during checking and is marked accordingly.
 
 **Sources.** Prothom Alo for the ActionAid research and the cyber violence figures; The Daily Star for the January 2026 ordinances and for the reporting on enforcement gaps. Helpline numbers are those published on daag-bd.com and are listed on the [contact page](/contact).
 
@@ -1020,6 +1100,10 @@ Daag does not investigate incidents and takes no position on guilt. It keeps [a 
 If you have seen a comment of that kind, you can [submit it](/submit). If an entry names you and is wrong, [appeal it](/appeals) and a different moderator will review the evidence within fourteen working days.
 
 ---
+
+## How this piece was made
+
+Each row in the table is one reported verdict, linked individually. Relationship descriptions are the reporting's own wording, usually itself quoting a prosecutor or a case statement. These are the cases that reached a verdict and were reported; they are not a sample of offences, and the pattern they show is a pattern in reported convictions, which is a narrower thing.
 
 **Sources.** The Daily Star and Prothom Alo for each verdict, linked individually in the table above. Relationship descriptions are taken from the reporting, which in most cases is itself quoting a prosecutor or a case statement.
 

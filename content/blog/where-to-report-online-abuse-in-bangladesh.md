@@ -39,6 +39,12 @@ A deleted post is not recoverable by you, and usually not by the police either. 
 
 If there is any threat to your physical safety, 999 comes first and everything else can wait.
 
+### Where the archive's own entries sit on that line
+
+Not every unpleasant comment is a reportable offence, and the gap between the two is where most of the confusion lives. Of the **27 entries Daag had published as of 1 November 2026**, moderators marked **7 severe** — the band that includes threats and attempts to locate a person, which is where the routes below actually apply. The remaining 20 were marked high or moderate: ugly, documented, and in most cases not a matter for the police.
+
+Daag categorising a comment is not a finding that an offence occurred, and the archive takes no position on that. The distinction matters because reporting everything to a cybercrime unit is how a real report gets lost in the queue.
+
 ## What changed in 2026
 
 In January the government approved two ordinances covering harassment, and the detail that matters here is the scope: the protections explicitly bring **sexual harassment through social media, email, messaging platforms and other digital technologies** within their purview, rather than leaving online conduct in a gap ([The Daily Star, 30 January 2026](https://www.thedailystar.net/news/bangladesh/crime-justice/news/two-ordinances-protect-women-kids-all-spaces-4094071)).
@@ -85,6 +91,10 @@ The comment you are looking at now will probably be deleted. That is the ordinar
 Whether or not you report it anywhere, capture it now. Deciding later what to do with a screenshot is possible. Recovering a screenshot you never took is not.
 
 ---
+
+## How this piece was made
+
+Reporting routes were checked against the issuing bodies' own published contact details at the time of writing. They change. If a number or address here does not work, the failure is this page's, and the [contact form](/contact) is the fastest way to tell us. One route listed, the national cybercrime portal, could not be reached from outside Bangladesh during checking and is marked accordingly.
 
 **Sources.** Prothom Alo for the ActionAid research and the cyber violence figures; The Daily Star for the January 2026 ordinances and for the reporting on enforcement gaps. Helpline numbers are those published on daag-bd.com and are listed on the [contact page](/contact).
 

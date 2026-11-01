@@ -31,6 +31,14 @@ That last number is the one that matters most for anyone deciding whether docume
 
 The Daily Star has called online abuse a national crisis and argued the legal framework has not kept up ([8 March 2026](https://www.thedailystar.net/supplements/international-womens-day-2026/news/online-abuse-now-national-crisis-time-act-4122986)), and documented the specific gaps in law and enforcement that let cyber violence against women continue ([17 December 2025](https://www.thedailystar.net/news/bangladesh/news/gaps-laws-enforcement-fuel-cyber-violence-against-women-4061176)).
 
+### What this archive's own entries show
+
+Daag is a small record and should be read as one. As of **1 November 2026** it held **27 published entries**, submitted between 4 June and 22 October 2026 and each reviewed by a moderator before publication.
+
+Of those 27, **15 are categorised victim blaming** — more than the other four categories put together. Five are appearance humiliation, four dehumanising language, two sexual harassment, one hate speech. Moderators marked **7 of the 27 severe**, 10 high and 10 moderate.
+
+The incidents they attach to are narrow: 11 to rape or sexual violence, 8 to public harassment, 7 to cyber harassment. These are 27 comments, not a survey, and the [live figures](/analytics) will have moved past these by the time you read this. The breakdown of the language they are written in, which has consequences for anyone trying to moderate them automatically, is in [the vocabulary of blame](/blog/the-vocabulary-of-blame).
+
 ## The one that needs care
 
 In October a Netrokona tribunal convicted a woman of filing a false rape case, in a matter dating back to 2008 ([The Daily Star, 13 October 2026](https://www.thedailystar.net/news/crime-justice/news/netrokona-woman-jailed-filing-false-rape-case-4297881)).
@@ -77,6 +85,12 @@ Because the comment outlives the moment it was written in, and because the perso
 A conviction takes [three and a half years on average](/blog/180-days-in-law-three-years-in-practice). A comment takes nine seconds. The asymmetry between those two numbers is most of what this archive is about: the public reaction to gender violence moves at a speed the justice system cannot match, shapes what survivors expect before they ever reach a police station, and leaves almost no durable record of itself.
 
 Daag is a record, not a verdict and not a punishment. It takes no position on guilt in any criminal matter, publishes no private data, and asks that entries not be used to harass anyone. You can [read the archive](/archive), [search a name or profile link](/search), or [submit something you have seen](/submit).
+
+## How this piece was made
+
+The comment patterns described are Daag's own categories, assigned by a moderator at review and visible in the [analysis](/analytics). They describe the entries in this archive, which is small, and are not a measurement of Bangladeshi social media.
+
+**Sources.** The Daily Star and Prothom Alo for the cases referred to, each linked where it appears.
 
 ---
 

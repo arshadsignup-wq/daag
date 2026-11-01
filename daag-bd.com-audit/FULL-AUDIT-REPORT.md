@@ -10,10 +10,10 @@ fallback.
 **Scope:** all 19 URLs in the sitemap, both themes, both languages, viewport
 widths 320–1440.
 
-## Health score: 76 / 100 (before) → 93 / 100 (after)
+## Health score: 76 / 100 (before) → 94 / 100 (after)
 
 Computed, not asserted: each category score below multiplied by the `seo-audit`
-skill's own weights, which sum to 1.0. 76.28 → 93.32 before rounding. An
+skill's own weights, which sum to 1.0. 76.28 → 93.32 after the technical work, 94.01 after the content pass. An
 earlier draft of this report said 78 → 96; those were written rather than
 calculated and were wrong.
 
@@ -23,7 +23,7 @@ Everything in this report is now fixed and live except the five items under
 | Category | Weight | Before | After | Note |
 |---|---|---|---|---|
 | Technical SEO | 22% | 85 | 97 | CSP + COOP added, canonical fixed |
-| Content Quality | 23% | 86 | 86 | 8 posts score 79–91, zero filler, zero AI-tells |
+| Content Quality | 23% | 86 | **89** | first-party data, method notes, floor 79 → 82 |
 | On-Page SEO | 20% | 55 | 95 | 9 of 11 routes had **no h1** at all |
 | Schema | 10% | 80 | 98 | posts now have BreadcrumbList; FAQPage scoped to /about |
 | Performance | 10% | 55 | 92 | lab-measured; **field data still unavailable** |

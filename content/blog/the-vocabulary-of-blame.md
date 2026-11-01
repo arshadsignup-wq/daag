@@ -16,29 +16,61 @@ That exchange, and what follows it in public, is the subject of this archive. No
 
 Across the entries Daag has published, the same small set of moves comes back. They are worth naming, because a pattern you can name is a pattern you can recognise in the first second rather than the tenth.
 
+## What the archive actually holds
+
+As of **1 November 2026** the archive had **27 published entries**, submitted between 4 June and 22 October 2026. Every one was reviewed by a moderator before publication, and none is currently under appeal.
+
+That is a small set, and the figures below should be read as a description of 27 comments rather than as a measurement of Bangladeshi social media. They are published here because they are the archive's own record, not an estimate.
+
+| Category | Entries | Share of 27 |
+|---|---|---|
+| Victim blaming | 15 | 56% |
+| Appearance humiliation | 5 | 19% |
+| Dehumanising language | 4 | 15% |
+| Sexual harassment | 2 | 7% |
+| Hate speech | 1 | 4% |
+
+Moderators also record a severity for each entry: **10 moderate, 10 high, 7 severe**. And the comments attach to a narrow band of incidents — 11 to rape or sexual violence, 8 to public harassment, 7 to cyber harassment, 1 to other gender-based violence.
+
+### The finding that matters for anyone building moderation tools
+
+The comments are mostly not in Bangla, and they are mostly not in English either.
+
+| Language of the comment | Entries | Share of 27 |
+|---|---|---|
+| Mixed Bangla-English ("Banglish") | 15 | 56% |
+| English | 9 | 33% |
+| Bangla | 3 | 11% |
+
+More than half are written in Romanised Bangla mixed with English. This is the ordinary register of Bangladeshi Facebook, and it is the single biggest practical obstacle to automated moderation: a classifier trained on Bangla script will not see a sentence typed in Latin characters, and an English classifier will not understand it. Fifteen of these 27 comments would be missed by both.
+
+It is also why Daag stores a transcription alongside every screenshot rather than relying on image text alone.
+
 ## The moves
 
 **Relocating the question.** The subject changes from what was done to what she should not have done. Why was she out, why that route, why that hour, why answer back. The grammar of the sentence stays about the incident while the subject quietly becomes the woman.
 
-This is the single most common move in the archive, and it is the reason the category exists at all.
+This is the single most common move in the archive by a wide margin: 15 of 27 published entries, more than the other four categories combined. It is the reason the category exists at all.
 
 **Attacking the delay.** Why did she wait, why speak now, why not go to the police that night. The question is never applied in reverse: nobody asks why an investigation took three years. The [average case under the Act takes three years and seven months](/blog/180-days-in-law-three-years-in-practice), which is a fact about the system that is routinely held against the person reporting.
 
 **Disputing the record.** The screenshot is edited, the video is staged, the press is selling something, the whole thing is a campaign. This one is notable because it survives evidence. It survives a conviction, a confession, and a police officer standing in the frame.
 
-**Appearance as explanation.** What she was wearing, offered as if it were an account of someone else's conduct.
+**Appearance as explanation.** What she was wearing, offered as if it were an account of someone else's conduct. Five of the 27 entries are categorised this way, making it the second most common move after relocating the question.
 
 **Generalising from a single case.** One false-case verdict becomes a statement about all complaints. We have written separately about [why an acquittal is not a finding that a complaint was false](/blog/what-the-comments-do-after-a-verdict), because that conflation does most of the work here.
 
 **Religious or moral framing.** The incident becomes an illustration of social decline, with the woman as the illustration.
 
-**Threats and address-hunting.** Rarer, and categorically different. At the point where a comment moves from opinion about a story to locating a person, it stops being speech about an event and becomes preparation for one.
+**Threats and address-hunting.** Rarer, and categorically different. At the point where a comment moves from opinion about a story to locating a person, it stops being speech about an event and becomes preparation for one. These are the entries moderators mark severe — 7 of 27 — and they are the ones where [the law has something to say](/blog/where-to-report-online-abuse-in-bangladesh) rather than merely something to disapprove of.
 
 ## Why naming them matters
 
 Two reasons, one practical and one not.
 
-The practical one: Daag categorises every published entry, and the categories are these moves. A submission arrives, a moderator reads it, and part of the review is deciding which of these it is. Knowing the vocabulary makes a submission easier to assess and faster to process. You can see the [distribution across the archive](/analytics).
+The practical one: Daag categorises every published entry, and the categories are these moves. A submission arrives, a moderator reads it, and part of the review is deciding which of these it is. Knowing the vocabulary makes a submission easier to assess and faster to process. The [live distribution](/analytics) updates as entries are added, so it will have moved past the figures above by the time you read this.
+
+The taxonomy is not finished. Two of the incident labels in use, "rape" and "rape / sexual violence", overlap and should be one; the archive is small enough that this is still cheap to fix, which is an argument for fixing it now rather than at 2,700 entries.
 
 The other reason is that these phrases are load-bearing. They are not decoration on top of the violence; they are part of the machinery that decides whether a woman reports at all. ActionAid found that **85 percent** of women who experienced online violence never complained to anyone ([Prothom Alo, 27 November 2022](https://www.prothomalo.com/bangladesh/p5uqt9qjl3)). A woman reading the comments under someone else's case is being told, in advance and at scale, what would be said about hers.
 
@@ -73,6 +105,12 @@ Anyone named in a published entry can [appeal](/appeals), and a different modera
 
 ---
 
-**Sources.** Prothom Alo for the Banasree account and the ActionAid research. The categories described here are Daag's own, derived from the entries in [the archive](/archive) and visible in the [analysis](/analytics).
+## How this piece was made
+
+The figures come from Daag's own database, read on 1 November 2026 through the same public endpoint the site uses, and they describe 27 published entries and nothing beyond them. Percentages are rounded to the nearest whole number and will not always sum to 100. No figure here is an estimate, a projection, or a national statistic.
+
+The reporting is Prothom Alo's: the Banasree account and the ActionAid research, both linked above. Where a source could not be verified it was removed along with the claim it supported rather than replaced.
+
+Daag's categories are its own, assigned by a moderator at review and visible in the [analysis](/analytics). The entries themselves are in [the archive](/archive), each with its screenshot and source link.
 
 *Daag is a record, not a verdict and not a punishment. If you are in danger now, call 999. For the national women and children helpline, call 109.*

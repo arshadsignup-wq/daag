@@ -79,6 +79,10 @@ If you have seen something of that kind, you can [submit it](/submit). If an ent
 
 ---
 
+## How this piece was made
+
+A confession recorded under section 164 is described here in general terms of Bangladeshi criminal procedure. Daag takes no position on the truth of any confession, or on guilt in this case or any other. The open questions listed are those the reporting itself identified as open.
+
 **Sources.** The Daily Star's crime and justice desk for the arrest and the confession; Prothom Alo for the open questions in the investigation. The description of section 164 is a general statement of Bangladeshi criminal procedure, not advice on this case or any other.
 
 *Daag is a public archive, not a law firm. For urgent help call 999, or 109 for the national women and children helpline.*

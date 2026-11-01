@@ -60,7 +60,9 @@ This is the part Daag records.
 
 A case this fast, this public and this severe produces a very particular reaction underneath the reporting. Some of it is grief. A large share of it is something else: demands for extrajudicial punishment, arguments that trials are a waste of time, and, within a day, the familiar pivot to what the child's family should have done differently.
 
-That last move is the one worth noticing, because an eight-year-old leaves almost no room for it. The reasoning does not stop when the victim is a child; it relocates to the mother, to the neighbourhood, to the family's circumstances.
+That last move is the one worth noticing, because an eight-year-old leaves almost no room for it. The reasoning does not stop when the victim is a child; it relocates to the mother, to the neighbourhood, to the family's circumstances. It is the most common pattern Daag records — 15 of the 27 entries published as of 1 November 2026 — and it is catalogued in [the vocabulary of blame](/blog/the-vocabulary-of-blame).
+
+The demand for extrajudicial punishment is the other half, and it runs directly against what this case demonstrates: the courts moved in nineteen days. Where those comments cross from opinion into threats or locating a person, [there are routes that actually apply](/blog/where-to-report-online-abuse-in-bangladesh), and they are not the same as reporting everything to a cybercrime unit.
 
 [The archive](/archive) exists to keep that second record. Not the crime, which the courts and the press handle, but what named people wrote publicly underneath it, with a screenshot and a link to the source post, reviewed by a person before publication.
 
@@ -73,6 +75,10 @@ Everything that made this case fast was circumstantial: an immediate arrest, int
 The useful question after a verdict like this one is not whether justice is possible. It is why the conditions for it have to be exceptional.
 
 ---
+
+## How this piece was made
+
+This piece describes one exceptional case and says so throughout. Nineteen days is a record, not a typical duration, and nothing here should be read as what a complainant can expect. The contrast with the three-year-seven-month average is the point of the piece, not a claim that the average is improving.
 
 **Sources.** The Daily Star's crime and justice desk for the verdict, the five hearings and the death reference; Prothom Alo for the research on average case duration. Dates and figures are the publishers' own, and each links to the report it came from.
 

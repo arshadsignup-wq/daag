@@ -91,6 +91,10 @@ If an entry about you is wrong, [the appeals process](/appeals) is reviewed by a
 
 ---
 
+## How this piece was made
+
+Figures were taken from the published reports linked beside each one and not recalculated. Where a report gave a rounded figure, it is reproduced as the publisher gave it. The three October verdicts are individual cases, not a sample: they illustrate the gap between the statutory deadline and observed practice, and cannot measure it.
+
 **Sources.** Every figure above links to the report it came from. The three October verdicts are from The Daily Star's crime and justice desk; the conviction rate, the 180-day provision and the three-years-seven-months average are from Prothom Alo's report on research presented at the BRAC Centre on 2 May 2026. Dates are the publishers' own.
 
 *Daag is a public archive, not a law firm. Nothing here is legal advice. For urgent help call 999, or 109 for the national women and children helpline.*

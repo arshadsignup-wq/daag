@@ -62,6 +62,10 @@ If you have seen a comment of that kind, you can [submit it](/submit). If an ent
 
 ---
 
+## How this piece was made
+
+Each row in the table is one reported verdict, linked individually. Relationship descriptions are the reporting's own wording, usually itself quoting a prosecutor or a case statement. These are the cases that reached a verdict and were reported; they are not a sample of offences, and the pattern they show is a pattern in reported convictions, which is a narrower thing.
+
 **Sources.** The Daily Star and Prothom Alo for each verdict, linked individually in the table above. Relationship descriptions are taken from the reporting, which in most cases is itself quoting a prosecutor or a case statement.
 
 *Daag is a public archive, not a law firm, and nothing here is legal advice. For urgent help call 999. The child helpline is 1098 and the national women and children helpline is 109.*
