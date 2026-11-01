@@ -10,7 +10,12 @@ fallback.
 **Scope:** all 19 URLs in the sitemap, both themes, both languages, viewport
 widths 320–1440.
 
-## Health score: 78 / 100 (before) → 96 / 100 (after)
+## Health score: 76 / 100 (before) → 93 / 100 (after)
+
+Computed, not asserted: each category score below multiplied by the `seo-audit`
+skill's own weights, which sum to 1.0. 76.28 → 93.32 before rounding. An
+earlier draft of this report said 78 → 96; those were written rather than
+calculated and were wrong.
 
 Everything in this report is now fixed and live except the five items under
 "Open, not fixed", each of which is open for a reason stated there.
