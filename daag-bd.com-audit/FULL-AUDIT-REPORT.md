@@ -10,23 +10,55 @@ fallback.
 **Scope:** all 19 URLs in the sitemap, both themes, both languages, viewport
 widths 320–1440.
 
-## Health score: 78 / 100 (before fixes) → 91 / 100 (after)
+## Health score: 78 / 100 (before) → 96 / 100 (after)
+
+Everything in this report is now fixed and live except the five items under
+"Open, not fixed", each of which is open for a reason stated there.
 
 | Category | Weight | Before | After | Note |
 |---|---|---|---|---|
-| Technical SEO | 22% | 85 | 92 | headers, sitemap, robots all sound; canonical nit remains |
+| Technical SEO | 22% | 85 | 97 | CSP + COOP added, canonical fixed |
 | Content Quality | 23% | 86 | 86 | 8 posts score 79–91, zero filler, zero AI-tells |
 | On-Page SEO | 20% | 55 | 95 | 9 of 11 routes had **no h1** at all |
-| Schema | 10% | 80 | 88 | posts had no BreadcrumbList; FAQPage over-ships |
-| Performance | 10% | [U] | [U] | **unavailable** — PSI quota exhausted, no API key |
-| AI Search Readiness | 10% | 88 | 92 | llms.txt present and passing; no llms-full.txt |
+| Schema | 10% | 80 | 98 | posts now have BreadcrumbList; FAQPage scoped to /about |
+| Performance | 10% | 55 | 92 | lab-measured; **field data still unavailable** |
+| AI Search Readiness | 10% | 88 | 97 | .md sibling per page, llms-full.txt added |
 | Images | 5% | 90 | 90 | 1 image, alt present; 5 SVGs all aria-hidden |
 
-Performance is marked **[U] unavailable**, not estimated. `lighthouse_agentic.py`
-returned HTTP 429 (shared PSI quota, no key configured) and no CrUX field data
-is reachable. No number is reported for LCP/INP/CLS because none was measured.
+Performance was initially marked **[U] unavailable** because
+`lighthouse_agentic.py` returned HTTP 429 (shared PSI quota, no key) and CrUX
+field data is unreachable. It is now measured **in the lab** instead, with
+PerformanceObserver under 4x CPU throttling and a 1.6 Mbps / 150 ms connection:
 
-## Critical — fixed this session
+| | before | after | Google "good" |
+|---|---|---|---|
+| LCP (mobile) | 1,624 ms | **928 ms** | < 2,500 ms |
+| CLS (mobile) | **0.2372** | **0.0102** | < 0.100 |
+| LCP (desktop) | 520 ms | 660 ms | < 2,500 ms |
+| CLS (desktop) | 0.0023 | 0.0022 | < 0.100 |
+
+These are lab numbers from one machine, not field data from real users. CrUX
+still needs a Google API key. Do not quote them as what Bangladeshi visitors
+experience.
+
+## Critical — fixed
+
+### 0. CLS was 0.237 on mobile, more than twice the "good" threshold
+One shift accounted for 0.229 of it. The four pinned cards on the homepage are
+produced by `buildBoard()`, which is called at byte ~311,000 of a 363 KB file,
+so on a throttled phone they appeared **2.4 s in and pushed everything below
+them down 778 px**. The cards are static — `BOARD_CARDS` and `HERO_EN`, not
+archive rows — so they now ship in the markup and are present at first paint.
+
+Measuring this corrected two of my own recommendations from the first pass:
+
+- `fetchpriority="high"` on the LCP element: **not applicable.** The LCP
+  element is the `H1`, a text node. There is nothing to preload.
+- "the one image lacks width/height and loading=lazy": **wrong.** That `<img>`
+  is the screenshot lightbox with `src=""` filled on click. It is never an LCP
+  candidate and its dimensions vary by screenshot.
+
+## Critical — fixed
 
 ### 1. The hero was invisible and untappable below 1024px
 Every viewport under 1000px painted **zero** pixels of the homepage headline,

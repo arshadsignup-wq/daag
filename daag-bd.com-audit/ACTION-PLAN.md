@@ -16,7 +16,45 @@ decide on; nothing below has been implemented.
 | 7 | Two dark-mode AA failures | `.skip-link`, dark `--umber` |
 | 8 | Chart fits 320px | `@media(max-width:360px)` |
 
-## Phase 2 — worth doing, needs a decision
+## Phase 2 — done
+
+| # | Fix | Where |
+|---|---|---|
+| 9 | Mobile CLS 0.237 → 0.010 | four static pin cards moved into the markup |
+| 10 | `FAQPage` 19 files → 1 | `prerender.py` derives it from `#pg-about` markup |
+| 11 | Per-page text for crawlers | `tools/build-md.py`, 19 `.md` siblings + `llms-full.txt` |
+| 12 | Content-Security-Policy + COOP | `vercel.json`, built from measured origins and tested |
+| 13 | `preconnect` to `fonts.gstatic.com` | `index.html` |
+| 14 | Homepage canonical trailing slash | `index.html` |
+
+## Phase 3 — the three things left, and why
+
+**Core Web Vitals field data.** Lab numbers are now measured and good (LCP
+928 ms, CLS 0.010 on throttled mobile), but those are from one machine. Real
+CrUX data needs a Google API key: `claude-seo run google_auth.py --check`.
+**This one needs you.**
+
+**HSTS `includeSubDomains`.** Currently `max-age=63072000` with no
+`includeSubDomains` and no `preload`. Adding either is a commitment about every
+present and future subdomain, and breaks any that is not HTTPS. I did not want
+to make that promise on your behalf without knowing your DNS. **Your call.**
+
+**The SPA still ships all eleven sections per file.** The `.md` siblings give
+crawlers per-page text, which was the point, but the HTML itself is unchanged.
+Fixing that properly means serving one section per file and letting the router
+fall back to a full page load — a real refactor of the routing, worth doing
+deliberately and not as part of an audit.
+
+## Superseded — do not do these
+
+Both came out of the first pass and measurement disproved them:
+
+- `fetchpriority="high"` on the LCP element — the LCP element is the `H1`, a
+  text node.
+- width/height/`loading=lazy` on the one `<img>` — it is the screenshot
+  lightbox, `src=""` until clicked, dimensions vary by screenshot.
+
+## Old Phase 2 — superseded by the above
 
 **Decide whether non-rendering crawlers should see per-page text.**
 Today every generated file contains all eleven sections, so a CSS-blind
